@@ -1,6 +1,3 @@
-# ai-platform-samples
-Official Repo for AI Platform
-
 ## Overview
 
 This is the official Google Cloud Platform AI platform samples repository. In this repository you will find samples for:
