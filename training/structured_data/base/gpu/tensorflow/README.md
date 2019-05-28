@@ -32,7 +32,7 @@ Add this file to the trainer folder under:
 The following sample list the number of GPUs in host and then
 configure the correct strategy.
 
-```bash
+```python
   num_gpus = len([device_name
                   for device_name in tf.contrib.eager.list_devices()
                   if '/device:GPU' in device_name])
