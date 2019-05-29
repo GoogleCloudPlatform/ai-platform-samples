@@ -17,8 +17,8 @@ echo "Training local ML model"
 MODEL_NAME="local_core" # Change to your model name, e.g. "estimator"
 
 PACKAGE_PATH=trainer
-TRAIN_FILES=data/micro_taxi_trips.csv
-EVAL_FILES=data/micro_taxi_trips_eval.csv
+TRAIN_FILES=data/taxi_trips.csv
+EVAL_FILES=data/taxi_trips_eval.csv
 MODEL_DIR=trained_models/${MODEL_NAME}
 
 gcloud ai-platform local train \
