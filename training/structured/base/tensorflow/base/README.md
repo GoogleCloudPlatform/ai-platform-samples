@@ -2,16 +2,14 @@
 
 ## Overview
 
-The purpose of this repository is to provide a sample of how you can package a
-TensorFlow training model to submit it to AI Platform. The code makes it
+The purpose of this directory is to provide a sample for how you can package a
+TensorFlow training model to submit it to AI Platform. The sample makes it
 easier to organise your code, and to adapt it to your dataset. In more details,
 the template covers the following functionality:
 
-*   Metadata to define your dataset, along with the problem type
-    (Classification).
+*   Metadata to define your dataset, along with the problem type (Classification).
 *   Standard implementation of input, parsing, and serving functions.
-*   Automatic feature columns creation based on the metadata (and normalization
-    stats).
+*   Automatic feature columns creation based on the metadata (and normalization stats).
 *   Wide & Deep model construction using canned estimators.
 *   Train, evaluate, and export the model.
 *   Parameterization of the experiment.
@@ -19,46 +17,18 @@ the template covers the following functionality:
 Although this sample provides standard implementation to different
 functionality, you can customise these parts with your own implementation.
 
-### Setup your Google Cloud Platform environment
+## Prerequisites
 
-The best way to setup your GCP project is to use this section in this
-[tutorial](https://cloud.google.com/ml-engine/docs/tensorflow/getting-started-training-prediction#set-up-your-gcp-project).
+* Follow the instructions in the *setup* directory in order to setup your environment
+* Follow the instructions in the *datasets* directory to download the *Taxi Trips* dataset
+* Create a Python virtual environment and run `pip install -r requirements.txt`
 
-* **Environment setup:**
+## Sample Structure
 
-Virtual environments are strongly suggested, but not required. Installing this
-sample's dependencies in a new virtual environment allows you to run the sample
-locally without changing global python packages on your system.
-
-There are two options for the virtual environments:
-
-*   Install [Virtualenv](https://virtualenv.pypa.io/en/stable/) 
-    *   Create virtual environment `virtualenv myvirtualenv`
-    *   Activate env `source myvirtualenv/bin/activate`
-*   Install [Miniconda](https://conda.io/miniconda.html)
-    *   Create conda environment `conda create --name myvirtualenv python=3.5`
-    *   Activate env `source activate myvirtualenv`
-
-* **Install dependencies**
-
-Install the python dependencies. `pip install --upgrade -r requirements.txt`
-
-
-
-### Repository Structure
-
-1.  **[core](core)** This directory includes: 
-    - A trainer `trainer` folder with all the python modules to adapt to your data. 
-    - A `setup.py` file for project configuration 
-    - A `config.yaml` file for hyper-parameter tuning and specifying the AI Platform scale-tier.
-
-2.  **[scripts](scripts)** This directory includes command-line scripts to:
-    - Train the model locally. 
-    - Download training data. 
-    - Train the model on AI Platform.
-
-The examples show how the template is adapted given a dataset. The datasets are
-found in the examples' folders (under "data" sub-directory).
+* `trainer` directory: with all the python modules to adapt to your data
+* `scripts` directory: command-line scripts to train the model locally or on AI Platform
+* `requirements.txt`: containing all the required python packages for this sample 
+* `config.yaml`: for hyper-parameter tuning and specifying the AI Platform scale-tier
 
 ### Trainer Template Modules
 
@@ -71,35 +41,19 @@ File Name                                         | Purpose                     
 [experiment.py](trainer/task.py)       | Runs the model training and evaluation experiment, and exports the final model.                                                                                                                                                                                                                                                        | **No, unless** you want to add/remove parameters, or change parameter default values.
 [task.py](trainer/task.py)             | Includes: 1) Initialise and parse task arguments (hyper parameters), and 2) Entry point to the trainer.                                                                                                                                                                                                                                | **No, unless** you want to add/remove parameters, or change parameter default values.
 
-## Scripts
+### Scripts
 
-  [aiplatform-deploy-model.sh](scripts/aiplatform-deploy-model.sh)  This script deploys a model in 
-  AI platform Prediction. It expects a Saved Model in Google Cloud Storage.
-  
-  [download-data.sh](scripts/download-data.sh)  This script downloads data from Google Cloud Storage to
-  a local directory. Run before [local-train.sh](scripts/aiplatform-deploy-model.sh)
-  
-  [local-train.sh](scripts/aiplatform-deploy-model.sh)  This script train a model locally. 
+* [train-local.sh](scripts/train-local) This script train a model locally. 
   It generates a Saved Model in local folder and verifies predictions locally.
+
+* [train-ai-platform.sh](scripts/train-ai-platform.sh) This script submits a training job to AI Platform.
 
 ## How to run
 
-The following steps are required to run the following sample:
+Once the prerequisites are satisfied, you may:
 
-    1. Run `download-data.sh` script
-    2. Run `local-train.sh` script for local training.
-    3. Run `aiplatform-submit-train` for Cloud training.
-  
-## Dataset
-
-Scripts will look for a data/ folder to contain, this dataset exists in `.download_data.sh` to
-create folder and download files:
-
- - nano_taxi_trips_train.csv
- - nano_taxi_trips_eval.csv
- - new-data.json
- - new-data.csv
- 
+    1. Run `train-local.sh` for local training.
+    2. Run `train-ai-platform.sh` for cloud training.
 
 ### Version
 
