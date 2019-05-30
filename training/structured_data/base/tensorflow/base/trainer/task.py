@@ -203,7 +203,7 @@ def _setup_logging():
     root_logger.setLevel(logging.INFO)
     root_logger.propagate = False
 
-    # Set tf logging to avoid duplicate logging. If the handlers are not removed,
+    # Set tf logging to avoid duplicate logging. If the handlers are not removed
     # then we will have duplicate logging
     tf_logger = logging.getLogger('TensorFlow')
     while tf_logger.handlers:

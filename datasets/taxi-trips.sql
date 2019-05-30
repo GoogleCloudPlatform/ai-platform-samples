@@ -40,4 +40,4 @@ WHERE
     AND pickup_census_tract IS NOT NULL
     AND dropoff_census_tract IS NOT NULL
 
-LIMIT 1000000;
+LIMIT 2000000;
