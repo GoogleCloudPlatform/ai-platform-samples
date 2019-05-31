@@ -14,7 +14,6 @@ SELECT
     EXTRACT(DAYOFWEEK
       FROM
         trip_start_timestamp) AS trip_start_day,
-    UNIX_SECONDS(trip_start_timestamp) AS trip_start_timestamp,
     pickup_latitude,
     pickup_longitude,
     dropoff_latitude,
