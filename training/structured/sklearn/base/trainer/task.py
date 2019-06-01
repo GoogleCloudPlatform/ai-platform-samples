@@ -23,9 +23,9 @@ import sys
 import hypertune
 import numpy as np
 from sklearn import model_selection
-from . import metadata
-from . import model
-from . import utils
+from trainer import metadata
+from trainer import model
+from trainer import utils
 
 
 def _train_and_evaluate(estimator, dataset, output_dir):
@@ -74,8 +74,7 @@ def run_experiment(flags):
     """Testbed for running model training and evaluation."""
     # Get data for training and evaluation
 
-    dataset = utils.read_df_from_bigquery(
-        flags.input, num_samples=flags.num_samples)
+    dataset = utils.read_df_from_gcs(flags.input)
 
     # Get model
     estimator = model.get_estimator(flags)
@@ -99,13 +98,7 @@ def _parse_args(argv):
     )
 
     parser.add_argument(
-        '--job-dir',
-        help='Output directory for exporting model and other metadata.',
-        required=True,
-    )
-
-    parser.add_argument(
-        '--log_level',
+        '--log-level',
         help='Logging level.',
         choices=[
             'DEBUG',
@@ -118,41 +111,23 @@ def _parse_args(argv):
     )
 
     parser.add_argument(
-        '--num_samples',
-        help='Number of samples to read from `input`',
-        type=int,
-        default=None,
+        '--job-dir',
+        help='Output directory for exporting model and other metadata.',
+        required=True,
     )
 
     parser.add_argument(
-        '--n_estimators',
+        '--n-estimators',
         help='Number of trees in the forest.',
         default=10,
         type=int,
     )
 
     parser.add_argument(
-        '--max_depth',
+        '--max-depth',
         help='The maximum depth of the tree.',
         type=int,
-        default=None,
-    )
-
-    parser.add_argument(
-        '--min_samples_leaf',
-        help='The minimum number of samples required to be at a leaf node.',
-        default=1,
-        type=int,
-    )
-
-    parser.add_argument(
-        '--criterion',
-        help='The function to measure the quality of a split.',
-        choices=[
-            'gini',
-            'entropy',
-        ],
-        default='gini',
+        default=3,
     )
 
     return parser.parse_args(argv)

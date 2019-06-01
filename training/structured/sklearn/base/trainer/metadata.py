@@ -15,8 +15,30 @@
 
 """Dataset metadata."""
 
+CSV_COLUMNS = [
+    'tip',
+    'trip_miles',
+    'trip_seconds',
+    'fare',
+    'trip_start_month',
+    'trip_start_hour',
+    'trip_start_day',
+    'pickup_community_area',
+    'dropoff_community_area',
+    'pickup_census_tract',
+    'dropoff_census_tract',
+    'pickup_latitude',
+    'pickup_longitude',
+    'dropoff_latitude',
+    'dropoff_longitude',
+    'payment_type',
+    'company']
 
-NUMERIC_FEATURES = [,
+
+LABEL = 'tip'
+
+
+NUMERIC_FEATURES = [
     'trip_miles',
     'trip_seconds',
     'fare',
@@ -39,10 +61,8 @@ CATEGORICAL_FEATURES = [
     'company']
 
 
-FEATURE_COLUMNS = NUMERIC_FEATURES + CATEGORICAL_FEATURES
+FEATURE_COLUMNS = NUMERIC_FEATURES
 
-
-LABEL = 'tip'
 
 METRIC_FILE_NAME = 'eval_metrics.joblib'
 MODEL_FILE_NAME = 'model.joblib'

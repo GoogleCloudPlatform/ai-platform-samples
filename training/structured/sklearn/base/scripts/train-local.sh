@@ -14,30 +14,24 @@
 # limitations under the License.
 echo "Training local ML model"
 
-MODEL_NAME="tf-taxi" # Change to your model name, e.g. "estimator"
+MODEL_NAME="sklearn-taxi" # Change to your model name, e.g. "estimator"
 
 PACKAGE_PATH=../trainer
-MODEL_DIR=trained_models/${MODEL_NAME}
+MODEL_DIR=../trained_models/${MODEL_NAME}
 
 gcloud ai-platform local train \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH} \
         -- \
-        --train-files=${SMALL_TAXI_TRAINING} \
-        --train-size=80000 \
-        --num-epochs=10 \
-        --batch-size=128 \
-        --eval-files=${SMALL_TAXI_EVALUATION} \
-        --learning-rate=0.001 \
-        --hidden-units="128,0,0" \
-        --layer-sizes-scale-factor=0.5 \
-        --num-layers=3 \
-        --job-dir=${MODEL_DIR}
+        --job-dir=${MODEL_DIR} \
+        --input=${SMALL_TAXI_TRAINING} \
+        --n-estimators=20 \
+        --max-depth=3
 
 
-ls ${MODEL_DIR}/export/estimate
-MODEL_LOCATION=${MODEL_DIR}/export/estimate/$(ls ${MODEL_DIR}/export/estimate | tail -1)
+ls ${MODEL_DIR}
+MODEL_LOCATION=${MODEL_DIR}/model
 echo ${MODEL_LOCATION}
 ls ${MODEL_LOCATION}
 
-gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=$TAXI_PREDICTION_JSON --verbosity debug
+gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=$TAXI_PREDICTION_CSV --verbosity debug

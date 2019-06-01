@@ -21,21 +21,7 @@ import pandas as pd
 from sklearn import model_selection
 from sklearn.externals import joblib
 from tensorflow import gfile
-from . import metadata
-
-
-def _feature_label_split(data_df, label_column):
-    """Split the DataFrame into features and label respectively.
-
-    Args:
-      data_df: (pandas.DataFrame) DataFrame the splitting to be performed on
-      label_column: (string) name of the label column
-
-    Returns:
-      A Tuple of (pandas.DataFrame, pandas.Series)
-    """
-
-    return data_df.loc[:, data_df.columns != label_column], data_df[label_column]
+from trainer import metadata
 
 
 def data_train_test_split(data_df):
@@ -49,14 +35,11 @@ def data_train_test_split(data_df):
                   pandas.DataFrame, pandas.Series)
     """
 
-    label_column = metadata.LABEL
     # Only use metadata.FEATURE_COLUMNS + metadata.LABEL
-    columns_to_use = metadata.FEATURE_COLUMNS + [label_column]
+    features, target = data_df[metadata.FEATURE_COLUMNS], data_df[metadata.LABEL]
 
-    train, val = model_selection.train_test_split(data_df[columns_to_use])
-    x_train, y_train = _feature_label_split(train, label_column)
-    x_val, y_val = _feature_label_split(val, label_column)
-    return x_train, y_train, x_val, y_val
+    x_train, x_val, y_train, y_val = model_selection.train_test_split(features, target, test_size=0.2)
+    return x_train.as_matrix(), y_train, x_val.as_matrix(), y_val
 
 
 def read_df_from_bigquery(full_table_path, project_id=None, num_samples=None):
@@ -103,7 +86,7 @@ def read_df_from_gcs(file_pattern):
     for filepath in gfile.Glob(file_pattern):
         with gfile.Open(filepath, 'r') as f:
             # Assume there is no header
-            df_list.append(pd.read_csv(f, names=metadata.CSV_COLUMNS))
+            df_list.append(pd.read_csv(f)) # , names=metadata.CSV_COLUMNS))
 
     data_df = pd.concat(df_list)
 
