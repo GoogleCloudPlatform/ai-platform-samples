@@ -20,7 +20,7 @@ TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
 
 MODEL_NAME="taxitrips" # change to your model name
 
-PACKAGE_PATH=../trainer # this can be a gcs location to a zipped and uploaded package
+PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
 TRAIN_FILES=gs://cloud-samples-data/ml-engine/chicago_taxi/big_taxi_trips_train.csv
 EVAL_FILES=gs://cloud-samples-data/ml-engine/chicago_taxi/big_taxi_trips_eval.csv
 MODEL_DIR=gs://${BUCKET_NAME}/taxi/model/${MODEL_NAME}

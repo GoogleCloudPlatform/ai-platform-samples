@@ -16,7 +16,7 @@ echo "Training local ML model"
 
 MODEL_NAME="tf-taxi" # Change to your model name, e.g. "estimator"
 
-PACKAGE_PATH=../trainer
+PACKAGE_PATH=./trainer
 MODEL_DIR=trained_models/${MODEL_NAME}
 
 gcloud ai-platform local train \

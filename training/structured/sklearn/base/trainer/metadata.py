@@ -15,27 +15,12 @@
 
 """Dataset metadata."""
 
-CSV_COLUMNS = [
-    'tip',
-    'trip_miles',
-    'trip_seconds',
-    'fare',
-    'trip_start_month',
-    'trip_start_hour',
-    'trip_start_day',
-    'pickup_community_area',
-    'dropoff_community_area',
-    'pickup_census_tract',
-    'dropoff_census_tract',
-    'pickup_latitude',
-    'pickup_longitude',
-    'dropoff_latitude',
-    'dropoff_longitude',
-    'payment_type',
-    'company']
+# If the input CSV file has a header row, then set CSV_COLUMNS to None.
+# Otherwise, set CSV_COLUMNS to a list of target and feature names:
+CSV_COLUMNS = None
 
 
-LABEL = 'tip'
+TARGET_NAME = 'tip'
 
 
 NUMERIC_FEATURES = [

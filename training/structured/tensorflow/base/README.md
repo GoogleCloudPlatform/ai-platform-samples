@@ -52,8 +52,8 @@ File Name                                         | Purpose                     
 
 Once the prerequisites are satisfied, you may:
 
-    1. Run `train-local.sh` for local training.
-    2. Run `train-ai-platform.sh` for cloud training.
+    1. Run `source ./scripts/train-local.sh` for local training.
+    2. Run `source ./scripts/train-cloud.sh` for cloud training.
 
 ### Version
 

@@ -35,8 +35,8 @@ def data_train_test_split(data_df):
                   pandas.DataFrame, pandas.Series)
     """
 
-    # Only use metadata.FEATURE_COLUMNS + metadata.LABEL
-    features, target = data_df[metadata.FEATURE_COLUMNS], data_df[metadata.LABEL]
+    # Only use metadata.FEATURE_COLUMNS + metadata.TARGET_NAME
+    features, target = data_df[metadata.FEATURE_COLUMNS], data_df[metadata.TARGET_NAME]
 
     x_train, x_val, y_train, y_val = model_selection.train_test_split(features, target, test_size=0.2)
     return x_train.as_matrix(), y_train, x_val.as_matrix(), y_val
@@ -85,8 +85,10 @@ def read_df_from_gcs(file_pattern):
 
     for filepath in gfile.Glob(file_pattern):
         with gfile.Open(filepath, 'r') as f:
-            # Assume there is no header
-            df_list.append(pd.read_csv(f)) # , names=metadata.CSV_COLUMNS))
+            if metadata.CSV_COLUMNS is None:
+                df_list.append(pd.read_csv(f))
+            else:
+                df_list.append(pd.read_csv(f, names=metadata.CSV_COLUMNS, header=None))
 
     data_df = pd.concat(df_list)
 

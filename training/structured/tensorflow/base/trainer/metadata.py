@@ -89,7 +89,7 @@ CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET = {
 }
 
 # Target feature name (response or class variable).
-TARGET_NAME = 'tips'
+TARGET_NAME = 'tip'
 
 # List of the class values (labels) in a classification dataset.
 TARGET_LABELS = [1, 0]
