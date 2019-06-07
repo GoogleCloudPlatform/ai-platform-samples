@@ -7,33 +7,37 @@ on AI Platform and using it for making predictions. We highly recommend that
 you go through this tutorial carefully as it illustrates many important steps which 
 are essential in any training and/or prediction tasks on AI Platform.
 
-In this tutorial, we will train a very basic regression model with scikit-learn
+In this tutorial, we will train a simple linear regression model with scikit-learn
 using a dummy data. We will then deploy it to AI Platform and use it to make some
 predictions. Finally we will delete the model from AI Platform and release all the used resources.
 
 ## Prerequisites
 
-* Follow the instructions in the `setup` directory in order to setup your environment
+* Follow the instructions in the [setup](../setup) directory in order to setup your environment
 * Create a Python virtual environment with Python 3 and run `pip install -r requirements.txt`
+
+
+[](./)
+
 
 ## Sample Structure
 
-* `trainer` directory: containing the training package to be submitted to AI Platform
-  * `__init__py` which is an empty file. It is needed to make this directory a Python package.
-  * `task.py` contains the training code. It create a simple dummy linear dataset
+* [trainer](./trainer) directory: containing the training package to be submitted to AI Platform
+  * [__init__py](./trainer/__init__.py) which is an empty file. It is needed to make this directory a Python package.
+  * [task.py](./trainer/task.py) contains the training code. It create a simple dummy linear dataset
   and trains a linear regression model with scikit-learn and saves the trained model
   object in a directory (local or GCS) given by the user. 
-* `scripts` directory: command-line scripts to train the model locally or on AI Platform.
+* [scripts](./scripts) directory: command-line scripts to train the model locally or on AI Platform.
   We recommend to run the scripts in this directory in the following order, and use
   the `source` command to run them, in order to export the environment variables at each step:
-  * `train-local.sh` trains the model locally using `gcloud`. It is always a
+  * [train-local.sh](./scripts/train-local.sh) trains the model locally using `gcloud`. It is always a
   good idea to try and train the model locally for debugging, before submitting it to AI Platform.
-  * `train-cloud.sh` submits a training job to AI Platform.
-  * `deploy.sh` creates a model resource, and a model version for the newly trained model.
-  * `cleanup` deletes all the resources created in this tutorial.
-* `prediction` containing a Python sample code to invoke the model for prediction.
-  * `predict.py` invokes the model for some predictions.
-* `requirements.txt`: containing all the required Python packages for this tutorial.
+  * [train-cloud.sh](./scripts/train-cloud.sh) submits a training job to AI Platform.
+  * [deploy.sh](./scripts/deploy.sh) creates a model resource, and a model version for the newly trained model.
+  * [cleanup.sh](./scripts/cleanup.sh) deletes all the resources created in this tutorial.
+* [prediction](./prediction) containing a Python sample code to invoke the model for prediction.
+  * [predict.py](./prediction/predict.py) invokes the model for some predictions.
+* [requirements.txt](./requirements.txt): containing all the required Python packages for this tutorial.
 
 
 ## Running the Sample
@@ -68,7 +72,7 @@ the model object from GCS.
 
 In this section we'll highlight the main parts of this sample.
 
-### task.py
+### [task.py](./trainer/task.py)
 
 In this sample we are not passing the input dataset as a parameter. However, we need
 to save the trained model. To keep things simple, the code expects one argument
@@ -84,7 +88,7 @@ also use `google.cloud.storage` library for uploading and downloading to/from GC
 The advantage of using `tf.gfile` is that it works seamlessly whether the output
 location is local or a GCS bucket.
 
-### train-local.sh
+### [train-local.sh](./scripts/train-local.sh)
 
 The command to run the training job locally is this:
 
@@ -101,7 +105,7 @@ gcloud ai-platform local train \
 * `--` this is just a separator. Anyhing after this will be passed to the training job as input argument.
 * `${MODEL_DIR}` will be passed to `task.py` as `sys.argv[1]`
 
-### train-cloud.sh
+### [train-cloud.sh](./scripts/train-cloud.sh)
 
 To submit a training job to AI Platform, the main command is:
 
