@@ -22,7 +22,7 @@ export MODEL_VERSION=v1
 FRAMEWORK=SCIKIT_LEARN
 
 echo "First, creating the model..."
-gcloud ai-platform models create "$MODEL_NAME" --regions=${REGION}
+gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
 
 echo "Second, creating the model version..."
 gcloud ai-platform versions create ${MODEL_VERSION} \

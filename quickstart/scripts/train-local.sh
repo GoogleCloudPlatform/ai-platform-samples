@@ -25,10 +25,3 @@ gcloud ai-platform local train \
         --package-path=${PACKAGE_PATH} \
         -- \
         ${MODEL_DIR}
-
-ls ${MODEL_DIR}
-MODEL_LOCATION=${MODEL_DIR}/model.joblib
-echo ${MODEL_LOCATION}
-ls ${MODEL_LOCATION}
-
-gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=./scripts/prediction.json --verbosity debug

@@ -58,7 +58,8 @@ bucket and sets `$MODEL_DIR` environment variable to the directory containing th
 3. Once the model object is created, you can deploy it for prediction. For that,
 you'll need to create a model resource, and also a model version. A model resource is
 like a container for one or more model versions. Run `source ./scripts/deploy.sh` which 
-creates both the model resource and then the model version.
+creates both the model resource and then the model version. _Note:_ If either the model
+resource or the model version already exists, the script will display an error message.
 
 4. Once the model is deployed, you may use it to make predictions. Simple, run 
 `python ./prediction/predict.py`. This sample code sends a prediction request for two 
