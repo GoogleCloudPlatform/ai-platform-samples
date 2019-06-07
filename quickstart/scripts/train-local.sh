@@ -14,24 +14,21 @@
 # limitations under the License.
 echo "Training local ML model"
 
-MODEL_NAME="sklearn-taxi" # Change to your model name, e.g. "estimator"
+MODEL_NAME="quickstart" # Change to your model name, e.g. "estimator"
 
 PACKAGE_PATH=./trainer
 MODEL_DIR=./trained/${MODEL_NAME}
+mkdir -p ${MODEL_DIR}
 
 gcloud ai-platform local train \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH} \
         -- \
-        --job-dir=${MODEL_DIR} \
-        --input=${SMALL_TAXI_TRAINING} \
-        --n-estimators=20 \
-        --max-depth=3
-
+        ${MODEL_DIR}
 
 ls ${MODEL_DIR}
-MODEL_LOCATION=${MODEL_DIR}/model
+MODEL_LOCATION=${MODEL_DIR}/model.joblib
 echo ${MODEL_LOCATION}
 ls ${MODEL_LOCATION}
 
-gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=$TAXI_PREDICTION_CSV --verbosity debug
+gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=./scripts/prediction.json --verbosity debug
