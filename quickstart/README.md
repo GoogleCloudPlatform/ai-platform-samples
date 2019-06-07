@@ -1,4 +1,4 @@
-# Quick Start - A quick and end-to-end tutorial for AI Platform
+# A short and End-to-End Tutorial for AI Platform
 
 ## Overview
 
@@ -45,7 +45,7 @@ predictions. Finally we will delete the model from AI Platform and release all t
 After you go over the steps in the prerequisites section, you are ready to run this sample.
 Here are the steps you need to take:
 
-1. [Optional] Train the model locally. Run `source ./scripts/train-local.sh` as many times as
+1. _[Optional]_ Train the model locally. Run `source ./scripts/train-local.sh` as many times as
 you like (This has no effect on your cloud usage). If successful, this script should
 create a new model as `trained/quickstart/model.joblib`, which means you may now submit a
 training job to AI Platform.
