@@ -2,10 +2,10 @@
 
 ## Overview
 
-The purpose of this directory is to provide a short tutorial for training a model
+In this short tutorial, we will go over the basic steps for training a model
 on AI Platform and using it for making predictions. We highly recommend that 
-you go through this sample carefully as it illustrates many important steps which 
-are essential in any training and/or prediction tasks on AI Platform.tion.
+you go through this tutorial carefully as it illustrates many important steps which 
+are essential in any training and/or prediction tasks on AI Platform.
 
 In this tutorial, we will train a very basic regression model with scikit-learn
 using a dummy data. We will then deploy it to AI Platform and use it to make some
@@ -115,7 +115,7 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --package-path=${PACKAGE_PATH}  \
         --python-version=${PYTHON_VERSION} \
         -- \
-	    ${MODEL_DIR}
+        ${MODEL_DIR}
 ```
 
 * `${JOB_NAME}` is a unique name for each job. We create one with a timestamp to make it unique each time.
