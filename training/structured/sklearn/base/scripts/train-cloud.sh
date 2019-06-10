@@ -1,4 +1,3 @@
-#!/bin/bash
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,16 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # This is the common setup.
+
+#!/bin/bash
+
 echo "Submitting an AI Platform job..."
 
 TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
 
-MODEL_NAME="taxitrips" # change to your model name
+export MODEL_NAME="sklearn_taxi"
 
 PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
-TRAIN_FILES=gs://cloud-samples-data/ml-engine/chicago_taxi/big_taxi_trips_train.csv
-EVAL_FILES=gs://cloud-samples-data/ml-engine/chicago_taxi/big_taxi_trips_eval.csv
-MODEL_DIR=gs://${BUCKET_NAME}/taxi/model/${MODEL_NAME}
+export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}/model
 
 CURRENT_DATE=`date +%Y%m%d_%H%M%S`
 JOB_NAME=train_${MODEL_NAME}_${TIER}_${CURRENT_DATE}
@@ -34,12 +34,11 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --scale-tier=${TIER} \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH}  \
-        --config=../config.yaml \
+        --python-version=${PYTHON_VERSION} \
         -- \
-        --train-files=${TRAIN_FILES} \
-        --eval-files=${EVAL_FILES} \
-	    --train-steps=100000
-
+        --input=${GCS_TAXI_TRAIN_BIG} \
+        --n-estimators=20 \
+        --max-depth=3
 
 # Notes:
 # use --packages instead of --package-path if gcs location

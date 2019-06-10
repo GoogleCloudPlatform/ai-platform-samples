@@ -16,7 +16,7 @@
 
 echo "Training local ML model"
 
-MODEL_NAME="sklearn-taxi" # Change to your model name, e.g. "estimator"
+MODEL_NAME="sklearn-taxi"
 
 PACKAGE_PATH=./trainer
 MODEL_DIR=./trained/${MODEL_NAME}
@@ -24,8 +24,8 @@ MODEL_DIR=./trained/${MODEL_NAME}
 gcloud ai-platform local train \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH} \
-        -- \
         --job-dir=${MODEL_DIR} \
-        --input=${SMALL_TAXI_TRAINING} \
+        -- \
+        --input=${TAXI_TRAIN_SMALL} \
         --n-estimators=20 \
         --max-depth=3

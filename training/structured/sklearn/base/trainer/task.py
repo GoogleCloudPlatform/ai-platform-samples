@@ -139,6 +139,7 @@ def main():
     """Entry point."""
 
     flags = _parse_args(sys.argv[1:])
+
     logging.basicConfig(level=flags.log_level.upper())
     run_experiment(flags)
 

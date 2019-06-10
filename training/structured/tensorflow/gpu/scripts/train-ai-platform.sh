@@ -2,7 +2,6 @@
 
 echo "Submitting an AI Platform job..."
 
-TF_VERSION=1.13
 REGION="choose-gcp-region" # choose a gcp region from https://cloud.google.com/ml-engine/docs/tensorflow/regions
 TIER="BASIC_GPU" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
 BUCKET="you-bucket-name" # change to your bucket name
@@ -19,7 +18,7 @@ JOB_NAME=train_${MODEL_NAME}_${TIER}_${CURRENT_DATE}
 
 gcloud ai-platform jobs submit training ${JOB_NAME} \
         --job-dir=${MODEL_DIR} \
-        --runtime-version=TF_VERSION \
+        --runtime-version=RUNTIME_VERSION \
         --region=${REGION} \
         --scale-tier=${TIER} \
         --module-name=trainer.task \

@@ -15,6 +15,15 @@
 
 export DATA_FOLDER="gs://cloud-samples-data/ml-engine/chicago_taxi"
 
+export GCS_TAXI_BIG=${DATA_FOLDER}/big/taxi_trips.csv
+export GCS_TAXI_TRAIN_BIG=${DATA_FOLDER}/big/taxi_trips_train.csv
+export GCS_TAXI_EVAL_BIG=${DATA_FOLDER}/big/taxi_trips_train.csv
+
+export GCS_TAXI_SMALL=${DATA_FOLDER}/small/taxi_trips.csv
+export GCS_TAXI_TRAIN_SMALL=${DATA_FOLDER}/small/taxi_trips_train.csv
+export GCS_TAXI_EVAL_SMALL=${DATA_FOLDER}/small/taxi_trips_train.csv
+
+
 mkdir -p $1 && cd $1
 
 ROOT="$(printf "%s\n" "$(pwd)")"
@@ -22,35 +31,35 @@ ROOT="$(printf "%s\n" "$(pwd)")"
 if [[ $2 == 'big' ]]; then
   echo "Downloading the big dataset..."
   mkdir big
-  gsutil cp ${DATA_FOLDER}/big/taxi_trips_train.csv big/taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/big/taxi_trips_eval.csv bigtaxi_trips_eval.csv
+  gsutil cp ${GCS_TAXI_TRAIN_BIG} big/taxi_trips_train.csv
+  gsutil cp ${GCS_TAXI_EVAL_BIG} bigtaxi_trips_eval.csv
 
-  export BIG_TAXI_TRAINING=${ROOT}/taxi_trips_train.csv
-  export BIG_TAXI_EVALUATION=${ROOT}/taxi_trips_eval.csv
+  export TAXI_TRAIN_BIG=${ROOT}/taxi_trips_train.csv
+  export TAXI_EVAL_BIG=${ROOT}/taxi_trips_eval.csv
 elif [[ $2 == 'small' ]]; then
   echo "Downloading the small dataset..."
   mkdir small
-  gsutil cp ${DATA_FOLDER}/small/taxi_trips_train.csv small/taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/small/taxi_trips_eval.csv small/taxi_trips_eval.csv
+  gsutil cp ${GCS_TAXI_TRAIN_SMALL} small/taxi_trips_train.csv
+  gsutil cp ${GCS_TAXI_EVAL_SMALL} small/taxi_trips_eval.csv
 
-  export SMALL_TAXI_TRAINING=${ROOT}/small/taxi_trips_train.csv
-  export SMALL_TAXI_EVALUATION=${ROOT}/small/taxi_trips_eval.csv
+  export TAXI_TRAIN_SMALL=${ROOT}/small/taxi_trips_train.csv
+  export TAXI_EVAL_SMALL=${ROOT}/small/taxi_trips_eval.csv
 else
   echo "Downloading the big dataset..."
   mkdir big
-  gsutil cp ${DATA_FOLDER}/big/taxi_trips_train.csv big/taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/big/taxi_trips_eval.csv big/taxi_trips_eval.csv
+  gsutil cp ${GCS_TAXI_TRAIN_BIG} big/taxi_trips_train.csv
+  gsutil cp ${GCS_TAX_EVAL_BIG} bigtaxi_trips_eval.csv
 
-  export BIG_TAXI_TRAINING=${ROOT}/big/taxi_trips_train.csv
-  export BIG_TAXI_EVALUATION=${ROOT}/big/taxi_trips_eval.csv
+  export TAXI_TRAIN_BIG=${ROOT}/taxi_trips_train.csv
+  export TAXI_EVAL_BIG=${ROOT}/taxi_trips_eval.csv
 
   echo "Downloading the small dataset..."
   mkdir small
-  gsutil cp ${DATA_FOLDER}/small/taxi_trips_train.csv ./small/taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/small/taxi_trips_eval.csv ./small/taxi_trips_eval.csv
+  gsutil cp ${GCS_TAXI_TRAIN_SMALL} small/taxi_trips_train.csv
+  gsutil cp ${GCS_TAXI_EVAL_SMALL} small/taxi_trips_eval.csv
 
-  export SMALL_TAXI_TRAINING=${ROOT}/small/taxi_trips_train.csv
-  export SMALL_TAXI_EVALUATION=${ROOT}/small/taxi_trips_eval.csv
+  export TAXI_TRAIN_SMALL=${ROOT}/small/taxi_trips_train.csv
+  export TAXI_EVAL_SMALL=${ROOT}/small/taxi_trips_eval.csv
 fi
 
 echo "Downloading the prediction dataset..."
