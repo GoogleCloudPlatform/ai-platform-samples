@@ -29,6 +29,7 @@ If this is your first time using [AI Platform](https://cloud.google.com/ml-engin
 ## Navigating this Repository
 
 In order to run any of the samples in this repository, you'll need to setup your environment first.
+
 Please refer to `README.md` in each sample directory for more specific instructions.
 
 ## Google Machine Learning Repositories
