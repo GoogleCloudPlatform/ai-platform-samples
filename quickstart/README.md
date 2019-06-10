@@ -14,7 +14,7 @@ predictions. Finally we will delete the model from AI Platform and release all t
 ## Prerequisites
 
 * Follow the instructions in the [setup](../setup) directory in order to setup your environment
-* Create a Python virtual environment with Python 3 and run `pip install -r requirements.txt`
+* Create a Python 3 virtual environment and run `pip install -r requirements.txt`
 
 
 [](./)
@@ -71,7 +71,7 @@ the model object from GCS.
 
 ## Explaining Key Elements
 
-In this section we'll highlight the main parts of this sample.
+In this section, we'll highlight the main elements of this sample.
 
 ### [task.py](./trainer/task.py)
 
@@ -84,10 +84,11 @@ read the input argument from `sys.argv[1]`.
 Also note that we save the model as `model.joblib` which is
 the name that AI Platform expects for models saved with `joblib` to have.
 
-Finally, we are using `tf.gfile` from Tensorflow to upload the model to GCS. You may 
+Finally, we are using `tf.gfile` from Tensorflow to upload the model to GCS. It does
+not mean we are actually using Tensorflow in this sample to train a model. You may 
 also use `google.cloud.storage` library for uploading and downloading to/from GCS.
-The advantage of using `tf.gfile` is that it works seamlessly whether the output
-location is local or a GCS bucket.
+The advantage of using `tf.gfile` is that it works seamlessly whether the file
+path is local or a GCS bucket.
 
 ### [train-local.sh](./scripts/train-local.sh)
 
