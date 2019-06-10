@@ -10,11 +10,11 @@ Overview
 The repository is organized by products: 
 
  - [AI Platform Training](training)
- - [AI Platform Prediction](#prediction)
- - [AI Platform Notebooks](#notebooks)
- - [Deep Learning VM Images](#dlvm)
- - [Data Label Services](#data-label-services)
- - [Built-in algorithms](#built-in-algorithms)
+ - [AI Platform Prediction](prediction)
+ - [AI Platform Notebooks](notebooks)
+ - [Deep Learning VM Images](dlvm)
+ - [Data Label Services](data-label-services)
+ - [Built-in algorithms](built-in-algorithms)
  
 
 Setup
