@@ -1,4 +1,4 @@
-# Copyright 2019 Google Inc. All Rights Reserved.
+# Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,6 +28,8 @@ def get_estimator(flags):
       sklearn.pipeline.Pipeline
     """
 
+    # n_estimators and max_depth are expected to be passed as
+    # command line argument to task.py
     classifier = ensemble.RandomForestClassifier(
         n_estimators=flags.n_estimators,
         max_depth=flags.max_depth,

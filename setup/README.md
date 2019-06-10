@@ -22,7 +22,8 @@ There are two options for the virtual environments:
 
 ## Install Dependencies
 
-Each sample folder has a `requirements.txt` file containing all eh dependencies. To run each sample, install the python dependencies using the following command:
+Each sample folder has a `requirements.txt` file, containing all eh dependencies.
+To run each sample, install the python dependencies using the following command:
  
  ```
 pip install --upgrade -r requirements.txt

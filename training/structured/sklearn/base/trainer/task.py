@@ -1,4 +1,4 @@
-# Copyright 2019 Google Inc. All Rights Reserved.
+# Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,31 +43,33 @@ def _train_and_evaluate(estimator, dataset, output_dir):
     x_train, y_train, x_val, y_val = utils.data_train_test_split(dataset)
     estimator.fit(x_train, y_train)
 
-    # Note: for now, use `cross_val_score` defaults (i.e. 3-fold)
-    scores = model_selection.cross_val_score(estimator, x_val, y_val, cv=3)
-
-    logging.info(scores)
-
     # Write model and eval metrics to `output_dir`
-    model_output_path = os.path.join(
-        output_dir, 'model', metadata.MODEL_FILE_NAME)
-
-    metric_output_path = os.path.join(
-        output_dir, 'experiment', metadata.METRIC_FILE_NAME)
+    model_output_path = os.path.join(output_dir, 'model',
+                                     metadata.MODEL_FILE_NAME)
 
     utils.dump_object(estimator, model_output_path)
-    utils.dump_object(scores, metric_output_path)
 
-    # The default name of the metric is training/hptuning/metric.
-    # We recommend that you assign a custom name
-    # The only functional difference is that if you use a custom name,
-    # you must set the hyperparameterMetricTag value in the
-    # HyperparameterSpec object in your job request to match your chosen name.
-    hpt = hypertune.HyperTune()
-    hpt.report_hyperparameter_tuning_metric(
-        hyperparameter_metric_tag='my_metric_tag',
-        metric_value=np.mean(scores),
-        global_step=1000)
+    if metadata.METRIC_FILE_NAME is not None:
+        # Note: for now, use `cross_val_score` defaults (i.e. 3-fold)
+        scores = model_selection.cross_val_score(estimator, x_val, y_val, cv=3)
+
+        logging.info('Scores: %s', scores)
+
+        metric_output_path = os.path.join(
+            output_dir, 'experiment', metadata.METRIC_FILE_NAME)
+
+        utils.dump_object(scores, metric_output_path)
+
+        # The default name of the metric is training/hptuning/metric.
+        # We recommend that you assign a custom name
+        # The only functional difference is that if you use a custom name,
+        # you must set the hyperparameterMetricTag value in the
+        # HyperparameterSpec object in the job request to match your chosen name
+        hpt = hypertune.HyperTune()
+        hpt.report_hyperparameter_tuning_metric(
+            hyperparameter_metric_tag='my_metric_tag',
+            metric_value=np.mean(scores),
+            global_step=1000)
 
 
 def run_experiment(flags):
@@ -76,7 +78,7 @@ def run_experiment(flags):
 
     dataset = utils.read_df_from_gcs(flags.input)
 
-    # Get model
+    # Get estimator
     estimator = model.get_estimator(flags)
 
     # Run training and evaluation

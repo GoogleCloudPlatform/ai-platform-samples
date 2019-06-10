@@ -1,4 +1,4 @@
-# Copyright 2019 Google Inc. All Rights Reserved.
+# Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@
 # Otherwise, set CSV_COLUMNS to a list of target and feature names:
 CSV_COLUMNS = None
 
-
+# Target name
 TARGET_NAME = 'tip'
 
-
+# Numerical features
 NUMERIC_FEATURES = [
     'trip_miles',
     'trip_seconds',
@@ -40,18 +40,30 @@ NUMERIC_FEATURES = [
     'dropoff_longitude',
     ]
 
-
+# Categorical features:
 CATEGORICAL_FEATURES = [
     'payment_type',
     'company']
 
+# The features to be used for training
+FEATURE_COLUMNS = [
+    'trip_miles',
+    'trip_seconds',
+    'fare',
+    'trip_start_month',
+    'trip_start_hour',
+    'trip_start_day',
+]
 
-FEATURE_COLUMNS = NUMERIC_FEATURES
-
-
-METRIC_FILE_NAME = 'eval_metrics.joblib'
+# If the model is serialized using joblib
+# then use 'model.joblib' for the model name
 MODEL_FILE_NAME = 'model.joblib'
 
+# This is used to pass the evaluation metrics back to CMLE.
+# If is it set to None, no metrics will be generated
+METRIC_FILE_NAME = None # 'eval_metrics.joblib'
+
+# Used only if the dataset is to be read from BigQuery
 BASE_QUERY = '''
     SELECT
       *
