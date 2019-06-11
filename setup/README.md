@@ -33,3 +33,7 @@ pip install --upgrade -r requirements.txt
 Open `setup.sh` in this directory. 
 
 Modify it and set `PROJECT_ID` and `BUCKET_NAME` properly, before running it.
+
+```
+ ./setup.sh
+```

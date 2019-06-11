@@ -13,48 +13,50 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export DATA_FOLDER="gs://cloud-samples-data/ml-engine"
+export DATA_FOLDER="gs://cloud-samples-data/ml-engine/chicago_taxi/training"
 
 mkdir -p $1 && cd $1
 
-ROOT="$(printf "%s\n" "$(pwd)")"
+CWD="$(printf "%s\n" "$(pwd)")"
 
-if [[ $2 == 'big' ]]; then
-  echo "Downloading the big dataset..."
-  gsutil cp ${DATA_FOLDER}/chicago_taxi/big_taxi_trips_train.csv big_taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/chicago_taxi/big_taxi_trips_eval.csv big_taxi_trips_eval.csv
+if [[ $2 == 'cloud' ]]; then
+  echo "Downloading the Cloud dataset..."
+  gsutil cp ${DATA_FOLDER}/cloud_taxi_trips_train.csv cloud_taxi_trips_train.csv
+  gsutil cp ${DATA_FOLDER}/cloud_taxi_trips_eval.csv cloud_taxi_trips_eval.csv
 
-  export BIG_TAXI_TRAINING=${ROOT}/big_taxi_trips_train.csv
-  export BIG_TAXI_EVALUATION=${ROOT}/big_taxi_trips_eval.csv
-elif [[ $2 == 'small' ]]; then
-  echo "Downloading the small dataset..."
-  gsutil cp ${DATA_FOLDER}/chicago_taxi/small_taxi_trips_train.csv small_taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/chicago_taxi/small_taxi_trips_eval.csv small_taxi_trips_eval.csv
+  export CLOUD_TAXI_TRAINING=${CWD}/cloud_taxi_trips_train.csv
+  export CLOUD_TAXI_EVALUATION=${CWD}/cloud_taxi_trips_eval.csv
 
-  export SMALL_TAXI_TRAINING=${ROOT}/small_taxi_trips_train.csv
-  export SMALL_TAXI_EVALUATION=${ROOT}/small_taxi_trips_eval.csv
+elif [[ $2 == 'local' ]]; then
+  echo "Downloading the Local dataset..."
+  gsutil cp ${DATA_FOLDER}/local_taxi_trips_train.csv local_taxi_trips_train.csv
+  gsutil cp ${DATA_FOLDER}/local_taxi_trips_eval.csv local_taxi_trips_eval.csv
+
+  export LOCAL_TAXI_TRAINING=${CWD}/local_taxi_trips_train.csv
+  export LOCAL_TAXI_EVALUATION=${CWD}/local_taxi_trips_eval.csv
+
 else
-  echo "Downloading the big dataset..."
-  gsutil cp ${DATA_FOLDER}/chicago_taxi/big_taxi_trips_train.csv big_taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/chicago_taxi/big_taxi_trips_eval.csv big_taxi_trips_eval.csv
+  echo "Downloading the Cloud dataset..."
+  gsutil cp ${DATA_FOLDER}/cloud_taxi_trips_train.csv cloud_taxi_trips_train.csv
+  gsutil cp ${DATA_FOLDER}/cloud_taxi_trips_eval.csv cloud_taxi_trips_eval.csv
 
-  export BIG_TAXI_TRAINING=${ROOT}/big_taxi_trips_train.csv
-  export BIG_TAXI_EVALUATION=${ROOT}/big_taxi_trips_eval.csv
+  export CLOUD_TAXI_TRAINING=${CWD}/cloud_taxi_trips_train.csv
+  export CLOUD_TAXI_EVALUATION=${CWD}/cloud_taxi_trips_eval.csv
 
-  echo "Downloading the small dataset..."
-  gsutil cp ${DATA_FOLDER}/chicago_taxi/small_taxi_trips_train.csv small_taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/chicago_taxi/small_taxi_trips_eval.csv small_taxi_trips_eval.csv
+  echo "Downloading the Local dataset..."
+  gsutil cp ${DATA_FOLDER}/local_taxi_trips_train.csv local_taxi_trips_train.csv
+  gsutil cp ${DATA_FOLDER}/local_taxi_trips_eval.csv local_taxi_trips_eval.csv
 
-  export SMALL_TAXI_TRAINING=${ROOT}/small_taxi_trips_train.csv
-  export SMALL_TAXI_EVALUATION=${ROOT}/small_taxi_trips_eval.csv
+  export LOCAL_TAXI_TRAINING=${CWD}/local_taxi_trips_train.csv
+  export LOCAL_TAXI_EVALUATION=${CWD}/local_taxi_trips_eval.csv
 fi
 
 echo "Downloading the prediction dataset..."
-gsutil cp ${DATA_FOLDER}/chicago_taxi/taxi_trips_prediction.json taxi_trips_prediction.json
-gsutil cp ${DATA_FOLDER}/chicago_taxi/taxi_trips_prediction.csv taxi_trips_prediction.csv
+gsutil cp ${DATA_FOLDER}/taxi_trips_prediction.json taxi_trips_prediction.json
+gsutil cp ${DATA_FOLDER}/taxi_trips_prediction.csv taxi_trips_prediction_list.txt
 
-export TAXI_PREDICTION_JSON=${ROOT}/taxi_trips_prediction.json
-export TAXI_PREDICTION_CSV=${ROOT}/taxi_trips_prediction.csv
+export TAXI_PREDICTION_JSON=${CWD}/taxi_trips_prediction.json
+export TAXI_PREDICTION_CSV=${CWD}/taxi_trips_prediction_list.txt
 
 cd -
 

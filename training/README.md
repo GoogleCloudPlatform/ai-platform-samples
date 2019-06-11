@@ -28,28 +28,32 @@ This folder covers different functionality available in different frameworks:
 Samples
 -------------
 
-This folder covers different functionality available AI Platform Training, the following samples reflect the available features in AI Platform:
+This folder covers different functionality available AI Platform Training, the following samples reflect the available 
+features in AI Platform:
 
 #### AI Platform Training
 
 The AI Platform training service allows you to train models using a wide range of different customization options.
-You can select many different machine types to power your training jobs, enable distributed training, use hyperparameter tuning, and accelerate with GPUs and TPUs.
+You can select many different machine types to power your training jobs, enable distributed training, use hyperparameter 
+tuning, and accelerate with GPUs and TPUs.
 
- - [TensorFlow](structured/tensorflow)
-     - [Base](structured/tensorflow/base) Standard code to perform AI Platform Training using TensorFlow Estimators using CPU
-     - [GPU](structured/tensorflow/gpu) Uses GPU and MirroredStrategy for Model Training
-     - [TPU](structured/tensorflow/tpu) Uses Cloud TPU for Model Training
-     - [Hyperparameter tuning](structured/tensorflow/hp_tuning) Use Hyperparameter Tuning
-     - [Distributed training](structured/tensorflow/distributed) Uses Distrubuted Training using TensorFlow Distribution strategy
+ - [TensorFlow](structured_data/tensorflow)
+     - [Base](structured_data/tensorflow/base) Standard code to perform AI Platform Training using TensorFlow Estimators 
+              using CPU
+     - [GPU](structured_data/tensorflow/gpu) Uses GPU and MirroredStrategy for Model Training
+     - [TPU](structured_data/tensorflow/tpu) Uses Cloud TPU for Model Training
+     - [Hyperparameter tuning](structured_data/tensorflow/hp_tuning) Use Hyperparameter Tuning
+     - [Distributed training](structured_data/tensorflow/distributed) Uses Distrubuted Training using TensorFlow 
+              Distribution strategy
      
- - [scikit-learn](structured/scikit-learn)
- - [XGBoost](structured/xgboost)
+ - [scikit-learn](structured_data/scikit-learn)
+ - [XGBoost](structured_data/xgboost)
  
 #### AI Platform Training - Custom Containers
 
 Containers on AI Platform is a feature that allows you to run your application within a Docker image. You can build your own custom container to run jobs on AI Platform, using ML frameworks and versions as well as non-ML dependencies, libraries and binaries that are not otherwise supported on AI Platform.
 
- - [PyTorch](structured/pytorch)
+ - [PyTorch](structured_data/pytorch)
 
 
 Note: These examples use the [Chicago Taxi Trips Dataset](https://data.cityofchicago.org/Transportation/Taxi-Trips/wrvz-psew)
@@ -60,7 +64,7 @@ released by the City of Chicago.
 Templates
 ---------
 
-* [TensorFlow Estimator Trainer Package Template](tensorflow/template) - When training a Tensorflow model, you have to create a trainer package, here we have a template that simplifies creating a trainer package for AI Platform. Take a look at this list with some introductory [examples](cloudml-template/examples/). 
+* [TensorFlow Estimator Trainer Package Template](tensorflow/ai-platform-template) - When training a Tensorflow model, you have to create a trainer package, here we have a template that simplifies creating a trainer package for AI Platform. Take a look at this list with some introductory [examples](tensorflow/ai-platform-template/examples/). 
 
 * [Tensorflow: Cloud TPU Templates](tpu/templates) - A collection of minimal templates that can be run on Cloud TPUs on Compute Engine, AI Platform, and Colab.
 

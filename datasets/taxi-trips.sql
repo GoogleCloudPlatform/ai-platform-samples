@@ -39,5 +39,4 @@ WHERE
     AND company IS NOT NULL
     AND pickup_census_tract IS NOT NULL
     AND dropoff_census_tract IS NOT NULL
-
 LIMIT 2000000;
