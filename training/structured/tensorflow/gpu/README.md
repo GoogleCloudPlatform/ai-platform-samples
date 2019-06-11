@@ -15,11 +15,9 @@ identically (as always): the service runs a single replica of your code on each
 machine.
 
 In this example we will use `MirroredStrategy` to execute model training.
-This file `gpu.py` shows you how to use GPU in TensorFlow using RunConfig.
-Add this file to the trainer folder under:
-  `training/base/core/tensorflow/trainer`
-
 `create_run_config` in `experiment.py`  already contains the code to use GPUs.
+This file is in the trainer folder under:
+  `training/structured/tensorflow/base/trainer`
 
 ### Trainer Template Modules
 
