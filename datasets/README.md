@@ -27,24 +27,30 @@ We have two different sizes of the dataset:
 You can download either dataset (or both) by running one of the two following scripts:
 ```bash
 # To download the both datasets:
-source ./download-taxi-big.sh /path/to/output/directory
+source ./download-taxi.sh /path/to/output/directory
 
 # To download the big dataset only:
-source ./download-taxi-big.sh /path/to/output/directory big
+source ./download-taxi.sh /path/to/output/directory big
 
 # To download the small dataset only:
-source ./download-taxi-big.sh /path/to/output/directory small
+source ./download-taxi.sh /path/to/output/directory small
 ```
 
-There are two additional files when you run the download script:
+Upon succession, the relevant datasets are downloads and some or all of the
+following environment variables will be properly exported:
 
-* taxi_trips_prediction.csv: a header-less CSV file with 3 samples, ready to be used for prediction
-* taxi_trips_prediction.json: a JSON file with 3 samples, ready to be used for prediction
-
-The script also sets the following environment variables properly:
-
-* BIG_TAXI_TRAINING: path to the big training dataset
-* BIG_TAXI_EVALUATION: path to the big evaluation dataset
-* SMALL_TAXI_TRAINING: path to the small training dataset
-* SMALL_TAXI_EVALUATION: path to the small evaluation dataset
-
+* Local Datasets for Training:
+  * TAXI_TRAIN_BIG
+  * TAXI_EVAL_BIG
+  * TAXI_TRAIN_SMALL
+  * TAXI_EVAL_SMALL
+* GCS Datasets for Training:
+  * GCS_TAXI_BIG
+  * GCS_TAXI_TRAIN_BIG
+  * GCS_TAXI_EVAL_BIG
+  * GCS_TAXI_SMALL
+  * GCS_TAXI_TRAIN_SMALL
+  * GCS_TAXI_EVAL_SMALL
+* Prediction Datasets:
+  * TAXI_PREDICTION_JSON
+  * TAXI_PREDICTION_LIST
