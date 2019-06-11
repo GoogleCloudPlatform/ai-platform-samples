@@ -13,4 +13,5 @@ TensorFlow trained model in AI Platform.
   [aiplatform-deploy-model.sh](scripts/aiplatform-deploy-model.sh)  This script deploys a model in 
   AI platform Prediction. It expects a Saved Model in Google Cloud Storage.
 
-### Suitable for TensorFlow v1.13.1+
+## Versions
+Suitable for TensorFlow v1.13.1+

@@ -56,6 +56,6 @@ Once the prerequisites are satisfied, you may:
     1. Run `train-local.sh` for local training.
     2. Run `train-ai-platform.sh` for cloud training.
 
-### Version
+### Versions
 
 Suitable for TensorFlow v1.13.1+
