@@ -22,31 +22,8 @@ CSV_COLUMNS = None
 # Target name
 TARGET_NAME = 'tip'
 
-# Numerical features
-NUMERIC_FEATURES = [
-    'trip_miles',
-    'trip_seconds',
-    'fare',
-    'trip_start_month',
-    'trip_start_hour',
-    'trip_start_day',
-    'pickup_community_area',
-    'dropoff_community_area',
-    'pickup_census_tract',
-    'dropoff_census_tract',
-    'pickup_latitude',
-    'pickup_longitude',
-    'dropoff_latitude',
-    'dropoff_longitude',
-    ]
-
-# Categorical features:
-CATEGORICAL_FEATURES = [
-    'payment_type',
-    'company']
-
 # The features to be used for training
-FEATURE_COLUMNS = [
+FEATURE_NAMES = [
     'trip_miles',
     'trip_seconds',
     'fare',
@@ -61,7 +38,8 @@ MODEL_FILE_NAME = 'model.joblib'
 
 # This is used to pass the evaluation metrics back to CMLE.
 # If is it set to None, no metrics will be generated
-METRIC_FILE_NAME = None # 'eval_metrics.joblib'
+# Otherwise, 'eval_metrics.joblib' as the name
+METRIC_FILE_NAME = None
 
 # Used only if the dataset is to be read from BigQuery
 BASE_QUERY = '''

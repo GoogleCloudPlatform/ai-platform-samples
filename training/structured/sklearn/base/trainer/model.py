@@ -18,11 +18,11 @@
 from sklearn import ensemble
 
 
-def get_estimator(flags):
-    """Generate ML Pipeline which include both pre-processing and model training.
+def get_estimator(arguments):
+    """Generate ML Pipeline which include both pre-processing and model training
 
     Args:
-      flags: (argparse.ArgumentParser), parameters passed from command-line
+      arguments: (argparse.ArgumentParser), parameters passed from command-line
 
     Returns:
       sklearn.pipeline.Pipeline
@@ -31,8 +31,8 @@ def get_estimator(flags):
     # n_estimators and max_depth are expected to be passed as
     # command line argument to task.py
     classifier = ensemble.RandomForestClassifier(
-        n_estimators=flags.n_estimators,
-        max_depth=flags.max_depth,
+        n_estimators=arguments.n_estimators,
+        max_depth=arguments.max_depth,
     )
 
     return classifier

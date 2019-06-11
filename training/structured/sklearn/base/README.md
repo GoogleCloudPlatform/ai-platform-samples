@@ -4,57 +4,133 @@
 
 The purpose of this directory is to provide a sample for how you can package a
 scikit-learn training model to submit it to AI Platform. The sample makes it
-easier to organise your code, and to adapt it to your dataset. In more details,
+easier to organize your code, and to adapt it to your dataset. In more details,
 the template covers the following functionality:
 
-*   Metadata to define your dataset, along with the problem type (Classification).
+*   Metadata to define your dataset, features, and target.
 *   Standard implementation of input, parsing, and serving functions.
-*   Automatic feature columns creation based on the metadata (and normalization stats).
-*   Wide & Deep model construction using canned estimators.
 *   Train, evaluate, and export the model.
-*   Parameterization of the experiment.
 
 Although this sample provides standard implementation to different
-functionality, you can customise these parts with your own implementation.
+functionality, you can customize these parts with your own implementation.
 
 ## Prerequisites
 
 * Follow the instructions in the *setup* directory in order to setup your environment
-* Follow the instructions in the *datasets* directory to download the *Taxi Trips* dataset
+* Follow the instructions in the *datasets* directory and run `download-taxi.sh`
 * Create a Python virtual environment and run `pip install -r requirements.txt`
 
 ## Sample Structure
 
-* `trainer` directory: with all the python modules to adapt to your data
-* `scripts` directory: command-line scripts to train the model locally or on AI Platform
-* `requirements.txt`: containing all the required python packages for this sample 
-* `config.yaml`: for hyper-parameter tuning and specifying the AI Platform scale-tier
+* [trainer](./trainer) directory: containing the training package to be submitted to AI Platform
+  * [__init__py](./trainer/__init__.py) which is an empty file. It is needed to make this directory a Python package.
+  * [task.py](./trainer/task.py) initializes and parses task arguments. This is the entry point to the trainer.
+  * [model.py](./trainer/model.py) includes a function to create the scikit-learn estimator or pipeline
+  * [metadata.py](./trainer/metadata.py) contains the definition for the target and feature names, among other configuring variables 
+  * [util.py](./trainer/task.py) contains a number of helper functions used in task.py  
+* [scripts](./scripts) directory: command-line scripts to train the model locally or on AI Platform.
+  We recommend to run the scripts in this directory in the following order, and use
+  the `source` command to run them, in order to export the environment variables at each step:
+  * [train-local.sh](./scripts/train-local.sh) trains the model locally using `gcloud`. It is always a
+  good idea to try and train the model locally for debugging, before submitting it to AI Platform.
+  * [train-cloud.sh](./scripts/train-cloud.sh) submits a training job to AI Platform.
+* [requirements.txt](./requirements.txt): containing all the required Python packages for this tutorial.
 
-### Trainer Template Modules
+We recommend that you follow the same structure for your own work. In most cases, you only need to 
+modify `metadata.py`, `model.py`; and leave the other python files untouched.
 
-File Name                                         | Purpose                                                                                                                                                                                                                                                                                                                                | Do You Need to Change?
-:------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------
-[metadata.py](trainer/metadata.py)     | Defines: 1) task type, 2) input data header, 3) numeric and categorical feature names, and 4) target feature name (and labels, for a classification task)                                                                                                                                                                              | **Yes**, as you will need to specify the metadata of your dataset. **This might be the only module to change!**
-[inputs.py](trainer/inputs.py)         | Includes: 1) data input functions to read data from csv and tfrecords files, 2) parsing functions to convert csv and tf.example to tensors, 3) function to implement your custom features processing and creation functionality, and 4) prediction functions (for serving the model) that accepts CSV, JSON, and tf.example instances. | **Maybe**, if you want to implement any custom pre-processing and feature creation during reading data.
-[featurizer.py](trainer/featurizer.py) | Creates: 1) TensorFlow feature_column(s) based on the dataset metadata (and other extended feature columns, e.g. bucketisation, crossing, embedding, etc.), and 2) deep and wide feature column lists.                                                                                                                                 | **Maybe**, if you want to change your feature_column(s) and/or change how deep and wide columns are defined.
-[model.py](trainer/model.py)           | Includes: 1) function to create DNNLinearCombinedRegressor, and 2) DNNLinearCombinedClassifier.                                                                                                                                                                                                                                        | **No, unless** you want to change something in the estimator, e.g., activation functions, optimizers, etc..
-[experiment.py](trainer/task.py)       | Runs the model training and evaluation experiment, and exports the final model.                                                                                                                                                                                                                                                        | **No, unless** you want to add/remove parameters, or change parameter default values.
-[task.py](trainer/task.py)             | Includes: 1) Initialise and parse task arguments (hyper parameters), and 2) Entry point to the trainer.                                                                                                                                                                                                                                | **No, unless** you want to add/remove parameters, or change parameter default values.
+## Running the Sample
 
-### Scripts
+After you go over the steps in the prerequisites section, you are ready to run this sample.
+Here are the steps you need to take:
 
-* [train-local.sh](scripts/train-local) This script train a model locally. 
-  It generates a Saved Model in local folder and verifies predictions locally.
+1. _[Optional]_ Train the model locally. Run `source ./scripts/train-local.sh` as many times as
+you like (This has no effect on your cloud usage). If successful, this script should
+create a new model as `trained/quickstart/model.joblib`, which means you may now submit a
+training job to AI Platform.
 
-* [train-ai-platform.sh](scripts/train-ai-platform.sh) This script submits a training job to AI Platform.
+2. Submit a training job to AI Platform. Run `source ./scripts/train-cloud.sh` This will create a 
+training job on AI Platform and displays some instructions on how to track the job progress.
+At the end of a successful training job, it will uplaod the trained model object to a GCS
+bucket and sets `$MODEL_DIR` environment variable to the directory containing the model.
 
-## How to run
+## Explaining Key Elements
 
-Once the prerequisites are satisfied, you may:
+In this section, we'll highlight the main elements of this sample.
 
-    1. Run `source ./scripts/train-local.sh` for local training.
-    2. Run `source ./scripts/train-cloud.sh` for cloud training.
+### [model.py](./trainer/model.py)
 
-### Version
+In this sample, we simply create a *RandomForestClassifier* and return it.
 
-Suitable for TensorFlow v1.13.1+
+
+### [metadata.py](./trainer/metadata.py)
+
+We define which features should be used for training. We also define what the target is.
+
+### [train-local.sh](./scripts/train-local.sh)
+
+The command to run the training job locally is this:
+
+```bash
+gcloud ai-platform local train \
+        --module-name=trainer.task \
+        --package-path=${PACKAGE_PATH} \
+        --job-dir=${MODEL_DIR} \
+        -- \
+        --log-level DEBUG \
+        --input=${TAXI_TRAIN_SMALL} \
+        --n-estimators=20 \
+        --max-depth=3
+```
+
+* `--job-dir`: path for the output artifacts, e.g. the model object
+* `module-name` is the name of the Python file inside the package which runs the training job
+* `package-path` determines where the training Python package is.
+* `--` this is just a separator. Anyhing after this will be passed to the training job as input argument.
+* `log-level` sets the python logger level to DEBUG for this script (default is INFO)
+* `--input`: path to the input dataset
+* `--n-estimators` and `--max-depth`: will be passed to the estimator as hyperparameters
+
+
+### [train-cloud.sh](./scripts/train-cloud.sh)
+
+To submit a training job to AI Platform, the main command is:
+
+```bash
+gcloud ai-platform jobs submit training ${JOB_NAME} \
+        --job-dir=${MODEL_DIR} \
+        --runtime-version=${RUNTIME_VERSION} \
+        --region=${REGION} \
+        --scale-tier=${TIER} \
+        --module-name=trainer.task \
+        --package-path=${PACKAGE_PATH}  \
+        --python-version=${PYTHON_VERSION} \
+        --stream-logs \
+        -- \
+        --input=${GCS_TAXI_TRAIN_BIG} \
+        --n-estimators=20 \
+        --max-depth=3
+```
+
+* `${JOB_NAME}` is a unique name for each job. We create one with a timestamp to make it unique each time.
+* `runtime-version`: which runtime to use. See [this](https://cloud.google.com/ml-engine/docs/tensorflow/runtime-version-list) for more information.
+* `scale-tier` is to choose the tier. For this sample, we use BASIC. However, if you need
+to use accelerators for instance, or do a distributed training, you will need a different tier.
+* `region`: which region to run the training job in.
+* `stream-logs`: streams the logs until the job finishes. 
+
+## Clean Up
+If you were able to run [train-cloud.sh](./scripts/train-cloud.sh) successfully, you have
+created and stored some files in your GCS bucket. You may simply remove them by running
+
+```bash
+source ./scripts/cleanup.sh
+```
+
+## What is Next
+
+In this sample, we trained a simple classifier with scikit-learn. Please see 
+(TODO: implement prediction) sample to see how to deply the model to AI Platform 
+and use it to make predictions.
+
+

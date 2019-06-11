@@ -75,33 +75,25 @@ def _train_and_evaluate(estimator, dataset, output_dir):
             print(e)
 
 
-
-def run_experiment(flags):
+def run_experiment(arguments):
     """Testbed for running model training and evaluation."""
     # Get data for training and evaluation
 
-    dataset = utils.read_df_from_gcs(flags.input)
+    logging.info('Arguments: %s', arguments)
+
+    dataset = utils.read_df_from_gcs(arguments.input)
 
     # Get estimator
-    estimator = model.get_estimator(flags)
+    estimator = model.get_estimator(arguments)
 
     # Run training and evaluation
-    _train_and_evaluate(estimator, dataset, flags.job_dir)
+    _train_and_evaluate(estimator, dataset, arguments.job_dir)
 
 
 def _parse_args(argv):
     """Parses command-line arguments."""
 
     parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        '--input',
-        help='''Dataset to use for training and evaluation.
-              Can be BigQuery table or a file (CSV).
-              If BigQuery table, specify as as PROJECT_ID.DATASET.TABLE_NAME.
-            ''',
-        required=True,
-    )
 
     parser.add_argument(
         '--log-level',
@@ -114,6 +106,15 @@ def _parse_args(argv):
             'WARN',
         ],
         default='INFO',
+    )
+
+    parser.add_argument(
+        '--input',
+        help='''Dataset to use for training and evaluation.
+              Can be BigQuery table or a file (CSV).
+              If BigQuery table, specify as as PROJECT_ID.DATASET.TABLE_NAME.
+            ''',
+        required=True,
     )
 
     parser.add_argument(
@@ -136,16 +137,16 @@ def _parse_args(argv):
         default=3,
     )
 
-    return parser.parse_args(argv)
+    return parser.parse_args()
 
 
 def main():
     """Entry point."""
 
-    flags = _parse_args(sys.argv[1:])
+    arguments = _parse_args(sys.argv[1:])
 
-    logging.basicConfig(level=flags.log_level.upper())
-    run_experiment(flags)
+    logging.basicConfig(level=arguments.log_level.upper())
+    run_experiment(arguments)
 
 
 if __name__ == '__main__':

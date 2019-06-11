@@ -35,6 +35,7 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH}  \
         --python-version=${PYTHON_VERSION} \
+        --stream-logs \
         -- \
         --input=${GCS_TAXI_TRAIN_BIG} \
         --n-estimators=20 \
