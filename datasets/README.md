@@ -36,8 +36,8 @@ source ./download-taxi.sh /path/to/output/directory big
 source ./download-taxi.sh /path/to/output/directory small
 ```
 
-Upon succession, the relevant datasets are downloads and some or all of the
-following environment variables will be properly exported:
+Upon succession, the relevant datasets are downloaded and some or all of the
+following environment variables properly exported:
 
 * Local Datasets for Training:
   * TAXI_TRAIN_BIG
