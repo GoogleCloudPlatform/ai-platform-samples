@@ -56,7 +56,7 @@ Containers on AI Platform is a feature that allows you to run your application w
  - [PyTorch](structured_data/pytorch)
 
 
-Note: These examples use the [Chicago Taxi Trips Dataset](https://data.cityofchicago.org/Transportation/Taxi-Trips/wrvz-psew)
+**Note:** These examples use the [Chicago Taxi Trips Dataset](https://data.cityofchicago.org/Transportation/Taxi-Trips/wrvz-psew)
 released by the City of Chicago. 
 [Read more](https://cloud.google.com/bigquery/public-data/chicago-taxi) about the dataset in [Google BigQuery](https://cloud.google.com/bigquery/).
 
