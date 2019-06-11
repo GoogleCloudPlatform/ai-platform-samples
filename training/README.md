@@ -41,7 +41,7 @@ The following samples reflect the available features in AI Platform:
 #### Standard AI Platform Training
 
  - [TensorFlow](structured/tensorflow)
-     - [CPU](structured/tensorflow/base) Standard configuration to perform AI Platform Training using TensorFlow Estimators
+     - [Base](structured/tensorflow/base) Standard code to perform AI Platform Training using TensorFlow Estimators using CPU
      - [GPU](structured/tensorflow/gpu) Uses GPU for AI Platform Training
      - [TPU](structured/tensorflow/tpu) Uses Cloud TPU for AI Platform Training
      - [Hyperparameter tuning](structured/tensorflow/hp_tuning) Use Hyperparameter Tuning
