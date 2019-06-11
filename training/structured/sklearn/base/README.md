@@ -22,19 +22,19 @@ functionality, you can customize these parts with your own implementation.
 
 ## Sample Structure
 
-* [trainer](./trainer) directory: containing the training package to be submitted to AI Platform
+* [trainer](../../../structured_data/sklearn/base/trainer) directory: containing the training package to be submitted to AI Platform
   * [__init__py](./trainer/__init__.py) which is an empty file. It is needed to make this directory a Python package.
-  * [task.py](./trainer/task.py) initializes and parses task arguments. This is the entry point to the trainer.
-  * [model.py](./trainer/model.py) includes a function to create the scikit-learn estimator or pipeline
-  * [metadata.py](./trainer/metadata.py) contains the definition for the target and feature names, among other configuring variables 
-  * [util.py](./trainer/task.py) contains a number of helper functions used in task.py  
-* [scripts](./scripts) directory: command-line scripts to train the model locally or on AI Platform.
+  * [task.py](trainer/task.py) initializes and parses task arguments. This is the entry point to the trainer.
+  * [model.py](trainer/model.py) includes a function to create the scikit-learn estimator or pipeline
+  * [metadata.py](trainer/metadata.py) contains the definition for the target and feature names, among other configuring variables 
+  * [util.py](trainer/task.py) contains a number of helper functions used in task.py  
+* [scripts](../../../structured_data/sklearn/base/scripts) directory: command-line scripts to train the model locally or on AI Platform.
   We recommend to run the scripts in this directory in the following order, and use
   the `source` command to run them, in order to export the environment variables at each step:
   * [train-local.sh](./scripts/train-local.sh) trains the model locally using `gcloud`. It is always a
   good idea to try and train the model locally for debugging, before submitting it to AI Platform.
   * [train-cloud.sh](./scripts/train-cloud.sh) submits a training job to AI Platform.
-* [requirements.txt](./requirements.txt): containing all the required Python packages for this tutorial.
+* [requirements.txt](requirements.txt): containing all the required Python packages for this tutorial.
 
 We recommend that you follow the same structure for your own work. In most cases, you only need to 
 modify `metadata.py`, `model.py`; and leave the other python files untouched.
@@ -58,12 +58,12 @@ bucket and sets `$MODEL_DIR` environment variable to the directory containing th
 
 In this section, we'll highlight the main elements of this sample.
 
-### [model.py](./trainer/model.py)
+### [model.py](trainer/model.py)
 
 In this sample, we simply create a *RandomForestClassifier* and return it.
 
 
-### [metadata.py](./trainer/metadata.py)
+### [metadata.py](trainer/metadata.py)
 
 We define which features should be used for training. We also define what the target is.
 
@@ -127,7 +127,7 @@ created and stored some files in your GCS bucket. You may simply remove them by 
 source ./scripts/cleanup.sh
 ```
 
-## What is Next
+## What's Next
 
 In this sample, we trained a simple classifier with scikit-learn. Please see 
 (TODO: implement prediction) sample to see how to deply the model to AI Platform 
