@@ -31,4 +31,10 @@ pip install --upgrade -r requirements.txt
  
  ## Setup Environment Variables
  
-Open `setup.sh` in this directory. Modify it and set `PEOJECT_ID` and `BUCKET_NAME` properly, before running it.
+Open `setup.sh` in this directory. 
+
+Modify it and set `PROJECT_ID` and `BUCKET_NAME` properly, before running it.
+
+```
+ ./setup.sh
+```

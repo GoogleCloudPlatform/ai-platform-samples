@@ -17,7 +17,7 @@ the full dataset in the
 [BigQuery UI](https://bigquery.cloud.google.com/dataset/bigquery-public-data:chicago_taxi_trips).
 
 
-The dataset in BigQuery is in a raw format. We have processed the dataset a little to prepare it for model training. 
+The dataset in BigQuery is in a raw format. We have processed the dataset to prepare it for model training.
 
 We have two different sizes of the dataset:
 
@@ -25,6 +25,7 @@ We have two different sizes of the dataset:
 * Small: With 10K samples for training and 2K samples for evaluation
 
 You can download either dataset (or both) by running one of the two following scripts:
+
 ```bash
 # To download the both datasets:
 source ./download-taxi.sh /path/to/output/directory
@@ -40,17 +41,17 @@ Upon succession, the relevant datasets are downloaded and some or all of the
 following environment variables properly exported:
 
 * Local Datasets for Training:
-  * TAXI_TRAIN_BIG
-  * TAXI_EVAL_BIG
-  * TAXI_TRAIN_SMALL
-  * TAXI_EVAL_SMALL
+  * TAXI_TRAIN_BIG: Local path to the big training dataset
+  * TAXI_EVAL_BIG: Local path to the big evaluation dataset
+  * TAXI_TRAIN_SMALL: Local path to the small training dataset
+  * TAXI_EVAL_SMALL: Local path to the small evaluation dataset
 * GCS Datasets for Training:
-  * GCS_TAXI_BIG
-  * GCS_TAXI_TRAIN_BIG
-  * GCS_TAXI_EVAL_BIG
-  * GCS_TAXI_SMALL
-  * GCS_TAXI_TRAIN_SMALL
-  * GCS_TAXI_EVAL_SMALL
+  * GCS_TAXI_BIG: GCS path to the big training+evaluation dataset
+  * GCS_TAXI_TRAIN_BIG: GCS path to the big training dataset
+  * GCS_TAXI_EVAL_BIG: GCS path to the big evaluation dataset
+  * GCS_TAXI_SMALL: GCS path to the small training+evaluation dataset
+  * GCS_TAXI_TRAIN_SMALL: GCS path to the small training dataset
+  * GCS_TAXI_EVAL_SMALL: GCS path to the small evaluation dataset
 * Prediction Datasets:
-  * TAXI_PREDICTION_JSON
-  * TAXI_PREDICTION_LIST
+  * TAXI_PREDICTION_JSON: a JSON file with 3 samples, ready to be used for prediction
+  * TAXI_PREDICTION_LIST: a header-less CSV file with 3 samples in a list, ready to be used for prediction
