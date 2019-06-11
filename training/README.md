@@ -39,12 +39,12 @@ tuning, and accelerate with GPUs and TPUs.
 
  - [TensorFlow](structured_data/tensorflow)
      - [Base](structured_data/tensorflow/base) Standard code to perform AI Platform Training using TensorFlow Estimators 
-              using CPU
-     - [GPU](structured_data/tensorflow/gpu) Uses GPU and MirroredStrategy for Model Training
-     - [TPU](structured_data/tensorflow/tpu) Uses Cloud TPU for Model Training
-     - [Hyperparameter tuning](structured_data/tensorflow/hp_tuning) Use Hyperparameter Tuning
-     - [Distributed training](structured_data/tensorflow/distributed) Uses Distrubuted Training using TensorFlow 
-              Distribution strategy
+              using CPU.
+     - [GPU](structured_data/tensorflow/gpu) Uses GPU and MirroredStrategy for Model Training.
+     - [TPU](structured_data/tensorflow/tpu) Uses Cloud TPU for Model Training.
+     - [Hyperparameter tuning](structured_data/tensorflow/hp_tuning) Use Hyperparameter tuning.
+     - [Distributed training](structured_data/tensorflow/distributed) Uses Distributed Training using TensorFlow 
+              Distribution strategy.
      
  - [scikit-learn](structured_data/scikit-learn)
  - [XGBoost](structured_data/xgboost)
