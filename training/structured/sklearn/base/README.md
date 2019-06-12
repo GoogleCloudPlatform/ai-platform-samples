@@ -132,5 +132,3 @@ source ./scripts/cleanup.sh
 In this sample, we trained a simple classifier with scikit-learn. Please see 
 (TODO: implement prediction) sample to see how to deply the model to AI Platform 
 and use it to make predictions.
-
-

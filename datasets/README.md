@@ -53,5 +53,7 @@ following environment variables properly exported:
   * GCS_TAXI_TRAIN_SMALL: GCS path to the small training dataset
   * GCS_TAXI_EVAL_SMALL: GCS path to the small evaluation dataset
 * Prediction Datasets:
-  * TAXI_PREDICTION_JSON: a JSON file with 3 samples, ready to be used for prediction
-  * TAXI_PREDICTION_LIST: a header-less CSV file with 3 samples in a list, ready to be used for prediction
+  * TAXI_PREDICTION_DICT_NDJSON: a Newline Delimited JSON file with 3 samples, represented as dictionaries
+  * TAXI_PREDICTION_LIST_NDJSON: a Newline Delimited JSON file with 3 samples, represented as lists
+
+Note: Each line in a Newline Delimited JSON file is a JSON object or list.

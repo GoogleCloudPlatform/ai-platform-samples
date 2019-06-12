@@ -73,11 +73,11 @@ fi
 
 echo "Downloading the prediction dataset..."
 mkdir prediction
-gsutil cp ${PREDICTION_FOLDER}/taxi_trips_prediction.json ./prediction/taxi_trips_prediction.json
-gsutil cp ${PREDICTION_FOLDER}/taxi_trips_prediction_list.txt ./prediction/taxi_trips_prediction_list.txt
+gsutil cp ${PREDICTION_FOLDER}/taxi_trips_prediction_dict.ndjson ./prediction/taxi_trips_prediction_dict.ndjson
+gsutil cp ${PREDICTION_FOLDER}/taxi_trips_prediction_list.ndjson ./prediction/taxi_trips_prediction_list.ndjson
 
-export TAXI_PREDICTION_JSON=${CWD}/prediction/taxi_trips_prediction.json
-export TAXI_PREDICTION_LIST=${CWD}/prediction/taxi_trips_prediction_list.txt
+export TAXI_PREDICTION_DICT_NDJSON=${CWD}/prediction/taxi_trips_prediction_dict.ndjson
+export TAXI_PREDICTION_LIST_NDJSON=${CWD}/prediction/taxi_trips_prediction_list.ndjson
 
 cd -
 

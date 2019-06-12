@@ -44,4 +44,4 @@ echo ${MODEL_LOCATION}
 ls ${MODEL_LOCATION}
 
 # Verify local prediction
-gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=$TAXI_PREDICTION_JSON --verbosity debug
+gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=$TAXI_PREDICTION_DICT_NDJSON--verbosity debug
