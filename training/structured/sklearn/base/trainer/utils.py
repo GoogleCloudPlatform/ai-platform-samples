@@ -140,4 +140,3 @@ def boolean_mask(columns, target_columns):
     """
     target_set = set(target_columns)
     return [x in target_set for x in columns]
-

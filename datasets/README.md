@@ -46,12 +46,12 @@ following environment variables properly exported:
   * TAXI_TRAIN_SMALL: Local path to the small training dataset
   * TAXI_EVAL_SMALL: Local path to the small evaluation dataset
 * GCS Datasets for Training:
-  * GCS_TAXI_BIG: GCS path to the big training+evaluation dataset
-  * GCS_TAXI_TRAIN_BIG: GCS path to the big training dataset
-  * GCS_TAXI_EVAL_BIG: GCS path to the big evaluation dataset
-  * GCS_TAXI_SMALL: GCS path to the small training+evaluation dataset
-  * GCS_TAXI_TRAIN_SMALL: GCS path to the small training dataset
-  * GCS_TAXI_EVAL_SMALL: GCS path to the small evaluation dataset
+  * GCS_TAXI_BIG: GCS path to the [big training+evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips.csv)
+  * GCS_TAXI_TRAIN_BIG: GCS path to the [big training dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips_train.csv)
+  * GCS_TAXI_EVAL_BIG: GCS path to the [big evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips_eval.csv)
+  * GCS_TAXI_SMALL: GCS path to the [small training+evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips.csv)
+  * GCS_TAXI_TRAIN_SMALL: GCS path to the [small training dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_train.csv)
+  * GCS_TAXI_EVAL_SMALL: GCS path to the [small evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_eval.csv)
 * Prediction Datasets:
   * TAXI_PREDICTION_DICT_NDJSON: a Newline Delimited JSON file with 3 samples, represented as dictionaries
   * TAXI_PREDICTION_LIST_NDJSON: a Newline Delimited JSON file with 3 samples, represented as lists

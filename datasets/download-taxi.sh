@@ -54,15 +54,14 @@ elif [[ $2 == 'small' ]]; then
   export TAXI_TRAIN_SMALL=${CWD}/small/taxi_trips_train.csv
   export TAXI_EVAL_SMALL=${CWD}/small/taxi_trips_eval.csv
 else
-  echo "Downloading the big dataset..."
+  echo "Downloading the big and the small datasets..."
   mkdir big
   gsutil cp ${GCS_TAXI_TRAIN_BIG} big/taxi_trips_train.csv
-  gsutil cp ${GCS_TAX_EVAL_BIG} bigtaxi_trips_eval.csv
+  gsutil cp ${GCS_TAX_EVAL_BIG} big/taxi_trips_eval.csv
 
   export TAXI_TRAIN_BIG=${CWD}/taxi_trips_train.csv
   export TAXI_EVAL_BIG=${CWD}/taxi_trips_eval.csv
 
-  echo "Downloading the small dataset..."
   mkdir small
   gsutil cp ${GCS_TAXI_TRAIN_SMALL} small/taxi_trips_train.csv
   gsutil cp ${GCS_TAXI_EVAL_SMALL} small/taxi_trips_eval.csv

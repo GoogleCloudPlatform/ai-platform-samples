@@ -42,5 +42,6 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --max-depth=3
 
 # Notes:
+# GCS_TAXI_TRAIN_BIG is set by datasets/downlaod-taxi.sh script
 # use --packages instead of --package-path if gcs location
 # add --reuse-job-dir to resume training

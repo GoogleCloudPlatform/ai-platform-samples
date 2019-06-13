@@ -30,3 +30,6 @@ gcloud ai-platform local train \
         --input=${TAXI_TRAIN_SMALL} \
         --n-estimators=20 \
         --max-depth=3
+
+# Notes:
+# TAXI_TRAIN_SMALL is set by datasets/downlaod-taxi.sh script

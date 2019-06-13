@@ -60,7 +60,7 @@ In this section, we'll highlight the main elements of this sample.
 
 ### [model.py](trainer/model.py)
 
-In this sample, we simply create a *RandomForestClassifier* and return it.
+In this sample, we simply create an instance of `RandomForestClassifier` estimator and return it.
 
 
 ### [metadata.py](trainer/metadata.py)
