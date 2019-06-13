@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#!/bin/bash
+set -v -e
 
 if [[ -z "$1" ]]; then
   echo "Usage: download-taxi.sh <output-path> [size]"
@@ -33,13 +35,19 @@ export GCS_TAXI_SMALL=${TRAIN_FOLDER}/small/taxi_trips.csv
 export GCS_TAXI_TRAIN_SMALL=${TRAIN_FOLDER}/small/taxi_trips_train.csv
 export GCS_TAXI_EVAL_SMALL=${TRAIN_FOLDER}/small/taxi_trips_train.csv
 
-mkdir -p $1 && cd $1
+if [[ ! -d $1 ]]; then
+  mkdir -p $1
+fi
+cd $1
+
 
 CWD="$(printf "%s\n" "$(pwd)")"
 
 if [[ $2 == 'big' ]]; then
   echo "Downloading the big dataset..."
-  mkdir big
+  if [[ ! -d big ]]; then
+    mkdir -p big
+  fi
   gsutil cp ${GCS_TAXI_TRAIN_BIG} big/taxi_trips_train.csv
   gsutil cp ${GCS_TAXI_EVAL_BIG} bigtaxi_trips_eval.csv
 
@@ -47,7 +55,9 @@ if [[ $2 == 'big' ]]; then
   export TAXI_EVAL_BIG=${CWD}/taxi_trips_eval.csv
 elif [[ $2 == 'small' ]]; then
   echo "Downloading the small dataset..."
-  mkdir small
+  if [[ ! -d small ]]; then
+    mkdir -p small
+  fi
   gsutil cp ${GCS_TAXI_TRAIN_SMALL} small/taxi_trips_train.csv
   gsutil cp ${GCS_TAXI_EVAL_SMALL} small/taxi_trips_eval.csv
 
@@ -55,14 +65,18 @@ elif [[ $2 == 'small' ]]; then
   export TAXI_EVAL_SMALL=${CWD}/small/taxi_trips_eval.csv
 else
   echo "Downloading the big and the small datasets..."
-  mkdir big
+  if [[ ! -d big ]]; then
+    mkdir -p big
+  fi
   gsutil cp ${GCS_TAXI_TRAIN_BIG} big/taxi_trips_train.csv
-  gsutil cp ${GCS_TAX_EVAL_BIG} big/taxi_trips_eval.csv
+  gsutil cp ${GCS_TAXI_EVAL_BIG} big/taxi_trips_eval.csv
 
   export TAXI_TRAIN_BIG=${CWD}/taxi_trips_train.csv
   export TAXI_EVAL_BIG=${CWD}/taxi_trips_eval.csv
 
-  mkdir small
+  if [[ ! -d small ]]; then
+    mkdir -p small
+  fi
   gsutil cp ${GCS_TAXI_TRAIN_SMALL} small/taxi_trips_train.csv
   gsutil cp ${GCS_TAXI_EVAL_SMALL} small/taxi_trips_eval.csv
 
@@ -71,7 +85,9 @@ else
 fi
 
 echo "Downloading the prediction dataset..."
-mkdir prediction
+if [[ ! -d prediction ]]; then
+  mkdir -p prediction
+fi
 gsutil cp ${PREDICTION_FOLDER}/taxi_trips_prediction_dict.ndjson ./prediction/taxi_trips_prediction_dict.ndjson
 gsutil cp ${PREDICTION_FOLDER}/taxi_trips_prediction_list.ndjson ./prediction/taxi_trips_prediction_list.ndjson
 

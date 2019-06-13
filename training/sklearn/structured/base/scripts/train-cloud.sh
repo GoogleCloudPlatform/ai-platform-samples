@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +15,7 @@
 # limitations under the License.
 # This is the common setup.
 
-#!/bin/bash
+set -v -e
 
 echo "Submitting an AI Platform job..."
 

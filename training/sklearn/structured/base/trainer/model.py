@@ -25,7 +25,7 @@ def get_estimator(arguments):
       arguments: (argparse.ArgumentParser), parameters passed from command-line
 
     Returns:
-      sklearn.pipeline.Pipeline
+      structured.pipeline.Pipeline
     """
 
     # n_estimators and max_depth are expected to be passed as

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +15,7 @@
 # limitations under the License.
 # ==============================================================================
 
-#!/usr/bin/env bash
+set -v -e
 
 # This has to be run after train-cloud.sh is successfully executed
 
