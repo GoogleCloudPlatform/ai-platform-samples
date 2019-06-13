@@ -80,5 +80,3 @@ export TAXI_PREDICTION_DICT_NDJSON=${CWD}/prediction/taxi_trips_prediction_dict.
 export TAXI_PREDICTION_LIST_NDJSON=${CWD}/prediction/taxi_trips_prediction_list.ndjson
 
 cd -
-
-
