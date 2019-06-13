@@ -2,9 +2,28 @@
 
 ## Setup GCP
 
-The best way to setup your GCP project is to use this section in this
-[tutorial](https://cloud.google.com/ml-engine/docs/tensorflow/getting-started-training-prediction#set-up-your-gcp-project).
+Before you can run any of the samples in this repository, you'll need to setup your GCP account and environment.
+The main steps are:
 
+1. Have a GCP account and create/select a GCP project on [GCP Console](https://console.cloud.google.com).
+
+2. Enable the billing for your GCP project. Click [here](https://cloud.google.com/billing/docs/how-to/modify-project) for more information.
+
+3. Download and install [Google Cloud SDK](https://cloud.google.com/sdk/docs/).
+
+4. Configure the SDK by running `gcloud init` and following the instructions.
+
+5. Enable the API for the following services:
+
+  * [Compute Engine](https://pantheon.corp.google.com/compute). Run `gcloud services enable compute.googleapis.com`.
+  * [Storage](https://pantheon.corp.google.com/storage). Run `gcloud services enable storage-component.googleapis.com`.
+  * [AI Platform](https://pantheon.corp.google.com/mlengine). Run `gcloud services enable ml.googleapis.com`.
+
+6. Create and download a service account key with the right permissions, by following the instructions [here](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud).
+
+7. Open `setup.sh` in this directory. Set `PROJECT_ID`, `BUCKET_NAME` and `GOOGLE_APPLICATION_CREDENTIALS`. Then run `source ./setup.sh`.
+
+  
 ## Setup Virtual Environment
 
 Virtual environments are strongly suggested, but not required. Installing this
@@ -29,12 +48,3 @@ To run each sample, install the python dependencies using the following command:
 pip install --upgrade -r requirements.txt
  ```
  
- ## Setup Environment Variables
- 
-Open `setup.sh` in this directory. 
-
-Modify it and set `PROJECT_ID` and `BUCKET_NAME` properly, before running it.
-
-```
- ./setup.sh
-```

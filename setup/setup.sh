@@ -17,8 +17,17 @@
 export RUNTIME_VERSION=1.13
 export PYTHON_VERSION=3.5
 export REGION=us-central1
+
+# Replace "your-gcp-project-id" with your gcp PROJECT ID
 export PROJECT_ID="your-gcp-project-id"
+
+# Replace "your-gcp-bucket-name" with a universally unique name for a GCS bucket
 export BUCKET_NAME="your-gcp-bucket-name"
+
+# Replace "path/to/service/account/key" with the full path to the
+# service account key file which you created and downloaded
+export GOOGLE_APPLICATION_CREDENTIALS="path/to/service/account/key"
+
 
 if [[ ${PROJECT_ID} == "your-gcp-project-id" ]]
 then
@@ -28,4 +37,9 @@ fi
 if [[ ${BUCKET_NAME} == "your-gcp-bucket-name" ]]
 then
   echo "Warning: Please set BUCKET_NAME to an existing GCS bucket"
+fi
+
+if [[ -z ${GOOGLE_APPLICATION_CREDENTIALS} == "path/to/service/account/key" ]]
+then
+  echo "Warning: Please set GOOGLE_APPLICATION_CREDENTIALS to the path to your service account key"
 fi
