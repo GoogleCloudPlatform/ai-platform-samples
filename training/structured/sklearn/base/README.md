@@ -17,7 +17,7 @@ functionality, you can customize these parts with your own implementation.
 ## Prerequisites
 
 * Follow the instructions in the *setup* directory in order to setup your environment
-* Follow the instructions in the *datasets* directory and run [download-taxi.sh](../../../download-taxi.sh)
+* Follow the instructions in the *datasets* directory and run [download-taxi.sh](../../../../datasets/download-taxi.sh)
 * Create a Python virtual environment and run `pip install -r requirements.txt`
 
 ## Sample Structure
