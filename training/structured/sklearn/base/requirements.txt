@@ -1,4 +1,4 @@
-scikit-learn
-pandas
-tensorflow
+scikit-learn>=0.19.1
+pandas>=0.20
+tensorflow>=1.9
 cloudml-hypertune

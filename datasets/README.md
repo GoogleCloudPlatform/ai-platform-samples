@@ -21,8 +21,8 @@ The dataset in BigQuery is in a raw format. We have processed the dataset to pre
 
 We have two different sizes of the dataset:
 
-* Big: With 1M samples for training and 200K samples for evaluation
-* Small: With 10K samples for training and 2K samples for evaluation
+* Small: With 10K samples for training and 2K samples for evaluation. This dataset has a good size for local training and debugging your code.
+* Big: With 1M samples for training and 200K samples for evaluation. This dataset is best used in cloud training due to its size.
 
 You can download either dataset (or both) by running one of the two following scripts:
 

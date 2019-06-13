@@ -22,7 +22,7 @@ export BUCKET_NAME="your-gcp-bucket-name"
 
 if [[ ${PROJECT_ID} == "your-gcp-project-id" ]]
 then
-  echo "Warning: Please set PTOJECT_ID to your gcp Project ID"
+  echo "Warning: Please set PROJECT_ID to your gcp Project ID"
 fi
 
 if [[ ${BUCKET_NAME} == "your-gcp-bucket-name" ]]

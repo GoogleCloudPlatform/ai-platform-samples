@@ -22,7 +22,7 @@ There are two options for the virtual environments:
 
 ## Install Dependencies
 
-Each sample folder has a `requirements.txt` file, containing all eh dependencies.
+Each sample folder has a `requirements.txt` file, containing all teh dependencies.
 To run each sample, install the python dependencies using the following command:
  
  ```

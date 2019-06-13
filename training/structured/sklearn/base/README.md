@@ -17,18 +17,18 @@ functionality, you can customize these parts with your own implementation.
 ## Prerequisites
 
 * Follow the instructions in the *setup* directory in order to setup your environment
-* Follow the instructions in the *datasets* directory and run `download-taxi.sh`
+* Follow the instructions in the *datasets* directory and run [download-taxi.sh](../../../download-taxi.sh)
 * Create a Python virtual environment and run `pip install -r requirements.txt`
 
 ## Sample Structure
 
-* [trainer](../../../structured_data/sklearn/base/trainer) directory: containing the training package to be submitted to AI Platform
+* [trainer](./trainer) directory: containing the training package to be submitted to AI Platform
   * [__init__py](./trainer/__init__.py) which is an empty file. It is needed to make this directory a Python package.
   * [task.py](trainer/task.py) initializes and parses task arguments. This is the entry point to the trainer.
   * [model.py](trainer/model.py) includes a function to create the scikit-learn estimator or pipeline
   * [metadata.py](trainer/metadata.py) contains the definition for the target and feature names, among other configuring variables 
   * [util.py](trainer/task.py) contains a number of helper functions used in task.py  
-* [scripts](../../../structured_data/sklearn/base/scripts) directory: command-line scripts to train the model locally or on AI Platform.
+* [scripts](./scripts) directory: command-line scripts to train the model locally or on AI Platform.
   We recommend to run the scripts in this directory in the following order, and use
   the `source` command to run them, in order to export the environment variables at each step:
   * [train-local.sh](./scripts/train-local.sh) trains the model locally using `gcloud`. It is always a
