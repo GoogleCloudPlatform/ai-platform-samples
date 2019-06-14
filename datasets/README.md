@@ -21,8 +21,8 @@ The dataset in BigQuery is in a raw format. We have processed the dataset to pre
 
 We have two different sizes of the dataset:
 
-* Cloud: With 1M samples for training and 200K samples for evaluation
-* Local: With 10K samples for local training and 2K samples for local evaluation
+* Small: With 10K samples for training and 2K samples for evaluation. This dataset has a good size for local training and debugging your code.
+* Big: With 1M samples for training and 200K samples for evaluation. This dataset is best used in cloud training due to its size.
 
 You can download either dataset (or both) by running one of the two following scripts:
 
@@ -30,22 +30,30 @@ You can download either dataset (or both) by running one of the two following sc
 # To download the both datasets:
 source ./download-taxi.sh /path/to/output/directory
 
-# To download the Cloud dataset only:
-source ./download-taxi.sh /path/to/output/directory cloud
+# To download the big dataset only:
+source ./download-taxi.sh /path/to/output/directory big
 
-# To download the Local dataset only:
-source ./download-taxi.sh /path/to/output/directory local
+# To download the small dataset only:
+source ./download-taxi.sh /path/to/output/directory small
 ```
 
-There are two additional files when you run the download script:
+Upon succession, the relevant datasets are downloaded and some or all of the
+following environment variables properly exported:
 
-* [taxi_trips_prediction.txt](https://storage.cloud.google.com/cloud-samples-data/ml-engine/chicago_taxi/prediction/taxi_trips_prediction.txt): a header-less CSV file with 3 samples in a list, ready to be used for prediction
-* [taxi_trips_prediction.json](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/prediction/taxi_trips_prediction_list.json): a JSON file with 3 samples, ready to be used for prediction
+* Local Datasets for Training:
+  * TAXI_TRAIN_BIG: Local path to the big training dataset
+  * TAXI_EVAL_BIG: Local path to the big evaluation dataset
+  * TAXI_TRAIN_SMALL: Local path to the small training dataset
+  * TAXI_EVAL_SMALL: Local path to the small evaluation dataset
+* GCS Datasets for Training:
+  * GCS_TAXI_BIG: GCS path to the [big training+evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips.csv)
+  * GCS_TAXI_TRAIN_BIG: GCS path to the [big training dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips_train.csv)
+  * GCS_TAXI_EVAL_BIG: GCS path to the [big evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips_eval.csv)
+  * GCS_TAXI_SMALL: GCS path to the [small training+evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips.csv)
+  * GCS_TAXI_TRAIN_SMALL: GCS path to the [small training dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_train.csv)
+  * GCS_TAXI_EVAL_SMALL: GCS path to the [small evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_eval.csv)
+* Prediction Datasets:
+  * TAXI_PREDICTION_DICT_NDJSON: a Newline Delimited JSON file with 3 samples, represented as dictionaries
+  * TAXI_PREDICTION_LIST_NDJSON: a Newline Delimited JSON file with 3 samples, represented as lists
 
-The script also sets the following environment variables properly:
-
-* [CLOUD_TAXI_TRAINING](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/cloud/taxi_trips_train.csv): path to the Cloud training dataset
-* [CLOUD_TAXI_EVALUATION](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/cloud/taxi_trips_eval.csv): path to the Cloud evaluation dataset
-* [LOCAL_TAXI_TRAINING](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/local/taxi_trips_train.csv): path to the Local training dataset
-* [LOCAL_TAXI_EVALUATION](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/local/taxi_trips_eval.csv): path to the Local evaluation dataset
-
+Note: Each line in a Newline Delimited JSON file is a JSON object or list.

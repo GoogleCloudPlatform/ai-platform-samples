@@ -14,9 +14,9 @@
 # limitations under the License.
 echo "Training local ML model"
 
-MODEL_NAME="local_base" # Change to your model name, e.g. "estimator"
+MODEL_NAME="tf-taxi" # Change to your model name, e.g. "estimator"
 
-PACKAGE_PATH=../trainer
+PACKAGE_PATH=./trainer
 MODEL_DIR=trained_models/${MODEL_NAME}
 # Run ./download-taxi.sh under datasets folder or set the value directly.
 TRAIN_FILES=${LOCAL_TAXI_TRAINING}
@@ -44,4 +44,4 @@ echo ${MODEL_LOCATION}
 ls ${MODEL_LOCATION}
 
 # Verify local prediction
-gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=$TAXI_PREDICTION_JSON --verbosity debug
+gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=$TAXI_PREDICTION_DICT_NDJSON--verbosity debug

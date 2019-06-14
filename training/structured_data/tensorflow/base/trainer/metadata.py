@@ -20,7 +20,7 @@ TASK_TYPE = 'classification'
 # List of all the columns (header) present in the input data file(s).
 # Used for parsing the input data.
 COLUMN_NAMES = [
-    'tips', 'pickup_community_area', 'dropoff_community_area',
+    'tip', 'pickup_community_area', 'dropoff_community_area',
     'pickup_census_tract', 'dropoff_census_tract', 'fare', 'trip_start_month',
     'trip_start_hour', 'trip_start_day', 'trip_start_timestamp',
     'pickup_latitude', 'pickup_longitude', 'dropoff_latitude',
@@ -89,7 +89,7 @@ CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET = {
 }
 
 # Target feature name (response or class variable).
-TARGET_NAME = 'tips'
+TARGET_NAME = 'tip'
 
 # List of the class values (labels) in a classification dataset.
 TARGET_LABELS = [1, 0]

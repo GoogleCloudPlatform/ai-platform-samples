@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,51 +14,84 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export DATA_FOLDER="gs://cloud-samples-data/ml-engine/chicago_taxi/training"
+set -v -e
 
-mkdir -p $1 && cd $1
+if [[ -z "$1" ]]; then
+  echo "Usage: download-taxi.sh <output-path> [size]"
+  echo "    output-path: full path to the output directory"
+  echo "    size: either 'small' or 'big'. If omitted, both will be downloaded"
+  exit 1
+fi
+
+export DATA_FOLDER="gs://cloud-samples-data/ml-engine/chicago_taxi"
+export TRAIN_FOLDER=${DATA_FOLDER}/training
+export PREDICTION_FOLDER=${DATA_FOLDER}/prediction
+
+export GCS_TAXI_BIG=${TRAIN_FOLDER}/big/taxi_trips.csv
+export GCS_TAXI_TRAIN_BIG=${TRAIN_FOLDER}/big/taxi_trips_train.csv
+export GCS_TAXI_EVAL_BIG=${TRAIN_FOLDER}/big/taxi_trips_eval.csv
+
+export GCS_TAXI_SMALL=${TRAIN_FOLDER}/small/taxi_trips.csv
+export GCS_TAXI_TRAIN_SMALL=${TRAIN_FOLDER}/small/taxi_trips_train.csv
+export GCS_TAXI_EVAL_SMALL=${TRAIN_FOLDER}/small/taxi_trips_eval.csv
+
+if [[ ! -d $1 ]]; then
+  mkdir -p $1
+fi
+cd $1
+
 
 CWD="$(printf "%s\n" "$(pwd)")"
 
-if [[ $2 == 'cloud' ]]; then
-  echo "Downloading the Cloud dataset..."
-  gsutil cp ${DATA_FOLDER}/cloud_taxi_trips_train.csv cloud_taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/cloud_taxi_trips_eval.csv cloud_taxi_trips_eval.csv
+if [[ $2 == 'big' ]]; then
+  echo "Downloading the big dataset..."
+  if [[ ! -d big ]]; then
+    mkdir -p big
+  fi
+  gsutil cp ${GCS_TAXI_TRAIN_BIG} big/taxi_trips_train.csv
+  gsutil cp ${GCS_TAXI_EVAL_BIG} bigtaxi_trips_eval.csv
 
-  export CLOUD_TAXI_TRAINING=${CWD}/cloud_taxi_trips_train.csv
-  export CLOUD_TAXI_EVALUATION=${CWD}/cloud_taxi_trips_eval.csv
+  export TAXI_TRAIN_BIG=${CWD}/taxi_trips_train.csv
+  export TAXI_EVAL_BIG=${CWD}/taxi_trips_eval.csv
+elif [[ $2 == 'small' ]]; then
+  echo "Downloading the small dataset..."
+  if [[ ! -d small ]]; then
+    mkdir -p small
+  fi
+  gsutil cp ${GCS_TAXI_TRAIN_SMALL} small/taxi_trips_train.csv
+  gsutil cp ${GCS_TAXI_EVAL_SMALL} small/taxi_trips_eval.csv
 
-elif [[ $2 == 'local' ]]; then
-  echo "Downloading the Local dataset..."
-  gsutil cp ${DATA_FOLDER}/local_taxi_trips_train.csv local_taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/local_taxi_trips_eval.csv local_taxi_trips_eval.csv
-
-  export LOCAL_TAXI_TRAINING=${CWD}/local_taxi_trips_train.csv
-  export LOCAL_TAXI_EVALUATION=${CWD}/local_taxi_trips_eval.csv
-
+  export TAXI_TRAIN_SMALL=${CWD}/small/taxi_trips_train.csv
+  export TAXI_EVAL_SMALL=${CWD}/small/taxi_trips_eval.csv
 else
-  echo "Downloading the Cloud dataset..."
-  gsutil cp ${DATA_FOLDER}/cloud_taxi_trips_train.csv cloud_taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/cloud_taxi_trips_eval.csv cloud_taxi_trips_eval.csv
+  echo "Downloading the big and the small datasets..."
+  if [[ ! -d big ]]; then
+    mkdir -p big
+  fi
+  gsutil cp ${GCS_TAXI_TRAIN_BIG} big/taxi_trips_train.csv
+  gsutil cp ${GCS_TAXI_EVAL_BIG} big/taxi_trips_eval.csv
 
-  export CLOUD_TAXI_TRAINING=${CWD}/cloud_taxi_trips_train.csv
-  export CLOUD_TAXI_EVALUATION=${CWD}/cloud_taxi_trips_eval.csv
+  export TAXI_TRAIN_BIG=${CWD}/taxi_trips_train.csv
+  export TAXI_EVAL_BIG=${CWD}/taxi_trips_eval.csv
 
-  echo "Downloading the Local dataset..."
-  gsutil cp ${DATA_FOLDER}/local_taxi_trips_train.csv local_taxi_trips_train.csv
-  gsutil cp ${DATA_FOLDER}/local_taxi_trips_eval.csv local_taxi_trips_eval.csv
+  if [[ ! -d small ]]; then
+    mkdir -p small
+  fi
+  gsutil cp ${GCS_TAXI_TRAIN_SMALL} small/taxi_trips_train.csv
+  gsutil cp ${GCS_TAXI_EVAL_SMALL} small/taxi_trips_eval.csv
 
-  export LOCAL_TAXI_TRAINING=${CWD}/local_taxi_trips_train.csv
-  export LOCAL_TAXI_EVALUATION=${CWD}/local_taxi_trips_eval.csv
+  export TAXI_TRAIN_SMALL=${CWD}/small/taxi_trips_train.csv
+  export TAXI_EVAL_SMALL=${CWD}/small/taxi_trips_eval.csv
 fi
 
 echo "Downloading the prediction dataset..."
-gsutil cp ${DATA_FOLDER}/taxi_trips_prediction.json taxi_trips_prediction.json
-gsutil cp ${DATA_FOLDER}/taxi_trips_prediction.csv taxi_trips_prediction_list.txt
+if [[ ! -d prediction ]]; then
+  mkdir -p prediction
+fi
+gsutil cp ${PREDICTION_FOLDER}/taxi_trips_prediction_dict.ndjson ./prediction/taxi_trips_prediction_dict.ndjson
+gsutil cp ${PREDICTION_FOLDER}/taxi_trips_prediction_list.ndjson ./prediction/taxi_trips_prediction_list.ndjson
 
-export TAXI_PREDICTION_JSON=${CWD}/taxi_trips_prediction.json
-export TAXI_PREDICTION_CSV=${CWD}/taxi_trips_prediction_list.txt
+export TAXI_PREDICTION_DICT_NDJSON=${CWD}/prediction/taxi_trips_prediction_dict.ndjson
+export TAXI_PREDICTION_LIST_NDJSON=${CWD}/prediction/taxi_trips_prediction_list.ndjson
 
 cd -
-
-
