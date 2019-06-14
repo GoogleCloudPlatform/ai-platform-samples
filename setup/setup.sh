@@ -33,15 +33,15 @@ export GOOGLE_APPLICATION_CREDENTIALS="path/to/service/account/key"
 
 if [[ ${PROJECT_ID} == "your-gcp-project-id" ]]
 then
-  echo "Warning: Please set PROJECT_ID to your gcp Project ID"
+  echo "Error: Please set PROJECT_ID to your gcp Project ID"
 fi
 
 if [[ ${BUCKET_NAME} == "your-gcp-bucket-name" ]]
 then
-  echo "Warning: Please set BUCKET_NAME to an existing GCS bucket"
+  echo "Error: Please set BUCKET_NAME to an existing GCS bucket"
 fi
 
 if [[ -z ${GOOGLE_APPLICATION_CREDENTIALS} == "path/to/service/account/key" ]]
 then
-  echo "Warning: Please set GOOGLE_APPLICATION_CREDENTIALS to the path to your service account key"
+  echo "Error: Please set GOOGLE_APPLICATION_CREDENTIALS to the path to your service account key"
 fi
