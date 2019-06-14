@@ -29,11 +29,11 @@ export PREDICTION_FOLDER=${DATA_FOLDER}/prediction
 
 export GCS_TAXI_BIG=${TRAIN_FOLDER}/big/taxi_trips.csv
 export GCS_TAXI_TRAIN_BIG=${TRAIN_FOLDER}/big/taxi_trips_train.csv
-export GCS_TAXI_EVAL_BIG=${TRAIN_FOLDER}/big/taxi_trips_train.csv
+export GCS_TAXI_EVAL_BIG=${TRAIN_FOLDER}/big/taxi_trips_eval.csv
 
 export GCS_TAXI_SMALL=${TRAIN_FOLDER}/small/taxi_trips.csv
 export GCS_TAXI_TRAIN_SMALL=${TRAIN_FOLDER}/small/taxi_trips_train.csv
-export GCS_TAXI_EVAL_SMALL=${TRAIN_FOLDER}/small/taxi_trips_train.csv
+export GCS_TAXI_EVAL_SMALL=${TRAIN_FOLDER}/small/taxi_trips_eval.csv
 
 if [[ ! -d $1 ]]; then
   mkdir -p $1
