@@ -1,9 +1,7 @@
 SELECT
     IF(tips/fare >= 0.2, 1, 0) AS tip,
-    CAST(pickup_community_area AS string) AS pickup_community_area,
-    CAST(dropoff_community_area AS string) AS dropoff_community_area,
-    CAST(pickup_census_tract AS string) AS pickup_census_tract,
-    CAST(dropoff_census_tract AS string) AS dropoff_census_tract,
+    trip_miles,
+    trip_seconds,
     fare,
     EXTRACT(MONTH
       FROM
@@ -14,18 +12,20 @@ SELECT
     EXTRACT(DAYOFWEEK
       FROM
         trip_start_timestamp) AS trip_start_day,
+    CAST(pickup_community_area AS string) AS pickup_community_area,
+    CAST(dropoff_community_area AS string) AS dropoff_community_area,
+    CAST(pickup_census_tract AS string) AS pickup_census_tract,
+    CAST(dropoff_census_tract AS string) AS dropoff_census_tract,
     pickup_latitude,
     pickup_longitude,
     dropoff_latitude,
     dropoff_longitude,
-    trip_miles,
     payment_type,
-    company,
-    trip_seconds
+    company
 FROM
     `bigquery-public-data.chicago_taxi_trips.taxi_trips`
 WHERE
-    tip IS NOT NULL
+    tips IS NOT NULL
     AND fare > 0
     AND (trip_miles > 0 AND trip_miles <= 50)
     AND (trip_seconds > 0 AND trip_seconds <= 3600)
