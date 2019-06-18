@@ -15,23 +15,19 @@
 # This is the common setup.
 echo "Submitting an AI Platform job..."
 
-TF_VERSION=1.13
-TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
+MODEL_NAME="structured" # change to your model name
 
-REGION=us-central1
-MODEL_NAME="structured-taxi" # change to your model name
-
-PACKAGE_PATH=../trainer # this can be a gcs location to a zipped and uploaded package
+PACKAGE_PATH=./trainer # This can be a GCS location to a zipped and uploaded package
 MODEL_DIR=gs://${BUCKET_NAME}/taxi/model/${MODEL_NAME}
 
 CURRENT_DATE=`date +%Y%m%d_%H%M%S`
 JOB_NAME=train_${MODEL_NAME}_${TIER}_${CURRENT_DATE}
 
 gcloud ai-platform jobs submit training ${JOB_NAME} \
+        --stream-logs \
         --job-dir=${MODEL_DIR} \
-        --runtime-version=${TF_VERSION} \
+        --runtime-version=${RUNTIME_VERSION} \
         --region=${REGION} \
-        --scale-tier=${TIER} \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH}  \
         --config=../config.yaml \

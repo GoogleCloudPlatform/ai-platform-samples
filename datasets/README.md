@@ -31,29 +31,32 @@ You can download either dataset (or both) by running one of the two following sc
 source ./download-taxi.sh /path/to/output/directory
 
 # To download the big dataset only:
+
 source ./download-taxi.sh /path/to/output/directory big
 
 # To download the small dataset only:
 source ./download-taxi.sh /path/to/output/directory small
 ```
 
+*Note: Using `source` preserves the environment variables.*
+
 Upon succession, the relevant datasets are downloaded and some or all of the
 following environment variables properly exported:
 
 * Local Datasets for Training:
-  * TAXI_TRAIN_BIG: Local path to the big training dataset
-  * TAXI_EVAL_BIG: Local path to the big evaluation dataset
-  * TAXI_TRAIN_SMALL: Local path to the small training dataset
-  * TAXI_EVAL_SMALL: Local path to the small evaluation dataset
+  * `TAXI_TRAIN_BIG`: Local path to the big training dataset
+  * `TAXI_EVAL_BIG`: Local path to the big evaluation dataset
+  * `TAXI_TRAIN_SMALL`: Local path to the small training dataset
+  * `TAXI_EVAL_SMALL`: Local path to the small evaluation dataset
 * GCS Datasets for Training:
-  * GCS_TAXI_BIG: GCS path to the [big training+evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips.csv)
-  * GCS_TAXI_TRAIN_BIG: GCS path to the [big training dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips_train.csv)
-  * GCS_TAXI_EVAL_BIG: GCS path to the [big evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips_eval.csv)
-  * GCS_TAXI_SMALL: GCS path to the [small training+evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips.csv)
-  * GCS_TAXI_TRAIN_SMALL: GCS path to the [small training dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_train.csv)
-  * GCS_TAXI_EVAL_SMALL: GCS path to the [small evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_eval.csv)
+  * `GCS_TAXI_BIG`: GCS path to the [big training+evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips.csv)
+  * `GCS_TAXI_TRAIN_BIG`: GCS path to the [big training dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips_train.csv)
+  * `GCS_TAXI_EVAL_BIG`: GCS path to the [big evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/big/taxi_trips_eval.csv)
+  * `GCS_TAXI_SMALL`: GCS path to the [small training+evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips.csv)
+  * `GCS_TAXI_TRAIN_SMALL`: GCS path to the [small training dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_train.csv)
+  * `GCS_TAXI_EVAL_SMALL`: GCS path to the [small evaluation dataset](https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_eval.csv)
 * Prediction Datasets:
-  * TAXI_PREDICTION_DICT_NDJSON: a Newline Delimited JSON file with 3 samples, represented as dictionaries
-  * TAXI_PREDICTION_LIST_NDJSON: a Newline Delimited JSON file with 3 samples, represented as lists
+  * `TAXI_PREDICTION_DICT_NDJSON`: a Newline Delimited JSON file with 3 samples, represented as dictionaries
+  * `TAXI_PREDICTION_LIST_NDJSON`: a Newline Delimited JSON file with 3 samples, represented as lists
 
 Note: Each line in a Newline Delimited JSON file is a JSON object or list.

@@ -17,9 +17,9 @@ set -x -e
 
 echo "Training local ML model"
 
-MODEL_NAME="local_gpu" # Change to your model name, e.g. "estimator"
+MODEL_NAME="tensorflow_taxi" # Change to your model name, e.g. "estimator"
 
-PACKAGE_PATH=../trainer
+PACKAGE_PATH=./trainer
 MODEL_DIR=/tmp/trained_models/${MODEL_NAME}
 # Run ./download-taxi.sh under datasets folder or set the value directly.
 
@@ -28,7 +28,7 @@ gcloud ai-platform local train \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH} \
         -- \
-        --train-files${TAXI_TRAIN_SMALL} \
+        --train-files=${TAXI_TRAIN_SMALL} \
         --train-size=80000 \
         --num-epochs=10 \
         --batch-size=128 \
@@ -46,4 +46,4 @@ echo ${MODEL_LOCATION}
 ls ${MODEL_LOCATION}
 
 # Verify local prediction
-gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=${PREDICTION_JSON} --verbosity debug
+gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=${TAXI_PREDICTION_DICT_NDJSON} --verbosity debug

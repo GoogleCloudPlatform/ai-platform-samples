@@ -191,7 +191,6 @@ def json_serving_input_receiver_fn():
 
     # Note that the inputs are raw features, not transformed features.
     receiver_tensors = {}
-
     for column_name in metadata.SERVING_COLUMN_NAMES:
         if column_name in metadata.CATEGORICAL_FEATURE_NAMES_WITH_IDENTITY:
             receiver_tensors[column_name] = tf.placeholder(

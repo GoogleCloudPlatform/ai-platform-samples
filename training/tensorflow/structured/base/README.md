@@ -46,15 +46,14 @@ File Name                                         | Purpose                     
 * [train-local.sh](scripts/train-local) This script train a model locally. 
   It generates a Saved Model in local folder and verifies predictions locally.
 
-* [train-ai-platform.sh](scripts/train-ai-platform.sh) This script submits a training job to AI Platform.
+* [train-cloud.sh](scripts/train-cloud.sh) This script submits a training job to AI Platform.
 
 ## How to run
 
 Once the prerequisites are satisfied, you may:
 
-    0. Run `download-taxi.sh` located in datasets folder to download training and evaluation data.
     1. Run `train-local.sh` for local training.
-    2. Run `train-ai-platform.sh` for cloud training.
+    2. Run `train-cloud.sh` for cloud training.
 
 ### Versions
 
