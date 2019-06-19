@@ -20,10 +20,10 @@ ML Frameworks
 
 This folder covers different functionality available in different frameworks:
 
- - [TensorFlow](www.tensorflow.org)
- - [scikit-learn](www.scikit-learn.org)
+ - [TensorFlow](https://www.tensorflow.org)
+ - [scikit-learn](https://www.scikit-learn.org)
  - [XGBoost](https://github.com/dmlc/xgboost)
- - [PyTorch](www.pytorch.org)
+ - [PyTorch](https://www.pytorch.org)
 
 Samples
 -------------
