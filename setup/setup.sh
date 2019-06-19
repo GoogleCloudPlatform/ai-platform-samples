@@ -41,7 +41,7 @@ then
   echo "Error: Please set BUCKET_NAME to an existing GCS bucket"
 fi
 
-if [[ -z ${GOOGLE_APPLICATION_CREDENTIALS} == "path/to/service/account/key" ]]
+if [[ ${GOOGLE_APPLICATION_CREDENTIALS} == "path/to/service/account/key" ]]
 then
   echo "Error: Please set GOOGLE_APPLICATION_CREDENTIALS to the path to your service account key"
 fi
