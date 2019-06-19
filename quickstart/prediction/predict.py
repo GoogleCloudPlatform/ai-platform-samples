@@ -27,7 +27,8 @@ print('MODEL_NAME: {}'.format(MODEL_NAME))
 print('MODEL_VERSION: {}'.format(MODEL_VERSION))
 
 service = googleapiclient.discovery.build('ml', 'v1')
-name = 'projects/{}/models/{}/versions/{}'.format(PROJECT_ID, MODEL_NAME, MODEL_VERSION)
+name = 'projects/{}/models/{}/versions/{}'.format(PROJECT_ID, MODEL_NAME,
+                                                  MODEL_VERSION)
 
 response = service.projects().predict(
     name=name,

@@ -14,7 +14,7 @@ predictions. Finally we will delete the model from AI Platform and release all t
 ## Prerequisites
 
 * Follow the instructions in the [setup](../setup) directory in order to setup your environment
-* Create a Python 3 virtual environment
+* Create a Python 3 virtual environment and activate it
 * Change the directory to this sample and run `python setup.py install`
 
 ## Sample Structure
