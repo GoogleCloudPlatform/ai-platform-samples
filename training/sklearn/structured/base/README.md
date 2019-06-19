@@ -36,7 +36,7 @@ run [download-taxi.sh](../../../../datasets/download-taxi.sh) to download the da
   * [train-local.sh](./scripts/train-local.sh) trains the model locally using `gcloud`. It is always a
   good idea to try and train the model locally for debugging, before submitting it to AI Platform.
   * [train-cloud.sh](./scripts/train-cloud.sh) submits a training job to AI Platform.
-* [requirements.txt](requirements.txt): containing all the required Python packages for this tutorial.
+* [setup.py](./setup.py): containing all the required Python packages for this tutorial.
 
 We recommend that you follow the same structure for your own work. In most cases, you only need to 
 modify `metadata.py`, `model.py`; and leave the other python files untouched.

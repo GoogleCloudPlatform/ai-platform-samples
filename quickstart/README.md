@@ -34,7 +34,7 @@ predictions. Finally we will delete the model from AI Platform and release all t
   * [cleanup.sh](./scripts/cleanup.sh) deletes all the resources created in this tutorial.
 * [prediction](./prediction) containing a Python sample code to invoke the model for prediction.
   * [predict.py](./prediction/predict.py) invokes the model for some predictions.
-* [requirements.txt](./requirements.txt): containing all the required Python packages for this tutorial.
+* [setup.py](./setup.py): containing all the required Python packages for this tutorial.
 
 
 ## Running the Sample
