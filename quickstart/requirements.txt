@@ -1,3 +1,0 @@
-tensorflow
-sklearn
-google-api-python-client

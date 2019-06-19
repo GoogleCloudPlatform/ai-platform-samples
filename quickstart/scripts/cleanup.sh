@@ -15,6 +15,11 @@
 # limitations under the License.
 # ==============================================================================
 
+# Delete the directories created by setup.py:
+rm -rf dist
+rm -rf trainer.egg-info
+rm -rf build
+
 # This has to be run after train-cloud.sh is successfully executed
 
 # Delete model version resource

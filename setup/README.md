@@ -38,13 +38,15 @@ There are two options for the virtual environments:
 *   Install [Miniconda](https://conda.io/miniconda.html)
     *   Create conda environment `conda create --name myvirtualenv python=3.5`
     *   Activate env `source activate myvirtualenv`
+    
+## 
 
 ## Install Dependencies
 
-Each sample folder has a `requirements.txt` file, containing all the dependencies.
+Each sample folder has a `setup.py` file, containing all the dependencies.
 To run each sample, install the python dependencies using the following command:
  
  ```
-pip install --upgrade -r requirements.txt
+python setup.py install
  ```
  

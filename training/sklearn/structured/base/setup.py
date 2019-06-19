@@ -1,28 +1,32 @@
-#!/bin/bash
-
+#!/usr/bin/env python
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# ==============================================================================
+from setuptools import find_packages
+from setuptools import setup
 
-set -v -e
+REQUIRED_PACKAGES = [
+    'tensorflow==1.13.1',
+    'scikit-learn>=0.19.1',
+    'pandas>=0.20',
+    'cloudml-hypertune',
+]
 
-# Delete the directories created by setup.py:
-rm -rf dist
-rm -rf trainer.egg-info
-rm -rf build
-
-# This has to be run after train-cloud.sh is successfully executed
-
-# Delete Cloud Storage objects that were created
-gsutil -m rm -r ${MODEL_DIR}
+setup(
+    name='trainer',
+    version='0.1',
+    install_requires=REQUIRED_PACKAGES,
+    packages=find_packages(),
+    include_package_data=True,
+    description='AI Platform | Training | scikit-learn | Base'
+)
