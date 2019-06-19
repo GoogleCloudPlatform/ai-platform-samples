@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
