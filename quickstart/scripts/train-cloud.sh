@@ -15,16 +15,15 @@
 # limitations under the License.
 # ==============================================================================
 
-set -v -e
-
+# This is the common setup.
 echo "Submitting an AI Platform job..."
 
 TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
 
-export MODEL_NAME="sklearn_taxi"
+export MODEL_NAME="quickstart" # change to your model name
 
 PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
-export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}
+export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}/model
 
 CURRENT_DATE=`date +%Y%m%d_%H%M%S`
 JOB_NAME=train_${MODEL_NAME}_${CURRENT_DATE}
@@ -37,13 +36,9 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH}  \
         --python-version=${PYTHON_VERSION} \
-        --stream-logs \
         -- \
-        --input=${GCS_TAXI_TRAIN_BIG} \
-        --n-estimators=20 \
-        --max-depth=3
+	    ${MODEL_DIR}
 
 # Notes:
-# GCS_TAXI_TRAIN_BIG is set by datasets/downlaod-taxi.sh script
 # use --packages instead of --package-path if gcs location
 # add --reuse-job-dir to resume training

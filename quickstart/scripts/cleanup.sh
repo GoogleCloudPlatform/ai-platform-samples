@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,26 +15,18 @@
 # limitations under the License.
 # ==============================================================================
 
-"""ML model definitions."""
+# Delete the directories created by setup.py:
+rm -rf dist
+rm -rf trainer.egg-info
+rm -rf build
 
-from sklearn import ensemble
+# This has to be run after train-cloud.sh is successfully executed
 
+# Delete model version resource
+gcloud ai-platform versions delete ${MODEL_VERSION} --model ${MODEL_NAME} --quiet
 
-def get_estimator(arguments):
-    """Generate ML Pipeline which include both pre-processing and model training
+# Delete model resource
+gcloud ai-platform models delete ${MODEL_NAME} --quiet
 
-    Args:
-      arguments: (argparse.ArgumentParser), parameters passed from command-line
-
-    Returns:
-      structured.pipeline.Pipeline
-    """
-
-    # n_estimators and max_depth are expected to be passed as
-    # command line argument to task.py
-    classifier = ensemble.RandomForestClassifier(
-        n_estimators=arguments.n_estimators,
-        max_depth=arguments.max_depth,
-    )
-
-    return classifier
+# Delete Cloud Storage objects that were created
+gsutil -m rm -r ${MODEL_DIR}

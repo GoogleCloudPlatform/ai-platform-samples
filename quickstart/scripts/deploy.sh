@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,26 +15,19 @@
 # limitations under the License.
 # ==============================================================================
 
-"""ML model definitions."""
+# This has to be run after train-cloud.sh is successfully executed
 
-from sklearn import ensemble
+export MODEL_VERSION=v1
 
+FRAMEWORK=SCIKIT_LEARN
 
-def get_estimator(arguments):
-    """Generate ML Pipeline which include both pre-processing and model training
+echo "First, creating the model..."
+gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
 
-    Args:
-      arguments: (argparse.ArgumentParser), parameters passed from command-line
-
-    Returns:
-      structured.pipeline.Pipeline
-    """
-
-    # n_estimators and max_depth are expected to be passed as
-    # command line argument to task.py
-    classifier = ensemble.RandomForestClassifier(
-        n_estimators=arguments.n_estimators,
-        max_depth=arguments.max_depth,
-    )
-
-    return classifier
+echo "Second, creating the model version..."
+gcloud ai-platform versions create ${MODEL_VERSION} \
+  --model ${MODEL_NAME} \
+  --origin ${MODEL_DIR} \
+  --framework ${FRAMEWORK} \
+  --runtime-version=${RUNTIME_VERSION} \
+  --python-version=${PYTHON_VERSION}

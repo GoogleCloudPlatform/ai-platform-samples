@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,26 +15,16 @@
 # limitations under the License.
 # ==============================================================================
 
-"""ML model definitions."""
+echo "Training local ML model"
 
-from sklearn import ensemble
+MODEL_NAME="quickstart" # Change to your model name, e.g. "estimator"
 
+PACKAGE_PATH=./trainer
+MODEL_DIR=./trained/${MODEL_NAME}
+mkdir -p ${MODEL_DIR}
 
-def get_estimator(arguments):
-    """Generate ML Pipeline which include both pre-processing and model training
-
-    Args:
-      arguments: (argparse.ArgumentParser), parameters passed from command-line
-
-    Returns:
-      structured.pipeline.Pipeline
-    """
-
-    # n_estimators and max_depth are expected to be passed as
-    # command line argument to task.py
-    classifier = ensemble.RandomForestClassifier(
-        n_estimators=arguments.n_estimators,
-        max_depth=arguments.max_depth,
-    )
-
-    return classifier
+gcloud ai-platform local train \
+        --module-name=trainer.task \
+        --package-path=${PACKAGE_PATH} \
+        -- \
+        ${MODEL_DIR}

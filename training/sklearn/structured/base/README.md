@@ -17,8 +17,10 @@ functionality, you can customize these parts with your own implementation.
 ## Prerequisites
 
 * Follow the instructions in the [setup](../../../../setup) directory in order to setup your environment
-* Follow the instructions in the [datasets](../../../../datasets) directory and run [download-taxi.sh](../../../../datasets/download-taxi.sh)
-* Create a Python virtual environment and run `pip install -r requirements.txt`
+* Follow the instructions in the [datasets](../../../../datasets) directory and 
+run [download-taxi.sh](../../../../datasets/download-taxi.sh) to download the datasets
+* Create a Python 3 virtual environment and activate it
+* Change the directory to this sample and run `python setup.py install`
 
 ## Sample Structure
 
@@ -34,7 +36,7 @@ functionality, you can customize these parts with your own implementation.
   * [train-local.sh](./scripts/train-local.sh) trains the model locally using `gcloud`. It is always a
   good idea to try and train the model locally for debugging, before submitting it to AI Platform.
   * [train-cloud.sh](./scripts/train-cloud.sh) submits a training job to AI Platform.
-* [requirements.txt](requirements.txt): containing all the required Python packages for this tutorial.
+* [setup.py](./setup.py): containing all the required Python packages for this tutorial.
 
 We recommend that you follow the same structure for your own work. In most cases, you only need to 
 modify `metadata.py`, `model.py`; and leave the other python files untouched.

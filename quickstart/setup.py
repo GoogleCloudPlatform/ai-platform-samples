@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,26 +14,20 @@
 # limitations under the License.
 # ==============================================================================
 
-"""ML model definitions."""
+from setuptools import find_packages
+from setuptools import setup
 
-from sklearn import ensemble
+REQUIRED_PACKAGES = [
+    'tensorflow==1.14',
+    'scikit-learn>=0.19.1',
+    'google-api-python-client',
+]
 
-
-def get_estimator(arguments):
-    """Generate ML Pipeline which include both pre-processing and model training
-
-    Args:
-      arguments: (argparse.ArgumentParser), parameters passed from command-line
-
-    Returns:
-      structured.pipeline.Pipeline
-    """
-
-    # n_estimators and max_depth are expected to be passed as
-    # command line argument to task.py
-    classifier = ensemble.RandomForestClassifier(
-        n_estimators=arguments.n_estimators,
-        max_depth=arguments.max_depth,
-    )
-
-    return classifier
+setup(
+    name='trainer',
+    version='0.1',
+    install_requires=REQUIRED_PACKAGES,
+    packages=find_packages(),
+    include_package_data=True,
+    description='AI Platform | Quick Start'
+)
