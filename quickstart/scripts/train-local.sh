@@ -15,6 +15,8 @@
 # limitations under the License.
 # ==============================================================================
 
+set -v
+
 echo "Training local ML model"
 
 MODEL_NAME="quickstart" # Change to your model name, e.g. "estimator"

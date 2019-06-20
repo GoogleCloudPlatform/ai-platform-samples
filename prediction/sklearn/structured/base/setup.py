@@ -18,10 +18,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 REQUIRED_PACKAGES = [
-    'tensorflow==1.13.1',
-    'scikit-learn>=0.19.1',
-    'pandas>=0.20',
-    'cloudml-hypertune',
+    'google-api-python-client',
 ]
 
 setup(
@@ -30,5 +27,5 @@ setup(
     install_requires=REQUIRED_PACKAGES,
     packages=find_packages(),
     include_package_data=True,
-    description='AI Platform | Training | scikit-learn | Base'
+    description='AI Platform | Prediction | scikit-learn | Base'
 )

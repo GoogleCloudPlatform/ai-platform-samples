@@ -18,7 +18,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 REQUIRED_PACKAGES = [
-    'tensorflow==1.14',
+    'tensorflow==1.13.1',
     'scikit-learn>=0.19.1',
     'google-api-python-client',
 ]

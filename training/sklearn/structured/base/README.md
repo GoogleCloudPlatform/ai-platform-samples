@@ -131,6 +131,6 @@ source ./scripts/cleanup.sh
 
 ## What's Next
 
-In this sample, we trained a simple classifier with scikit-learn. Please see 
-(TODO: implement prediction) sample to see how to deply the model to AI Platform 
-and use it to make predictions.
+In this sample, we trained a simple classifier with scikit-learn.
+To see how to deploy the model to AI Platform and use it to make predictions,
+please continue with [this sample](../../../../prediction/sklearn/structured/base).

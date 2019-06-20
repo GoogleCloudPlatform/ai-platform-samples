@@ -15,8 +15,7 @@
 # limitations under the License.
 # ==============================================================================
 
-
-set -v -e
+set -v
 
 # Delete the directories created by setup.py:
 rm -rf dist

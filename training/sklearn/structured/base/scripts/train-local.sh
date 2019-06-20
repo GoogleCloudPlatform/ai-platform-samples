@@ -15,7 +15,7 @@
 # limitations under the License.
 # ==============================================================================
 
-set -v -e
+set -v
 
 echo "Training local ML model"
 

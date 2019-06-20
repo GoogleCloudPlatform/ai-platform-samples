@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/bin/bash
+
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,21 +15,19 @@
 # limitations under the License.
 # ==============================================================================
 
-from setuptools import find_packages
-from setuptools import setup
+# This has to be run after train-cloud.sh is successfully executed
 
-REQUIRED_PACKAGES = [
-    'tensorflow==1.13.1',
-    'scikit-learn>=0.19.1',
-    'pandas>=0.20',
-    'cloudml-hypertune',
-]
+export MODEL_VERSION=v1
 
-setup(
-    name='trainer',
-    version='0.1',
-    install_requires=REQUIRED_PACKAGES,
-    packages=find_packages(),
-    include_package_data=True,
-    description='AI Platform | Training | scikit-learn | Base'
-)
+FRAMEWORK=SCIKIT_LEARN
+
+echo "First, creating the model..."
+gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
+
+echo "Second, creating the model version..."
+gcloud ai-platform versions create ${MODEL_VERSION} \
+  --model ${MODEL_NAME} \
+  --origin ${MODEL_DIR} \
+  --framework ${FRAMEWORK} \
+  --runtime-version=${RUNTIME_VERSION} \
+  --python-version=${PYTHON_VERSION}
