@@ -27,7 +27,7 @@ gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
 echo "Second, creating the model version..."
 gcloud ai-platform versions create ${MODEL_VERSION} \
   --model ${MODEL_NAME} \
-  --origin ${MODEL_DIR} \
+  --origin ${MODEL_DIR}/model \
   --framework ${FRAMEWORK} \
   --runtime-version=${RUNTIME_VERSION} \
   --python-version=${PYTHON_VERSION}

@@ -15,18 +15,10 @@
 # limitations under the License.
 # ==============================================================================
 
-# Delete the directories created by setup.py:
-rm -rf dist
-rm -rf trainer.egg-info
-rm -rf build
-
-# This has to be run after train-cloud.sh is successfully executed
+set -v
 
 # Delete model version resource
 gcloud ai-platform versions delete ${MODEL_VERSION} --model ${MODEL_NAME} --quiet
 
 # Delete model resource
 gcloud ai-platform models delete ${MODEL_NAME} --quiet
-
-# Delete Cloud Storage objects that were created
-gsutil -m rm -r ${MODEL_DIR}
