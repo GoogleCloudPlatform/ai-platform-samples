@@ -1,4 +1,4 @@
-# A short and End-to-End Tutorial for AI Platform
+# A short End-to-End Tutorial for AI Platform
 
 ## Overview
 
@@ -81,8 +81,8 @@ read the input argument from `sys.argv[1]`.
 Also note that we save the model as `model.joblib` which is
 the name that AI Platform expects for models saved with `joblib` to have.
 
-Finally, we are using `tf.gfile` from Tensorflow to upload the model to GCS. It does
-not mean we are actually using Tensorflow in this sample to train a model. You may 
+Finally, we are using `tf.gfile` from TensorFlow to upload the model to GCS. It does
+not mean we are actually using TensorFlow in this sample to train a model. You may 
 also use `google.cloud.storage` library for uploading and downloading to/from GCS.
 The advantage of using `tf.gfile` is that it works seamlessly whether the file
 path is local or a GCS bucket.
@@ -111,7 +111,7 @@ To submit a training job to AI Platform, the main command is:
 ```bash
 gcloud ai-platform jobs submit training ${JOB_NAME} \
         --job-dir=${MODEL_DIR} \
-        --runtime-version=${TF_VERSION} \
+        --runtime-version=${RUNTIME_VERSION} \
         --region=${REGION} \
         --scale-tier=${TIER} \
         --module-name=trainer.task \

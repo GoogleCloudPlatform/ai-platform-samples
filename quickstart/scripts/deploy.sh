@@ -29,5 +29,5 @@ gcloud ai-platform versions create ${MODEL_VERSION} \
   --model ${MODEL_NAME} \
   --origin ${MODEL_DIR} \
   --framework ${FRAMEWORK} \
-  --runtime-version=${TF_VERSION} \
+  --runtime-version=${RUNTIME_VERSION} \
   --python-version=${PYTHON_VERSION}
