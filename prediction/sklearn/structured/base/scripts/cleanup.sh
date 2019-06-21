@@ -17,6 +17,11 @@
 
 set -v
 
+# Delete the directories created by setup.py:
+rm -rf dist
+rm -rf trainer.egg-info
+rm -rf build
+
 # Delete model version resource
 gcloud ai-platform versions delete ${MODEL_VERSION} --model ${MODEL_NAME} --quiet
 
