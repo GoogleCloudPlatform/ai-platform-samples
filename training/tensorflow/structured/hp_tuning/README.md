@@ -1,6 +1,6 @@
 # AI Platform Training
 
-## TensorFlow training using Hyperparameter Tuning
+## Overview
 
 To use hyperparameter tuning in your training job you must perform the following steps:
 

@@ -13,8 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # This scripts performs local training for a TensorFlow model.
-set -x -e
-
+set -v -e
 echo "Training local ML model"
 
 MODEL_NAME="tensorflow_taxi" # Change to your model name, e.g. "estimator"

@@ -1,6 +1,6 @@
 # AI Platform Training
 
-## TensorFlow distributed training
+## Overview
 
 TensorFlow's Estimator API parses the `TF_CONFIG` environment variable,
 if present, and uses the relevant details from `TF_CONFIG` to construct properties
@@ -15,6 +15,12 @@ Similarly, if you run your distributed training application on AI Platform with
 a custom container, then AI Platform sets `TF_CONFIG` and populates an environment
 variable, `CLUSTER_SPEC`, on each machine.
 
+## Prerequisites
+
+* Follow the instructions in the [setup](../../../../setup) directory in order to setup your environment
+* Follow the instructions in the [datasets](../../../../datasets) directory and run [download-taxi.sh](../../../../datasets/download-taxi.sh)
+* Create a Python virtual environment and run `pip install -r requirements.txt`
+* Run code in `tensorflow/structured/base/trainer/` location using the `config.yaml` in this folder.
 
 ## Documentation
 

@@ -12,9 +12,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# This is the common setup.
+# Runs a training job in AI platform using GPU.
+set -v -e
 echo "Submitting an AI Platform job..."
-
 
 REGION=us-central1
 MODEL_NAME="tensorflow_taxi" # change to your model name
