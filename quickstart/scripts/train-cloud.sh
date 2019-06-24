@@ -15,6 +15,8 @@
 # limitations under the License.
 # ==============================================================================
 
+set -v
+
 # This is the common setup.
 echo "Submitting an AI Platform job..."
 

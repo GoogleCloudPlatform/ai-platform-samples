@@ -16,6 +16,17 @@ the dataset in [Google BigQuery](https://cloud.google.com/bigquery/). Explore
 the full dataset in the
 [BigQuery UI](https://bigquery.cloud.google.com/dataset/bigquery-public-data:chicago_taxi_trips).
 
+## Analysis of the Dataset
+We did some analysis of the dataset and realized that over 50% of the payment types are *Cash*.
+We also noticed that the majority of cash payments don't have any tips. We believe this is because
+the tips for cash payments have not been properly recorded, and therefore, the dataset is somewhat
+incomplete for cash payments. 
+
+This will naturally have an impact on any trained model. The model accuracy for non-cash payments
+will be a bit lower than the general accuracy. On the other hand, any prediction of the model
+for cash payments is not as reliable as the other payment types.
+
+## Obtaining the Dataset
 
 The dataset in BigQuery is in a raw format. We have processed the dataset to prepare it for model training.
 

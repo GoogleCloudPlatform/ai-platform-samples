@@ -20,7 +20,9 @@ functionality, you can customize these parts with your own implementation.
 * Follow the instructions in the [datasets](../../../../datasets) directory and 
 run [download-taxi.sh](../../../../datasets/download-taxi.sh) to download the datasets
 * Create a Python 3 virtual environment and activate it
-* Change the directory to this sample and run `python setup.py install`
+* Change the directory to this sample and run `python setup.py install`. Note: This 
+is mostly for local testing of your code. When you submit a training job, no code will be
+executed on your local machine. 
 
 ## Sample Structure
 
@@ -131,6 +133,6 @@ source ./scripts/cleanup.sh
 
 ## What's Next
 
-In this sample, we trained a simple classifier with scikit-learn. Please see 
-(TODO: implement prediction) sample to see how to deply the model to AI Platform 
-and use it to make predictions.
+In this sample, we trained a simple classifier with scikit-learn.
+To see how to deploy the model to AI Platform and use it to make predictions,
+please continue with [this sample](../../../../prediction/sklearn/structured/base).

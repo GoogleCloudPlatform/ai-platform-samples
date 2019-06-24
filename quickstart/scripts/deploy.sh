@@ -15,6 +15,8 @@
 # limitations under the License.
 # ==============================================================================
 
+set -v
+
 # This has to be run after train-cloud.sh is successfully executed
 
 export MODEL_VERSION=v1

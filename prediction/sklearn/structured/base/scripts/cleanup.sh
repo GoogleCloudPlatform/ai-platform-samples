@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/bin/bash
+
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,21 +15,15 @@
 # limitations under the License.
 # ==============================================================================
 
-from setuptools import find_packages
-from setuptools import setup
+set -v
 
-REQUIRED_PACKAGES = [
-    'tensorflow==1.13.1',
-    'scikit-learn>=0.19.1',
-    'pandas>=0.20',
-    'cloudml-hypertune',
-]
+# Delete the directories created by setup.py:
+rm -rf dist
+rm -rf trainer.egg-info
+rm -rf build
 
-setup(
-    name='trainer',
-    version='0.1',
-    install_requires=REQUIRED_PACKAGES,
-    packages=find_packages(),
-    include_package_data=True,
-    description='AI Platform | Training | scikit-learn | Base'
-)
+# Delete model version resource
+gcloud ai-platform versions delete ${MODEL_VERSION} --model ${MODEL_NAME} --quiet
+
+# Delete model resource
+gcloud ai-platform models delete ${MODEL_NAME} --quiet

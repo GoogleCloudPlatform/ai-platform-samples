@@ -15,6 +15,8 @@
 # limitations under the License.
 # ==============================================================================
 
+set -v
+
 # Delete the directories created by setup.py:
 rm -rf dist
 rm -rf trainer.egg-info
