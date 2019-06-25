@@ -14,7 +14,7 @@
 # limitations under the License.
 # ==============================================================================
 # Runs a distributed training job in AI platform.
-set -v -e
+set -v
 echo "Submitting an AI Platform job..."
 
 REGION=us-central1

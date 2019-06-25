@@ -14,7 +14,7 @@
 # limitations under the License.
 # ==============================================================================
 # Runs a training job in AI platform.
-set -v -e
+set -v
 echo "Submitting an AI Platform job..."
 
 MODEL_NAME="tensorflow_taxi" # change to your model name

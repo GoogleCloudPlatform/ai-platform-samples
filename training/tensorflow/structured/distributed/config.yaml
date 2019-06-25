@@ -1,2 +1,4 @@
 trainingInput:
   scaleTier: BASIC_GPU # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
+
+# TODO Add Distributed training options.

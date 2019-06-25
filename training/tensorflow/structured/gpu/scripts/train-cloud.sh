@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # Runs a training job in AI platform using GPU.
-set -v -e
+set -v
 echo "Submitting an AI Platform job..."
 
 REGION=us-central1
