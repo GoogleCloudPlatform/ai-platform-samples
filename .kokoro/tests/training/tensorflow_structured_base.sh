@@ -20,9 +20,9 @@ download_files() {
     GCS_FOLDER="gs://cloud-samples-data/ml-engine/chicago_taxi"
 
     echo "Downloading files"
-    gsutil cp ${GCS_FOLDER}/small/taxi_trips_train.csv data/taxi_trips_train.csv
-    gsutil cp ${GCS_FOLDER}/small/taxi_trips_eval.csv data/taxi_trips_eval.csv
-    gsutil cp ${GCS_FOLDER}/predict/taxi_trips_prediction_dict.ndjson data/taxi_trips_prediction_dict.ndjson
+    gsutil cp ${GCS_FOLDER}/training/small/taxi_trips_train.csv data/taxi_trips_train.csv
+    gsutil cp ${GCS_FOLDER}/training/small/taxi_trips_eval.csv data/taxi_trips_eval.csv
+    gsutil cp ${GCS_FOLDER}/prediction/taxi_trips_prediction_dict.ndjson data/taxi_trips_prediction_dict.ndjson
 
     # Define ENV for `train-local.sh` script
     export TAXI_TRAIN_SMALL=data/taxi_trips_train.csv
@@ -32,18 +32,18 @@ download_files() {
 
 
 run_tests() {
-    # Run estimator tests.
-    echo "Running '$1' code tests in `pwd`."
-    # Download training and evaluation files
+    # Run base tests.
+    echo "Running code tests in `pwd`."
     download_files
-    # Run local test and prediction
+    # Run local training and local prediction
     source scripts/train-local.sh
 }
 
 
 main(){
-    cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_DIR}
-    run_tests training/tensorflow/structured/base
+    #cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_DIR}
+    cd /Users/gogasca/Documents/Development/dpe/ai-platform-samples/training/tensorflow/structured/base
+    run_tests
     echo 'Test was successful'
 }
 
