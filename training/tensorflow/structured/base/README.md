@@ -21,7 +21,12 @@ functionality, you can customise these parts with your own implementation.
 
 * Follow the instructions in the [setup](../../../../setup) directory in order to setup your environment
 * Follow the instructions in the [datasets](../../../../datasets) directory and run [download-taxi.sh](../../../../datasets/download-taxi.sh)
-* Create a Python virtual environment and run `pip install -r requirements.txt`
+* Create a Python 3 virtual environment and activate it.
+* Change the directory to this sample and run `python setup.py install`.
+  Optional: You can also run `pip install -r requirements.txt`
+
+Note: This is mostly for local testing of your code. When you submit a training job, no code will be executed on your local machine.
+  
 
 ## Sample Structure
 

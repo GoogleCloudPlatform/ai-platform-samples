@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # This is the common setup.
+set -v
 echo "Submitting an AI Platform job..."
-
 
 REGION=us-central1
 MODEL_NAME="tensorflow_taxi" # change to your model name
@@ -32,7 +32,7 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --region=${REGION} \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH}  \
-        --config=../hpt_config.yaml \
+        --config=../config.yaml \
         -- \
         --train-files=${GCS_TAXI_TRAIN_BIG} \
         --eval-files=${GCS_TAXI_EVAL_BIG} \

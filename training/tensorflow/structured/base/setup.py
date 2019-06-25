@@ -17,14 +17,15 @@ from setuptools import setup
 
 REQUIRED_PACKAGES = [
     'tensorflow==1.13.1',
-    'tensorflow-model-analysis==0.13.0'
+    'tensorflow-model-analysis==0.13.2'
 ]
 
 setup(
     name='trainer',
-    version='0.1',
+    description='AI Platform Training job for TensorFlow',
+    author='Google Cloud Platform',
     install_requires=REQUIRED_PACKAGES,
+    version='0.1',
     packages=find_packages(),
-    include_package_data=True,
-    description='AI Platform | Training | TensorFlow | CPU'
+    include_package_data=True
 )

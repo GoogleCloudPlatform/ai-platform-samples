@@ -1,6 +1,6 @@
 # AI Platform Training
 
-## TensorFlow training using GPU
+## Overview
 
 You can run your training jobs on AI Platform with graphics processing units
 (GPUs). GPUs are designed to perform mathematically intensive operations at
@@ -19,11 +19,22 @@ In this example we will use `MirroredStrategy` to execute model training.
 This file is in the trainer folder under:
   `training/structured/tensorflow/base/trainer`
 
+## Prerequisites
+
+* Follow the instructions in the [setup](../../../../setup) directory in order to setup your environment
+* Follow the instructions in the [datasets](../../../../datasets) directory and run [download-taxi.sh](../../../../datasets/download-taxi.sh)
+* Create a Python 3 virtual environment and activate it.
+* Change the directory to this sample and run `python setup.py install`.
+  Optional: You can also run `pip install -r requirements.txt`
+* Run code in `tensorflow/structured/base/trainer/` location using the `config.yaml` in this folder.
+Note: This is mostly for local testing of your code. When you submit a training job, no code will be executed on your local machine.
+
+
 ### Trainer Template Modules
 
 |File Name| Purpose| Do You Need to Change?
 |:---|:---|:---
-|[experiment.py](tensorflow/trainer/experiment.py) |Includes: 1) Creates RunConfig, and 2) Uses one or more GPUs | **No, unless** you want to change distribution strategy.
+|[experiment.py](tensorflow/structured/base/trainer/experiment.py) |Includes: 1) Creates RunConfig, and 2) Uses one or more GPUs | **No, unless** you want to change distribution strategy.
 
 ### Code
 
