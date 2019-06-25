@@ -18,6 +18,8 @@ import os
 import logging
 import googleapiclient.discovery
 
+logging.basicConfig()
+
 instances = [[1000], [2000]]
 
 PROJECT_ID = os.getenv('PROJECT_ID')

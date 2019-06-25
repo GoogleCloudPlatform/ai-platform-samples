@@ -18,6 +18,8 @@ import os
 import logging
 import googleapiclient.discovery
 
+logging.basicConfig()
+
 # In this sample, we will reply on 6 features only:
 # trip_miles            trip_seconds        fare
 # trip_start_month      trip_start_hour     trip_start_day
