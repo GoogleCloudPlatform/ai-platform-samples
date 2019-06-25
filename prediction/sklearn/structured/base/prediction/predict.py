@@ -15,6 +15,7 @@
 # ==============================================================================
 
 import os
+import logging
 import googleapiclient.discovery
 
 # In this sample, we will reply on 6 features only:
@@ -30,9 +31,9 @@ PROJECT_ID = os.getenv('PROJECT_ID')
 MODEL_NAME = os.getenv('MODEL_NAME')
 MODEL_VERSION = os.getenv('MODEL_VERSION')
 
-print('PROJECT_ID: {}'.format(PROJECT_ID))
-print('MODEL_NAME: {}'.format(MODEL_NAME))
-print('MODEL_VERSION: {}'.format(MODEL_VERSION))
+logging.info('PROJECT_ID: %s', PROJECT_ID)
+logging.info('MODEL_NAME: %s', MODEL_NAME)
+logging.info('MODEL_VERSION: %s', MODEL_VERSION)
 
 service = googleapiclient.discovery.build('ml', 'v1')
 name = 'projects/{}/models/{}/versions/{}'.format(PROJECT_ID, MODEL_NAME,
@@ -44,6 +45,6 @@ response = service.projects().predict(
 ).execute()
 
 if 'error' in response:
-    raise RuntimeError(response['error'])
+    logging.error(response['error'])
 else:
     print(response['predictions'])
