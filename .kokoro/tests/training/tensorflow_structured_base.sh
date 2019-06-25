@@ -41,8 +41,7 @@ run_tests() {
 
 
 main(){
-    #cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_DIR}
-    cd /Users/gogasca/Documents/Development/dpe/ai-platform-samples/training/tensorflow/structured/base
+    cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_DIR}
     run_tests
     echo 'Test was successful'
 }
