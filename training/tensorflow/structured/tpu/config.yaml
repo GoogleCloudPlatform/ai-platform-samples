@@ -1,3 +1,4 @@
+# TODO
 trainingInput:
   scaleTier: CUSTOM # BASIC_TPU | BASIC_GPU | STANDARD_1 | PREMIUM_1
   masterType: complex_model_m
