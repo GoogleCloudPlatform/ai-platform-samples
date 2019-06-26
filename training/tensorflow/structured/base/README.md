@@ -20,7 +20,8 @@ functionality, you can customise these parts with your own implementation.
 ## Prerequisites
 
 * Setup your project by following the instructions in the [setup](../../../../setup) directory.
-* Download the datasets using run [download-taxi.sh](../../../../datasets/download-taxi.sh) located in [datasets](../../../../datasets) folder.
+* Follow the instructions in the [datasets](../../../../datasets) directory and 
+run [download-taxi.sh](../../../../datasets/download-taxi.sh) to download the datasets
 * Create a Python 3 virtual environment and activate it.
 * Change the directory to this sample and run `python setup.py install`.
   Optional: You can also run `pip install -r requirements.txt`

@@ -16,7 +16,7 @@ tune, and use the values to set the hyperparameters for your training trial.
 
 ## Prerequisites
 
-* Follow the instructions in the [setup](../../../../setup) directory in order to setup your environment
+* Setup your project by following the instructions in the [setup](../../../../setup) directory.
 * Create a Python 3 virtual environment and activate it.
 * Change the directory to this sample and run `python setup.py install`.
   Optional: You can also run `pip install -r requirements.txt`

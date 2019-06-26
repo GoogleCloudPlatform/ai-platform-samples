@@ -1,5 +1,7 @@
 # Setup your Environment
 
+The following instructions will help you to setup your GCP project and environment. 
+
 ## Setup GCP
 
 Before you can run any of the samples in this repository, you'll need to setup your GCP account and environment.
@@ -11,19 +13,36 @@ The main steps are:
 
 3. Download and install [Google Cloud SDK](https://cloud.google.com/sdk/docs/).
 
-4. Configure the SDK by running `gcloud init` and following the instructions.
+4. Configure the SDK by running `gcloud init` and follow the instructions.
 
 5. Enable the API for the following services:
 
-  * [Compute Engine](https://pantheon.corp.google.com/compute). Run `gcloud services enable compute.googleapis.com`.
-  * [Storage](https://pantheon.corp.google.com/storage). Run `gcloud services enable storage-component.googleapis.com`.
-  * [AI Platform](https://pantheon.corp.google.com/mlengine). Run `gcloud services enable ml.googleapis.com`.
+ * [Compute Engine](https://pantheon.corp.google.com/compute)
+ * [Storage](https://pantheon.corp.google.com/storage)
+ * [AI Platform](https://pantheon.corp.google.com/mlengine)
+  
+From the command line:
+ 
+```bash
+ gcloud services enable compute.googleapis.com
+ gcloud services enable storage-component.googleapis.com
+ gcloud services enable ml.googleapis.com
+```
 
 6. Create and download a service account key with the right permissions, by following the instructions [here](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud).
 
-7. Open `setup.sh` in this directory. Set `PROJECT_ID`, `BUCKET_NAME` and `GOOGLE_APPLICATION_CREDENTIALS`. Then run `source ./setup.sh`.
+7. Edit `setup.sh` in this directory. Set the following:
+ 
+    - `PROJECT_ID` 
+    - `BUCKET_NAME` 
+    - `GOOGLE_APPLICATION_CREDENTIALS` 
 
-  
+From the command line:
+
+```bash
+source ./setup.sh
+```
+
 ## Setup Virtual Environment
 
 Virtual environments are strongly suggested, but not required. Installing this
@@ -39,14 +58,16 @@ There are two options for the virtual environments:
     *   Create conda environment `conda create --name myvirtualenv python=3.5`
     *   Activate env `source activate myvirtualenv`
     
-## 
+## Python Version Support
+
+Will support python 2.7 and 3.5+ until end-of-life for python 2 in 2020. After which python 2 support will halt and only 3.x version will be maintained.
 
 ## Install Dependencies
 
 Each sample folder has a `setup.py` file, containing all the dependencies.
 To run each sample, install the python dependencies using the following command:
  
- ```
+```python
 python setup.py install
- ```
+```
  

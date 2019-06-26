@@ -16,7 +16,7 @@ functionality, you can customize these parts with your own implementation.
 
 ## Prerequisites
 
-* Follow the instructions in the [setup](../../../../setup) directory in order to setup your environment
+* Setup your project by following the instructions in the [setup](../../../../setup) directory.
 * Follow the instructions in the [datasets](../../../../datasets) directory and 
 run [download-taxi.sh](../../../../datasets/download-taxi.sh) to download the datasets
 * Create a Python 3 virtual environment and activate it

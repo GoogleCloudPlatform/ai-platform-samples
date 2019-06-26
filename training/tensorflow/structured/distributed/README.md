@@ -17,8 +17,9 @@ variable, `CLUSTER_SPEC`, on each machine.
 
 ## Prerequisites
 
-* Follow the instructions in the [setup](../../../../setup) directory in order to setup your environment
-* Follow the instructions in the [datasets](../../../../datasets) directory and run [download-taxi.sh](../../../../datasets/download-taxi.sh)
+* Setup your project by following the instructions in the [setup](../../../../setup) directory.
+* Follow the instructions in the [datasets](../../../../datasets) directory and 
+run [download-taxi.sh](../../../../datasets/download-taxi.sh) to download the datasets
 * Create a Python 3 virtual environment and activate it.
 * Change the directory to this sample and run `python setup.py install`.
   Optional: You can also run `pip install -r requirements.txt`
