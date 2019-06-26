@@ -48,8 +48,8 @@ File Name                                         | Purpose                     
 
 ### Scripts
 
-* [train-local.sh](scripts/train-local) This script train a model locally. 
-  It generates a Saved Model in local folder and verifies predictions locally.
+* [train-local.sh](scripts/train-local) This script trains a model locally. 
+  It generates a SavedModel in local folder and verifies predictions locally.
 
 * [train-cloud.sh](scripts/train-cloud.sh) This script submits a training job to AI Platform.
 
@@ -57,8 +57,8 @@ File Name                                         | Purpose                     
 
 Once the prerequisites are satisfied, you may:
 
-    1. Run `train-local.sh` for local training.
-    2. Run `train-cloud.sh` for cloud training.
+    1. Run `source ./scripts/train-local.sh` for local training.
+    2. Run `source ./scripts/train-cloud.sh` for cloud training.
 
 ### Versions
 TensorFlow v1.13.1+
