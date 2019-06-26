@@ -15,16 +15,12 @@
 # This is the common setup.
 set -eo pipefail
 
-export GCP_SDK_VERSION="247.0.0"
-export PROJECT="cloud-devrel-kokoro-resources"
-export REGION="us-central1"
-export REQUIREMENTS_FILE="requirements.txt"
 export KEYFILE="${KOKORO_GFILE_DIR}/keyfile.json"
 
 
 check_if_changed(){
     # Ignore this test if there are no changes.
-    cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_SCRIPT}
+    cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_DIR}
     # Check if a change happened to directory.
     DIFF=`git diff master $KOKORO_GITHUB_PULL_REQUEST_COMMIT $PWD`
     echo "git diff:\n $DIFF"
@@ -40,17 +36,15 @@ create_virtualenv(){
     virtualenv ${KOKORO_ARTIFACTS_DIR}/envs/venv
     source ${KOKORO_ARTIFACTS_DIR}/envs/venv/bin/activate
     # Install dependencies.
-    pip install --upgrade -r "${REQUIREMENTS_FILE}"
+    pip install --upgrade -r requirements.txt
 }
 
 
 project_setup(){
     # Update SDK for gcloud ai-platform command.
-    gcloud components update --version "${GCP_SDK_VERSION}" --quiet
+    gcloud components update --quiet
     export GOOGLE_APPLICATION_CREDENTIALS="${KEYFILE}"
     gcloud auth activate-service-account --key-file "${KEYFILE}"
-    gcloud config set project "${PROJECT}"
-    gcloud config set compute/region "${REGION}"
     gcloud config list
 }
 
