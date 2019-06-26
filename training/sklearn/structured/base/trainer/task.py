@@ -18,8 +18,8 @@
 import argparse
 import logging
 import os
-import sys
 
+import hypertune
 import numpy as np
 from sklearn import model_selection
 from trainer import metadata
@@ -49,30 +49,26 @@ def _train_and_evaluate(estimator, dataset, output_dir):
     utils.dump_object(estimator, model_output_path)
 
     if metadata.METRIC_FILE_NAME is not None:
-        try:
-            import hypertune
-            # Note: for now, use `cross_val_score` defaults (i.e. 3-fold)
-            scores = model_selection.cross_val_score(estimator, x_val, y_val, cv=3)
+        # Note: for now, use `cross_val_score` defaults (i.e. 3-fold)
+        scores = model_selection.cross_val_score(estimator, x_val, y_val, cv=3)
 
-            logging.info('Scores: %s', scores)
+        logging.info('Scores: %s', scores)
 
-            metric_output_path = os.path.join(
-                output_dir, 'experiment', metadata.METRIC_FILE_NAME)
+        metric_output_path = os.path.join(
+            output_dir, 'experiment', metadata.METRIC_FILE_NAME)
 
-            utils.dump_object(scores, metric_output_path)
+        utils.dump_object(scores, metric_output_path)
 
-            # The default name of the metric is training/hptuning/metric.
-            # We recommend that you assign a custom name
-            # The only functional difference is that if you use a custom name,
-            # you must set the hyperparameterMetricTag value in the
-            # HyperparameterSpec object in the job request to match your chosen name
-            hpt = hypertune.HyperTune()
-            hpt.report_hyperparameter_tuning_metric(
-                hyperparameter_metric_tag='my_metric_tag',
-                metric_value=np.mean(scores),
-                global_step=1000)
-        except Exception as e:
-            print(e)
+        # The default name of the metric is training/hptuning/metric.
+        # We recommend that you assign a custom name
+        # The only functional difference is that if you use a custom name,
+        # you must set the hyperparameterMetricTag value in the
+        # HyperparameterSpec object in the job request to match your chosen name
+        hpt = hypertune.HyperTune()
+        hpt.report_hyperparameter_tuning_metric(
+            hyperparameter_metric_tag='my_metric_tag',
+            metric_value=np.mean(scores),
+            global_step=1000)
 
 
 def run_experiment(arguments):
@@ -90,7 +86,7 @@ def run_experiment(arguments):
     _train_and_evaluate(estimator, dataset, arguments.job_dir)
 
 
-def _parse_args(argv):
+def _parse_args():
     """Parses command-line arguments."""
 
     parser = argparse.ArgumentParser()
@@ -143,7 +139,7 @@ def _parse_args(argv):
 def main():
     """Entry point."""
 
-    arguments = _parse_args(sys.argv[1:])
+    arguments = _parse_args()
 
     logging.basicConfig(level=arguments.log_level.upper())
     run_experiment(arguments)
