@@ -20,24 +20,24 @@ echo "Submitting an AI Platform job..."
 MODEL_NAME="tensorflow_taxi" # change to your model name
 
 PACKAGE_PATH=./trainer # This can be a GCS location to a zipped and uploaded package
-MODEL_DIR=gs://${BUCKET_NAME}/taxi/model/${MODEL_NAME}
+export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}
 
 CURRENT_DATE=`date +%Y%m%d_%H%M%S`
 JOB_NAME=train_${MODEL_NAME}_${TIER}_${CURRENT_DATE}
 
 gcloud ai-platform jobs submit training ${JOB_NAME} \
-        --stream-logs \
         --job-dir=${MODEL_DIR} \
         --runtime-version=${RUNTIME_VERSION} \
+        --python-version=${PYTHON_VERSION} \
         --region=${REGION} \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH}  \
-        --config=../config.yaml \
+        --config=./config.yaml \
+        --stream-logs \
         -- \
         --train-files=${GCS_TAXI_TRAIN_BIG} \
         --eval-files=${GCS_TAXI_EVAL_BIG} \
 	    --train-steps=100000
-
 
 # Notes:
 # use --packages instead of --package-path if gcs location
