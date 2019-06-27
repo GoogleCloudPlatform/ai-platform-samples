@@ -22,7 +22,7 @@ echo "Submitting an AI Platform job..."
 MODEL_NAME="tensorflow_taxi" # change to your model name
 
 PACKAGE_PATH=./trainer # This can be a GCS location to a zipped and uploaded package
-MODEL_DIR=gs://${BUCKET_NAME}/taxi/model/${MODEL_NAME}
+export MODEL_DIR=gs://${BUCKET_NAME}/taxi/model/${MODEL_NAME}
 
 CURRENT_DATE=`date +%Y%m%d_%H%M%S`
 JOB_NAME=train_${MODEL_NAME}_${CURRENT_DATE}

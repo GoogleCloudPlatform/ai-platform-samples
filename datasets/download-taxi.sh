@@ -20,12 +20,6 @@ set -euxo pipefail
 readonly DATA_FOLDER="gs://cloud-samples-data/ml-engine/chicago_taxi"
 
 
-function err() {
-  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
-  return 1
-}
-
-
 function download_files(){
   local directory=$1
   local size=$2
@@ -37,7 +31,6 @@ function download_files(){
   fi
   cd $directory
 
-
   local gcs_prediction_folder=${DATA_FOLDER}/prediction
   local prediction_file_dict=taxi_trips_prediction_dict.ndjson
   local prediction_file_list=taxi_trips_prediction_list.ndjson
@@ -45,22 +38,24 @@ function download_files(){
   CWD=`pwd`
   # Copy small and big files from GCS to local directory.
 
-  declare -a arr=("big" "small")
+  declare -a arr=('big' 'small')
   for element in "${arr[@]}"
   do
-    # Create directory
-    if [[ ! -d $element ]]; then
-      mkdir -p $element
+    if [[ $size == 'both' ]]; then
+        download_path=$element
+    else
+        download_path=$size
     fi
     # File paths: gs://cloud-samples-data/ml-engine/chicago_taxi/...
-    local gcs_file_path=$DATA_FOLDER/training/$element/taxi_trips.csv
-    local gcs_training_path=$DATA_FOLDER/training/$element/taxi_trips_train.csv
-    local gcs_eval_path=$DATA_FOLDER/training/$element/taxi_trips_eval.csv
+    local gcs_file_path=$DATA_FOLDER/training/$download_path/taxi_trips.csv
+    local gcs_training_path=$DATA_FOLDER/training/$download_path/taxi_trips_train.csv
+    local gcs_eval_path=$DATA_FOLDER/training/$download_path/taxi_trips_eval.csv
     # Download files from GCS
-    gsutil cp $gcs_file_path $element/taxi_trips.csv
-    gsutil cp $gcs_training_path $element/taxi_trips_train.csv
-    gsutil cp $gcs_eval_path $element/taxi_trips_eval.csv
-    if [[ $size == 'big' || $size == 'both' ]]; then
+    gsutil cp $gcs_file_path $download_path/taxi_trips.csv
+    gsutil cp $gcs_training_path $download_path/taxi_trips_train.csv
+    gsutil cp $gcs_eval_path $download_path/taxi_trips_eval.csv
+
+    if [[ $size == 'big' || ($element == 'big' && $size == 'both') ]]; then
       # GCS paths
       export GCS_TAXI_BIG=$gcs_file_path
       export GCS_TAXI_TRAIN_BIG=$gcs_file_path
@@ -69,7 +64,7 @@ function download_files(){
       export TAXI_TRAIN_BIG=${CWD}/taxi_trips_train.csv
       export TAXI_EVAL_BIG=${CWD}/taxi_trips_eval.csv
     fi
-    if [[ $size == 'small' || $size == 'both' ]]; then
+    if [[ $size == 'small' || ($element == 'small' && $size == 'both') ]]; then
       # GCS paths
       export GCS_TAXI_SMALL=$gcs_file_path
       export GCS_TAXI_TRAIN_SMALL=$gcs_file_path
