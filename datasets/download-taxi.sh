@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# This script downloads datasets from GCP to local drive.
+# This script downloads datasets from GCS to local drive.
 set -euxo pipefail
 
 readonly DATA_FOLDER="gs://cloud-samples-data/ml-engine/chicago_taxi"
@@ -37,60 +37,48 @@ function download_files(){
   fi
   cd $directory
 
-  # File paths: gs://cloud-samples-data/ml-engine/chicago_taxi/...
-  local gcs_file_path=$DATA_FOLDER/training/$size/taxi_trips.csv
-  local gcs_training_path=$DATA_FOLDER/training/$size/taxi_trips_train.csv
-  local gcs_eval_path=$DATA_FOLDER/training/$size/taxi_trips_eval.csv
+
   local gcs_prediction_folder=${DATA_FOLDER}/prediction
   local prediction_file_dict=taxi_trips_prediction_dict.ndjson
   local prediction_file_list=taxi_trips_prediction_list.ndjson
 
   CWD=`pwd`
   # Copy small and big files from GCS to local directory.
-  if [[ $size == 'both' ]]; then
-    declare -a arr=("big" "small")
-    for element in "${arr[@]}"
-    do
-      if [[ ! -d $element ]]; then
-        mkdir -p $element
-      fi
-      local gcs_file_path=$DATA_FOLDER/training/$element/taxi_trips.csv
-      local gcs_training_path=$DATA_FOLDER/training/$element/taxi_trips_train.csv
-      local gcs_eval_path=$DATA_FOLDER/training/$element/taxi_trips_eval.csv
-      # Download files from GCS
-      gsutil cp $gcs_file_path $element/taxi_trips.csv
-      gsutil cp $gcs_training_path $element/taxi_trips_train.csv
-      gsutil cp $gcs_eval_path $element/taxi_trips_eval.csv
-    done
-  else
-    if [[ ! -d $size ]]; then
-      mkdir -p $size
-    fi
-    gsutil cp $gcs_file_path $size/taxi_trips.csv
-    gsutil cp $gcs_training_path $size/taxi_trips_train.csv
-    gsutil cp $gcs_eval_path $size/taxi_trips_eval.csv
-  fi
 
-  # Export environmental variables.
-  if [[ $size == 'big' || $size == 'both' ]]; then
-    # GCS paths
-    export GCS_TAXI_BIG=$gcs_file_path
-    export GCS_TAXI_TRAIN_BIG=$gcs_file_path
-    export GCS_TAXI_EVAL_BIG=$gcs_file_path
-    # Local files paths
-    export TAXI_TRAIN_BIG=${CWD}/taxi_trips_train.csv
-    export TAXI_EVAL_BIG=${CWD}/taxi_trips_eval.csv
-  elif [[ $size == 'small' || $size == 'both' ]]; then
-    # GCS paths
-    export GCS_TAXI_SMALL=$gcs_file_path
-    export GCS_TAXI_TRAIN_SMALL=$gcs_file_path
-    export GCS_TAXI_EVAL_SMALL=$gcs_file_path
-    # Local files paths
-    export TAXI_TRAIN_SMALL=${CWD}/taxi_trips_train.csv
-    export TAXI_EVAL_SMALL=${CWD}/taxi_trips_eval.csv
-  else
-    echo -e "Setup your variables manually."
-  fi
+  declare -a arr=("big" "small")
+  for element in "${arr[@]}"
+  do
+    # Create directory
+    if [[ ! -d $element ]]; then
+      mkdir -p $element
+    fi
+    # File paths: gs://cloud-samples-data/ml-engine/chicago_taxi/...
+    local gcs_file_path=$DATA_FOLDER/training/$element/taxi_trips.csv
+    local gcs_training_path=$DATA_FOLDER/training/$element/taxi_trips_train.csv
+    local gcs_eval_path=$DATA_FOLDER/training/$element/taxi_trips_eval.csv
+    # Download files from GCS
+    gsutil cp $gcs_file_path $element/taxi_trips.csv
+    gsutil cp $gcs_training_path $element/taxi_trips_train.csv
+    gsutil cp $gcs_eval_path $element/taxi_trips_eval.csv
+    if [[ $size == 'big' || $size == 'both' ]]; then
+      # GCS paths
+      export GCS_TAXI_BIG=$gcs_file_path
+      export GCS_TAXI_TRAIN_BIG=$gcs_file_path
+      export GCS_TAXI_EVAL_BIG=$gcs_file_path
+      # Local files paths
+      export TAXI_TRAIN_BIG=${CWD}/taxi_trips_train.csv
+      export TAXI_EVAL_BIG=${CWD}/taxi_trips_eval.csv
+    fi
+    if [[ $size == 'small' || $size == 'both' ]]; then
+      # GCS paths
+      export GCS_TAXI_SMALL=$gcs_file_path
+      export GCS_TAXI_TRAIN_SMALL=$gcs_file_path
+      export GCS_TAXI_EVAL_SMALL=$gcs_file_path
+      # Local files paths
+      export TAXI_TRAIN_SMALL=${CWD}/taxi_trips_train.csv
+      export TAXI_EVAL_SMALL=${CWD}/taxi_trips_eval.csv
+    fi
+  done
 
   # Download prediction files
   echo "Downloading the prediction dataset..."

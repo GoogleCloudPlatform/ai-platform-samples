@@ -1,4 +1,5 @@
 #!/bin/bash
+#
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +15,8 @@
 # limitations under the License.
 # ==============================================================================
 # This scripts performs local training for a TensorFlow model.
-set -v
+set -euxo pipefail
+
 echo "Training local ML model"
 
 MODEL_NAME="tensorflow_taxi" # Change to your model name, e.g. "estimator"
@@ -28,10 +30,10 @@ gcloud ai-platform local train \
         --package-path=${PACKAGE_PATH} \
         -- \
         --train-files=${TAXI_TRAIN_SMALL} \
+        --eval-files=${TAXI_EVAL_SMALL} \
         --train-size=80000 \
         --num-epochs=10 \
         --batch-size=128 \
-        --eval-files=${TAXI_EVAL_SMALL} \
         --learning-rate=0.001 \
         --hidden-units="128,0,0" \
         --layer-sizes-scale-factor=0.5 \
@@ -47,4 +49,3 @@ ls ${MODEL_LOCATION}
 # Open issue: https://stackoverflow.com/questions/48824381/gcloud-ml-engine-local-predict-runtimeerror-bad-magic-number-in-pyc-file
 # Verify local prediction
 gcloud ai-platform local predict --model-dir=${MODEL_LOCATION} --json-instances=${TAXI_PREDICTION_DICT_NDJSON} --verbosity debug
-
