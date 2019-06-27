@@ -1,4 +1,5 @@
 #!/bin/bash
+#
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,18 +15,21 @@
 # limitations under the License.
 # ==============================================================================
 # Runs a training job in AI platform.
-set -v
+set -euxo pipefail
+
 echo "Submitting an AI Platform job..."
 
 MODEL_NAME="tensorflow_taxi" # change to your model name
 
 PACKAGE_PATH=./trainer # This can be a GCS location to a zipped and uploaded package
-export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}
+MODEL_DIR=gs://${BUCKET_NAME}/taxi/model/${MODEL_NAME}
 
 CURRENT_DATE=`date +%Y%m%d_%H%M%S`
-JOB_NAME=train_${MODEL_NAME}_${TIER}_${CURRENT_DATE}
+JOB_NAME=train_${MODEL_NAME}_${CURRENT_DATE}
+
 
 gcloud ai-platform jobs submit training ${JOB_NAME} \
+        --stream-logs \
         --job-dir=${MODEL_DIR} \
         --runtime-version=${RUNTIME_VERSION} \
         --python-version=${PYTHON_VERSION} \
@@ -33,11 +37,16 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH}  \
         --config=./config.yaml \
-        --stream-logs \
         -- \
-        --train-files=${GCS_TAXI_TRAIN_BIG} \
-        --eval-files=${GCS_TAXI_EVAL_BIG} \
-	    --train-steps=100000
+        --train-files=${GCS_TAXI_TRAIN_SMALL} \
+        --eval-files=${GCS_TAXI_EVAL_SMALL} \
+        --train-size=80000 \
+        --num-epochs=10 \
+        --batch-size=128 \
+        --learning-rate=0.001 \
+        --hidden-units="128,0,0" \
+        --layer-sizes-scale-factor=0.5 \
+        --num-layers=3
 
 # Notes:
 # use --packages instead of --package-path if gcs location
