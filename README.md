@@ -13,23 +13,23 @@ The repository is organized by products:
  - [AI Platform Prediction](prediction)
  - [AI Platform Notebooks](notebooks)
  - [Deep Learning VM Images](deep_learning_vm_images)
- - [Data Label Services](data_label_services)
+ - [Data Label Services](https://cloud.google.com/data-labeling/docs/)
  - [Built-in Algorithms](built_in_algorithms)
  
-
-Setup
--------
-For installation instructions and overview, please see [the documentation](https://cloud.google.com/ml-engine/docs/).
-Please follow the instructions provided in the `setup` directory first.
 
 Getting Started
 ---------------
 If this is your first time using [AI Platform](https://cloud.google.com/ml-engine/docs/), we suggest you take a look at the [Introduction to AI Platform](https://cloud.google.com/ml-engine/docs/technical-overview) docs to get started.
 
+Setup
+-------
+For installation instructions and overview, please see [the documentation](https://cloud.google.com/ml-engine/docs/).
+
+Please follow the instructions provided in the [setup](setup) directory first.
+
 ## Navigating this Repository
 
 In order to run any of the samples in this repository, you'll need to setup your environment first.
-
 Please refer to `README.md` in each sample directory for more specific instructions.
 
 ## Google Machine Learning Repositories
