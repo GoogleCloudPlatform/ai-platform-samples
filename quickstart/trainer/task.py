@@ -17,6 +17,7 @@
 
 import sys
 import os.path
+import logging
 import tensorflow as tf
 from sklearn.externals import joblib
 from sklearn.linear_model import LinearRegression
@@ -30,6 +31,7 @@ def get_dummy_data(n):
 
 
 def main():
+    logging.basicConfig()
     model = LinearRegression()
     X, Y = get_dummy_data(100)
     model.fit(X, Y)
@@ -37,6 +39,7 @@ def main():
     # The model name should remain 'model.joblib' for
     # AI Platform to be able to create a model version.
     model_name = os.path.join(sys.argv[1], 'model.joblib')
+    logging.info('Model will be saved to "%s..."', model_name)
     temp_file = '/tmp/model.joblib'
     joblib.dump(model, temp_file)
 
@@ -45,7 +48,7 @@ def main():
         with tf.gfile.Open(model_name, 'wb') as file_object:
             file_object.write(temp_file_object.read())
 
-    print('Model was saved to {}'.format(model_name))
+    logging.info('Model was saved')
 
 
 if __name__ == '__main__':
