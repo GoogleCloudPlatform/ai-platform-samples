@@ -17,13 +17,35 @@ variable, `CLUSTER_SPEC`, on each machine.
 
 ## Prerequisites
 
-* Follow the instructions in the [setup](../../../../setup) directory in order to setup your environment
-* Follow the instructions in the [datasets](../../../../datasets) directory and run [download-taxi.sh](../../../../datasets/download-taxi.sh)
+## Prerequisites
+
+* Setup your project by following the instructions in the [setup](../../../../setup) folder.
+  Run [setup.sh](../../../../setup/setup.sh) in [setup](../../../../setup) folder.
+  
+ ```bash
+    source ./setup.sh
+ ```
+ 
+* Download the datasets using [download-taxi.sh](../../../../datasets/download-taxi.sh) in [datasets](../../../../datasets) 
+folder.
+
+ ```bash
+    source ./download-taxi.sh /your_local_datasets_dir/
+ ```
 * Create a Python 3 virtual environment and activate it.
-* Change the directory to this sample and run `python setup.py install`.
-  Optional: You can also run `pip install -r requirements.txt`
+* Change the directory to this sample and run: 
+
+  ```
+  python setup.py install
+  ```
+  
+  Optional: You can also run:
+  ```
+  pip install -r requirements.txt
+  ```
 * Run code in `tensorflow/structured/base/trainer/` location using the `config.yaml` in this folder.
-Note: This is mostly for local testing of your code. When you submit a training job, no code will be executed on your local machine.
+
+**Note:** This is mostly for local testing of your code. When you submit a training job, no code will be executed on your local machine.
 
 
 ## Documentation
