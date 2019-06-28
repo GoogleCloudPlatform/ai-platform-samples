@@ -19,13 +19,33 @@ functionality, you can customise these parts with your own implementation.
 
 ## Prerequisites
 
-* Setup your project by following the instructions in the [setup](../../../../setup) directory.
-* Download the datasets using run [download-taxi.sh](../../../../datasets/download-taxi.sh) located in [datasets](../../../../datasets) folder.
-* Create a Python 3 virtual environment and activate it.
-* Change the directory to this sample and run `python setup.py install`.
-  Optional: You can also run `pip install -r requirements.txt`
+* Setup your project by following the instructions in the [setup](../../../../setup) folder.
+  Run [setup.sh](../../../../setup/setup.sh) in [setup](../../../../setup) folder.
+  
+ ```bash
+    source ./setup.sh
+ ```
+ 
+* Download the datasets using [download-taxi.sh](../../../../datasets/download-taxi.sh) in [datasets](../../../../datasets) 
+folder.
 
-`Note:` These instructions are used for local testing. When you submit a training job, no code will be executed on your local machine.
+ ```bash
+    source ./download-taxi.sh /your_local_datasets_dir/
+ ```
+* Create a Python 3 virtual environment and activate it.
+* Change the directory to this sample and run: 
+
+  ```
+  python setup.py install
+  ```
+  
+  Optional: You can also run:
+  ```
+  pip install -r requirements.txt
+  ```
+
+**Note:** These instructions are used for local testing. When you submit a training job, no code will be executed on 
+your local machine.
   
 
 ## Sample Structure
@@ -57,8 +77,17 @@ File Name                                         | Purpose                     
 
 Once the prerequisites are satisfied, you may:
 
-    1. Run `source ./scripts/train-local.sh` for local training.
-    2. Run `source ./scripts/train-cloud.sh` for cloud training.
+1. For local training run:
+
+```
+source ./scripts/train-local.sh
+```
+
+2. For cloud training run:
+
+```
+source ./scripts/train-cloud.sh
+```
 
 ### Versions
 TensorFlow v1.13.1+
