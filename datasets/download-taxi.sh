@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# This script downloads datasets from GCS to local drive.
+# This script downloads datasets from GCS to local drive (small or big).
 # set -euxo pipefail
 
 export DATA_FOLDER="gs://cloud-samples-data/ml-engine/chicago_taxi"
