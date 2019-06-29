@@ -21,7 +21,8 @@ The main steps are:
 
 6. Create and download a service account key with the right permissions, by following the instructions [here](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud).
 
-7. Open `setup.sh` in this directory. Set:
+7. Open `setup.sh` in this directory. Set the following variables:
+
   - `PROJECT_ID`
   - `BUCKET_NAME` 
   - `GOOGLE_APPLICATION_CREDENTIALS` 
