@@ -21,7 +21,16 @@ The main steps are:
 
 6. Create and download a service account key with the right permissions, by following the instructions [here](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud).
 
-7. Open `setup.sh` in this directory. Set `PROJECT_ID`, `BUCKET_NAME` and `GOOGLE_APPLICATION_CREDENTIALS`. Then run `source ./setup.sh`.
+7. Open `setup.sh` in this directory. Set:
+  - `PROJECT_ID`
+  - `BUCKET_NAME` 
+  - `GOOGLE_APPLICATION_CREDENTIALS` 
+ 
+  Then run 
+ 
+ ```bash
+ source ./setup.sh
+ ```
 
   
 ## Setup Virtual Environment
