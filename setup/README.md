@@ -18,6 +18,7 @@ From your terminal:
    ```shell
    gcloud init
    ```
+   
    and follow the instructions.
 
 5. Enable the API for the following services:
@@ -36,21 +37,23 @@ gcloud services enable ml.googleapis.com
 
 6. Create and download a service account key with the right permissions, follow the instructions [here](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud).
 
-7. Edit `setup.sh` in this directory. Set the following variables:
-
-  - `PROJECT_ID`
-  - `BUCKET_NAME` 
-  - `GOOGLE_APPLICATION_CREDENTIALS` 
+7. Export Environment variables for your Project:
  
-From your terminal:
- 
-```bash
- source ./setup.sh
-```
+From your terminal choose from the following two options:
 
-Or you can copy and paste the following with the corresponding edits.
+a) Edit `setup.sh` in this directory. Set the following variables:
+    
+   - `PROJECT_ID`
+   - `BUCKET_NAME` 
+   - `GOOGLE_APPLICATION_CREDENTIALS` 
+    
+   Use `source` command to export them:
+  
+   ```bash
+     source ./setup.sh
+   ```
 
-From your terminal:
+b) In your terminal copy and paste the following with the corresponding edits.
 
 ```bash
 export RUNTIME_VERSION=1.13
