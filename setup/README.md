@@ -11,30 +11,64 @@ The main steps are:
 
 3. Download and install [Google Cloud SDK](https://cloud.google.com/sdk/docs/).
 
-4. Configure the SDK by running `gcloud init` and following the instructions.
+4. Configure the SDK by running:
+
+From your terminal:
+
+   ```shell
+   gcloud init
+   ```
+   and follow the instructions.
 
 5. Enable the API for the following services:
 
-  * [Compute Engine](https://pantheon.corp.google.com/compute). Run `gcloud services enable compute.googleapis.com`.
-  * [Storage](https://pantheon.corp.google.com/storage). Run `gcloud services enable storage-component.googleapis.com`.
-  * [AI Platform](https://pantheon.corp.google.com/mlengine). Run `gcloud services enable ml.googleapis.com`.
+  * [Compute Engine](https://pantheon.corp.google.com/compute).
+  * [Storage](https://pantheon.corp.google.com/storage).
+  * [AI Platform](https://pantheon.corp.google.com/mlengine).
 
-6. Create and download a service account key with the right permissions, by following the instructions [here](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud).
+From your terminal:
 
-7. Open `setup.sh` in this directory. Set the following variables:
+```bash
+gcloud services enable compute.googleapis.com
+gcloud services enable storage-component.googleapis.com
+gcloud services enable ml.googleapis.com
+```
+
+6. Create and download a service account key with the right permissions, follow the instructions [here](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud).
+
+7. Edit `setup.sh` in this directory. Set the following variables:
 
   - `PROJECT_ID`
   - `BUCKET_NAME` 
   - `GOOGLE_APPLICATION_CREDENTIALS` 
  
-  Then run 
+From your terminal:
  
- ```bash
+```bash
  source ./setup.sh
- ```
+```
 
+Or you can copy and paste the following with the corresponding edits.
+
+From your terminal:
+
+```bash
+export RUNTIME_VERSION=1.13
+export PYTHON_VERSION=3.5
+export REGION=us-central1
+
+# Replace "your-gcp-project-id" with your GCP PROJECT ID
+export PROJECT_ID="your-gcp-project-id"
+
+# Replace "your-gcp-bucket-name" with a universally unique name for a GCS bucket.
+export BUCKET_NAME="your-gcp-bucket-name"
+
+# Replace "path/to/service/account/key" with the full path to the
+# service account key file which you created and downloaded.
+export GOOGLE_APPLICATION_CREDENTIALS="path/to/service/account/key"
+```
   
-## Setup Virtual Environment
+## Setup your Virtual Environment
 
 Virtual environments are strongly suggested, but not required. Installing this
 sample's dependencies in a new virtual environment allows you to run the sample
@@ -56,7 +90,7 @@ There are two options for the virtual environments:
 Each sample folder has a `setup.py` file, containing all the dependencies.
 To run each sample, install the python dependencies using the following command:
  
- ```
+ ```bash
 python setup.py install
  ```
  

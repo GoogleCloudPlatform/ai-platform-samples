@@ -4,28 +4,21 @@
 
 Welcome to the [AI Platform](https://cloud.google.com/ml-engine/docs/) sample code repository. This repository contains samples for how to use AI Platform products.
 
-Overview
-----------
+## Overview
 
 The repository is organized by products: 
 
  - [AI Platform Training](training)
  - [AI Platform Prediction](prediction)
  - [AI Platform Notebooks](notebooks)
- - [Deep Learning VM Images](deep_learning_vm_images)
+ - [Deep Learning VM Images](dlvm)
  - [Data Label Services](https://cloud.google.com/data-labeling/docs/)
  - [Built-in Algorithms](built_in_algorithms)
  
 
-Getting Started
----------------
+## Getting Started
+
 If this is your first time using [AI Platform](https://cloud.google.com/ml-engine/docs/), we suggest you take a look at the [Introduction to AI Platform](https://cloud.google.com/ml-engine/docs/technical-overview) docs to get started.
-
-Setup
--------
-For installation instructions and overview, please see [the documentation](https://cloud.google.com/ml-engine/docs/).
-
-Please follow the instructions provided in the [setup](setup) directory first.
 
 ## Navigating this Repository
 

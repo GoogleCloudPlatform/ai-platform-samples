@@ -41,20 +41,34 @@ executed on your local machine.
 * [setup.py](./setup.py): containing all the required Python packages for this tutorial.
 
 We recommend that you follow the same structure for your own work. In most cases, you only need to 
-modify `metadata.py`, `model.py`; and leave the other python files untouched.
+modify:
+
+ - `metadata.py`
+ - `model.py`
+ 
+ and leave the other python files untouched.
 
 ## Running the Sample
 
 After you go over the steps in the prerequisites section, you are ready to run this sample.
 Here are the steps you need to take:
 
-1. _[Optional]_ Train the model locally. Run `source ./scripts/train-local.sh` as many times as
-you like (This has no effect on your cloud usage). If successful, this script should
+1. _[Optional]_ Train the model locally. Run:
+ 
+```bash
+source ./scripts/train-local.sh
+``` 
+
+as many times as you like (This has no effect on your cloud usage). If successful, this script should
 create a new model as `trained/quickstart/model.joblib`, which means you may now submit a
 training job to AI Platform.
 
-2. Submit a training job to AI Platform. Run `source ./scripts/train-cloud.sh` This will create a 
-training job on AI Platform and displays some instructions on how to track the job progress.
+2. Submit a training job to AI Platform. Run: 
+
+```bash
+source ./scripts/train-cloud.sh
+``` 
+This will create a training job on AI Platform and displays some instructions on how to track the job progress.
 At the end of a successful training job, it will uplaod the trained model object to a GCS
 bucket and sets `$MODEL_DIR` environment variable to the directory containing the model.
 
@@ -65,7 +79,6 @@ In this section, we'll highlight the main elements of this sample.
 ### [model.py](trainer/model.py)
 
 In this sample, we simply create an instance of `RandomForestClassifier` estimator and return it.
-
 
 ### [metadata.py](trainer/metadata.py)
 
