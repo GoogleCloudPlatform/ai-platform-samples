@@ -25,3 +25,5 @@ rm -rf build
 
 # Delete Cloud Storage objects that were created
 gsutil -m rm -r ${MODEL_DIR}
+
+set -

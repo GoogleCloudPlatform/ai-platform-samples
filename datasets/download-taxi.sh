@@ -38,24 +38,26 @@ function download_files(){
   CWD=`pwd`
   # Copy small and big files from GCS to local directory.
 
-  declare -a arr=('big' 'small')
-  for element in "${arr[@]}"
-  do
-    if [[ ${size} == 'both' ]]; then
-        download_path=${element}
-    else
-        download_path=${size}
-    fi
-    # File paths: gs://cloud-samples-data/ml-engine/chicago_taxi/...
-    local gcs_file_path=${DATA_FOLDER}/training/${download_path}/taxi_trips.csv
-    local gcs_training_path=${DATA_FOLDER}/training/${download_path}/taxi_trips_train.csv
-    local gcs_eval_path=${DATA_FOLDER}/training/${download_path}/taxi_trips_eval.csv
-    # Download files from GCS
-    gsutil cp ${gcs_file_path} ${download_path}/taxi_trips.csv
-    gsutil cp ${gcs_training_path} ${download_path}/taxi_trips_train.csv
-    gsutil cp ${gcs_eval_path} ${download_path}/taxi_trips_eval.csv
+  if [[ ${size} == 'both' ]]; then
+    declare -a sizes=('big' 'small')
+  elif [[ ${size} == 'small' ]]; then
+    declare -a sizes=('small')
+  elif [[ ${size} == 'big' ]]; then
+    declare -a sizes=('big')
+  fi
 
-    if [[ ${size} == 'big' || (${element} == 'big' && ${size} == 'both') ]]; then
+  for element in "${sizes[@]}"
+  do
+    # File paths: gs://cloud-samples-data/ml-engine/chicago_taxi/...
+    local gcs_file_path=${DATA_FOLDER}/training/${element}/taxi_trips.csv
+    local gcs_training_path=${DATA_FOLDER}/training/${element}/taxi_trips_train.csv
+    local gcs_eval_path=${DATA_FOLDER}/training/${element}/taxi_trips_eval.csv
+    # Download files from GCS
+    gsutil cp ${gcs_file_path} ${element}/taxi_trips.csv
+    gsutil cp ${gcs_training_path} ${element}/taxi_trips_train.csv
+    gsutil cp ${gcs_eval_path} ${element}/taxi_trips_eval.csv
+
+    if [[ ${element} == 'big' ]]; then
       # GCS paths
       export GCS_TAXI_BIG=${gcs_file_path}
       export GCS_TAXI_TRAIN_BIG=${gcs_training_path}
@@ -64,7 +66,7 @@ function download_files(){
       export TAXI_TRAIN_BIG=${CWD}/taxi_trips_train.csv
       export TAXI_EVAL_BIG=${CWD}/taxi_trips_eval.csv
     fi
-    if [[ ${size} == 'small' || (${element} == 'small' && ${size} == 'both') ]]; then
+    if [[ ${element} == 'small' ]]; then
       # GCS paths
       export GCS_TAXI_SMALL=${gcs_file_path}
       export GCS_TAXI_TRAIN_SMALL=${gcs_training_path}
@@ -86,6 +88,7 @@ function download_files(){
 
   export TAXI_PREDICTION_DICT_NDJSON=${CWD}/prediction/${prediction_file_dict}
   export TAXI_PREDICTION_LIST_NDJSON=${CWD}/prediction/${prediction_file_list}
+  cd -
   return 0
 }
 
@@ -96,7 +99,7 @@ function check_args() {
     echo "Usage: download-taxi.sh <output-path> [size]" >&2
     echo "    output-path: full path to the output directory." >&2
     echo "    size: either 'small' or 'big'. If omitted, both will be downloaded." >&2
-    exit 1
+    return 1
   elif [[ "$#" -eq "1" ]]; then
     # Download both small and big datasets when there is no size provided.
     download_files $1 "both"
@@ -105,15 +108,14 @@ function check_args() {
       download_files $1 $2
     else
       echo "Invalid option size: either 'small' or 'big'"
-      exit 1
+      return 0
     fi
   fi
 }
 
 
-main(){
+main() {
     check_args "$@"
-    cd -
 }
 
 main "$@"

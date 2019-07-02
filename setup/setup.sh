@@ -22,7 +22,6 @@ function err() {
   return 1
 }
 
-
 function export_variables(){
     # Set variables.
     export RUNTIME_VERSION=1.13
@@ -30,14 +29,14 @@ function export_variables(){
     export REGION=us-central1
 
     # Replace "your-gcp-project-id" with your GCP PROJECT ID
-    export PROJECT_ID="your-gcp-project-id"
+    export PROJECT_ID="endromodal"
 
     # Replace "your-gcp-bucket-name" with a universally unique name for a GCS bucket (Don't include gs://).
-    export BUCKET_NAME="your-gcp-bucket-name"
+    export BUCKET_NAME="endromodal-dummy"
 
     # Replace "path/to/service/account/key" with the full path to the
     # service account key file which you created and downloaded.
-    export GOOGLE_APPLICATION_CREDENTIALS="path/to/service/account/key"
+    export GOOGLE_APPLICATION_CREDENTIALS="/Users/shahins/config/endromodal-sa.json"
 
     if [[ ${PROJECT_ID} == "your-gcp-project-id" ]]; then
       err "Please set PROJECT_ID to your GCP Project ID"

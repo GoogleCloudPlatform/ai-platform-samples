@@ -33,3 +33,5 @@ gcloud ai-platform versions create ${MODEL_VERSION} \
   --framework ${FRAMEWORK} \
   --runtime-version=${RUNTIME_VERSION} \
   --python-version=${PYTHON_VERSION}
+
+set -

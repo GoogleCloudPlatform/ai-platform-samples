@@ -41,6 +41,8 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         -- \
 	    ${MODEL_DIR}
 
+set -
+
 # Notes:
 # use --packages instead of --package-path if gcs location
 # add --reuse-job-dir to resume training
