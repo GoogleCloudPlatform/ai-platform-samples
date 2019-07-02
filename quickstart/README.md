@@ -2,6 +2,9 @@
 
 ## Overview
 
+If this is your first time using [AI Platform](https://cloud.google.com/ml-engine/docs/),
+we suggest you take a look at the [Introduction to AI Platform](https://cloud.google.com/ml-engine/docs/technical-overview) docs to have an understanding of the platform.
+
 In this short tutorial, we will go over the basic steps for training a model
 on AI Platform and using it for making predictions. We highly recommend that 
 you go through this tutorial carefully as it illustrates many important steps which 

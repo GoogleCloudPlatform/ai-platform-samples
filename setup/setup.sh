@@ -28,27 +28,29 @@ function export_variables(){
     export PYTHON_VERSION=3.5
     export REGION=us-central1
 
-    # Replace "your-gcp-project-id" with your GCP PROJECT ID
-    export PROJECT_ID="endromodal"
-
-    # Replace "your-gcp-bucket-name" with a universally unique name for a GCS bucket (Don't include gs://).
-    export BUCKET_NAME="endromodal-dummy"
-
-    # Replace "path/to/service/account/key" with the full path to the
-    # service account key file which you created and downloaded.
-    export GOOGLE_APPLICATION_CREDENTIALS="/Users/shahins/config/endromodal-sa.json"
-
-    if [[ ${PROJECT_ID} == "your-gcp-project-id" ]]; then
+    if [[ -z ${PROJECT_ID} ]]; then
+      # Replace "your-gcp-project-id" with your GCP PROJECT ID
+      export PROJECT_ID="your-gcp-project-id"
       err "Please set PROJECT_ID to your GCP Project ID"
+    else
+      echo "PROJECT_ID is set to ${PROJECT_ID}"
     fi
 
-    if [[ ${BUCKET_NAME} == "your-gcp-bucket-name" ]]; then
+    if [[ -z ${BUCKET_NAME} ]]; then
+      # Replace "your-gcp-bucket-name" with a universally unique name for a GCS bucket (Don't include gs://).
+      export BUCKET_NAME="your-gcp-bucket-name"
       err "Please set BUCKET_NAME to an existing GCS bucket"
+    else
+      echo "BUCKET_NAME is set to ${BUCKET_NAME}"
     fi
 
-    if [[ ${GOOGLE_APPLICATION_CREDENTIALS} == "path/to/service/account/key" || -z ${GOOGLE_APPLICATION_CREDENTIALS} ]];
-    then
+    if [[ -z ${GOOGLE_APPLICATION_CREDENTIALS} ]]; then
+      # Replace "path/to/service/account/key" with the full path to the
+      # service account key file which you created and downloaded.
+      export GOOGLE_APPLICATION_CREDENTIALS="path/to/service/account/key"
       err "Please set GOOGLE_APPLICATION_CREDENTIALS to the path to your service account key"
+    else
+      echo "GOOGLE_APPLICATION_CREDENTIALS is set to ${GOOGLE_APPLICATION_CREDENTIALS}"
     fi
 }
 
