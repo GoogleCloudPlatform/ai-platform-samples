@@ -1,6 +1,6 @@
 # Setup your Environment
 
-## Setup GCP
+## Setup Your GCP Environment
 
 Before you can run any of the samples in this repository, you'll need to setup your GCP account and environment.
 The main steps are:
@@ -75,10 +75,10 @@ source ./setup/setup.sh
 
 If an environment variable (e.g. `BUCKET_NAME`) has not been set properly, this script will show an error message. 
 You may modify `setup.sh` to set the environment variable or simply use the `export` command in your terminal to set it.
-You may run `setup.sh` as many times as you wish.
+You may run `setup.sh` as many times as you need, until you see no more error messages.
 
   
-## Setup your Virtual Environment
+## Setup Your Python Virtual Environment
 
 Virtual environments are strongly suggested, but not required. Installing this
 sample's dependencies in a new virtual environment allows you to run the sample
