@@ -21,6 +21,7 @@ import os
 
 import hypertune
 import numpy as np
+from datetime import datetime
 from sklearn import model_selection
 from trainer import metadata
 from trainer import model
@@ -140,9 +141,18 @@ def main():
     """Entry point."""
 
     arguments = _parse_args()
-
-    logging.basicConfig(level=arguments.log_level.upper())
+    logging.basicConfig(level=arguments.log_level)
+    # Run the train and evaluate experiment
+    time_start = datetime.utcnow()
+    logging.info('Experiment started...')
+    logging.info('.......................................')
     run_experiment(arguments)
+    time_end = datetime.utcnow()
+    logging.info('.......................................')
+    logging.info('Experiment finished.')
+    time_elapsed = time_end - time_start
+    logging.info('Experiment elapsed time: {} seconds'.format(
+        time_elapsed.total_seconds()))
 
 
 if __name__ == '__main__':
