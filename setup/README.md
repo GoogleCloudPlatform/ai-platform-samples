@@ -35,41 +35,48 @@ gcloud services enable storage-component.googleapis.com
 gcloud services enable ml.googleapis.com
 ```
 
-6. Create and download a service account key with the right permissions, follow the instructions [here](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud).
+6. Create and download a service account key.
+A [service account](https://cloud.google.com/iam/docs/service-accounts) is a special Google account that belongs to your application or a virtual machine (VM), instead of to an individual end user.
 
-7. Export Environment variables for your Project:
- 
-From your terminal choose from the following two options:
+In order to create a service account key, you may follow the instructions [here](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud).
+Alternatively, you may run this in your terminal, after setting the values for the 3 environment variables:
 
-a) Edit `setup.sh` in this directory. Set the following variables:
-    
-   - `PROJECT_ID`
-   - `BUCKET_NAME` 
-   - `GOOGLE_APPLICATION_CREDENTIALS` 
-    
-   Use `source` command to export them:
-  
-   ```bash
-     source ./setup.sh
-   ```
-
-b) In your terminal copy and paste the following with the corresponding edits.
 
 ```bash
-export RUNTIME_VERSION=1.13
-export PYTHON_VERSION=3.5
-export REGION=us-central1
+# A name for the service account you are about to create:
+export SERVICE_ACCOUNT_NAME=your-service-account-name
 
-# Replace "your-gcp-project-id" with your GCP PROJECT ID
-export PROJECT_ID="your-gcp-project-id"
+# Your GCP project ID:
+export PROJECT_ID=your-gcp-project-id
 
-# Replace "your-gcp-bucket-name" with a universally unique name for a GCS bucket.
-export BUCKET_NAME="your-gcp-bucket-name"
+# The path where the service account json key should be saved to:
+export GOOGLE_APPLICATION_CREDENTIALS=path/to/service/account/key
 
-# Replace "path/to/service/account/key" with the full path to the
-# service account key file which you created and downloaded.
-export GOOGLE_APPLICATION_CREDENTIALS="path/to/service/account/key"
+#Creathe service account:
+gcloud iam service-accounts create ${MY_SERVICE_ACCOUNT} --display-name="Service Account for ai-platform-samples repo"
+
+# Grant the required roles:
+gcloud projects add-iam-policy-binding endromodal --member serviceAccount:${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com --role roles/ml.developer
+gcloud projects add-iam-policy-binding endromodal --member serviceAccount:${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com --role roles/storage.objectAdmin
+
+# Download the service account key:
+gcloud iam service-accounts keys create ${GOOGLE_APPLICATION_CREDENTIALS} --iam-account ${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com
 ```
+
+7. Set and export the required environment variables. The samples in this repository rely on a 
+number of environment variables to run properly. You may have already set `PROJECT_ID` and `GOOGLE_APPLICATION_CREDENTIALS`
+in the previous step. [setup.sh](./setup.sh) sets and exports these required variables for you.
+
+In your terminal, and from the root directory of the repository, run:
+
+```bash
+source ./setup/setup.sh
+```
+
+If an environment variable (e.g. `BUCKET_NAME`) has not been set properly, this script will show an error message. 
+You may modify `setup.sh` to set the environment variable or simply use the `export` command in your terminal to set it.
+You may run `setup.sh` as many times as you wish.
+
   
 ## Setup your Virtual Environment
 
@@ -86,7 +93,6 @@ There are two options for the virtual environments:
     *   Create conda environment `conda create --name myvirtualenv python=3.5`
     *   Activate env `source activate myvirtualenv`
     
-## 
 
 ## Install Dependencies
 
