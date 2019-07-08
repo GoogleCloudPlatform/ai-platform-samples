@@ -26,8 +26,9 @@ We highly recommend that you start with our [Quick Start Sample](./quickstart).
 ## Navigating this Repository
 
 This repository is organized based on the available products on AI Platform, and the typical Machine Learning problems 
-that developers are trying to solve. For instance, if you are trying to train a model with scikit-learn, 
+that developers are trying to solve. For instance, if you are trying to train a model with [scikit-learn](https://scikit-learn.org), 
 you will find the sample under [training/sklearn/structured/base](./training/sklearn/structured/base) directory.
+AI Platform also supports [xgboost](https://xgboost.readthedocs.io/en/latest/), [TensorFlow](https://www.tensorflow.org), and [PyTorch](https://pytorch.org/).
 
 Please refer to the `README` file in each sample directory for more specific instructions.
 
