@@ -8,13 +8,13 @@ and deployment.
 
 # Tools
 
-- Notebook executor: 
+- [Notebook executor](gcp-notebook-executor): 
 This repository contains the logic that can be used to schedule Jupyter notebooks from anywhere (local, GCE, GCP Notebooks) to the [Google Cloud Deep Learning VM](https://cloud.google.com/deep-learning-vm/). You can read more about the usage of this tool [here](https://blog.kovalevskyi.com/gcp-notebook-executor-v0-1-2-8e37abd6fae1).
-- Notebook CI showcase:
+- [Notebook CI showcase](notebooks-ci-showcase):
 A fully functional continuous integration and continuous deployment system for Jupyter Notebooks.
-- Nova Agents: Allows you to execute notebooks directly from your Jupyter UI. Nova and its corresponding compute 
+- [Nova Agent](nova-agents): Allows you to execute notebooks directly from your Jupyter UI. Nova and its corresponding compute 
 workload runs on a separate Compute Engine instance using Nteract [papermill](https://github.com/nteract/papermill).
-- Nova Jupyterlab extensions: Nova Plugin.
+- [Nova Jupyterlab extensions](nova-jupyterlab-extensions): Nova Plugin.
 
 # How to get help
 
