@@ -67,7 +67,7 @@ Alternatively, you may run this in your terminal, after setting the values for t
 # A name for the service account you are about to create:
 export SERVICE_ACCOUNT_NAME=your-service-account-name
 
-#Creathe service account:
+# Create service account:
 gcloud iam service-accounts create ${SERVICE_ACCOUNT_NAME} --display-name="Service Account for ai-platform-samples repo"
 
 # Grant the required roles:
