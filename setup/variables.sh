@@ -23,43 +23,39 @@ function err() {
 }
 
 function export_variables(){
-    # Set variables.
+    # Preset environment variables. You may use them without changing:
     export RUNTIME_VERSION=1.13
     export PYTHON_VERSION=3.5
     export REGION=us-central1
+
+    # UNCOMMENT & REPLACE "your-gcp-project-id" with your GCP PROJECT ID
+    # export PROJECT_ID="your-gcp-project-id"
+
+    # UNCOMMENT & REPLACE "your-gcp-bucket-name" with a universally
+    # unique name for a GCS bucket. Do not include gs://
+    # export BUCKET_NAME="your-gcs-bucket-name"
+
+    # UNCOMMENT & REPLACE "path/to/service/account/key" with the full path to
+    # the service account key file which you have created and downloaded.
+    # export GOOGLE_APPLICATION_CREDENTIALS="path/to/service/account/key"
 
     echo "RUNTIME_VERSION is set to '${RUNTIME_VERSION}'"
     echo "PYTHON_VERSION is set to '${PYTHON_VERSION}'"
     echo "REGION is set to '${REGION}'"
 
-
     if [[ -z ${PROJECT_ID} || ${PROJECT_ID} == "your-gcp-project-id" ]]; then
-
-      # REPLACE "your-gcp-project-id" with your GCP PROJECT ID
-      export PROJECT_ID="your-gcp-project-id"
-
       err "Please set PROJECT_ID to your GCP Project ID"
     else
       echo "PROJECT_ID is set to '${PROJECT_ID}'"
     fi
 
-    if [[ -z ${BUCKET_NAME} ]]; then
-
-      # REPLACE "your-gcp-bucket-name" with a universally unique name for a GCS bucket
-      # Don't include gs://
-      export BUCKET_NAME="your-gcp-bucket-name"
-
+    if [[ -z ${BUCKET_NAME} || ${BUCKET_NAME} == "your-gcs-bucket-name" ]]; then
       err "Please set BUCKET_NAME to an existing GCS bucket"
     else
       echo "BUCKET_NAME is set to '${BUCKET_NAME}'"
     fi
 
     if [[ -z ${GOOGLE_APPLICATION_CREDENTIALS} || ${GOOGLE_APPLICATION_CREDENTIALS} == "path/to/service/account/key" ]]; then
-
-      # REPLACE "path/to/service/account/key" with the full path to the
-      # service account key file which you created and downloaded.
-      export GOOGLE_APPLICATION_CREDENTIALS="path/to/service/account/key"
-
       err "Please set GOOGLE_APPLICATION_CREDENTIALS to the path to your service account key"
     else
       echo "GOOGLE_APPLICATION_CREDENTIALS is set to '${GOOGLE_APPLICATION_CREDENTIALS}'"

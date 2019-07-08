@@ -24,10 +24,10 @@ This file is in the trainer folder under:
 ## Prerequisites
 
 * Setup your project by following the instructions in the [setup](../../../../setup) folder.
-  Run [setup.sh](../../../../setup/setup.sh) in [setup](../../../../setup) folder.
+  Run [variables.sh](../../../../setup/variables.sh) in [setup](../../../../setup) folder.
   
  ```bash
-    source ./setup.sh
+    source ./variables.sh
  ```
  
 * Download the datasets using [download-taxi.sh](../../../../datasets/download-taxi.sh) in [datasets](../../../../datasets) 

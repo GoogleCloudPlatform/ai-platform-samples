@@ -5,13 +5,13 @@
 Before you can run any of the samples in this repository, you'll need to setup your GCP account and environment.
 The main steps are:
 
-1. Have a GCP account and create/select a GCP project on [GCP Console](https://console.cloud.google.com).
+1- Have a GCP account and create/select a GCP project on [GCP Console](https://console.cloud.google.com).
 
-2. Enable the billing for your GCP project. Click [here](https://cloud.google.com/billing/docs/how-to/modify-project) for more information.
+2- Enable the billing for your GCP project. Click [here](https://cloud.google.com/billing/docs/how-to/modify-project) for more information.
 
-3. Download and install [Google Cloud SDK](https://cloud.google.com/sdk/docs/).
+3- Download and install [Google Cloud SDK](https://cloud.google.com/sdk/docs/).
 
-4. Configure the SDK by running:
+4- Configure the SDK by running:
 
 From your terminal:
 
@@ -20,12 +20,12 @@ From your terminal:
    ```
    
    and follow the instructions.
+   
+5- Enable the API for the following services:
 
-5. Enable the API for the following services:
-
-  * [Compute Engine](https://pantheon.corp.google.com/compute).
-  * [Storage](https://pantheon.corp.google.com/storage).
-  * [AI Platform](https://pantheon.corp.google.com/mlengine).
+  * [Compute Engine](https://pantheon.corp.google.com/compute)
+  * [Storage](https://pantheon.corp.google.com/storage)
+  * [AI Platform](https://pantheon.corp.google.com/mlengine)
 
 From your terminal:
 
@@ -35,30 +35,30 @@ gcloud services enable storage-component.googleapis.com
 gcloud services enable ml.googleapis.com
 ```
 
-6. Set and export the required environment variables. The samples in this repository rely on a 
+6- Set and export the required environment variables. The samples in this repository rely on a 
 number of environment variables to run properly, namely:
-  * `RUNTIME_VERSION`: The AI Platform Runtime version to choose
-  * `PYTHON_VERSION`: The python version that AI Platform should use
+  * `RUNTIME_VERSION`: Which AI Platform runtime version to choose
+  * `PYTHON_VERSION`: Which Python version to use for training
   * `REGION`: Which region should be used for training
   * `PROJECT_ID`: Your GCP project ID
   * `BUCKET_NAME`: The GCS bucket name for exporting models
   * `GOOGLE_APPLICATION_CREDENTIALS`: Full path to your service account key
   
-You may set these variables yourself in your console, or you may just use [setup.sh](./setup.sh)
+You may set these variables yourself in your console, or you may just use [variables.sh](./variables.sh)
 which sets up the first three variables with reasonable values, and enables you to
-set `PROJECT_ID`, `BUCKET_NAME` and `GOOGLE_APPLICATION_CREDENTIALS` based on your project.
+set the other three variables based on your configuration.
 
 In your terminal, and from the root directory of the repository, run:
 
 ```bash
-source ./setup/setup.sh
+source ./setup/variables.sh
 ```
 
-*Note:* if you do not yet have a service account key downloaded, please follow the instructions
-in the next step to download one.
+*Note:* If you do not yet have a service account key downloaded, please follow the instructions
+in the next step to create and download one.
 
 
-7. Create and download a service account key.
+7- Create and download a service account key.
 A [service account](https://cloud.google.com/iam/docs/service-accounts) is a special Google account that belongs to your application or a virtual machine (VM), instead of to an individual end user.
 
 In order to create a service account key, you may follow the instructions [here](https://cloud.google.com/iam/docs/creating-managing-service-account-keys#iam-service-account-keys-create-gcloud).
