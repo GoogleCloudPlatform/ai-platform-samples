@@ -30,3 +30,5 @@ gcloud ai-platform local train \
         --package-path=${PACKAGE_PATH} \
         -- \
         ${MODEL_DIR}
+
+set -

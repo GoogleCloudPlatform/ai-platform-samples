@@ -32,3 +32,5 @@ gcloud ai-platform models delete ${MODEL_NAME} --quiet
 
 # Delete Cloud Storage objects that were created
 gsutil -m rm -r ${MODEL_DIR}
+
+set -

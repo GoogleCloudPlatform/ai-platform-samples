@@ -43,6 +43,8 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --n-estimators=20 \
         --max-depth=3
 
+set -
+
 # Notes:
 # GCS_TAXI_TRAIN_BIG is set by datasets/downlaod-taxi.sh script
 # use --packages instead of --package-path if gcs location

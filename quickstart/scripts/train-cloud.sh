@@ -38,8 +38,11 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH}  \
         --python-version=${PYTHON_VERSION} \
+        --stream-logs \
         -- \
 	    ${MODEL_DIR}
+
+set -
 
 # Notes:
 # use --packages instead of --package-path if gcs location

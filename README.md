@@ -10,20 +10,30 @@ The repository is organized by products:
 
  - [AI Platform Training](training)
  - [AI Platform Prediction](prediction)
+ 
+<!--
+ Commenting these out until we have at least a sample for them in the repo:
  - [AI Platform Notebooks](notebooks)
  - [Deep Learning VM Images](dlvm)
  - [Data Label Services](https://cloud.google.com/data-labeling/docs/)
  - [Built-in Algorithms](built_in_algorithms)
- 
+ -->
 
 ## Getting Started
 
-If this is your first time using [AI Platform](https://cloud.google.com/ml-engine/docs/), we suggest you take a look at the [Introduction to AI Platform](https://cloud.google.com/ml-engine/docs/technical-overview) docs to get started.
+We highly recommend that you start with our [Quick Start Sample](./quickstart).
 
 ## Navigating this Repository
 
-In order to run any of the samples in this repository, you'll need to setup your environment first.
-Please refer to `README.md` in each sample directory for more specific instructions.
+This repository is organized based on the available products on AI Platform, and the typical Machine Learning problems 
+that developers are trying to solve. For instance, if you are trying to train a model with [scikit-learn](https://scikit-learn.org), 
+you will find the sample under [training/sklearn/structured/base](./training/sklearn/structured/base) directory.
+AI Platform also supports [xgboost](https://xgboost.readthedocs.io/en/latest/), [TensorFlow](https://www.tensorflow.org), and [PyTorch](https://pytorch.org/).
+
+Please refer to the `README` file in each sample directory for more specific instructions.
+
+<!--
+Do we actually need this section? 
 
 ## Google Machine Learning Repositories
 
@@ -31,3 +41,5 @@ If you’re looking for our guides on how to do Machine Learning on Google Cloud
 
 - [ML on GCP](https://github.com/GoogleCloudPlatform/ml-on-gcp), which has guides on how to bring your code from various ML frameworks to [Google Cloud Platform](https://cloud.google.com/) using things like [Google Compute Engine](https://cloud.google.com/compute/) or [Kubernetes](https://kubernetes.io/).
 - [Professional Services](https://github.com/GoogleCloudPlatform/professional-services), common solutions and tools developed by Google Cloud's Professional Services team.
+
+-->
