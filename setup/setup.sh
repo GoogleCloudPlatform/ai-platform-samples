@@ -54,7 +54,7 @@ function export_variables(){
       echo "BUCKET_NAME is set to '${BUCKET_NAME}'"
     fi
 
-    if [[ -z ${GOOGLE_APPLICATION_CREDENTIALS} ]]; then
+    if [[ -z ${GOOGLE_APPLICATION_CREDENTIALS} || ${GOOGLE_APPLICATION_CREDENTIALS} == "path/to/service/account/key" ]]; then
 
       # REPLACE "path/to/service/account/key" with the full path to the
       # service account key file which you created and downloaded.
