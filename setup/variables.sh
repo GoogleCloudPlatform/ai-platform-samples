@@ -37,7 +37,7 @@ function export_variables(){
 
     # UNCOMMENT & REPLACE "path/to/service/account/key" with the full path to
     # the service account key file which you have created and downloaded.
-    # export GOOGLE_APPLICATION_CREDENTIALS="path/to/service/account/key"
+    # export GOOGLE_APPLICATION_CREDENTIALS="path/to/service/account/key.json"
 
     echo "RUNTIME_VERSION is set to '${RUNTIME_VERSION}'"
     echo "PYTHON_VERSION is set to '${PYTHON_VERSION}'"
@@ -55,7 +55,7 @@ function export_variables(){
       echo "BUCKET_NAME is set to '${BUCKET_NAME}'"
     fi
 
-    if [[ -z ${GOOGLE_APPLICATION_CREDENTIALS} || ${GOOGLE_APPLICATION_CREDENTIALS} == "path/to/service/account/key" ]]; then
+    if [[ -z ${GOOGLE_APPLICATION_CREDENTIALS} || ${GOOGLE_APPLICATION_CREDENTIALS} == "path/to/service/account/key.json" ]]; then
       err "Please set GOOGLE_APPLICATION_CREDENTIALS to the path to your service account key"
     else
       echo "GOOGLE_APPLICATION_CREDENTIALS is set to '${GOOGLE_APPLICATION_CREDENTIALS}'"

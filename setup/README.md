@@ -1,6 +1,6 @@
 # Setup your Environment
 
-## Setup Your GCP Environment
+## Setup your GCP Environment
 
 Before you can run any of the samples in this repository, you'll need to setup your GCP account and environment.
 The main steps are:
@@ -11,15 +11,13 @@ The main steps are:
 
 3- Download and install [Google Cloud SDK](https://cloud.google.com/sdk/docs/).
 
-4- Configure the SDK by running:
+4- Configure the SDK by running the following command from your terminal:
 
-From your terminal:
-
-   ```shell
-   gcloud init
-   ```
+```shell
+gcloud init
+```
    
-   and follow the instructions.
+and follow the instructions.
    
 5- Enable the API for the following services:
 
@@ -27,7 +25,7 @@ From your terminal:
   * [Storage](https://pantheon.corp.google.com/storage)
   * [AI Platform](https://pantheon.corp.google.com/mlengine)
 
-From your terminal:
+From your terminal, run:
 
 ```bash
 gcloud services enable compute.googleapis.com
@@ -54,8 +52,8 @@ In your terminal, and from the root directory of the repository, run:
 source ./setup/variables.sh
 ```
 
-*Note:* If you do not yet have a service account key downloaded, please follow the instructions
-in the next step to create and download one.
+*Note:* The service account key is a json file. If you do not yet have a service account key downloaded,
+please follow the instructions in the next step to create and download one.
 
 
 7- Create and download a service account key.
@@ -69,21 +67,18 @@ Alternatively, you may run this in your terminal, after setting the values for t
 # A name for the service account you are about to create:
 export SERVICE_ACCOUNT_NAME=your-service-account-name
 
-# The path where the service account json key should be saved to:
-export GOOGLE_APPLICATION_CREDENTIALS=path/to/service/account/key
-
 #Creathe service account:
-gcloud iam service-accounts create ${MY_SERVICE_ACCOUNT} --display-name="Service Account for ai-platform-samples repo"
+gcloud iam service-accounts create ${SERVICE_ACCOUNT_NAME} --display-name="Service Account for ai-platform-samples repo"
 
 # Grant the required roles:
 gcloud projects add-iam-policy-binding ${PROJECT_ID} --member serviceAccount:${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com --role roles/ml.developer
 gcloud projects add-iam-policy-binding ${PROJECT_ID} --member serviceAccount:${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com --role roles/storage.objectAdmin
 
-# Download the service account key:
+# Download the service account key and store it in a file specified by GOOGLE_APPLICATION_CREDENTIALS:
 gcloud iam service-accounts keys create ${GOOGLE_APPLICATION_CREDENTIALS} --iam-account ${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com
 ```
 
-## Setup Your Python Virtual Environment
+## Setup your Python Virtual Environment
 
 Virtual environments are strongly suggested, but not required. Installing this
 sample's dependencies in a new virtual environment allows you to run the sample
