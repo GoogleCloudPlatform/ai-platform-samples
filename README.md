@@ -10,10 +10,10 @@ The repository is organized by products:
 
  - [AI Platform Training](training)
  - [AI Platform Prediction](prediction)
+ - [AI Platform Notebooks](notebooks)
  
 <!--
  Commenting these out until we have at least a sample for them in the repo:
- - [AI Platform Notebooks](notebooks)
  - [Deep Learning VM Images](dlvm)
  - [Data Label Services](https://cloud.google.com/data-labeling/docs/)
  - [Built-in Algorithms](built_in_algorithms)
@@ -32,8 +32,6 @@ AI Platform also supports [xgboost](https://xgboost.readthedocs.io/en/latest/), 
 
 Please refer to the `README` file in each sample directory for more specific instructions.
 
-<!--
-Do we actually need this section? 
 
 ## Google Machine Learning Repositories
 
@@ -41,5 +39,3 @@ If you’re looking for our guides on how to do Machine Learning on Google Cloud
 
 - [ML on GCP](https://github.com/GoogleCloudPlatform/ml-on-gcp), which has guides on how to bring your code from various ML frameworks to [Google Cloud Platform](https://cloud.google.com/) using things like [Google Compute Engine](https://cloud.google.com/compute/) or [Kubernetes](https://kubernetes.io/).
 - [Professional Services](https://github.com/GoogleCloudPlatform/professional-services), common solutions and tools developed by Google Cloud's Professional Services team.
-
--->
