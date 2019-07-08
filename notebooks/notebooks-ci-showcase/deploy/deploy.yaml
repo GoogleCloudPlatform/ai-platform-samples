@@ -1,0 +1,19 @@
+# deploy.yaml defines a condensed version of cloudbuild.yaml that was used in the CI flow. 
+# The condensed workflow takes in two variables, a start date and an end date, writes these into a parameter file,
+# and executes the notebook substituting these variables. In the cloud function that loads this file,
+# we set the source to be the tested notebook + executor code uploaded as part of the CI flow.
+steps:
+- name: 'google/cloud-sdk:237.0.0'
+  args: ['-c', 'printf "start_date: \"${_START_DATE}\"\nend_date: \"${_END_DATE}\"" > params.yaml']
+  entrypoint: '/bin/bash'
+- name: 'google/cloud-sdk:237.0.0'
+  args: ['-c', './run_notebook_instance.sh -p params.yaml -o "${_END_DATE}"']
+  entrypoint: '/bin/bash'
+  secretEnv: ['API_KEY']
+substitutions:
+  _START_DATE: '2000-01-01'
+  _END_DATE: '2020-01-01'
+secrets:
+- kmsKeyName: projects/deeplearning-platform/locations/global/keyRings/api_key/cryptoKeys/google_maps_api
+  secretEnv:
+    API_KEY: CiQAqOZsWlDTXTRk/yjMO1BmEwto8Kboq90JG9zOuhizXsVO6fQSUQD7A7YryCuYQ+t6h9IL9Of6M+qCg/SezgvB/efTAGHhfzOYqa9mNMlECMo5hgnzpNjq6pPCauASAy8+VB+H4SLOfT9drLlpQTgxW3zTpAxtTQ==
