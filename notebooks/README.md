@@ -1,0 +1,22 @@
+# AI Platform Notebooks
+
+AI Platform Notebooks is a managed service that offers an integrated JupyterLab environment in which machine learning 
+developers and data scientists can create instances running JupyterLab that come pre-installed with the latest data 
+science and machine learning frameworks in a single click. Notebooks is integrated with BigQuery, Cloud Dataproc, and 
+Cloud Dataflow, making it easy to go from data ingestion to preprocessing and exploration, and eventually model training 
+and deployment.
+
+# Tools
+
+- Notebook executor: 
+This repository contains the logic that can be used to schedule Jupyter notebooks from anywhere (local, GCE, GCP Notebooks) to the [Google Cloud Deep Learning VM](https://cloud.google.com/deep-learning-vm/). You can read more about the usage of this tool [here](https://blog.kovalevskyi.com/gcp-notebook-executor-v0-1-2-8e37abd6fae1).
+- Notebook CI showcase:
+A fully functional continuous integration and continuous deployment system for Jupyter Notebooks.
+- Nova Agents: Allows you to execute notebooks directly from your Jupyter UI. Nova and its corresponding compute 
+workload runs on a separate Compute Engine instance using Nteract [papermill](https://github.com/nteract/papermill).
+- Nova Jupyterlab extensions: Nova Plugin.
+
+# How to get help
+
+If you have further questions, or encounter issues using AI Platform Notebooks, 
+open an issue or reach out at our team's forum: https://groups.google.com/forum/#!forum/google-dl-platform
