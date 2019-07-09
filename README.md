@@ -10,10 +10,10 @@ The repository is organized by products:
 
  - [AI Platform Training](training)
  - [AI Platform Prediction](prediction)
+ - [AI Platform Notebooks](notebooks)
  
 <!--
  Commenting these out until we have at least a sample for them in the repo:
- - [AI Platform Notebooks](notebooks)
  - [Deep Learning VM Images](dlvm)
  - [Data Label Services](https://cloud.google.com/data-labeling/docs/)
  - [Built-in Algorithms](built_in_algorithms)
@@ -32,8 +32,6 @@ AI Platform also supports [xgboost](https://xgboost.readthedocs.io/en/latest/), 
 
 Please refer to the `README` file in each sample directory for more specific instructions.
 
-<!--
-Do we actually need this section? 
 
 ## Google Machine Learning Repositories
 
