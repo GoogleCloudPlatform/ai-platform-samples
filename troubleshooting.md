@@ -22,3 +22,6 @@ Also, make sure the ervice account file is for your current GCP project and that
 * Run `gcloud config list` and verify the account and the project are set correctly.
 
 
+### Issue: Got a `Bad magic number in .pyc file` during local prediction
+
+This is a known issue which occurs when you are using Python 3. It will be fixed in upcoming releases.
