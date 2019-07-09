@@ -15,9 +15,10 @@ In this page, we will address some common issues that the developers often face 
 ### Issue: Training job is failing
 
 * Make sure you have followed the [setup steps](./setup).
-    * Make sure the APIs are enabled.
-    * Make sure the environment variables are set correctly.
-* Make sure `GOOGLE_APPLICATION_CREDENTIALS` is pointing to the correct service account key file for your GCP project.
+    * Verify that the APIs are enabled.
+    * Verify that the environment variables are set correctly.
+* Confirm that `GOOGLE_APPLICATION_CREDENTIALS` is pointing to the correct service account key file for your GCP project.
+Also, make sure the ervice account file is for your current GCP project and that it has the right roles, as specified in the setup page.
 * Run `gcloud config list` and verify the account and the project are set correctly.
-     
-    
+
+
