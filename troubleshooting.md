@@ -1,0 +1,23 @@
+# Troubleshooting
+
+In this page, we will address some common issues that the developers often face while working with AI Platform samples and provide solutions.
+
+## Potential Issues
+
+### Issue: `gcloud` commands are not working properly
+
+* Run `gcloud init` in your terminal and follow the instructions.
+* Run `gcloud compute instances list` to make sure the API for Compute is enabled.
+* Run `gcloud ai-platform models list` to make sure the API for AI Platform is enabled.
+* Run `gsutil ls gs://` to make sure you have access to GCS.
+* Run `gcloud info` to get more information about your configuration.
+
+### Issue: Training job is failing
+
+* Make sure you have followed the [setup steps](./setup).
+    * Make sure the APIs are enabled.
+    * Make sure the environment variables are set correctly.
+* Make sure `GOOGLE_APPLICATION_CREDENTIALS` is pointing to the correct service account key file for your GCP project.
+* Run `gcloud config list` and verify the account and the project are set correctly.
+     
+    

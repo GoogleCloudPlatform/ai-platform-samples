@@ -43,3 +43,6 @@ If you’re looking for our guides on how to do Machine Learning on Google Cloud
 - [Professional Services](https://github.com/GoogleCloudPlatform/professional-services), common solutions and tools developed by Google Cloud's Professional Services team.
 
 -->
+
+## Troubleshooting
+For common issues and solutions, please check our [troubleshooting](./troubleshooting.md) page.
