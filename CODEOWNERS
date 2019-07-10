@@ -1,0 +1,33 @@
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# @global-owner1 and @global-owner2 will be requested for
+# review when someone opens a pull request.
+# Our Global Owners: @happyhuman @dizcology @nnegrey @sirtorry @andrewferlitsch @gogasca
+*       @GoogleCloudPlatform/cloudml-samples-owners
+
+# Datasets Subfolder
+/datasets @gogasca @happyhuman
+
+# Notebooks Subfolder
+/notebooks @gogasca
+
+# Prediction Subfolder
+/prediction/pytorch @nnegrey
+/prediction/sklearn @happyhuman
+/prediction/tensorflow @gogasca
+/predition/xgboost @happyhuman
+
+# Quickstart Subfolder
+/quickstart @gogasca @happyhuman
+
+# Setup Subfolder
+/setup @happyhuman @gogasca
+
+# Training Subfolder
+/training/pytorch @nnegrey
+/training/sklearn @happyhuman
+/training/tensorflow @gogasca
+/training/xgboost @happyhuman
+
+# READMEs
+*.md @nnegrey
