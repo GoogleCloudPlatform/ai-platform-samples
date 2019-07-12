@@ -27,6 +27,8 @@ export MODEL_NAME="quickstart" # change to your model name
 PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
 export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}/model
 
+gsutil mb gs://${BUCKET_NAME}
+
 CURRENT_DATE=`date +%Y%m%d_%H%M%S`
 JOB_NAME=train_${MODEL_NAME}_${CURRENT_DATE}
 

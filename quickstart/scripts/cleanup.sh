@@ -21,6 +21,7 @@ set -v
 rm -rf dist
 rm -rf trainer.egg-info
 rm -rf build
+rm -rf trained
 
 # This has to be run after train-cloud.sh is successfully executed
 

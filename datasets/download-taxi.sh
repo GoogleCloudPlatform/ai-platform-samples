@@ -57,23 +57,26 @@ function download_files(){
     gsutil cp ${gcs_training_path} ${element}/taxi_trips_train.csv
     gsutil cp ${gcs_eval_path} ${element}/taxi_trips_eval.csv
 
+    # GCS paths
+    export GCS_TAXI_BIG=${gcs_file_path}
+    export GCS_TAXI_TRAIN_BIG=${gcs_training_path}
+    export GCS_TAXI_EVAL_BIG=${gcs_eval_path}
+    # GCS paths
+    export GCS_TAXI_SMALL=${gcs_file_path}
+    export GCS_TAXI_TRAIN_SMALL=${gcs_training_path}
+    export GCS_TAXI_EVAL_SMALL=${gcs_eval_path}
+
     if [[ ${element} == 'big' ]]; then
-      # GCS paths
-      export GCS_TAXI_BIG=${gcs_file_path}
-      export GCS_TAXI_TRAIN_BIG=${gcs_training_path}
-      export GCS_TAXI_EVAL_BIG=${gcs_eval_path}
       # Local files paths
-      export TAXI_TRAIN_BIG=${CWD}/taxi_trips_train.csv
-      export TAXI_EVAL_BIG=${CWD}/taxi_trips_eval.csv
+      export TAXI_BIG=${CWD}/${element}/taxi_trips.csv
+      export TAXI_TRAIN_BIG=${CWD}/${element}/taxi_trips_train.csv
+      export TAXI_EVAL_BIG=${CWD}/${element}/taxi_trips_eval.csv
     fi
     if [[ ${element} == 'small' ]]; then
-      # GCS paths
-      export GCS_TAXI_SMALL=${gcs_file_path}
-      export GCS_TAXI_TRAIN_SMALL=${gcs_training_path}
-      export GCS_TAXI_EVAL_SMALL=${gcs_eval_path}
       # Local files paths
-      export TAXI_TRAIN_SMALL=${CWD}/taxi_trips_train.csv
-      export TAXI_EVAL_SMALL=${CWD}/taxi_trips_eval.csv
+      export TAXI_SMALL=${CWD}/${element}/taxi_trips.csv
+      export TAXI_TRAIN_SMALL=${CWD}/${element}/taxi_trips_train.csv
+      export TAXI_EVAL_SMALL=${CWD}/${element}/taxi_trips_eval.csv
     fi
   done
 
