@@ -19,7 +19,17 @@ import model
 
 
 def train(sequential_model, train_loader, criterion, optimizer, epoch):
-    """Create the training loop"""
+    """Create the training loop for one epoch. Read the data from the
+     dataloader, calculate the loss, and update the DNN. Lastly, display some
+     statistics about the performance of the DNN during training.
+
+    Args:
+      sequential_model: The neural network that you are training, based on nn.Module
+      train_loader: The training dataset
+      criterion: The loss function used during training
+      optimizer: The selected optmizer to update parameters and gradients
+      epoch: The current epoch that the training loop is on
+    """
     sequential_model.train()
     running_loss = 0.0
     for batch_index, data in enumerate(train_loader):
@@ -43,13 +53,21 @@ def train(sequential_model, train_loader, criterion, optimizer, epoch):
 
 
 def test(sequential_model, test_loader, criterion):
-    """Test the DNN"""
+    """Test / Evaluate the DNNs performance with a test / eval dataset. 
+     Read the data from the dataloader and calculate the loss. Lastly,
+     display some statistics about the performance of the DNN during testing.
+
+    Args:
+      sequential_model: The neural network that you are testing, based on nn.Module
+      test_loader: The test / evaluation dataset
+      criterion: The loss function
+    """
     sequential_model.eval()
     test_loss = 0.0
     correct = 0
 
     with torch.no_grad():
-        for i, data in enumerate(test_loader, 0):
+        for _, data in enumerate(test_loader, 0):
             features = data['features']
             target = data['target']
             output = sequential_model(features)
@@ -72,7 +90,11 @@ def test(sequential_model, test_loader, criterion):
 
 
 def run(args):
-    """Load the data, train the model, test the model, export / save the model
+    """Load the data, train, evaluate, and export the model for serving and
+     evaluating.
+
+    Args:
+      args: experiment parameters.
     """
     torch.manual_seed(args.seed)
 

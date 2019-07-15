@@ -19,6 +19,9 @@ import torch.nn as nn
 # Specify the Deep Neural model
 class SequentialDNN(nn.Module):
     def __init__(self):
+        """Defines a simple DNN for this template, it is recommended that you
+        modify this to match your data / model needs.
+        """
         super(SequentialDNN, self).__init__()
 
         self.sequential_model = nn.Sequential(
@@ -36,11 +39,14 @@ class SequentialDNN(nn.Module):
 def create(args):
     """
     Create the model, loss function, and optimizer to be used for the DNN
+
+    Args:
+      args: experiment parameters.
     """
     sequential_model = SequentialDNN().double()
     criterion = nn.BCEWithLogitsLoss()
     optimizer = optim.Adam(sequential_model.parameters(),
                            lr=args.learning_rate,
-                           weight_decay=args.learning_rate_decay)
+                           weight_decay=args.weight_decay)
 
     return sequential_model, criterion, optimizer

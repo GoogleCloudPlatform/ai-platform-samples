@@ -78,7 +78,7 @@ def get_args():
         default=0.1,
         type=float)
     args_parser.add_argument(
-        '--learning-rate-decay',
+        '--weight-decay',
         help="""
       The factor by which the learning rate should decay by the end of the
       training.

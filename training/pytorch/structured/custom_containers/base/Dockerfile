@@ -13,7 +13,10 @@
 # limitations under the License.
 
 # Install pytorch
-FROM pytorch/pytorch:1.0.1-cuda10.0-cudnn7-runtime
+FROM gcr.io/deeplearning-platform-release/pytorch-cpu.1-1
+# OR
+# FROM pytorch/pytorch:1.0.1-cuda10.0-cudnn7-runtime
+
 WORKDIR /root
 
 # Installs pandas, and google-cloud-storage.

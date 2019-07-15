@@ -95,8 +95,8 @@ def load_data(args):
     # parts of the dataset belong to the train/test set
     # Note: use `tolist()` to convert the indices tensor to a list or
     # enumerating over the DataLoader will fail.
-    train_sampler = SubsetRandomSampler(train_dataset.indices.tolist())
-    test_sampler = SubsetRandomSampler(test_dataset.indices.tolist())
+    train_sampler = SubsetRandomSampler(train_dataset.indices)
+    test_sampler = SubsetRandomSampler(test_dataset.indices)
 
     # Create the data loaders with the train/test sets.
     train_loader = DataLoader(
@@ -116,7 +116,11 @@ def load_data(args):
 
 
 def save_model(args):
-    """Saves the model to Google Cloud Storage"""
+    """Saves the model to Google Cloud Storage
+
+    Args:
+      args: contains name for saved model.
+    """
     bucket_name = args.job_dir.lstrip('gs://').split('/')[0]
     bucket_path = args.job_dir.lstrip(
         'gs://{}/'.format(bucket_name)).rstrip('/')
