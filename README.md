@@ -48,4 +48,4 @@ For common issues and solutions, please check our [troubleshooting](./troublesho
 
 ## Getting help
 
-[Please use the [issues page](https://github.com/GoogleCloudPlatform/ai-platform-samples/issuess) to provide feedback or submit a bug report.
+Please use the [issues page](https://github.com/GoogleCloudPlatform/ai-platform-samples/issuess) to provide feedback or submit a bug report.
