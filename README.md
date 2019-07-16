@@ -40,7 +40,13 @@ If you’re looking for our guides on how to do Machine Learning on Google Cloud
 - [ML on GCP](https://github.com/GoogleCloudPlatform/ml-on-gcp), which has guides on how to bring your code from various ML frameworks to [Google Cloud Platform](https://cloud.google.com/) using things like [Google Compute Engine](https://cloud.google.com/compute/) or [Kubernetes](https://kubernetes.io/).
 - [Professional Services](https://github.com/GoogleCloudPlatform/professional-services), common solutions and tools developed by Google Cloud's Professional Services team.
 
--->
+--
 
 ## Troubleshooting
 For common issues and solutions, please check our [troubleshooting](./troubleshooting.md) page.
+
+---
+
+## Getting help
+
+[Please use the [issues page](https://github.com/GoogleCloudPlatform/ai-platform-samples/issuess) to provide feedback or submit a bug report.
