@@ -19,6 +19,7 @@ run_tests() {
     # Run base tests.
     echo "Running code tests in `pwd`."
     # Run local training and local prediction
+    export PROJECT_ID=`gcloud config get-value project`
     source scripts/train-local.sh
 }
 

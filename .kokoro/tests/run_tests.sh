@@ -32,11 +32,13 @@ check_if_changed(){
 
 
 create_virtualenv(){
-    sudo pip install virtualenv
-    virtualenv ${KOKORO_ARTIFACTS_DIR}/envs/venv
-    source ${KOKORO_ARTIFACTS_DIR}/envs/venv/bin/activate
-    # Install dependencies.
-    pip install --upgrade -r requirements.txt
+    if [[ -n ${CAIP_TEST_REQUIREMENTS} ]]; then
+        pip install --upgrade -r requirements.txt
+        sudo pip install virtualenv
+        virtualenv ${KOKORO_ARTIFACTS_DIR}/envs/venv
+        source ${KOKORO_ARTIFACTS_DIR}/envs/venv/bin/activate
+    fi
+
 }
 
 
