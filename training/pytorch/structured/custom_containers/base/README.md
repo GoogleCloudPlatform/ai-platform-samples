@@ -54,7 +54,7 @@ File Name                                         | Purpose                     
 ### Scripts
 
 * [train-local.sh](scripts/train-local) This script trains a model locally. 
-  It generates a SavedModel in local folder and verifies predictions locally.
+  It generates a SavedModel in local folder on the Docker Image.
 
 * [train-cloud.sh](scripts/train-cloud.sh) This script submits a training job to AI Platform.
 
