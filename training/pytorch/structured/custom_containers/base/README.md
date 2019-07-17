@@ -21,15 +21,15 @@ functionality, you can customise these parts with your own implementation.
 * Setup your project by following the instructions in the [setup](../../../../setup/) directory.
 * [Setup docker with Cloud Container Registry](https://cloud.google.com/container-registry/docs/pushing-and-pulling)
 * The datasets are downloaded by the Dockerfile.
- * The Dockerfile defaults to downloading the small dataset, if you wish to modify this, you can set which files to download via the `--build-arg` flag:
- ```
- docker build -f Dockerfile -t $IMAGE_URI ./ --build-args train-files=GCS_PATH_TO_TRAIN_DATA eval-files=GCS_PATH_TO_EVAL_DATA
- ```
+    * [OPTIONAL] The Dockerfile defaults to downloading the small dataset, if you wish to modify this, you can set which files to download via the `--build-arg` flag:
+    ```
+    docker build -f Dockerfile -t gcr.io/[PROJECT_ID]/pytorch_taxi_container:taxi_pytorch ./ \
+       --build-arg train-files=gs://cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_train.csv \
+       --build-arg eval-files=gs://cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_eval.csv
+    ```
  * [OPTIONAL] Download the datasets using run [download-taxi.sh](../../../../datasets/download-taxi.sh) located in [datasets](../../../../datasets) folder.
 * Change the directory to this sample and run
-```
-docker build -f Dockerfile -t $IMAGE_URI ./
-```
+
 
 `Note:` These instructions are used for local testing. When you submit a training job, no code will be executed on your local machine.
   
@@ -46,7 +46,7 @@ File Name                                         | Purpose                     
 :------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------
 [Dockerfile](Dockerfile)       | Defines the base docker image, installs the necessary libraries, downloads the dataset, and copies over the python training files | **Maybe**, as you may need to adjust which libaries are installed or specify the datasets your image should download.
 [metadata.py](trainer/metadata.py)     | Defines: 1) task type, 2) input data header, 3) numeric and categorical feature names, and 4) target feature name (and labels, for a classification task)                                                                                                                                                                              | **Yes**, as you will need to specify the metadata of your dataset. **This might be the only module to change!**
-[inputs.py](trainer/inputs.py)         | Includes: 1) data input functions to read data from csv and tfrecords files, 2) parsing functions to convert csv and tf.example to tensors, 3) function to implement your custom features processing and creation functionality, and 4) prediction functions (for serving the model) that accepts CSV, JSON, and tf.example instances. | **Maybe**, if you want to implement any custom pre-processing and feature creation during reading data.
+[inputs.py](trainer/inputs.py)         | Includes: 1) data input functions to read data from csv files, 2) parsing functions to convert csv to tensors, 3) function to implement your custom features processing and creation functionality, and 4) prediction functions (for serving the model) that accepts CSV, JSON, and tf.example instances. | **Maybe**, if you want to implement any custom pre-processing and feature creation during reading data.
 [model.py](trainer/model.py)           | Includes: 1) function to create DNNLinearCombinedRegressor, and 2) DNNLinearCombinedClassifier.                                                                                                                                                                                                                                        | **Yes** you want to cutomize the model to your inputs, the loss function, and the optimizer function.
 [experiment.py](trainer/experiment.py)       | Runs the model training and evaluation experiment, and exports the final model.                                                                                                                                                                                                                                                        | **No, unless** you want to add/remove parameters, or change parameter default values.
 [task.py](trainer/task.py)             | Includes: 1) Initialise and parse task arguments (hyper parameters), and 2) Entry point to the trainer.                                                                                                                                                                                                                                | **No, unless** you want to add/remove parameters, or change parameter default values.
@@ -62,14 +62,14 @@ File Name                                         | Purpose                     
 
 Once the prerequisites are satisfied, you may:
 
-    1. For local testing, run: 
+1. For local testing, run: 
     ```
     source ./scripts/train-local.sh
     ```
-    2. For cloud testing, run:
+2. For cloud testing, run:
     ```
     source ./scripts/train-cloud.sh
     ```
 
 ### Versions
-TensorFlow v1.13.1+
+PyTorch 1.0.0+
