@@ -76,7 +76,7 @@ TRAINER_ARGS="\
   --input $INPUT \
   "
 
-CMD="gcloud ml-engine $RUN_ENV_ARGS \
+CMD="gcloud ai-platform $RUN_ENV_ARGS \
   --job-dir $JOB_DIR \
   --package-path $PACKAGE_PATH \
   --module-name $MAIN_TRAINER_MODULE \
