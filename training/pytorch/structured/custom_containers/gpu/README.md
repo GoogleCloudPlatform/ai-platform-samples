@@ -75,16 +75,16 @@ Once the prerequisites are satisfied, you may:
 Not a lot changes when switching from a CPU to a GPU. Only a few lines are added / modified to make this possible. 
 
 * `trainer/experiment.py`
- * Lines 99-104: Determine if a GPU device is availbe and set the `device` variable to CPU or GPU
- * Lines 109 & 112: Pass the device information to the data loading and model creation methods.
+   * Lines 99-104: Determine if a GPU device is availbe and set the `device` variable to CPU or GPU
+   * Lines 109 & 112: Pass the device information to the data loading and model creation methods.
 * `trainer/inputs.py`
- * Line 80: `device` is added as a method parameter
- * Lines 87-88: Pass the device information to the `CSVDataset` class
- * Lines 29 & 44: Accept and set the `device` in the `CSVDataset` class
- * Lines 70-71: Send the feature & target tensors to the device
+   * Line 80: `device` is added as a method parameter
+   * Lines 87-88: Pass the device information to the `CSVDataset` class
+   * Lines 29 & 44: Accept and set the `device` in the `CSVDataset` class
+   * Lines 70-71: Send the feature & target tensors to the device
 * `trainer/model.py`
- * Line 39: `device` is added as a method parameter
- * Line 46: sends the DNN to the device
+   * Line 39: `device` is added as a method parameter
+   * Line 46: sends the DNN to the device
 
 ### Versions
 PyTorch 1.0.0+
