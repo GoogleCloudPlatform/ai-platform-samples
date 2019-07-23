@@ -24,12 +24,12 @@ RUN pip install pandas google-cloud-storage
 
 # The data for this sample has been publicly hosted on a GCS bucket.
 # You can modify this by changing the arguments passed into the Dockerfile
-ARG TRAIN_FILES=https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_train.csv
-ARG EVAL_FILES=https://storage.googleapis.com/cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_eval.csv
+ARG TRAIN_FILES=gs://cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_train.csv
+ARG EVAL_FILES=gs://cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_eval.csv
 
 # Download the data from the public Google Cloud Storage bucket for this sample
-RUN curl $TRAIN_FILES --output ./taxi_trips_train.csv
-RUN curl $EVAL_FILES --output ./taxi_trips_eval.csv
+RUN gsutil cp $TRAIN_FILES ./taxi_trips_train.csv
+RUN gsutil cp $EVAL_FILES ./taxi_trips_eval.csv
 
 # Copies the trainer code to the docker image.
 COPY trainer/experiment.py ./trainer/experiment.py
