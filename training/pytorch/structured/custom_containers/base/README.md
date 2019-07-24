@@ -18,7 +18,7 @@ functionality, you can customise these parts with your own implementation.
 
 ## Prerequisites
 
-* Setup your project by following the instructions in the [setup](../../../../setup/) directory.
+* Setup your project by following the instructions in the [setup](../../../../../setup/) directory.
 * [Setup docker with Cloud Container Registry](https://cloud.google.com/container-registry/docs/pushing-and-pulling)
 * The datasets are downloaded by the Dockerfile.
     * [OPTIONAL] The Dockerfile defaults to downloading the small dataset, if you wish to modify this, you can set which files to download via the `--build-arg` flag:
