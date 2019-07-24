@@ -16,13 +16,13 @@
 # This scripts performs local training for a PyTorch model.
 echo "Training local ML model"
 
-# IMAGE_REPO_NAME: the image will be stored on Cloud Container Registry
-IMAGE_REPO_NAME=pytorch_taxi_container
+# IMAGE_REPO_NAME: set a local repo name to distinquish our image
+IMAGE_REPO_NAME=pytorch_gpu_taxi_container
 
 # IMAGE_TAG: an easily identifiable tag for your docker image
-IMAGE_TAG=taxi_pytorch
+IMAGE_TAG=taxi_pytorch_gpu
 
-# IMAGE_URI: the complete URI location for Cloud Container Registry
+# IMAGE_URI: the complete URI location for the image
 IMAGE_URI=${IMAGE_REPO_NAME}:${IMAGE_TAG}
 
 # Build the docker image
@@ -38,6 +38,6 @@ echo "Running the Docker Image"
 docker run ${IMAGE_URI} \
         --train-files ${TRAIN_FILES} \
         --eval-files ${EVAL_FILES} \
-        --num-epochs=1 \
+        --num-epochs=10 \
         --batch-size=100 \
         --learning-rate=0.001
