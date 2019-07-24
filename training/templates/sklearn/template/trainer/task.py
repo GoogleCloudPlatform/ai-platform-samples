@@ -22,6 +22,7 @@ import sys
 
 import hypertune
 import numpy as np
+from datetime import datetime
 from sklearn import model_selection
 
 from trainer import metadata
@@ -164,7 +165,16 @@ def main():
 
   flags = _parse_args(sys.argv[1:])
   logging.basicConfig(level=flags.log_level.upper())
+  time_start = datetime.utcnow()
+  logging.info('Experiment started...')
+  logging.info('.......................................')
   run_experiment(flags)
+  time_end = datetime.utcnow()
+  logging.info('.......................................')
+  logging.info('Experiment finished.')
+  time_elapsed = time_end - time_start
+  logging.info('Experiment elapsed time: {} seconds'.format(
+      time_elapsed.total_seconds()))
 
 
 if __name__ == '__main__':

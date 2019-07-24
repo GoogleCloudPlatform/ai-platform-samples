@@ -42,17 +42,17 @@ then
    echo "Model already exists."
 else
     # 1. Create model
-    gcloud ml-engine models create "$MODEL_NAME" \
+    gcloud ai-platform models create "$MODEL_NAME" \
     --regions=$REGION
 fi
 
 
-if gcloud ml-engine versions list --model="$MODEL_NAME" | grep "$VERSION_NAME" &> /dev/null
+if gcloud ai-platform versions list --model="$MODEL_NAME" | grep "$VERSION_NAME" &> /dev/null
 then
    echo "Version already exists."
 else
     # 2. Create version
-    gcloud ml-engine versions create "$VERSION_NAME" \
+    gcloud ai-platform versions create "$VERSION_NAME" \
     --model "$MODEL_NAME" \
     --origin "$MODEL_DIR" \
     --framework "$FRAMEWORK" \

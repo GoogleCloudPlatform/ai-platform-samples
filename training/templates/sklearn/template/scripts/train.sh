@@ -22,7 +22,7 @@
 #
 # Globals:
 #   PROJECT_ID: Google Cloud project to use.
-#   BUCKET_ID: Google Cloud Storage bucket to store output.
+#   BUCKET_NAME: Google Cloud Storage bucket to store output.
 #
 # Arguments:
 #   $1: Path or BigQuery table to dataset for ML training and eval,
@@ -49,7 +49,7 @@ NOW="$(date +"%Y%m%d_%H%M%S")"
 JOB_PREFIX="sklearn_template"
 
 JOB_NAME="${JOB_PREFIX}_${RUN_TYPE}_${NOW}"
-JOB_DIR="gs://$BUCKET_ID/models/$JOB_NAME"
+JOB_DIR="gs://$BUCKET_NAME/models/$JOB_NAME"
 PACKAGE_PATH=trainer
 MAIN_TRAINER_MODULE=$PACKAGE_PATH.task
 REGION=us-central1

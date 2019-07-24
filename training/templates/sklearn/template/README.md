@@ -55,10 +55,10 @@ you need a Google cloud project if you don't have one. You can find detailed ins
     * Cloud Build API (for CI/CD integration)
     * Cloud Source Repositories API (for CI/CD integration)
 
-- Configure project id and bucket id as environment variable.
+- Configure project id and bucket name as environment variable.
   ```bash
   $ export PROJECT_ID=[your-google-project-id]
-  $ export BUCKET_ID=[your-google-cloud-storage-bucket-name]
+  $ export BUCKET_NAME=[your-google-cloud-storage-bucket-name]
   ```
   
 - Set up a service account for calls to GCP APIs.  
