@@ -23,7 +23,7 @@ IMAGE_REPO_NAME=pytorch_taxi_container
 IMAGE_TAG=taxi_pytorch
 
 # IMAGE_URI: the complete URI location for Cloud Container Registry
-IMAGE_URI=gcr.io/${PROJECT_ID}/${IMAGE_REPO_NAME}:${IMAGE_TAG}
+IMAGE_URI=${IMAGE_REPO_NAME}:${IMAGE_TAG}
 
 # Build the docker image
 docker build -f Dockerfile -t ${IMAGE_URI} ./
