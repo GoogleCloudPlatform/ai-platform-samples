@@ -71,7 +71,7 @@ Templates
 
 * [Tensorflow: Cloud TPU Templates](templates/tensorflow/tpu) - A collection of minimal templates that can be run on Cloud TPUs on Compute Engine, AI Platform, and Colab.
 
-* [Scikit-learn Pipelines Trainer Package Template](templates/sklearn) - You can use this as starter code to develop a scikit-learn model for training and prediction on AI Platform. [Examples](scikit-learn/template/examples) to be added.
+* [Scikit-learn Pipelines Trainer Package Template](templates/sklearn) - You can use this as starter code to develop a scikit-learn model for training and prediction on AI Platform.
 
 How to contribute?
 ------------------
