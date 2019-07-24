@@ -42,7 +42,7 @@ If you’re looking for our guides on how to do Machine Learning on Google Cloud
 
 
 ## Troubleshooting
-For common issues and solutions, please check our [troubleshooting](./troubleshooting.md) page.
+For common issues and solutions, please check our [troubleshooting](./TROUBLESHOOTING.md) page.
 
 ---
 
