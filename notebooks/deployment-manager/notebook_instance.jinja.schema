@@ -1,0 +1,65 @@
+# Copyright 2019 Google Inc. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+info:
+  title: AI Platform Notebook Template
+  author: Viacheslav V Kovalevskyi (viacheslav@kovalevskyi.com)
+  description: Creates a new notebook instance
+  version: 1.0
+
+imports:
+- path: notebook_instance.jinja
+
+properties:
+  zone:
+    type: string
+    description: Zone where notebook will be deployed
+    default: "us-central1-c"
+
+  machineType:
+    type: string
+    default: "g1-small"
+    description: "Type of the VM to use. Please see: https://cloud.google.com/compute/docs/machine-types"
+
+  imageFamily:
+    type: string
+    default: "common-cpu"
+    description: "Type of the Notebook to use. Please see: https://cloud.google.com/deep-learning-vm/docs/images"
+
+  proxy-mode:
+    type: string
+    enum: ["service_account", "mail"]
+    default: "service_account"
+    description: Access mode.
+
+  mail:
+    type: string
+    default: ""
+    description: Should be set ONLY if "proxy_mode" is set to "mail". Otehrwise no-op. 
+
+  service-account:
+    type: string
+    default: ""
+    description: ServiceAccount to use with the Notebook instance. By default GCE service account is used. 
+
+  gpu-type:
+    type: string
+    default: ""
+    enum: ["", "nvidia-tesla-t4", "nvidia-tesla-k80", "nvidia-tesla-p4", "nvidia-tesla-p100", "nvidia-tesla-v100"]
+    description: Accelerator to use.
+
+  gpu-count:
+    type: number
+    default: 1
+    description: Amount of accelerators to use. 
