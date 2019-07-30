@@ -1,4 +1,4 @@
-# PyTorch Custom Containers Template
+# PyTorch Custom Containers GPU Template
 
 ## Overview
 
@@ -18,7 +18,7 @@ functionality, you can customise these parts with your own implementation.
 
 ## Prerequisites
 
-* Setup your project by following the instructions in the [setup](../../../../../setup/) directory.
+* Setup your project by following the instructions in the [setup](../../../../setup/) directory.
 * [Setup docker with Cloud Container Registry](https://cloud.google.com/container-registry/docs/pushing-and-pulling)
 * The datasets are downloaded by the Dockerfile.
     * [OPTIONAL] The Dockerfile defaults to downloading the small dataset, if you wish to modify this, you can set which files to download via the `--build-arg` flag:
@@ -62,7 +62,7 @@ File Name                                         | Purpose                     
 
 Once the prerequisites are satisfied, you may:
 
-1. For local testing, run: 
+1. For local testing, run: (Note: if you don't have a GPU, the program will be run on the CPU)
     ```
     source ./scripts/train-local.sh
     ```
@@ -70,6 +70,21 @@ Once the prerequisites are satisfied, you may:
     ```
     source ./scripts/train-cloud.sh
     ```
+
+## What's different from the base (cpu) template?
+Not a lot changes when switching from a CPU to a GPU. Only a few lines are added / modified to make this possible. 
+
+* `trainer/experiment.py`
+   * Lines 99-104: Determine if a GPU device is availbe and set the `device` variable to CPU or GPU
+   * Lines 109 & 112: Pass the device information to the data loading and model creation methods.
+* `trainer/inputs.py`
+   * Line 80: `device` is added as a method parameter
+   * Lines 87-88: Pass the device information to the `CSVDataset` class
+   * Lines 29 & 44: Accept and set the `device` in the `CSVDataset` class
+   * Lines 70-71: Send the feature & target tensors to the device
+* `trainer/model.py`
+   * Line 39: `device` is added as a method parameter
+   * Line 46: sends the DNN to the device
 
 ### Versions
 PyTorch 1.0.0+
