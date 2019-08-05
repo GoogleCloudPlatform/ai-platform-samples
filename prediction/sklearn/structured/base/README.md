@@ -4,7 +4,7 @@
 
 In this sample, we go over the steps to deploy a model trained with scikit-learn to AI-Platform.
 We will then use the deployed model to make some predictions.
-We will finally delete the resources created in this sample
+Optionally, we will delete the resources created in this sample.
 
 ## Prerequisites
 
