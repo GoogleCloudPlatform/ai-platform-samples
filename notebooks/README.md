@@ -16,6 +16,8 @@ A fully functional continuous integration and continuous deployment system for J
 - [Nova Agent](nova-agents): Allows you to execute notebooks directly from your Jupyter UI. Nova and its corresponding compute 
 workload runs on a separate Compute Engine instance using Nteract [papermill](https://github.com/nteract/papermill).
 - [Nova Jupyterlab extensions](nova-jupyterlab-extensions): Nova Plugin.
+- [Notebook Deployment Manager](deployment-manager): Automating AI Platform Notebook Instance Creation With GCP Deployment Manager.
+
 
 # How to get help
 
