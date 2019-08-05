@@ -82,7 +82,7 @@ following environment variables properly exported:
 
 * Prediction Datasets:
 
-  * `TAXI_PREDICTION_DICT_NDJSON`: a Newline Delimited JSON file with 3 samples, represented as dictionaries
-  * `TAXI_PREDICTION_LIST_NDJSON`: a Newline Delimited JSON file with 3 samples, represented as lists
+  * `TAXI_PREDICTION_DICT_NDJSON`: a Newline Delimited JSON file with 3 examples, represented as dictionaries
+  * `TAXI_PREDICTION_LIST_NDJSON`: a Newline Delimited JSON file with 3 examples, represented as lists
 
 **Note**: Each line in a Newline Delimited JSON file is a JSON object or list.
