@@ -40,7 +40,7 @@ create_virtualenv(){
 }
 
 add_dependencies(){
-    sudo apt-get install python-lzma
+   # Install Platform dependencies
 }
 
 project_setup(){
