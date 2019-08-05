@@ -21,7 +21,7 @@ echo "Submitting an AI Platform job..."
 
 TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
 
-export MODEL_NAME="sklearn_taxi"
+export MODEL_NAME="xgboost_taxi"
 
 PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
 export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}
