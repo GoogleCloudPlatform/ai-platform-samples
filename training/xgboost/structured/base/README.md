@@ -29,7 +29,7 @@ executed on your local machine.
 * [trainer](./trainer) directory: containing the training package to be submitted to AI Platform
   * [__init__py](./trainer/__init__.py) which is an empty file. It is needed to make this directory a Python package.
   * [task.py](trainer/task.py) initializes and parses task arguments. This is the entry point to the trainer.
-  * [model.py](trainer/model.py) includes a function to create the xgboost estimator or pipeline
+  * [model.py](trainer/model.py) includes a function to create the xgboost estimator
   * [metadata.py](trainer/metadata.py) contains the definition for the target and feature names, among other configuring variables 
   * [util.py](trainer/task.py) contains a number of helper functions used in task.py  
 * [scripts](./scripts) directory: command-line scripts to train the model locally or on AI Platform.
@@ -60,7 +60,7 @@ source ./scripts/train-local.sh
 ``` 
 
 as many times as you like (This has no effect on your cloud usage). If successful, this script should
-create a new model as `trained/quickstart/model.joblib`, which means you may now submit a
+create a new model as `trained/quickstart/model.bst`, which means you may now submit a
 training job to AI Platform.
 
 2. Submit a training job to AI Platform. Run: 
