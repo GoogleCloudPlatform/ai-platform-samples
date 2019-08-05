@@ -39,9 +39,6 @@ create_virtualenv(){
     pip install --upgrade -r requirements.txt
 }
 
-add_dependencies(){
-   # Install Platform dependencies
-}
 
 project_setup(){
     # Update SDK for gcloud ai-platform command.
@@ -56,7 +53,6 @@ main(){
     check_if_changed
     project_setup
     create_virtualenv
-    add_dependencies
     cd ${KOKORO_ARTIFACTS_DIR}
     # Run specific test.
     bash "${CAIP_TEST_SCRIPT}"
