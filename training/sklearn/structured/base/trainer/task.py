@@ -138,7 +138,7 @@ def _parse_args():
 
 
 def main():
-    """Entry point."""
+    """Entry point"""
 
     arguments = _parse_args()
     logging.basicConfig(level=arguments.log_level)
