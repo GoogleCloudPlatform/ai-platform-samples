@@ -28,7 +28,7 @@ functionality, you can customise these parts with your own implementation.
        --build-arg eval-files=gs://cloud-samples-data/ml-engine/chicago_taxi/training/small/taxi_trips_eval.csv
     ```
  * [OPTIONAL] Download the datasets using run [download-taxi.sh](../../../../datasets/download-taxi.sh) located in [datasets](../../../../datasets) folder.
-* Change the directory to this sample and run
+* Change the directory to this sample
 
 
 `Note:` These instructions are used for local testing. When you submit a training job, no code will be executed on your local machine.
