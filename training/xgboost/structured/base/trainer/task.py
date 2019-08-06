@@ -32,8 +32,8 @@ def _train_and_evaluate(estimator, dataset, output_dir):
     """Runs model training and evaluation.
 
     Args:
-      estimator: (pipeline.Pipeline), Pipeline instance, assemble pre-processing
-        steps and model training
+      estimator: (pipeline.Pipeline), Pipeline instance, assemble
+        pre-processing steps and model training
       dataset: (pandas.DataFrame), DataFrame containing training data
       output_dir: (string), directory that the trained model will be exported
 
@@ -47,7 +47,7 @@ def _train_and_evaluate(estimator, dataset, output_dir):
     model_output_path = os.path.join(output_dir, 'model',
                                      metadata.MODEL_FILE_NAME)
 
-    utils.dump_object(estimator, model_output_path)
+    utils.save_model(estimator, model_output_path, how='bst')
 
     if metadata.METRIC_FILE_NAME is not None:
         # Note: for now, use `cross_val_score` defaults (i.e. 3-fold)
@@ -64,7 +64,7 @@ def _train_and_evaluate(estimator, dataset, output_dir):
         # We recommend that you assign a custom name
         # The only functional difference is that if you use a custom name,
         # you must set the hyperparameterMetricTag value in the
-        # HyperparameterSpec object in the job request to match your chosen name
+        # HyperparameterSpec object in the job request to match the chosen name
         hpt = hypertune.HyperTune()
         hpt.report_hyperparameter_tuning_metric(
             hyperparameter_metric_tag='my_metric_tag',
@@ -138,7 +138,7 @@ def _parse_args():
 
 
 def main():
-    """Entry point"""
+    """Entry point."""
 
     arguments = _parse_args()
     logging.basicConfig(level=arguments.log_level)

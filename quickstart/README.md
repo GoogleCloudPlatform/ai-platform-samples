@@ -54,7 +54,7 @@ training job to AI Platform.
 
 2. Submit a training job to AI Platform. Run `source ./scripts/train-cloud.sh` This will create a 
 training job on AI Platform and displays some instructions on how to track the job progress.
-At the end of a successful training job, it will uplaod the trained model object to a GCS
+At the end of a successful training job, it will upload the trained model object to a GCS
 bucket and sets `$MODEL_DIR` environment variable to the directory containing the model.
 
 3. Once the model object is created, you can deploy it for prediction. For that,

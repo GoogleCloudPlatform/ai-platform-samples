@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/bin/bash
 # Copyright 2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,21 +14,26 @@
 # limitations under the License.
 # ==============================================================================
 
-from setuptools import find_packages
-from setuptools import setup
+set -v
 
-REQUIRED_PACKAGES = [
-    'tensorflow==1.13.1',
-    'scikit-learn>=0.20.2',
-    'pandas==0.24.2',
-    'cloudml-hypertune',
-]
+echo "Training local ML model"
 
-setup(
-    name='trainer',
-    version='0.1',
-    install_requires=REQUIRED_PACKAGES,
-    packages=find_packages(),
-    include_package_data=True,
-    description='AI Platform | Training | scikit-learn | Base'
-)
+MODEL_NAME="structured-taxi"
+
+PACKAGE_PATH=./trainer
+MODEL_DIR=./trained/${MODEL_NAME}
+
+gcloud ai-platform local train \
+        --module-name=trainer.task \
+        --package-path=${PACKAGE_PATH} \
+        --job-dir=${MODEL_DIR} \
+        -- \
+        --log-level DEBUG \
+        --input=${TAXI_TRAIN_SMALL} \
+        --n-estimators=20 \
+        --max-depth=3
+
+set -
+
+# Notes:
+# TAXI_TRAIN_SMALL is set by datasets/downlaod-taxi.sh script

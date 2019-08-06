@@ -1,9 +1,9 @@
-# scikit-learn Estimator - Trainer Package
+# xgboost Estimator - Trainer Package
 
 ## Overview
 
-The purpose of this directory is to provide a sample for how you can package a
-scikit-learn training model to submit it to AI Platform. The sample makes it
+The purpose of this directory is to provide a sample for how you can package an xgboost
+training model to submit it to AI Platform. The sample makes it
 easier to organize your code, and to adapt it to your dataset. In more details,
 the template covers the following functionality:
 
@@ -28,7 +28,7 @@ executed on your local machine.
 * [trainer](./trainer) directory: containing the training package to be submitted to AI Platform
   * [__init__py](./trainer/__init__.py) which is an empty file. It is needed to make this directory a Python package.
   * [task.py](trainer/task.py) initializes and parses task arguments. This is the entry point to the trainer.
-  * [model.py](trainer/model.py) includes a function to create the scikit-learn estimator or pipeline
+  * [model.py](trainer/model.py) includes a function to create the xgboost estimator
   * [metadata.py](trainer/metadata.py) contains the definition for the target and feature names, among other configuring variables 
   * [util.py](trainer/task.py) contains a number of helper functions used in task.py  
 * [scripts](./scripts) directory: command-line scripts to train the model locally or on AI Platform.
@@ -59,7 +59,7 @@ source ./scripts/train-local.sh
 ``` 
 
 as many times as you like (This has no effect on your cloud usage). If successful, this script should
-create a new model as `trained/quickstart/model.joblib`, which means you may now submit a
+create a new model as `trained/quickstart/model.bst`, which means you may now submit a
 training job to AI Platform.
 
 2. Submit a training job to AI Platform. Run: 
@@ -77,7 +77,7 @@ In this section, we'll highlight the main elements of this sample.
 
 ### [model.py](trainer/model.py)
 
-In this sample, we simply create an instance of `RandomForestClassifier` estimator and return it.
+In this sample, we simply create an instance of `XGBClassifier` estimator and return it.
 
 ### [metadata.py](trainer/metadata.py)
 
@@ -143,8 +143,10 @@ created and stored some files in your GCS bucket. You may simply remove them by 
 source ./scripts/cleanup.sh
 ```
 
+<!--
 ## What's Next
 
-In this sample, we trained a simple classifier with scikit-learn.
+In this sample, we trained a simple classifier with xgboost.
 To see how to deploy the model to AI Platform and use it to make predictions,
-please continue with [this sample](../../../../prediction/sklearn/structured/base).
+please continue with [this sample](../../../../prediction/xgboost/structured/base).
+-->

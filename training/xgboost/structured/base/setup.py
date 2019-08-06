@@ -17,10 +17,17 @@
 from setuptools import find_packages
 from setuptools import setup
 
+# While this is an xgboost sample, we will still require tensorflow and
+# scikit-learn to be installed, since the sample uses certain functionalities
+# available in those libraries:
+#    tensorflow: mainly to copy files seamlessly to GCS
+#    scikit-learn: the helpfer functions it provides, e.g. splitting datasets
+
 REQUIRED_PACKAGES = [
     'tensorflow==1.13.1',
-    'scikit-learn>=0.20.2',
+    'scikit-learn==0.20.2',
     'pandas==0.24.2',
+    'xgboost==0.81',
     'cloudml-hypertune',
 ]
 
@@ -30,5 +37,5 @@ setup(
     install_requires=REQUIRED_PACKAGES,
     packages=find_packages(),
     include_package_data=True,
-    description='AI Platform | Training | scikit-learn | Base'
+    description='AI Platform | Training | xgboost | Base'
 )
