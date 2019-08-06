@@ -143,8 +143,10 @@ created and stored some files in your GCS bucket. You may simply remove them by 
 source ./scripts/cleanup.sh
 ```
 
+<!--
 ## What's Next
 
 In this sample, we trained a simple classifier with xgboost.
 To see how to deploy the model to AI Platform and use it to make predictions,
 please continue with [this sample](../../../../prediction/xgboost/structured/base).
+-->
