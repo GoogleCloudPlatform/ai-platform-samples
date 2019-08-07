@@ -1,4 +1,4 @@
-# Online Prediction with scikit-learn
+# Online Prediction with xgboost
 
 ## Overview
 
