@@ -3,6 +3,7 @@
 
 This is a template for building a scikit-learn-based machine learning trainer 
 that can be run on AI Platform. 
+For an implementation of this template please take a look at our sklearn example [here](../../../sklearn/structured/base)
 
 Google Cloud tools used:
 - [Google Cloud Platform](https://cloud.google.com/) (GCP) lets you build and 
@@ -45,7 +46,7 @@ template
 ## Using the template
 
 ### Step 0. Prerequisites
-Before you follow the instructions below to adapt the tempate to your machine learning job, 
+Before you follow the instructions below to adapt the template to your machine learning job, 
 you need a Google cloud project if you don't have one. You can find detailed instructions 
 [here](https://cloud.google.com/dataproc/docs/guides/setup-project).
 
