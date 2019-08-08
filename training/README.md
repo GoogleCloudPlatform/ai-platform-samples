@@ -47,7 +47,10 @@ tuning, and accelerate with GPUs and TPUs.
               Distribution strategy.
      
  - [scikit-learn](sklearn/structured/)
+      - [Base](sklearn/structured/base) Standard code to perform AI Platform Training using Sci-kit learn 
+              using CPU.
  - [XGBoost](xgboost/structured/)
+      - [Base](xgboost/structured/base) Standard code to perform AI Platform Training using XGBoost. 
  
 #### AI Platform Training - Custom Containers
 
