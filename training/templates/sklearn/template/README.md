@@ -2,7 +2,8 @@
 
 
 This is a template for building a scikit-learn-based machine learning trainer 
-that can be run on AI Platform. 
+that can be run on AI Platform.
+
 For an implementation of this template please take a look at our sklearn example [here](../../../sklearn/structured/base)
 
 Google Cloud tools used:
@@ -30,7 +31,8 @@ template
         |__ config.yaml             # for running normal training job on AI Platform
         |__ hptuning_config.yaml    # for running hyperparameter tunning job on AI Platform    
     |__ scripts
-        |__ train.sh                # convenience script for running machine learning training jobs
+        |__ train-local.sh          # convenience script for running local machine learning training jobs
+        |__ train-cloud.sh          # convenience script for running in cloud machine learning training jobs
         |__ deploy.sh               # convenience script for deploying trained scikit-learn model
         |__ predict.sh              # convenience script for requesting online prediction
         |__ predict.py              # helper function for requesting online prediction using python
@@ -128,14 +130,13 @@ More information on supported runtime version can be found
 
 ### Step 3. Submit scikit-learn training job
 
-You can run ML training jobs through the `train.sh` Bash script.
+You can run ML training jobs through the `train-local.sh` or `train-cloud.sh` Bash script.
 
 ```shell
-bash scripts/train.sh [INPUT] [RUN_ENV] [RUN_TYPE] [EXTRA_TRAINER_ARGS]
+bash scripts/train-local.sh [INPUT] [RUN_TYPE] [EXTRA_TRAINER_ARGS]
 ```
 - INPUT: Dataset to use for training and evaluation, which can be BigQuery table or a file (CSV).
          BigQuery table should be specified as `PROJECT_ID.DATASET.TABLE_NAME`.
-- RUN_ENV: (Optional), whether to run `local` (on-prem) or `remote` (GCP). Default value is `local`.
 - RUN_TYPE: (Optional), whether to run `train` or `hptuning`. Default value is `train`.
 - EXTRA_TRAINER_ARGS: (Optional), additional arguments to pass to the trainer.
 

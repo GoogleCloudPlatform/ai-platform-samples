@@ -34,7 +34,7 @@ VERSION_NAME=$3
 
 REGION=us-central1
 FRAMEWORK=SCIKIT_LEARN
-RUN_TIME=1.13
+RUN_TIME=1.14
 PYTHON_VERSION=3.5 # only support python 2.7 and 3.5
 
 if gcloud ml-engine models list | grep "$MODEL_NAME" &> /dev/null
