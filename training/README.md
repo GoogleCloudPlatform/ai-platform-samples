@@ -60,7 +60,9 @@ Containers on AI Platform is a feature that allows you to run your application w
 
 #### AI Platform Prediction
 
- - [TensorFlow](tensorflow/structured)
+ - [TensorFlow](../prediction/tensorflow/structured)
+ - [sci-kit learn](../prediction/sklearn/structured/base)
+ - [XGboost](../prediction/xgboost/structured/base)
  
 **Note:** These examples use the [Chicago Taxi Trips Dataset](https://data.cityofchicago.org/Transportation/Taxi-Trips/wrvz-psew)
 released by the City of Chicago. 
