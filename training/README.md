@@ -67,6 +67,10 @@ released by the City of Chicago.
 Templates
 ---------
 
+We have created additional templates that show how to create the structure required to train
+models in AI Platform.
+Our current examples above are an implementation of these templates.
+
 * [TensorFlow Estimator Trainer Package Template](templates/tensorflow) - When training a Tensorflow model, you have to create a trainer package, here we have a template that simplifies creating a trainer package for AI Platform. Take a look at this list with some introductory [examples](tensorflow/ai-platform-template/examples/). 
 
 * [Tensorflow: Cloud TPU Templates](templates/tensorflow/tpu) - A collection of minimal templates that can be run on Cloud TPUs on Compute Engine, AI Platform, and Colab.

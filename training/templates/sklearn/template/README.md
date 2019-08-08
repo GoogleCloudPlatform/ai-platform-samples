@@ -43,6 +43,7 @@ template
 ```
 
 ## Using the template
+
 ### Step 0. Prerequisites
 Before you follow the instructions below to adapt the tempate to your machine learning job, 
 you need a Google cloud project if you don't have one. You can find detailed instructions 
@@ -117,7 +118,7 @@ correspond in both files.
 ```yaml
 trainingInput:
   scaleTier: STANDARD_1   # Machine type
-  runtimeVersion: "1.13"  # Scikit-learn version
+  runtimeVersion: "1.14"  # Scikit-learn version
   pythonVersion: "3.5"    # only support python 2.7 and 3.5
 ```
 
@@ -162,7 +163,7 @@ REGION=us-central1
 
 # The following two parameters should be aligned with those used during
 # training job, i.e., specified in the yaml files under config/
-RUN_TIME=1.13
+RUN_TIME=1.14
 PYTHON_VERSION=3.5 # only support python 2.7 and 3.5
 ```
 
