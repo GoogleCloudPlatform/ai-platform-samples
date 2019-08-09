@@ -65,9 +65,9 @@ main(){
     project_setup
     create_virtualenv
     cd ${KOKORO_ARTIFACTS_DIR}
-    run_flake8
     # Run specific test.
     bash "${CAIP_TEST_SCRIPT}"
+    run_flake8
 }
 
 main
