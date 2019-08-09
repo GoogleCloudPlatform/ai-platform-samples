@@ -118,7 +118,10 @@ def _create_feature_columns():
         try:
             mean = metadata.NUMERIC_FEATURE_NAMES_WITH_STATS['mean']
             variance = metadata.NUMERIC_FEATURE_NAMES_WITH_STATS['var']
-            normalizer_fn = lambda value: (value - mean) / math.sqrt(variance)
+
+            def _z_score(value): return (value - mean) / math.sqrt(variance)
+
+            normalizer_fn = _z_score
         except KeyError:
             normalizer_fn = None
         feature_columns[feature_name] = (
@@ -135,19 +138,19 @@ def _create_feature_columns():
 
     # Add categorical columns with vocabulary
     for feature_name in metadata.CATEGORICAL_FEATURE_NAMES_WITH_VOCABULARY:
+        vocabulary_list = metadata.CATEGORICAL_FEATURE_NAMES_WITH_VOCABULARY[
+            feature_name]
         feature_columns[feature_name] = (
             tf.feature_column.categorical_column_with_vocabulary_list(
-                feature_name, vocabulary_list=
-                metadata.CATEGORICAL_FEATURE_NAMES_WITH_VOCABULARY[
-                    feature_name]))
+                feature_name, vocabulary_list=vocabulary_list))
 
     # Add categorical columns with hash bucket
     for feature_name in metadata.CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET:
+        hash_bucket_size = metadata.CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET[
+            feature_name]
         feature_columns[feature_name] = (
             tf.feature_column.categorical_column_with_hash_bucket(
-                feature_name, hash_bucket_size=
-                metadata.CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET[
-                    feature_name]))
+                feature_name, hash_bucket_size=hash_bucket_size))
 
     return feature_columns
 

@@ -54,7 +54,7 @@ def get_feature_spec(is_serving=False):
             feature_spec[feature_name] = tf.FixedLenFeature(shape=1,
                                                             dtype=tf.string)
         elif feature_name in \
-            metadata.CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET:
+                metadata.CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET:
             feature_spec[feature_name] = tf.FixedLenFeature(shape=1,
                                                             dtype=tf.string)
         elif feature_name == metadata.TARGET_NAME:

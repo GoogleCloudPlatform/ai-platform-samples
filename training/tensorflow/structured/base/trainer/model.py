@@ -35,7 +35,10 @@ def create(args, config):
     # Change the optimizers for the wide and deep parts of the model if you wish
     linear_optimizer = tf.train.FtrlOptimizer(learning_rate=args.learning_rate)
     # Use _update_optimizer to implement an adaptive learning rate
-    dnn_optimizer = lambda: _update_optimizer(args)
+
+    def predicate(): return _update_optimizer(args)
+
+    dnn_optimizer = predicate()
 
     if metadata.TASK_TYPE == 'classification':
         estimator = tf.estimator.DNNLinearCombinedClassifier(
