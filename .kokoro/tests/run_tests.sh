@@ -53,6 +53,7 @@ run_flake8() {
     # Install Flake8
     pip install flake8
     # Run Flake in current directory.
+    cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_DIR}
     flake8 --max-line-length=80 . --statistics
     result=$?
 	if [ ${result} -ne 0 ];then
