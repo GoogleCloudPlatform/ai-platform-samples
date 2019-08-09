@@ -90,4 +90,4 @@ source ./scripts/train-cloud.sh
 ```
 
 ### Versions
-TensorFlow v1.13.1+
+TensorFlow v1.14.0+
