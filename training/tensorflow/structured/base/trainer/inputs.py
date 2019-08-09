@@ -25,7 +25,7 @@ def get_feature_spec(is_serving=False):
 
     Used for parsing tf examples.
     Args:
-      is_serving: boolean - whether to create feature_spec for training o
+      is_serving: boolean - whether to create feature_spec for training or
       serving.
 
     Returns:

@@ -24,7 +24,7 @@ check_if_changed(){
     # Check if a change happened to directory.
     DIFF=`git diff master $KOKORO_GITHUB_PULL_REQUEST_COMMIT $PWD`
     echo "git diff:\n $DIFF"
-    if [[ -z $DIFF ]]; then
+    if [[ -z ${DIFF} ]]; then
         echo "Test ignored; directory was not modified in pull request $KOKORO_GITHUB_PULL_REQUEST_NUMBER"
         exit 0
     fi
@@ -58,6 +58,8 @@ run_flake8() {
     result=$?
 	if [ ${result} -ne 0 ];then
 		exit 1
+	else
+	    echo "Flake run successfully in directory $PWD"
 	fi
 }
 
