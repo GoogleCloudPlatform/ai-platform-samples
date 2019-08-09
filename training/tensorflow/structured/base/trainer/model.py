@@ -38,7 +38,7 @@ def create(args, config):
 
     def predicate(): return _update_optimizer(args)
 
-    dnn_optimizer = predicate()
+    dnn_optimizer = predicate
 
     if metadata.TASK_TYPE == 'classification':
         estimator = tf.estimator.DNNLinearCombinedClassifier(
