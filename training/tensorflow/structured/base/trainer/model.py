@@ -111,7 +111,7 @@ def _update_optimizer(args):
     # See: https://www.tensorflow.org/api_docs/python/tf/train/exponential_decay
     learning_rate = tf.train.exponential_decay(
         learning_rate=args.learning_rate,
-        global_step=tf.train.get_global_step(),
+        global_step=tf.train.get_or_create_global_step(),
         decay_steps=args.train_steps,
         decay_rate=args.learning_rate_decay_factor)
 
