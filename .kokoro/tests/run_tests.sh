@@ -49,11 +49,23 @@ project_setup(){
 }
 
 
+run_flake8() {
+    # Install Flake8
+    pip install flake8
+    # Run Flake in current directory.
+    flake8 --max-line-length=80 . --statistics
+    result=$?
+	if [ ${result} -ne 0 ];then
+		exit 1
+	fi
+}
+
 main(){
     check_if_changed
     project_setup
     create_virtualenv
     cd ${KOKORO_ARTIFACTS_DIR}
+    run_flake8
     # Run specific test.
     bash "${CAIP_TEST_SCRIPT}"
 }
