@@ -1,0 +1,23 @@
+trainingInput:
+  hyperparameters:
+    goal: MAXIMIZE
+    maxTrials: 4
+    maxParallelTrials: 2
+    hyperparameterMetricTag: Taxi Model Accuracy
+    params:
+    - parameterName: max-depth
+      type: INTEGER
+      minValue: 3
+      maxValue: 8
+      scaleType: UNIT_LINEAR_SCALE
+    - parameterName: min-samples-split
+      type: DOUBLE
+      minValue: 0.01
+      maxValue: 0.99
+      scaleType: UNIT_LOG_SCALE
+    - parameterName: criterion
+      type: CATEGORICAL
+      categoricalValues: [
+        "gini",
+        "entropy"
+      ]
