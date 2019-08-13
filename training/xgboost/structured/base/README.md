@@ -1,4 +1,4 @@
-# xgboost Estimator - Trainer Package
+# Training with xgboost - the Base Case
 
 ## Overview
 
@@ -59,7 +59,7 @@ source ./scripts/train-local.sh
 ``` 
 
 as many times as you like (This has no effect on your cloud usage). If successful, this script should
-create a new model as `trained/quickstart/model.bst`, which means you may now submit a
+create a new model as `trained/structured-taxi/model.bst`, which means you may now submit a
 training job to AI Platform.
 
 2. Submit a training job to AI Platform. Run: 
