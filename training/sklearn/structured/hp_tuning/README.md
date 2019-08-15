@@ -146,10 +146,17 @@ source ./scripts/cleanup.sh
 
 ## How Hyperparameter Tuning Works
 
-While you may use `GridSearchCV` to tune your hyperparameters, AI Platform offers a better solution.
+While you may use [GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV) or
+[RandomizedSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html#sklearn.model_selection.RandomizedSearchCV) to tune your hyperparameters, AI Platform offers a better solution.
 The advantage of using AI Platform to tune the hyperparameters is that it tries to optimize the selection
 of hyperparameters, instead of testing all possibilities. 
 Therefore, the optimized model will be generated much quicker with less trials.
+
+In this sample, we will be tuning the following three hyperparameters:
+
+* `max_depth` with an integer type, ranging from 3 to 8
+* `min_samples_split`with a float type, ranging from 0.01 to 0.99
+* `criterion` with a category type from the set of `{"gini", "entropy"}`
 
 
 ### Setup
