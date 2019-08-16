@@ -49,16 +49,11 @@ def _train_and_evaluate(estimator, dataset, output_dir):
 
     utils.dump_object(estimator, model_output_path)
 
-    if metadata.METRIC_FILE_NAME is not None:
+    if metadata.HYPERPARAMTER_TUNING:
         # Note: for now, use `cross_val_score` defaults (i.e. 3-fold)
         scores = model_selection.cross_val_score(estimator, x_val, y_val, cv=3)
 
         logging.info('Scores: %s', scores)
-
-        metric_output_path = os.path.join(
-            output_dir, 'experiment', metadata.METRIC_FILE_NAME)
-
-        utils.dump_object(scores, metric_output_path)
 
         # The default name of the metric is training/hptuning/metric.
         # We recommend that you assign a custom name

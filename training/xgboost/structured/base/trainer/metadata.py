@@ -36,10 +36,8 @@ FEATURE_NAMES = [
 # then use 'model.bst' for the model name
 MODEL_FILE_NAME = 'model.bst'
 
-# This is used to pass the evaluation metrics back to CMLE.
-# If is it set to None, no metrics will be generated
-# Otherwise, 'eval_metrics.joblib' as the name
-METRIC_FILE_NAME = None
+# Set to True if you want to tune some hyperparameters
+HYPERPARAMTER_TUNING = True
 
 # Used only if the dataset is to be read from BigQuery
 BASE_QUERY = '''

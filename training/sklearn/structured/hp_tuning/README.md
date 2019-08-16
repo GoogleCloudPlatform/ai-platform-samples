@@ -1,9 +1,9 @@
-# Training with scikit-learn - the Base Case
+# Training with scikit-learn - Hyperparameter Tuning
 
 ## Overview
 
-The purpose of this directory is to provide a sample for how you can package a
-scikit-learn training model to submit it to AI Platform. The sample makes it
+The purpose of this directory is to provide a sample to show to to train a
+scikit-learn model on AI Platform with hyperparameter tuning. The sample makes it
 easier to organize your code, and to adapt it to your dataset. In more details,
 the template covers the following functionality:
 
@@ -38,6 +38,8 @@ executed on your local machine.
   good idea to try and train the model locally for debugging, before submitting it to AI Platform.
   * [train-cloud.sh](./scripts/train-cloud.sh) submits a training job to AI Platform.
 * [setup.py](./setup.py): containing all the required Python packages for this tutorial.
+* [config.yaml](./config.yaml): config file containing the hyperparameters for tuning.
+
 
 We recommend that you follow the same structure for your own work. In most cases, you only need to 
 modify:
@@ -69,7 +71,7 @@ source ./scripts/train-cloud.sh
 ``` 
 This will create a training job on AI Platform and displays some instructions on how to track the job progress.
 At the end of a successful training job, it will upload the trained model object to a GCS
-bucket and sets `$MODEL_DIR` environment variable to the directory containing the model.
+bucket and sets `$MODEL_DIR` environment variable to the parent directory of all the generated models.
 
 ## Explaining Key Elements
 
@@ -94,9 +96,7 @@ gcloud ai-platform local train \
         --job-dir=${MODEL_DIR} \
         -- \
         --log-level DEBUG \
-        --input=${TAXI_TRAIN_SMALL} \
-        --n-estimators=20 \
-        --max-depth=3
+        --input=${TAXI_TRAIN_SMALL}
 ```
 
 * `--job-dir`: path for the output artifacts, e.g. the model object
@@ -105,7 +105,6 @@ gcloud ai-platform local train \
 * `--` this is just a separator. Anyhing after this will be passed to the training job as input argument.
 * `log-level` sets the python logger level to DEBUG for this script (default is INFO)
 * `--input`: path to the input dataset
-* `--n-estimators` and `--max-depth`: will be passed to the estimator as hyperparameters
 
 
 ### [train-cloud.sh](./scripts/train-cloud.sh)
@@ -122,10 +121,9 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --package-path=${PACKAGE_PATH}  \
         --python-version=${PYTHON_VERSION} \
         --stream-logs \
+        --config=./config.yaml \
         -- \
-        --input=${GCS_TAXI_TRAIN_BIG} \
-        --n-estimators=20 \
-        --max-depth=3
+        --input=${GCS_TAXI_TRAIN_BIG}
 ```
 
 * `${JOB_NAME}` is a unique name for each job. We create one with a timestamp to make it unique each time.
@@ -133,7 +131,10 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
 * `scale-tier` is to choose the tier. For this sample, we use BASIC. However, if you need
 to use accelerators for instance, or do a distributed training, you will need a different tier.
 * `region`: which region to run the training job in.
-* `stream-logs`: streams the logs until the job finishes. 
+* `stream-logs`: streams the logs until the job finishes.
+* `config`: passing the config file which contains the hyperparameter tuning information.
+
+### 
 
 ## Clean Up
 If you were able to run [train-cloud.sh](./scripts/train-cloud.sh) successfully, you have
@@ -143,8 +144,51 @@ created and stored some files in your GCS bucket. You may simply remove them by 
 source ./scripts/cleanup.sh
 ```
 
+## How Hyperparameter Tuning Works
+
+While you may use [GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV) or
+[RandomizedSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html#sklearn.model_selection.RandomizedSearchCV) to tune your hyperparameters, AI Platform offers a better solution.
+The advantage of using AI Platform to tune the hyperparameters is that it tries to optimize the selection
+of hyperparameters, instead of testing all possibilities. 
+Therefore, the optimized model will be generated much quicker with less trials.
+
+In this sample, we will be tuning the following three hyperparameters:
+
+* `max_depth` with an integer type, ranging from 3 to 8
+* `min_samples_split`with a float type, ranging from 0.01 to 0.99
+* `criterion` with a category type from the set of `{"gini", "entropy"}`
+
+
+### Setup
+
+Let's take a quick look at how the hyperparameter tuning works on AI-Platform. 
+If you look closely, this sample is quite similar to the [base sample for scikit-learn](../base).
+To highlight the differences:
+
+1. In [metadata.py](trainer/metadata.py), we set `HYPERPARAMTER_TUNING` to `True`.
+This will enable the code that computes the evaluation score, and reports it back to AI Platform.
+
+2. In [task.py](trainer/task.py), we set `hyperparameter_metric_tag` to our desired name for the evaluation metric.
+
+3. In [task.py](trainer/task.py), we used `parser.add_argument(...)` to pass the hyperparameters to the training code.
+
+4. We added [config.yaml](./config.yaml) to define the hyperparameters and their ranges.
+We also defined how many models should be trained, and how many of them can be trained in parallel.
+Finally, we used the same value which we used for `hyperparameter_metric_tag`
+in step 2, for `hyperparameterMetricTag` in this file.
+
+### Monitoring
+Once the training starts and the models are generated, you may view the training job in
+the [AI Platform page](https://pantheon.corp.google.com/mlengine/jobs). If you click on the 
+corresponding training job, you will be able to view the chosen hyperparamters, along with the
+metric scores for each model. All the generated model objects will be stored on GCS. 
+
 ## What's Next
 
-In this sample, we trained a simple classifier with scikit-learn.
+In this sample, we trained a simple classifier with scikit-learn using hyperparameter tuning.
 To see how to deploy the model to AI Platform and use it to make predictions,
 please continue with [this sample](../../../../prediction/sklearn/structured/base).
+You may need to manually set the environment variable `MODEL_DIR` though, depending on 
+which one of the trained models you actually want to deploy.
+
+For further information on hyperparameter tuning on AI Platform, please visit [this page](https://cloud.google.com/ml-engine/docs/using-hyperparameter-tuning).
