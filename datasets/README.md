@@ -61,8 +61,8 @@ source ./download-taxi.sh /path/to/output/directory small
 
 **Note**: Using `source` preserves the environment variables.
 
-Upon succession, the relevant datasets are downloaded and some or all of the
-following environment variables properly exported:
+Upon completion, the selected datasets are downloaded and the corresponding 
+environment variables are set and exported:
 
 * Local Datasets for Training:
 
