@@ -35,7 +35,10 @@ def create(args, config):
     # Change the optimizers for the wide and deep parts of the model if you wish
     linear_optimizer = tf.train.FtrlOptimizer(learning_rate=args.learning_rate)
     # Use _update_optimizer to implement an adaptive learning rate
-    dnn_optimizer = lambda: _update_optimizer(args)
+
+    def predicate(): return _update_optimizer(args)
+
+    dnn_optimizer = predicate
 
     if metadata.TASK_TYPE == 'classification':
         estimator = tf.estimator.DNNLinearCombinedClassifier(
@@ -69,7 +72,8 @@ def create(args, config):
 def _construct_hidden_units(args):
     """ Create the number of hidden units in each layer
 
-    If the args.layer_sizes_scale_factor > 0 then it will use a "decay" mechanism
+    If the args.layer_sizes_scale_factor > 0 then it will use a "decay"
+    mechanism
     to define the number of units in each layer. Otherwise, arg.hidden_units
     will be used as-is.
 
@@ -86,7 +90,7 @@ def _construct_hidden_units(args):
         num_layers = args.num_layers
 
         hidden_units = [
-            max(2, int(first_layer_size * scale_factor**i))
+            max(2, int(first_layer_size * scale_factor ** i))
             for i in range(num_layers)
         ]
 
@@ -102,15 +106,17 @@ def _update_optimizer(args):
     Returns:
       Optimizer
     """
-    # Decayed_learning_rate = learning_rate * decay_rate ^ (global_step / decay_steps)
+    # Decayed_learning_rate = learning_rate * decay_rate ^ (global_step /
+    # decay_steps)
     # See: https://www.tensorflow.org/api_docs/python/tf/train/exponential_decay
     learning_rate = tf.train.exponential_decay(
         learning_rate=args.learning_rate,
-        global_step=tf.train.get_global_step(),
+        global_step=tf.train.get_or_create_global_step(),
         decay_steps=args.train_steps,
         decay_rate=args.learning_rate_decay_factor)
 
     tf.summary.scalar('learning_rate', learning_rate)
 
-    # By default, AdamOptimizer is used. You can change the type of the optimizer.
+    # By default, AdamOptimizer is used. You can change the type of the
+    # optimizer.
     return tf.train.AdamOptimizer(learning_rate=learning_rate)

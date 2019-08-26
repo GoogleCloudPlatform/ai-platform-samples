@@ -90,7 +90,8 @@ def _extend_feature_columns(feature_columns, args):
         # Add numeric features
         if isinstance(column, feature_column.NumericColumn):
             extended_feature_columns.append(column)
-        # Only add the sparse feature as-is if args.use_wide_columns is set to True
+        # Only add the sparse feature as-is if args.use_wide_columns is set to
+        # True
         elif args.use_wide_columns:
             extended_feature_columns.append(column)
 
@@ -111,16 +112,17 @@ def _create_feature_columns():
     Returns:
       dictionary of name:feature_column
     """
-
     feature_columns = {}
-
     # Add numeric features
     for feature_name in metadata.NUMERIC_FEATURE_NAMES_WITH_STATS:
         try:
             mean = metadata.NUMERIC_FEATURE_NAMES_WITH_STATS['mean']
             variance = metadata.NUMERIC_FEATURE_NAMES_WITH_STATS['var']
-            normalizer_fn = lambda value: (value - mean) / math.sqrt(variance)
-        except:
+
+            def _z_score(value): return (value - mean) / math.sqrt(variance)
+
+            normalizer_fn = _z_score
+        except KeyError:
             normalizer_fn = None
         feature_columns[feature_name] = (
             tf.feature_column.numeric_column(
@@ -131,24 +133,24 @@ def _create_feature_columns():
         feature_columns[feature_name] = (
             tf.feature_column.categorical_column_with_identity(
                 feature_name,
-                num_buckets=metadata
-                    .CATEGORICAL_FEATURE_NAMES_WITH_IDENTITY[feature_name]))
+                num_buckets=metadata.CATEGORICAL_FEATURE_NAMES_WITH_IDENTITY[
+                    feature_name]))
 
     # Add categorical columns with vocabulary
     for feature_name in metadata.CATEGORICAL_FEATURE_NAMES_WITH_VOCABULARY:
+        vocabulary_list = metadata.CATEGORICAL_FEATURE_NAMES_WITH_VOCABULARY[
+            feature_name]
         feature_columns[feature_name] = (
             tf.feature_column.categorical_column_with_vocabulary_list(
-                feature_name,
-                vocabulary_list=metadata
-                    .CATEGORICAL_FEATURE_NAMES_WITH_VOCABULARY[feature_name]))
+                feature_name, vocabulary_list=vocabulary_list))
 
     # Add categorical columns with hash bucket
     for feature_name in metadata.CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET:
+        hash_bucket_size = metadata.CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET[
+            feature_name]
         feature_columns[feature_name] = (
             tf.feature_column.categorical_column_with_hash_bucket(
-                feature_name,
-                hash_bucket_size=metadata
-                    .CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET[feature_name]))
+                feature_name, hash_bucket_size=hash_bucket_size))
 
     return feature_columns
 
@@ -170,10 +172,11 @@ def _get_sparse_and_dense_columns(feature_columns):
 
     sparse_columns = [
         column for column in feature_columns
-        if (isinstance(column, feature_column.VocabularyListCategoricalColumn) or
-            isinstance(column, feature_column.IdentityCategoricalColumn) or
-            isinstance(column, feature_column.BucketizedColumn) or
-            isinstance(column, feature_column.CrossedColumn))
+        if
+        (isinstance(column, feature_column.VocabularyListCategoricalColumn) or
+         isinstance(column, feature_column.IdentityCategoricalColumn) or
+         isinstance(column, feature_column.BucketizedColumn) or
+         isinstance(column, feature_column.CrossedColumn))
     ]
 
     return sparse_columns, dense_columns

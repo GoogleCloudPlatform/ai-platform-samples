@@ -24,7 +24,7 @@ check_if_changed(){
     # Check if a change happened to directory.
     DIFF=`git diff master $KOKORO_GITHUB_PULL_REQUEST_COMMIT $PWD`
     echo "git diff:\n $DIFF"
-    if [[ -z $DIFF ]]; then
+    if [[ -z ${DIFF} ]]; then
         echo "Test ignored; directory was not modified in pull request $KOKORO_GITHUB_PULL_REQUEST_NUMBER"
         exit 0
     fi
@@ -49,6 +49,20 @@ project_setup(){
 }
 
 
+run_flake8() {
+    # Install Flake8
+    pip install flake8
+    # Run Flake in current directory.
+    cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_DIR}
+    flake8 --max-line-length=80 . --statistics
+    result=$?
+	if [ ${result} -ne 0 ];then
+		exit 1
+	else
+	    echo "Flake run successfully in directory $PWD"
+	fi
+}
+
 main(){
     check_if_changed
     project_setup
@@ -56,6 +70,7 @@ main(){
     cd ${KOKORO_ARTIFACTS_DIR}
     # Run specific test.
     bash "${CAIP_TEST_SCRIPT}"
+    run_flake8
 }
 
 main

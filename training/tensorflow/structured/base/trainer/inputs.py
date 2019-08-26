@@ -25,7 +25,8 @@ def get_feature_spec(is_serving=False):
 
     Used for parsing tf examples.
     Args:
-      is_serving: boolean - whether to create feature_spec for training o serving.
+      is_serving: boolean - whether to create feature_spec for training or
+      serving.
 
     Returns:
       feature_spec
@@ -38,17 +39,24 @@ def get_feature_spec(is_serving=False):
 
     for feature_name in column_names:
         if feature_name in metadata.NUMERIC_FEATURE_NAMES_WITH_STATS:
-            feature_spec[feature_name] = tf.FixedLenFeature(shape=1, dtype=tf.float32)
+            feature_spec[feature_name] = tf.FixedLenFeature(shape=1,
+                                                            dtype=tf.float32)
         if feature_name in metadata.NUMERIC_FEATURE_NAMES_GEOPOINTS:
-            feature_spec[feature_name] = tf.FixedLenFeature(shape=1, dtype=tf.float32)
+            feature_spec[feature_name] = tf.FixedLenFeature(shape=1,
+                                                            dtype=tf.float32)
         elif feature_name in metadata.CATEGORICAL_FEATURE_NAMES_WITH_IDENTITY:
-            feature_spec[feature_name] = tf.FixedLenFeature(shape=1, dtype=tf.int32)
+            feature_spec[feature_name] = tf.FixedLenFeature(shape=1,
+                                                            dtype=tf.int32)
         elif feature_name in metadata.NUMERIC_FEATURE_NAMES:
-            feature_spec[feature_name] = tf.FixedLenFeature(shape=1, dtype=tf.int32)
+            feature_spec[feature_name] = tf.FixedLenFeature(shape=1,
+                                                            dtype=tf.int32)
         elif feature_name in metadata.CATEGORICAL_FEATURE_NAMES_WITH_VOCABULARY:
-            feature_spec[feature_name] = tf.FixedLenFeature(shape=1, dtype=tf.string)
-        elif feature_name in metadata.CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET:
-            feature_spec[feature_name] = tf.FixedLenFeature(shape=1, dtype=tf.string)
+            feature_spec[feature_name] = tf.FixedLenFeature(shape=1,
+                                                            dtype=tf.string)
+        elif feature_name in \
+                metadata.CATEGORICAL_FEATURE_NAMES_WITH_HASH_BUCKET:
+            feature_spec[feature_name] = tf.FixedLenFeature(shape=1,
+                                                            dtype=tf.string)
         elif feature_name == metadata.TARGET_NAME:
             if metadata.TASK_TYPE == 'classification':
                 feature_spec[feature_name] = tf.FixedLenFeature(
@@ -68,7 +76,8 @@ def parse_csv(csv_row, is_serving=False):
     Args:
       csv_row: rank-2 tensor of type string (csv).
       is_serving: boolean to indicate whether this function is called during
-        serving or training, since the csv_row serving input is different than the
+        serving or training, since the csv_row serving input is different
+        than the
         training input (i.e., no target column).
 
     Returns:
@@ -93,7 +102,8 @@ def parse_csv(csv_row, is_serving=False):
 
 def process_features(features):
     """ Use to implement custom feature engineering logic.
-    Default behaviour is to return the original feature tensors dictionary as-is.
+    Default behaviour is to return the original feature tensors dictionary
+    as-is.
 
     Args:
         features: {string:tensors} - dictionary of feature tensors
@@ -112,16 +122,19 @@ def make_input_fn(file_pattern,
     """Makes an input function for reading training and evaluation data file(s).
 
     Args:
-        file_pattern: str - Filename or file name patterns from which to read the
+        file_pattern: str - Filename or file name patterns from which to read
+        the
           data.
         mode: tf.estimator.ModeKeys - Either TRAIN or EVAL. Used to determine
           whether or not to randomize the order of data.
         file_encoding: Type of the text files. Can be 'csv' or 'tfrecords'
-        has_header: boolean - Set to non-zero in order to skip header lines in CSV
+        has_header: boolean - Set to non-zero in order to skip header lines
+        in CSV
           files.
         num_epochs: int - How many times through to read the data. If None will
           loop through data indefinitely
-        batch_size: int - First dimension size of the Tensors returned by input_fn
+        batch_size: int - First dimension size of the Tensors returned by
+        input_fn
         multi_threading: boolean - Indicator to use multi-threading or not
 
     Returns:
@@ -174,8 +187,9 @@ def make_input_fn(file_pattern,
                 sloppy_ordering=True,
                 drop_final_batch=False)
 
-        dataset = dataset.map(lambda features, target: (process_features(features),
-                                                        target))
+        dataset = dataset.map(
+            lambda features, target: (process_features(features),
+                                      target))
 
         return dataset
 

@@ -132,8 +132,10 @@ def get_args():
     args_parser.add_argument(
         '--learning-rate-decay-factor',
         help="""
-      The factor by which the learning rate should decay by the end of the training.
-      decayed_learning_rate = learning_rate * decay_rate ^ (global_step / decay_steps).
+      The factor by which the learning rate should decay by the end of the
+      training.
+      decayed_learning_rate = learning_rate * decay_rate ^ (global_step /
+      decay_steps).
       If set to 1.0 (default), then no decay will occur.
       If set to 0.5, then the learning rate should reach 0.5 of its original
           value at the end of the training.
@@ -144,8 +146,10 @@ def get_args():
     args_parser.add_argument(
         '--hidden-units',
         help="""
-      Hidden layer sizes to use for DNN feature columns, provided in comma-separated layers.
-      If --scale-factor > 0, then only the size of the first layer will be used to compute
+      Hidden layer sizes to use for DNN feature columns, provided in
+      comma-separated layers.
+      If --scale-factor > 0, then only the size of the first layer will be
+      used to compute
       the sizes of subsequent layers.
       """,
         default='30,30,30')
@@ -159,7 +163,8 @@ def get_args():
         type=float)
     args_parser.add_argument(
         '--num-layers',
-        help='Number of layers in the DNN. If --scale-factor > 0, then this parameter is ignored',
+        help='Number of layers in the DNN. If --scale-factor > 0, then this '
+             'parameter is ignored',
         default=4,
         type=int)
     args_parser.add_argument(
@@ -227,7 +232,8 @@ def main():
     if not args.reuse_job_dir:
         if tf.gfile.Exists(args.job_dir):
             tf.gfile.DeleteRecursively(args.job_dir)
-            logging.info('Deleted job_dir {} to avoid re-use'.format(args.job_dir))
+            logging.info(
+                'Deleted job_dir {} to avoid re-use'.format(args.job_dir))
     else:
         logging.info('Reusing job_dir {} if it exists'.format(args.job_dir))
 
@@ -245,7 +251,8 @@ def main():
     logging.info('Epoch count: {}.'.format(args.num_epochs))
     logging.info('Batch size: {}.'.format(args.batch_size))
     logging.info('Training steps: {} ({}).'.format(
-        args.train_steps, 'supplied' if args.train_size is None else 'computed'))
+        args.train_steps,
+        'supplied' if args.train_size is None else 'computed'))
     logging.info('Evaluate every {} steps.'.format(args.eval_frequency_secs))
 
     # Create the Estimator
