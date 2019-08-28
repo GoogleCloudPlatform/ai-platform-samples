@@ -14,6 +14,7 @@
 # limitations under the License.
 import logging
 import tensorflow as tf
+from tensorflow.keras import Input, Model
 
 from . import featurizer
 from . import metadata
@@ -38,3 +39,43 @@ def create(args, config):
 
     dnn_optimizer = predicate
 
+    n_classes = len(metadata.TARGET_LABELS) if metadata.TASK_TYPE == 'classification' else 1
+
+    return _make_model(
+            n_classes=len(metadata.TARGET_LABELS),
+            linear_feature_columns=wide_columns,
+            linear_optimizer=linear_optimizer,            
+            dnn_feature_columns=deep_columns,
+            dnn_optimizer=dnn_optimizer,
+            dnn_hidden_units=_construct_hidden_units(args),
+            dnn_activation_fn=tf.nn.relu,
+            dnn_dropout=args.dropout_prob,
+            batch_norm=True,
+            config=config,
+        )
+
+def _create_wide_n_deep(linear_feature_columns,
+                linear_optimizer,
+                dnn_feature_columns,
+                dnn_optimizer,
+                dnn_hidden_units,            
+                config,
+                dnn_dropout=0,   
+                batch_norm=True,
+                dnn_activation_fn=tf.nn.relu, 
+                n_classes=1
+               ):
+    """ Create a Wide and Deep model """
+        
+    wide = _create_wide_model()
+    deep = _create_deep_model()
+    return (wide, deep)
+    
+def _create_wide_model():
+    """ Create the wide model """
+    pass
+
+def _create_deep_model():
+    """ Create the deep model """
+    pass
+        
