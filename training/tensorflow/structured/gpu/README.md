@@ -57,7 +57,7 @@ your local machine.
 
 |File Name| Purpose| Do You Need to Change?
 |:---|:---|:---
-|[experiment.py](../../../tensorflow/structured/base/trainer/experiment.py) |Includes: 1) Creates RunConfig, and 2) Uses one or more GPUs | **No, unless** you want to change distribution strategy.
+|[experiment.py](../base/trainer/experiment.py) |Includes: 1) Creates RunConfig, and 2) Uses one or more GPUs | **No, unless** you want to change distribution strategy.
 
 ### Code
 
