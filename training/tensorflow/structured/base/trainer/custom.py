@@ -43,7 +43,7 @@ def create(args, config):
 
     n_classes = len(metadata.TARGET_LABELS) if metadata.TASK_TYPE == 'classification' else 1
 
-    return _make_model(
+    return _create_wide_n_deep(
             n_classes=len(metadata.TARGET_LABELS),
             linear_feature_columns=wide_columns,
             linear_optimizer=linear_optimizer,            
@@ -68,6 +68,9 @@ def _create_wide_n_deep(linear_feature_columns,
                 n_classes=1
                ):
     """ Create a Wide and Deep model """
+    
+    # The input vector
+    inputs = Input((len(dnn_feature_columns) + len(linear_feature_columns),))
         
     # Create the wide model
     wide = _create_wide_model(dnn_feature_columns, dnn_hidden_units, inputs, activation, dnn_dropout, batch_norm)
@@ -81,6 +84,8 @@ def _create_wide_n_deep(linear_feature_columns,
     # Add the binary (logistic) classifier
     output = Dense(1, activation='sigmoid')(both)
     model = Model(inputs, output)
+    # Note: tf.keras does not yet support specifying multiple optimizers in the compile step,
+    # hence we use a single optimizer for both the wide and deep networks
     model.compile(optimizer='adam',
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
