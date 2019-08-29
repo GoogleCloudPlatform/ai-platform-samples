@@ -15,8 +15,8 @@
 import logging
 import tensorflow as tf
 from tensorflow.keras import Input, Model
-from tensorflow.keras import DenseFeatures, Dense, concatenate
-from tensorflow.keras import Dropout, BatchNormalization
+from tensorflow.keras.layers import DenseFeatures, Dense, concatenate
+from tensorflow.keras.layers import Dropout, BatchNormalization
 
 from . import featurizer
 from . import metadata
