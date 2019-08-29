@@ -52,10 +52,12 @@ def get_args():
         '--train-steps',
         help="""
         Steps to run the training job for.
-        If --num-epochs and --train-size are not specified, this must be specified;
+        If --num-epochs and --train-size are not specified, 
+        this must be specified;
         otherwise the training job will run indefinitely.
         if --num-epochs and --train-size are specified,
-        then --train-steps will default to: (train-size/train-batch-size) * num-epochs
+        then --train-steps will default to: 
+            (train-size/train-batch-size) * num-epochs
         """,
         default=0,
         type=int)
@@ -74,19 +76,21 @@ def get_args():
         default=128)
     args_parser.add_argument(
         '--train-size',
-        help="""\
+        help="""
         Size of the training data (instance count).
         If both --train-size and --num-epochs are specified,
-        --train-steps will default to: (train-size/train-batch-size) * num-epochs.\
+        --train-steps will default to: 
+            (train-size/train-batch-size) * num-epochs.
         """,        
         type=int,
         default=None)
     args_parser.add_argument(
         '--num-epochs',
-        help="""\
+        help="""
         Maximum number of training data epochs on which to train.
         If both --train-size and --num-epochs are specified,
-        --train-steps will default to: (train-size/train-batch-size) * num-epochs.\
+        --train-steps will default to: 
+            (train-size/train-batch-size) * num-epochs.
         """,
         default=100,
         type=int,
@@ -159,16 +163,18 @@ def get_args():
     args_parser.add_argument(
         '--layer-sizes-scale-factor',
         help="""
-        Determine how the size of the layers in the DNN are scaled per successive layer.
-        If value = 0 then the provided --hidden-units will be the same per layer.
+        Determine how the size of the layers in the DNN are scaled per 
+        successive layer.
+        If value = 0 then the provided --hidden-units will be the 
+        same per layer.
         """,
         default=0.7,
         type=float)
     args_parser.add_argument(
         '--num-layers',
         help="""
-        Number of layers in the DNN. If --layer-sizes-scale-factor > 0, then this
-        parameter is ignored.
+        Number of layers in the DNN. If --layer-sizes-scale-factor > 0, 
+        then this parameter is ignored.
         """,
         default=4,
         type=int)
@@ -187,7 +193,8 @@ def get_args():
         action='store_true',
         default=False,
         help="""
-        Flag to decide if the model checkpoint should be re-used from the job-dir.
+        Flag to decide if the model checkpoint should be 
+        re-used from the job-dir.
         If set to False then the job-dir will be deleted.
         """)
     args_parser.add_argument(
