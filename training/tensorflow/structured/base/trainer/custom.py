@@ -15,6 +15,8 @@
 import logging
 import tensorflow as tf
 from tensorflow.keras import Input, Model
+from tensorflow.keras import DenseFeatures, Dense, concatenate
+from tensorflow.keras import Dropout, BatchNormalization
 
 from . import featurizer
 from . import metadata
@@ -67,15 +69,42 @@ def _create_wide_n_deep(linear_feature_columns,
                ):
     """ Create a Wide and Deep model """
         
-    wide = _create_wide_model()
-    deep = _create_deep_model()
-    return (wide, deep)
+    # Create the wide model
+    wide = _create_wide_model(dnn_feature_columns, dnn_hidden_units, inputs, activation, dnn_dropout, batch_norm)
     
-def _create_wide_model():
+    # Create the deep model
+    deep = _create_deep_model()
+    
+    # Concatenate the outputs from both models
+    both = concatenate([wide, deep])
+    
+    # Add the binary (logistic) classifier
+    output = Dense(1, activation='sigmoid')(both)
+    model = Model(inputs, output)
+    model.compile(optimizer='adam',
+                  loss='binary_crossentropy',
+                  metrics=['accuracy'])
+    return both
+    
+def _create_wide_model(linear_feature_columns, inputs):
     """ Create the wide model """
-    pass
+    wide = DenseFeatures(linear_feature_columns)(inputs)
+    return wide
 
-def _create_deep_model():
+def _create_deep_model(dnn_feature_columns, dnn_hidden_units, inputs, activation=tf.nn.relu, dnn_dropout=0, batch_norm=True):
     """ Create the deep model """
-    pass
+    
+    # Start with Dense Features layer
+    deep = DenseFeatures(dnn_feature_columns)(inputs)
+    
+    # Add the hidden Dense layers
+    for layerno, numnodes in enumerate(dnn_hidden_units):
+        deep = Dense(numnodes, activation=activation)(deep)  
         
+        # Add batch normalization after each hidden layer
+        if batch_norm is True:
+            deep = BatchNormalization()(deep)
+        # Add dropout after each hidden layer
+        if dnn_dropout > 0:
+            deep = Dropout(dropout)(deep)
+    return deep
