@@ -198,7 +198,7 @@ def get_args():
     args_parser.add_argument(
         '--custom-model',
         help='Use the custom wide and deep model.',
-        default=false)
+        default=False)
     return args_parser.parse_args()
 
 
