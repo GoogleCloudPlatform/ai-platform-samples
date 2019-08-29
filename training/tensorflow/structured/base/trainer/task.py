@@ -195,7 +195,10 @@ def get_args():
         help='The input format of the exported evaluating SavedModel.',
         choices=['CSV', 'EXAMPLE'],
         default='CSV')
-
+    args_parser.add_argument(
+        '--custom-model',
+        help='Use the custom wide and deep model.',
+        default=false)
     return args_parser.parse_args()
 
 
