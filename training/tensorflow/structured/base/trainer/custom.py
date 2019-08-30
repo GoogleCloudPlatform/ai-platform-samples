@@ -113,3 +113,52 @@ def _create_deep_model(dnn_feature_columns, dnn_hidden_units, inputs, activation
         if dnn_dropout > 0:
             deep = Dropout(dropout)(deep)
     return deep
+
+def _construct_hidden_units(args):
+    """ Create the number of hidden units in each layer
+    If the args.layer_sizes_scale_factor > 0 then it will use a "decay"
+    mechanism
+    to define the number of units in each layer. Otherwise, arg.hidden_units
+    will be used as-is.
+    Args:
+      args: experiment parameters.
+    Returns:
+        list of int
+    """
+    hidden_units = [int(units) for units in args.hidden_units.split(',')]
+
+    if args.layer_sizes_scale_factor > 0:
+        first_layer_size = hidden_units[0]
+        scale_factor = args.layer_sizes_scale_factor
+        num_layers = args.num_layers
+
+        hidden_units = [
+            max(2, int(first_layer_size * scale_factor ** i))
+            for i in range(num_layers)
+        ]
+
+    logging.info('Hidden units structure: {}'.format(hidden_units))
+    return hidden_units
+
+
+def _update_optimizer(args):
+    """Create an optimizer with an update learning rate.
+    Args:
+      args: experiment parameters
+    Returns:
+      Optimizer
+    """
+    # Decayed_learning_rate = learning_rate * decay_rate ^ (global_step /
+    # decay_steps)
+    # See: https://www.tensorflow.org/api_docs/python/tf/train/exponential_decay
+    learning_rate = tf.train.exponential_decay(
+        learning_rate=args.learning_rate,
+        global_step=tf.train.get_or_create_global_step(),
+        decay_steps=args.train_steps,
+        decay_rate=args.learning_rate_decay_factor)
+
+    tf.summary.scalar('learning_rate', learning_rate)
+
+    # By default, AdamOptimizer is used. You can change the type of the
+    # optimizer.
+    return tf.train.AdamOptimizer(learning_rate=learning_rate)
