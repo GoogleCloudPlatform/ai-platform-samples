@@ -87,12 +87,25 @@ locally without changing global python packages on your system.
 There are two options for the virtual environments:
 
 *   Install [Virtualenv](https://virtualenv.pypa.io/en/stable/) 
-    *   Create virtual environment `virtualenv myvirtualenv`
-    *   Activate env `source myvirtualenv/bin/activate`
-*   Install [Miniconda](https://conda.io/miniconda.html)
-    *   Create conda environment `conda create --name myvirtualenv python=3.5`
-    *   Activate env `source activate myvirtualenv`
+    *   Create virtual environment:
+    ```
+    virtualenv -p `which python3` myvirtualenv
+    ```
+    *   Activate env: 
+    ```
+    source myvirtualenv/bin/activate
+    ```
     
+*   Install [Miniconda](https://conda.io/miniconda.html)
+    *   Create conda environment:   
+    ```
+    conda create --name myvirtualenv python=3.5
+    ```
+   
+    *   Activate env:
+    ```
+    source activate myvirtualenv
+    ```    
 
 ## Install Dependencies
 
