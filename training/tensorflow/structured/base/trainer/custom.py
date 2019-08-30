@@ -73,7 +73,7 @@ def _create_wide_n_deep(linear_feature_columns,
     inputs = Input((len(dnn_feature_columns) + len(linear_feature_columns),))
         
     # Create the wide model
-    wide = _create_wide_model(dnn_feature_columns, dnn_hidden_units, inputs, activation, dnn_dropout, batch_norm)
+    wide = _create_wide_model(dnn_feature_columns, dnn_hidden_units, inputs, dnn_activation_fn, dnn_dropout, batch_norm)
     
     # Create the deep model
     deep = _create_deep_model()
