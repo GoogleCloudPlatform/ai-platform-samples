@@ -82,7 +82,7 @@ def _create_wide_n_deep(linear_feature_columns,
     both = concatenate([wide, deep])
     
     # Add the binary (logistic) classifier
-    output = Dense(1, activation='sigmoid')(both)
+    output = Dense(n_classes, activation='sigmoid')(both)
     model = Model(inputs, output)
     # Note: tf.keras does not yet support specifying multiple optimizers in the compile step,
     # hence we use a single optimizer for both the wide and deep networks
@@ -111,7 +111,7 @@ def _create_deep_model(dnn_feature_columns, dnn_hidden_units, inputs, activation
             deep = BatchNormalization()(deep)
         # Add dropout after each hidden layer
         if dnn_dropout > 0:
-            deep = Dropout(dropout)(deep)
+            deep = Dropout(dnn_dropout)(deep)
     return deep
 
 def _construct_hidden_units(args):
