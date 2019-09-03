@@ -35,8 +35,14 @@ def data_train_test_split(data_df):
                   pandas.DataFrame, pandas.Series)
     """
 
-    # Only use metadata.FEATURE_NAMES + metadata.TARGET_NAME
-    features = data_df[metadata.FEATURE_NAMES]
+    if metadata.FEATURE_NAMES is None:
+        # Use all the columns as features, except for the target column
+        feature_names = list(data_df.columns)
+        feature_names.remove(metadata.TARGET_NAME)
+        features = data_df[feature_names]
+    else:
+        # Only use metadata.FEATURE_NAMES
+        features = data_df[metadata.FEATURE_NAMES]
     target = data_df[metadata.TARGET_NAME]
 
     x_train, x_val, y_train, y_val = ms.train_test_split(features,

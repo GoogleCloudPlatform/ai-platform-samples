@@ -30,7 +30,7 @@ executed on your local machine.
   * [task.py](trainer/task.py) initializes and parses task arguments. This is the entry point to the trainer.
   * [model.py](trainer/model.py) includes a function to create the scikit-learn estimator or pipeline
   * [metadata.py](trainer/metadata.py) contains the definition for the target and feature names, among other configuring variables 
-  * [util.py](trainer/task.py) contains a number of helper functions used in task.py  
+  * [util.py](trainer/util.py) contains a number of helper functions used in task.py
 * [scripts](./scripts) directory: command-line scripts to train the model locally or on AI Platform.
   We recommend to run the scripts in this directory in the following order, and use
   the `source` command to run them, in order to export the environment variables at each step:
@@ -38,7 +38,6 @@ executed on your local machine.
   good idea to try and train the model locally for debugging, before submitting it to AI Platform.
   * [train-cloud.sh](./scripts/train-cloud.sh) submits a training job to AI Platform.
 * [setup.py](./setup.py): containing all the required Python packages for this tutorial.
-* [config.yaml](./config.yaml): config file containing the hyperparameters for tuning.
 
 
 We recommend that you follow the same structure for your own work. In most cases, you only need to 
@@ -133,8 +132,6 @@ to use accelerators for instance, or do a distributed training, you will need a 
 * `region`: which region to run the training job in.
 * `stream-logs`: streams the logs until the job finishes.
 * `config`: passing the config file which contains the hyperparameter tuning information.
-
-### 
 
 ## Clean Up
 If you were able to run [train-cloud.sh](./scripts/train-cloud.sh) successfully, you have

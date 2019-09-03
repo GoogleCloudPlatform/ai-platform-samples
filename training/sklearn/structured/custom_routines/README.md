@@ -1,10 +1,10 @@
-# Training with scikit-learn - the Base Case
+# Training with scikit-learn - Custom Prediction Routines
 
 ## Overview
 
-The purpose of this directory is to provide a sample for how you can package a
-scikit-learn training model to submit it to AI Platform. The sample makes it
-easier to organize your code, and to adapt it to your dataset. In more details,
+The purpose of this directory is to provide a sample to show to to train a
+scikit-learn model on AI Platform with custom routines. The sample makes it easier to organize
+your code, and to adapt it to your dataset. In more details,
 the template covers the following functionality:
 
 *   Metadata to define your dataset, features, and target.
@@ -30,7 +30,8 @@ executed on your local machine.
   * [task.py](trainer/task.py) initializes and parses task arguments. This is the entry point to the trainer.
   * [model.py](trainer/model.py) includes a function to create the scikit-learn estimator or pipeline
   * [metadata.py](trainer/metadata.py) contains the definition for the target and feature names, among other configuring variables 
-  * [util.py](trainer/util.py) contains a number of helper functions used in task.py  
+  * [util.py](trainer/util.py) contains a number of helper functions used in task.py
+  * [my_pipeline.py](trainer/my_pipeline.py) contains the custom routines to create a pipeline 
 * [scripts](./scripts) directory: command-line scripts to train the model locally or on AI Platform.
   We recommend to run the scripts in this directory in the following order, and use
   the `source` command to run them, in order to export the environment variables at each step:
@@ -38,6 +39,8 @@ executed on your local machine.
   good idea to try and train the model locally for debugging, before submitting it to AI Platform.
   * [train-cloud.sh](./scripts/train-cloud.sh) submits a training job to AI Platform.
 * [setup.py](./setup.py): containing all the required Python packages for this tutorial.
+* [config.yaml](./config.yaml): config file containing the hyperparameters for tuning.
+
 
 We recommend that you follow the same structure for your own work. In most cases, you only need to 
 modify:
@@ -69,7 +72,18 @@ source ./scripts/train-cloud.sh
 ``` 
 This will create a training job on AI Platform and displays some instructions on how to track the job progress.
 At the end of a successful training job, it will upload the trained model object to a GCS
-bucket and sets `$MODEL_DIR` environment variable to the directory containing the model.
+bucket and sets `$MODEL_DIR` environment variable to the parent directory of all the generated models.
+
+3. Package the custom routine and upload it to the bucket. Run: 
+
+```bash
+export CUSTOM_ROUTINE_PATH=gs://${BUCKET_NAME}/packages/custom_routine-1.0.tar.gz
+
+python package.py sdist --formats=gztar
+gsutil cp ./dist/custom_routine-1.0.tar.gz ${CUSTOM_ROUTINE_PATH}
+```
+
+`CUSTOM_ROUTINE_PATH` will later be used during the deployment of the model.
 
 ## Explaining Key Elements
 
@@ -83,6 +97,11 @@ In this sample, we simply create an instance of `RandomForestClassifier` estimat
 
 We define which features should be used for training. We also define what the target is.
 
+### [my_pipeline.py](trainer/my_pipeline.py)
+
+This file contains our custom routines. We will package and ship this, along with our trained model
+when we deploy our model to AI Platform to make predictions.
+
 ### [train-local.sh](./scripts/train-local.sh)
 
 The command to run the training job locally is this:
@@ -94,9 +113,7 @@ gcloud ai-platform local train \
         --job-dir=${MODEL_DIR} \
         -- \
         --log-level DEBUG \
-        --input=${TAXI_TRAIN_SMALL} \
-        --n-estimators=20 \
-        --max-depth=3
+        --input=${TAXI_TRAIN_SMALL}
 ```
 
 * `--job-dir`: path for the output artifacts, e.g. the model object
@@ -105,7 +122,6 @@ gcloud ai-platform local train \
 * `--` this is just a separator. Anyhing after this will be passed to the training job as input argument.
 * `log-level` sets the python logger level to DEBUG for this script (default is INFO)
 * `--input`: path to the input dataset
-* `--n-estimators` and `--max-depth`: will be passed to the estimator as hyperparameters
 
 
 ### [train-cloud.sh](./scripts/train-cloud.sh)
@@ -123,9 +139,7 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --python-version=${PYTHON_VERSION} \
         --stream-logs \
         -- \
-        --input=${GCS_TAXI_TRAIN_BIG} \
-        --n-estimators=20 \
-        --max-depth=3
+        --input=${GCS_TAXI_TRAIN_BIG}
 ```
 
 * `${JOB_NAME}` is a unique name for each job. We create one with a timestamp to make it unique each time.
@@ -133,7 +147,8 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
 * `scale-tier` is to choose the tier. For this sample, we use BASIC. However, if you need
 to use accelerators for instance, or do a distributed training, you will need a different tier.
 * `region`: which region to run the training job in.
-* `stream-logs`: streams the logs until the job finishes. 
+* `stream-logs`: streams the logs until the job finishes.
+* `config`: passing the config file which contains the hyperparameter tuning information. 
 
 ## Clean Up
 If you were able to run [train-cloud.sh](./scripts/train-cloud.sh) successfully, you have
@@ -143,8 +158,24 @@ created and stored some files in your GCS bucket. You may simply remove them by 
 source ./scripts/cleanup.sh
 ```
 
+## How Custom Prediction Routines Work
+
+Custom Prediction Routines is a piece of Python code which you will submit along
+with your trained models you are deploying it to AI Platform. A typical use case
+for custom prediction routines is when you want to create a custom scikit-learn
+pipeline, and you do not need to use docker containers for your prediction.
+
+
+### Monitoring
+Once the training starts and the models are generated, you may view the training job in
+the [AI Platform page](https://pantheon.corp.google.com/mlengine/jobs). If you click on the 
+corresponding training job, you will be able to view the chosen hyperparamters, along with the
+metric scores for each model. All the generated model objects will be stored on GCS. 
+
 ## What's Next
 
-In this sample, we trained a simple classifier with scikit-learn.
+In this sample, we trained a simple classifier with custom routines.
 To see how to deploy the model to AI Platform and use it to make predictions,
-please continue with [this sample](../../../../prediction/sklearn/structured/base).
+please continue with [this sample](../../../../prediction/sklearn/structured/custom_code).
+
+For further information on custom prediction routines on AI Platform, please visit [this page](https://cloud.google.com/ml-engine/docs/custom-prediction-routines).
