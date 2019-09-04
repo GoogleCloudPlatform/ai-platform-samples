@@ -50,7 +50,8 @@ def get_estimator(arguments):
     pipeline = Pipeline([
         ('pre', feats),
         ('estimator', ensemble.RandomForestClassifier(
-            max_depth=arguments.max_depth,
-            min_samples_split=arguments.min_samples_split,))
+            n_estimators=arguments.n_estimators,
+            max_depth=arguments.max_depth)
+        )
     ])
     return pipeline

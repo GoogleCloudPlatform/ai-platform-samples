@@ -116,24 +116,17 @@ def _parse_args():
     )
 
     parser.add_argument(
+        '--n-estimators',
+        help='Number of trees in the forest.',
+        default=10,
+        type=int,
+    )
+
+    parser.add_argument(
         '--max-depth',
         help='The maximum depth of the tree.',
         type=int,
         default=3,
-    )
-
-    parser.add_argument(
-        '--min-samples-split',
-        help='Minimum samples split ratio (between 0 and 1)',
-        default=0.1,
-        type=float,
-    )
-
-    parser.add_argument(
-        '--criterion',
-        help='Criterion. One of gini, or entropy',
-        default='gini',
-        type=str,
     )
 
     return parser.parse_args()

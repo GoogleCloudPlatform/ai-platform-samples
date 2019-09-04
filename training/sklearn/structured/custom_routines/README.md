@@ -39,7 +39,6 @@ executed on your local machine.
   good idea to try and train the model locally for debugging, before submitting it to AI Platform.
   * [train-cloud.sh](./scripts/train-cloud.sh) submits a training job to AI Platform.
 * [setup.py](./setup.py): containing all the required Python packages for this tutorial.
-* [config.yaml](./config.yaml): config file containing the hyperparameters for tuning.
 
 
 We recommend that you follow the same structure for your own work. In most cases, you only need to 
@@ -74,15 +73,8 @@ This will create a training job on AI Platform and displays some instructions on
 At the end of a successful training job, it will upload the trained model object to a GCS
 bucket and sets `$MODEL_DIR` environment variable to the parent directory of all the generated models.
 
-3. Package the custom routine and upload it to the bucket. Run: 
-
-```bash
-export CUSTOM_ROUTINE_PATH=gs://${BUCKET_NAME}/packages/custom_routine-1.0.tar.gz
-
-python package.py sdist --formats=gztar
-gsutil cp ./dist/custom_routine-1.0.tar.gz ${CUSTOM_ROUTINE_PATH}
-```
-
+It will also package up the custom routine and upload it to the bucket and 
+set the environment variable `CUSTOM_ROUTINE_PATH` which points to it.
 `CUSTOM_ROUTINE_PATH` will later be used during the deployment of the model.
 
 ## Explaining Key Elements
@@ -99,7 +91,8 @@ We define which features should be used for training. We also define what the ta
 
 ### [my_pipeline.py](trainer/my_pipeline.py)
 
-This file contains our custom routines. We will package and ship this, along with our trained model
+This file contains our custom routines. The code in this file is required for making predictions.
+We will package and ship this, along with our trained model
 when we deploy our model to AI Platform to make predictions.
 
 ### [train-local.sh](./scripts/train-local.sh)
@@ -172,6 +165,7 @@ the [AI Platform page](https://pantheon.corp.google.com/mlengine/jobs). If you c
 corresponding training job, you will be able to view the chosen hyperparamters, along with the
 metric scores for each model. All the generated model objects will be stored on GCS. 
 
+<!--
 ## What's Next
 
 In this sample, we trained a simple classifier with custom routines.
@@ -179,3 +173,4 @@ To see how to deploy the model to AI Platform and use it to make predictions,
 please continue with [this sample](../../../../prediction/sklearn/structured/custom_code).
 
 For further information on custom prediction routines on AI Platform, please visit [this page](https://cloud.google.com/ml-engine/docs/custom-prediction-routines).
+-->

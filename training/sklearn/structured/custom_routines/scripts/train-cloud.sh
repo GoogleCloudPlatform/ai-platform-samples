@@ -25,6 +25,7 @@ export MODEL_NAME="sklearn_taxi"
 
 PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
 export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}
+export CUSTOM_ROUTINE_PATH=gs://${BUCKET_NAME}/${MODEL_NAME}/library/custom_routine-1.0.tar.gz
 
 gsutil mb gs://${BUCKET_NAME}
 
@@ -40,9 +41,13 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --package-path=${PACKAGE_PATH}  \
         --python-version=${PYTHON_VERSION} \
         --stream-logs \
-        --config=./config.yaml \
         -- \
-        --input=${GCS_TAXI_TRAIN_BIG}
+        --input=${GCS_TAXI_TRAIN_BIG} \
+        --n-estimators=20 \
+        --max-depth=3
+
+python ./package.py sdist --formats=gztar
+gsutil cp ./dist/custom_routine-1.0.tar.gz ${CUSTOM_ROUTINE_PATH}
 
 set -
 

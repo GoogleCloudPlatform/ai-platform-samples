@@ -38,6 +38,7 @@ executed on your local machine.
   good idea to try and train the model locally for debugging, before submitting it to AI Platform.
   * [train-cloud.sh](./scripts/train-cloud.sh) submits a training job to AI Platform.
 * [setup.py](./setup.py): containing all the required Python packages for this tutorial.
+* [config.yaml](./config.yaml): config file containing the hyperparameters for tuning.
 
 
 We recommend that you follow the same structure for your own work. In most cases, you only need to 
