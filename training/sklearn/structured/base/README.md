@@ -71,6 +71,12 @@ This will create a training job on AI Platform and displays some instructions on
 At the end of a successful training job, it will upload the trained model object to a GCS
 bucket and sets `$MODEL_DIR` environment variable to the directory containing the model.
 
+### Monitoring
+Once the training starts and the models are generated, you may view the training job in
+the [AI Platform page](https://pantheon.corp.google.com/mlengine/jobs). If you click on the 
+corresponding training job, you will be able to view the chosen hyperparamters, along with the
+metric scores for each model. All the generated model objects will be stored on GCS. 
+
 ## Explaining Key Elements
 
 In this section, we'll highlight the main elements of this sample.

@@ -77,6 +77,12 @@ It will also package up the custom routine and upload it to the bucket and
 set the environment variable `CUSTOM_ROUTINE_PATH` which points to it.
 `CUSTOM_ROUTINE_PATH` will later be used during the deployment of the model.
 
+### Monitoring
+Once the training starts and the models are generated, you may view the training job in
+the [AI Platform page](https://pantheon.corp.google.com/mlengine/jobs). If you click on the 
+corresponding training job, you will be able to view the chosen hyperparamters, along with the
+metric scores for each model. All the generated model objects will be stored on GCS. 
+
 ## Explaining Key Elements
 
 In this section, we'll highlight the main elements of this sample.
@@ -158,12 +164,18 @@ with your trained models you are deploying it to AI Platform. A typical use case
 for custom prediction routines is when you want to create a custom scikit-learn
 pipeline, and you do not need to use docker containers for your prediction.
 
+### Highlights
 
-### Monitoring
-Once the training starts and the models are generated, you may view the training job in
-the [AI Platform page](https://pantheon.corp.google.com/mlengine/jobs). If you click on the 
-corresponding training job, you will be able to view the chosen hyperparamters, along with the
-metric scores for each model. All the generated model objects will be stored on GCS. 
+Let's take a quick look at how the custom routines work on AI-Platform. 
+If you look closely, this sample is quite similar to the [base sample for scikit-learn](../base).
+To highlight the differences:
+
+1. [my_pipeline.py](trainer/my_pipeline.py) contains the custom code that we need to package and pass alongside the 
+model during deployment. 
+
+2. In [train-cloud.sh](./scripts/train-cloud.sh) we package our Python code and upload it to the bucket.
+Note that we package everything in the trainer folder since it is easier, even though most other Python files
+in that directory are not needed to be packaged.
 
 <!--
 ## What's Next
