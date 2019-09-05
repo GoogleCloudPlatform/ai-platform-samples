@@ -24,6 +24,7 @@ This folder covers different functionality available in different frameworks:
  - [scikit-learn](https://www.scikit-learn.org)
  - [XGBoost](https://github.com/dmlc/xgboost)
  - [PyTorch](https://www.pytorch.org)
+ - [Horovod](https://github.com/horovod/horovod)
 
 Samples
 -------------
@@ -56,7 +57,8 @@ tuning, and accelerate with GPUs and TPUs.
 
 Containers on AI Platform is a feature that allows you to run your application within a Docker image. You can build your own custom container to run jobs on AI Platform, using ML frameworks and versions as well as non-ML dependencies, libraries and binaries that are not otherwise supported on AI Platform.
 
- - [PyTorch](pytorch/structured)
+ - [PyTorch](pytorch/structured) Train a PyTorch model in AI Platform
+ - [Horovod](horovod) How to run Horovod on AI Platform.
 
 #### AI Platform Prediction
 
