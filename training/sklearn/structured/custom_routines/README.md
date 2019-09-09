@@ -1,10 +1,10 @@
-# Training with scikit-learn - Hyperparameter Tuning
+# Training with scikit-learn - Custom Prediction Routines
 
 ## Overview
 
 The purpose of this directory is to provide a sample to show to to train a
-scikit-learn model on AI Platform with hyperparameter tuning. The sample makes it
-easier to organize your code, and to adapt it to your dataset. In more details,
+scikit-learn model on AI Platform with custom routines. The sample makes it easier to organize
+your code, and to adapt it to your dataset. In more details,
 the template covers the following functionality:
 
 *   Metadata to define your dataset, features, and target.
@@ -31,6 +31,7 @@ executed on your local machine.
   * [model.py](trainer/model.py) includes a function to create the scikit-learn estimator or pipeline
   * [metadata.py](trainer/metadata.py) contains the definition for the target and feature names, among other configuring variables 
   * [util.py](trainer/util.py) contains a number of helper functions used in task.py
+  * [my_pipeline.py](trainer/my_pipeline.py) contains the custom routines to create a pipeline 
 * [scripts](./scripts) directory: command-line scripts to train the model locally or on AI Platform.
   We recommend to run the scripts in this directory in the following order, and use
   the `source` command to run them, in order to export the environment variables at each step:
@@ -38,7 +39,6 @@ executed on your local machine.
   good idea to try and train the model locally for debugging, before submitting it to AI Platform.
   * [train-cloud.sh](./scripts/train-cloud.sh) submits a training job to AI Platform.
 * [setup.py](./setup.py): containing all the required Python packages for this tutorial.
-* [config.yaml](./config.yaml): config file containing the hyperparameters for tuning.
 
 
 We recommend that you follow the same structure for your own work. In most cases, you only need to 
@@ -73,6 +73,10 @@ This will create a training job on AI Platform and displays some instructions on
 At the end of a successful training job, it will upload the trained model object to a GCS
 bucket and sets `$MODEL_DIR` environment variable to the parent directory of all the generated models.
 
+It will also package up the custom routine and upload it to the bucket and 
+set the environment variable `CUSTOM_ROUTINE_PATH` which points to it.
+`CUSTOM_ROUTINE_PATH` will later be used during the deployment of the model.
+
 ### Monitoring
 Once the training starts and the models are generated, you may view the training job in
 the [AI Platform page](https://console.cloud.google.com/mlengine/jobs). If you click on the 
@@ -90,6 +94,12 @@ In this sample, we simply create an instance of `RandomForestClassifier` estimat
 ### [metadata.py](trainer/metadata.py)
 
 We define which features should be used for training. We also define what the target is.
+
+### [my_pipeline.py](trainer/my_pipeline.py)
+
+This file contains our custom routines. The code in this file is required for making predictions.
+We will package and ship this, along with our trained model
+when we deploy our model to AI Platform to make predictions.
 
 ### [train-local.sh](./scripts/train-local.sh)
 
@@ -127,7 +137,6 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --package-path=${PACKAGE_PATH}  \
         --python-version=${PYTHON_VERSION} \
         --stream-logs \
-        --config=./config.yaml \
         -- \
         --input=${GCS_TAXI_TRAIN_BIG}
 ```
@@ -138,7 +147,7 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
 to use accelerators for instance, or do a distributed training, you will need a different tier.
 * `region`: which region to run the training job in.
 * `stream-logs`: streams the logs until the job finishes.
-* `config`: passing the config file which contains the hyperparameter tuning information.
+* `config`: passing the config file which contains the hyperparameter tuning information. 
 
 ## Clean Up
 If you were able to run [train-cloud.sh](./scripts/train-cloud.sh) successfully, you have
@@ -148,45 +157,32 @@ created and stored some files in your GCS bucket. You may simply remove them by 
 source ./scripts/cleanup.sh
 ```
 
-## How Hyperparameter Tuning Works
+## How Custom Prediction Routines Work
 
-While you may use [GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV) or
-[RandomizedSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html#sklearn.model_selection.RandomizedSearchCV) to tune your hyperparameters, AI Platform offers a better solution.
-The advantage of using AI Platform to tune the hyperparameters is that it tries to optimize the selection
-of hyperparameters, instead of testing all possibilities. 
-Therefore, the optimized model will be generated much quicker with less trials.
-
-In this sample, we will be tuning the following three hyperparameters:
-
-* `max_depth` with an integer type, ranging from 3 to 8
-* `min_samples_split`with a float type, ranging from 0.01 to 0.99
-* `criterion` with a category type from the set of `{"gini", "entropy"}`
-
+Custom Prediction Routines is a piece of Python code which you will submit along
+with your trained models you are deploying it to AI Platform. A typical use case
+for custom prediction routines is when you want to create a custom scikit-learn
+pipeline, and you do not need to use docker containers for your prediction.
 
 ### Highlights
 
-Let's take a quick look at how the hyperparameter tuning works on AI-Platform. 
+Let's take a quick look at how the custom routines work on AI-Platform. 
 If you look closely, this sample is quite similar to the [base sample for scikit-learn](../base).
 To highlight the differences:
 
-1. In [metadata.py](trainer/metadata.py), we set `HYPERPARAMTER_TUNING` to `True`.
-This will enable the code that computes the evaluation score, and reports it back to AI Platform.
+1. [my_pipeline.py](trainer/my_pipeline.py) contains the custom code that we need to package and pass alongside the 
+model during deployment. 
 
-2. In [task.py](trainer/task.py), we set `hyperparameter_metric_tag` to our desired name for the evaluation metric.
+2. In [train-cloud.sh](./scripts/train-cloud.sh) we package our Python code and upload it to the bucket.
+Note that we package everything in the trainer folder since it is easier, even though most other Python files
+in that directory are not needed to be packaged.
 
-3. In [task.py](trainer/task.py), we used `parser.add_argument(...)` to pass the hyperparameters to the training code.
-
-4. We added [config.yaml](./config.yaml) to define the hyperparameters and their ranges.
-We also defined how many models should be trained, and how many of them can be trained in parallel.
-Finally, we used the same value which we used for `hyperparameter_metric_tag`
-in step 2, for `hyperparameterMetricTag` in this file.
-
+<!--
 ## What's Next
 
-In this sample, we trained a simple classifier with scikit-learn using hyperparameter tuning.
+In this sample, we trained a simple classifier with custom routines.
 To see how to deploy the model to AI Platform and use it to make predictions,
-please continue with [this sample](../../../../prediction/sklearn/structured/base).
-You may need to manually set the environment variable `MODEL_DIR` though, depending on 
-which one of the trained models you actually want to deploy.
+please continue with [this sample](../../../../prediction/sklearn/structured/custom_code).
 
-For further information on hyperparameter tuning on AI Platform, please visit [this page](https://cloud.google.com/ml-engine/docs/using-hyperparameter-tuning).
+For further information on custom prediction routines on AI Platform, please visit [this page](https://cloud.google.com/ml-engine/docs/custom-prediction-routines).
+-->

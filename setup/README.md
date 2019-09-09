@@ -21,9 +21,9 @@ and follow the instructions.
    
 5- Enable the API for the following services:
 
-  * [Compute Engine](https://pantheon.corp.google.com/compute)
-  * [Storage](https://pantheon.corp.google.com/storage)
-  * [AI Platform](https://pantheon.corp.google.com/mlengine)
+  * [Compute Engine](https://console.cloud.google.com/compute)
+  * [Storage](https://console.cloud.google.com/storage)
+  * [AI Platform](https://console.cloud.google.com/mlengine)
 
 From your terminal, run:
 

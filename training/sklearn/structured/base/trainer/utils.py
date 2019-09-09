@@ -35,8 +35,14 @@ def data_train_test_split(data_df):
                   pandas.DataFrame, pandas.Series)
     """
 
-    # Only use metadata.FEATURE_NAMES + metadata.TARGET_NAME
-    features = data_df[metadata.FEATURE_NAMES]
+    if metadata.FEATURE_NAMES is None:
+        # Use all the columns as features, except for the target column
+        feature_names = list(data_df.columns)
+        feature_names.remove(metadata.TARGET_NAME)
+        features = data_df[feature_names]
+    else:
+        # Only use metadata.FEATURE_NAMES
+        features = data_df[metadata.FEATURE_NAMES]
     target = data_df[metadata.TARGET_NAME]
 
     x_train, x_val, y_train, y_val = ms.train_test_split(features,
@@ -70,7 +76,7 @@ def read_df_from_bigquery(full_table_path, project_id=None, num_samples=None):
 
 
 def read_df_from_gcs(file_pattern):
-    """Read data from Google Cloud Storage, split into train and validation sets.
+    """Read data from Google Cloud Storage, split into train and validation sets
 
     Assume that the data on GCS is in csv format without header.
     The column names will be provided through metadata
