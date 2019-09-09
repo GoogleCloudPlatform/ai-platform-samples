@@ -76,7 +76,7 @@ def read_df_from_bigquery(full_table_path, project_id=None, num_samples=None):
 
 
 def read_df_from_gcs(file_pattern):
-    """Read data from Google Cloud Storage, split into train and validation sets.
+    """Read data from Google Cloud Storage, split into train and validation sets
 
     Assume that the data on GCS is in csv format without header.
     The column names will be provided through metadata

@@ -20,6 +20,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline, FeatureUnion, make_pipeline
 from trainer import my_pipeline as mp
 
+
 def get_estimator(arguments):
     """Generate ML Pipeline which include both pre-processing and model training
 
@@ -52,6 +53,6 @@ def get_estimator(arguments):
         ('estimator', ensemble.RandomForestClassifier(
             n_estimators=arguments.n_estimators,
             max_depth=arguments.max_depth)
-        )
+         )
     ])
     return pipeline

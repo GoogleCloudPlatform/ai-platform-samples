@@ -32,7 +32,7 @@ def _train_and_evaluate(estimator, dataset, output_dir):
     """Runs model training and evaluation.
 
     Args:
-      estimator: (pipeline.Pipeline), Pipeline instance, assemble pre-processing
+      estimator: (pipeline.Pipeline), Pipeline instance assemble pre-processing
         steps and model training
       dataset: (pandas.DataFrame), DataFrame containing training data
       output_dir: (string), directory that the trained model will be exported
@@ -59,7 +59,7 @@ def _train_and_evaluate(estimator, dataset, output_dir):
         # We recommend that you assign a custom name
         # The only functional difference is that if you use a custom name,
         # you must set the hyperparameterMetricTag value in the
-        # HyperparameterSpec object in the job request to match your chosen name
+        # HyperparameterSpec object in the job request to match the chosen name
         hpt = hypertune.HyperTune()
         hpt.report_hyperparameter_tuning_metric(
             hyperparameter_metric_tag='Taxi Model Accuracy',

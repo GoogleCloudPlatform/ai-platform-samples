@@ -18,7 +18,7 @@
 import os
 
 import pandas as pd
-from sklearn import model_selection
+from sklearn import model_selection as ms
 from sklearn.externals import joblib
 from tensorflow import gfile
 from trainer import metadata
@@ -45,9 +45,9 @@ def data_train_test_split(data_df):
         features = data_df[metadata.FEATURE_NAMES]
     target = data_df[metadata.TARGET_NAME]
 
-    x_train, x_val, y_train, y_val = model_selection.train_test_split(features,
-                                                                      target,
-                                                                      test_size=0.2)
+    x_train, x_val, y_train, y_val = ms.train_test_split(features,
+                                                         target,
+                                                         test_size=0.2)
     return x_train.values, y_train, x_val.values, y_val
 
 
