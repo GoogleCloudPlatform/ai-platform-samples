@@ -41,5 +41,3 @@ instances and prints the result to the console.
 3. You may want to delete the resources you created in this tutorial --
 run `source ./scripts/cleanup.sh` which deletes the model version and resouce, and also
 the model object from GCS.
-
-
