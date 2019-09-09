@@ -27,5 +27,5 @@ setup(
     install_requires=REQUIRED_PACKAGES,
     packages=find_packages(),
     include_package_data=True,
-    description='AI Platform | Prediction | scikit-learn | Base'
+    description='AI Platform | Prediction | scikit-learn | Custom Routines'
 )
