@@ -79,7 +79,7 @@ set the environment variable `CUSTOM_ROUTINE_PATH` which points to it.
 
 ### Monitoring
 Once the training starts and the models are generated, you may view the training job in
-the [AI Platform page](https://pantheon.corp.google.com/mlengine/jobs). If you click on the 
+the [AI Platform page](https://console.cloud.google.com/mlengine/jobs). If you click on the 
 corresponding training job, you will be able to view the chosen hyperparamters, along with the
 metric scores for each model. All the generated model objects will be stored on GCS. 
 
