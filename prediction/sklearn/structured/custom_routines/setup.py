@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env python
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,19 +14,18 @@
 # limitations under the License.
 # ==============================================================================
 
-# This has to be run after train-cloud.sh is successfully executed
+from setuptools import find_packages
+from setuptools import setup
 
-export MODEL_VERSION=v1
+REQUIRED_PACKAGES = [
+    'google-api-python-client',
+]
 
-FRAMEWORK=XGBOOST
-
-echo "First, creating the model resource..."
-gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
-
-echo "Second, creating the model version..."
-gcloud ai-platform versions create ${MODEL_VERSION} \
-  --model ${MODEL_NAME} \
-  --origin ${MODEL_DIR}/model \
-  --framework ${FRAMEWORK} \
-  --runtime-version=${RUNTIME_VERSION} \
-  --python-version=${PYTHON_VERSION}
+setup(
+    name='trainer',
+    version='0.1',
+    install_requires=REQUIRED_PACKAGES,
+    packages=find_packages(),
+    include_package_data=True,
+    description='AI Platform | Prediction | scikit-learn | Custom Routines'
+)

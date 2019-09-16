@@ -20,7 +20,15 @@ import googleapiclient.discovery
 
 logging.basicConfig()
 
-instances = [[1000], [2000]]
+# In this sample, we will pass all available features in order.
+instances = [
+    [0.2, 660, 1175, 8, 10, 7, 8, 33, 17031081402, 17031330100, 41.892,
+     -87.613, 41.859, -87.617, 'Credit Card', 'Taxi Affiliation Services'],
+    [1.0, 300, 545, 9, 22,4 ,32, 8, 17031320100, 17031081500, 41.885,
+     -87.621, 41.893, -87.626, 'Cash', 'Northwest Management LLC'],
+    [1.1, 300, 565, 3, 2, 1, 28, 32, 17031833000, 17031839100, 41.885,
+     -87.657, 41.881, -87.633, 'Credit Card', 'Taxi Affiliation Services']
+]
 
 PROJECT_ID = os.getenv('PROJECT_ID')
 MODEL_NAME = os.getenv('MODEL_NAME')

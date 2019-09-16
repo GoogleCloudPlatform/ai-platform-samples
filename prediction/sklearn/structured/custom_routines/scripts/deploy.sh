@@ -19,15 +19,16 @@
 
 export MODEL_VERSION=v1
 
-FRAMEWORK=XGBOOST
+FRAMEWORK=SCIKIT_LEARN
 
 echo "First, creating the model resource..."
 gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
 
 echo "Second, creating the model version..."
-gcloud ai-platform versions create ${MODEL_VERSION} \
+gcloud beta ai-platform versions create ${MODEL_VERSION} \
   --model ${MODEL_NAME} \
   --origin ${MODEL_DIR}/model \
   --framework ${FRAMEWORK} \
   --runtime-version=${RUNTIME_VERSION} \
-  --python-version=${PYTHON_VERSION}
+  --python-version=${PYTHON_VERSION} \
+  --package-uris ${CUSTOM_ROUTINE_PATH}
