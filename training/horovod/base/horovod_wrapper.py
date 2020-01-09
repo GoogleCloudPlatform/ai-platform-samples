@@ -121,6 +121,11 @@ def wait_for_ssh_servers(hosts, port, timeout_seconds):
 
 
 def run_horovod(env_config, jobs_per_host, args):
+  env = dict(os.environ)
+  if jobs_per_host == 8:
+    # Workaround for https://github.com/NVIDIA/nccl/issues/262
+    env["CUDA_VISIBLE_DEVICES"] = '0,1,3,2,7,6,4,5'
+
   num_jobs = len(env_config.hosts) * jobs_per_host
   hosts = ",".join("%s:%d" % (h, jobs_per_host) for h in env_config.hosts)
   horovod_command = [
@@ -128,7 +133,7 @@ def run_horovod(env_config, jobs_per_host, args):
       hosts, "--num-proc", str(num_jobs)
   ]
   horovod_command.extend(args)
-  exit_code = subprocess.call(horovod_command)
+  exit_code = subprocess.call(horovod_command, env=env)
   return exit_code
 
 
@@ -152,9 +157,8 @@ def copy_files_recursively(src, dest):
       os.makedirs(dest)
     except OSError:
       pass
-  copy_cmd = ["gsutil", "-m", "-q", "cp", "-r", src, dest]
+  copy_cmd = ["gsutil", "-m", "rsync", "-r", src, dest]
   exit_code = subprocess.call(copy_cmd)
-  subprocess.call(["gsutil", "ls", dest])
   if exit_code != 0:
     raise RuntimeError("Error while copying %s to %s" % (src, dest))
   return exit_code
@@ -172,19 +176,26 @@ def main():
         os.environ.get("STAGING_DIR", "/input"))
 
   start_ssh_server(env_config.port, env_config.is_chief)
+  max_num_retries = os.environ.get("NUM_HOROVOD_RETRIES", 10)
   if env_config.is_chief:
-    staging_timeout_seconds = int(
-        os.environ.get("TASK_STARTUP_TIMEOUT_SECONDS", 600))
-    wait_for_ssh_servers(env_config.hosts, env_config.port,
-                         staging_timeout_seconds)
-    if os.environ.get("BENCHMARK_NETWORK", False):
-      benchmark_network(env_config)
-    num_gpus = _get_available_gpus()
-    # If there are no GPUs, we can just run single process per machine.
-    jobs_per_host = max(1, num_gpus)
-    args = sys.argv[1:]
-    exit_code = run_horovod(env_config=env_config, jobs_per_host=jobs_per_host,
-                            args=args)
+    exit_code = 0
+    for retry in range(max_num_retries):
+      staging_timeout_seconds = int(
+          os.environ.get("TASK_STARTUP_TIMEOUT_SECONDS", 600))
+      wait_for_ssh_servers(env_config.hosts, env_config.port,
+                           staging_timeout_seconds)
+      if os.environ.get("BENCHMARK_NETWORK", False):
+        benchmark_network(env_config)
+      num_gpus = _get_available_gpus()
+      # If there are no GPUs, we can just run single process per machine.
+      jobs_per_host = max(1, num_gpus)
+      args = sys.argv[1:]
+      exit_code = run_horovod(env_config=env_config, jobs_per_host=jobs_per_host,
+                              args=args)
+      if exit_code == 0:
+        break
+      else:
+        print ("Retrying...", retry, "out of", max_num_retries)
     if os.environ.get("GCS_OUTPUT_PATH", False):
       copy_files_recursively(
           os.environ.get("OUTPUT_DIR", "/output"),

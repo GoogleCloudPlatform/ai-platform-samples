@@ -30,7 +30,7 @@ executed on your local machine.
   * [task.py](trainer/task.py) initializes and parses task arguments. This is the entry point to the trainer.
   * [model.py](trainer/model.py) includes a function to create the scikit-learn estimator or pipeline
   * [metadata.py](trainer/metadata.py) contains the definition for the target and feature names, among other configuring variables 
-  * [util.py](trainer/task.py) contains a number of helper functions used in task.py  
+  * [util.py](trainer/util.py) contains a number of helper functions used in task.py  
 * [scripts](./scripts) directory: command-line scripts to train the model locally or on AI Platform.
   We recommend to run the scripts in this directory in the following order, and use
   the `source` command to run them, in order to export the environment variables at each step:
@@ -70,6 +70,12 @@ source ./scripts/train-cloud.sh
 This will create a training job on AI Platform and displays some instructions on how to track the job progress.
 At the end of a successful training job, it will upload the trained model object to a GCS
 bucket and sets `$MODEL_DIR` environment variable to the directory containing the model.
+
+### Monitoring
+Once the training starts and the models are generated, you may view the training job in
+the [AI Platform page](https://console.cloud.google.com/mlengine/jobs). If you click on the 
+corresponding training job, you will be able to view the chosen hyperparamters, along with the
+metric scores for each model. All the generated model objects will be stored on GCS. 
 
 ## Explaining Key Elements
 

@@ -30,7 +30,7 @@ executed on your local machine.
   * [task.py](trainer/task.py) initializes and parses task arguments. This is the entry point to the trainer.
   * [model.py](trainer/model.py) includes a function to create the scikit-learn estimator or pipeline
   * [metadata.py](trainer/metadata.py) contains the definition for the target and feature names, among other configuring variables 
-  * [util.py](trainer/task.py) contains a number of helper functions used in task.py  
+  * [util.py](trainer/util.py) contains a number of helper functions used in task.py
 * [scripts](./scripts) directory: command-line scripts to train the model locally or on AI Platform.
   We recommend to run the scripts in this directory in the following order, and use
   the `source` command to run them, in order to export the environment variables at each step:
@@ -72,6 +72,12 @@ source ./scripts/train-cloud.sh
 This will create a training job on AI Platform and displays some instructions on how to track the job progress.
 At the end of a successful training job, it will upload the trained model object to a GCS
 bucket and sets `$MODEL_DIR` environment variable to the parent directory of all the generated models.
+
+### Monitoring
+Once the training starts and the models are generated, you may view the training job in
+the [AI Platform page](https://console.cloud.google.com/mlengine/jobs). If you click on the 
+corresponding training job, you will be able to view the chosen hyperparamters, along with the
+metric scores for each model. All the generated model objects will be stored on GCS. 
 
 ## Explaining Key Elements
 
@@ -134,8 +140,6 @@ to use accelerators for instance, or do a distributed training, you will need a 
 * `stream-logs`: streams the logs until the job finishes.
 * `config`: passing the config file which contains the hyperparameter tuning information.
 
-### 
-
 ## Clean Up
 If you were able to run [train-cloud.sh](./scripts/train-cloud.sh) successfully, you have
 created and stored some files in your GCS bucket. You may simply remove them by running
@@ -159,7 +163,7 @@ In this sample, we will be tuning the following three hyperparameters:
 * `criterion` with a category type from the set of `{"gini", "entropy"}`
 
 
-### Setup
+### Highlights
 
 Let's take a quick look at how the hyperparameter tuning works on AI-Platform. 
 If you look closely, this sample is quite similar to the [base sample for scikit-learn](../base).
@@ -176,12 +180,6 @@ This will enable the code that computes the evaluation score, and reports it bac
 We also defined how many models should be trained, and how many of them can be trained in parallel.
 Finally, we used the same value which we used for `hyperparameter_metric_tag`
 in step 2, for `hyperparameterMetricTag` in this file.
-
-### Monitoring
-Once the training starts and the models are generated, you may view the training job in
-the [AI Platform page](https://pantheon.corp.google.com/mlengine/jobs). If you click on the 
-corresponding training job, you will be able to view the chosen hyperparamters, along with the
-metric scores for each model. All the generated model objects will be stored on GCS. 
 
 ## What's Next
 

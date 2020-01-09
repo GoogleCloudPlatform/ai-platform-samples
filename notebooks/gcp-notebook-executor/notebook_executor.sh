@@ -10,7 +10,7 @@ fi
 
 if [[ ! -z $(command -v conda) ]]; then
   source /opt/anaconda3/bin/activate base
-  sudo /opt/anaconda3/bin/pip install -U papermill==0.19.1
+  sudo /opt/anaconda3/bin/pip install -U papermill>=1.0.1
 fi
 
 readonly INPUT_NOTEBOOK_GCS_FILE=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/input_notebook -H "Metadata-Flavor: Google")
