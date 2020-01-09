@@ -1,1 +1,11 @@
+# OS junk files
+
+[Tt]humbs.db
+*.DS_Store
+
+# PyCharm
 .idea/*
+
+*.log
+*.err
+*.pyc
