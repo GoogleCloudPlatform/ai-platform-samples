@@ -1,0 +1,14 @@
+README.md
+setup.py
+trainer/__init__.py
+trainer/experiment.py
+trainer/featurizer.py
+trainer/inputs.py
+trainer/metadata.py
+trainer/model.py
+trainer/task.py
+trainer.egg-info/PKG-INFO
+trainer.egg-info/SOURCES.txt
+trainer.egg-info/dependency_links.txt
+trainer.egg-info/requires.txt
+trainer.egg-info/top_level.txt
