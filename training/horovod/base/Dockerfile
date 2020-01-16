@@ -21,11 +21,6 @@ RUN wget -nv \
     rm -rf /root/tools/google-cloud-sdk/.install/.backup
 
 RUN pip install pandas google-cloud-storage
-# Install newer version of horovod to avoid segfaults:
-# https://github.com/horovod/horovod/issues/1232
-RUN pip uninstall -y horovod
-RUN HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITH_TENSORFLOW=1 \
-    pip install --no-cache-dir git+https://github.com/horovod/horovod
 
 ENV PATH $PATH:/root/tools/google-cloud-sdk/bin
 ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH

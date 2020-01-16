@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright 2019 Google LLC. All Rights Reserved.
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 REQUIRED_PACKAGES = [
-    'tensorflow==1.14.0',
+    'tensorflow==1.15.0',
     'tensorflow-model-analysis==0.14.0'
 ]
 

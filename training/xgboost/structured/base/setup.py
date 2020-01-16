@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright 2019 Google LLC. All Rights Reserved.
+# Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ from setuptools import setup
 #    scikit-learn: the helpfer functions it provides, e.g. splitting datasets
 
 REQUIRED_PACKAGES = [
-    'tensorflow==1.13.1',
+    'tensorflow==1.15.0',
     'scikit-learn==0.20.2',
     'pandas==0.24.2',
     'xgboost==0.81',
