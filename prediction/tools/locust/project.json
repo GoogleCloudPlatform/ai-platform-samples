@@ -1,0 +1,7 @@
+{
+  "projectId": "<your project ID>",
+  "modelId": "<your model name>",
+  "testExamples": [
+    "<put a prediction request body>"
+  ]
+}
