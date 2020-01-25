@@ -8,6 +8,7 @@ Easily run a load test on models deployed on Cloud AI Platform from GCE, GKE, or
 
 # Getting started
 The easiest way to get started is to use the Docker container available at [https://gcr.io/htappen-caip/load-test]
+
 0. Deploy a model to Cloud AI Platform. Create a JSON file with information about your model:
 ```
 {
@@ -22,7 +23,7 @@ Prediction request body details are available in the [Cloud AI Platform docs](ht
 
 1. Put the JSON file on Google Cloud Storage. Note the URI for it.
 2. Grab the image from [https://gcr.io/htappen-caip/load-test]
-3. When you launch the image, make sure you set
+3. When you launch the image, make sure you set:
   a. [Application default credentials](https://cloud.google.com/docs/authentication/production)
   b. An environment variable `CONFIG_URI` set to the GCS URI path from step 2
   c. If you're running the test [without Locust's UI](https://docs.locust.io/en/stable/running-locust-without-web-ui.html), pass in an env variable `LOCUST_OPTS` with the necessary parameters. You'll definitely want to set `--no-web`, `-c` (number of clients), `-r` (hatch rate) and `-t` (run time). See the next step for the meaning of these arguments.
@@ -31,3 +32,14 @@ Prediction request body details are available in the [Cloud AI Platform docs](ht
 Note: If you're using the web UI, point your browser to port 8089 on the target host.
 
 Want to use more of Locust's options? Pass in the env variable `LOCUST_OPTS` = `--help`, and you'll get a list of all the things Locust supports.
+
+Example:
+
+```
+docker run --name locus_loadtest \
+    -v /keys/gcp-service-key.json:/config \
+    -e GOOGLE_APPLICATION_CREDENTIALS=/config \
+    -e LOCUST_OPTS="--clients=2 --no-web --run-time=600" \
+    -e CONFIG_URI="gs://<my-bucket>/project.json" \
+    -t gcr.io/htappen-caip/load-test
+```
