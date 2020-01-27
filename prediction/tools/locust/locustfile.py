@@ -83,13 +83,9 @@ class CloudAIUser(OAuth2Locust):
 
     def __init__(self, *args, **kwargs):
         super(CloudAIUser, self).__init__(*args, **kwargs)
-        if GCS_CONFIG_PATH_KEY not in os.environ:
-            raise Exception("You must set '{}' env var to the GCS path to the config".format(GCS_CONFIG_PATH_KEY))
-        self.gcs_config = os.environ[GCS_CONFIG_PATH_KEY]
-        json_string = self._download_gcs_json(self.gcs_config)
-        self.model_config = json.loads(json_string)
 
-    def _download_gcs_json(self, file_url):
+    @classmethod
+    def _download_gcs_json(cls, file_url):
         parsed_url = urlparse(file_url)
         if parsed_url.scheme == 'gs':
             file_uri = file_url
@@ -113,3 +109,14 @@ class CloudAIUser(OAuth2Locust):
         with open(path, 'r') as json_in:
             json_string = json_in.read()
         return json_string
+
+    @classmethod
+    def _get_model_config(cls):
+        if GCS_CONFIG_PATH_KEY not in os.environ:
+            raise Exception("You must set '{}' env var to the GCS path to the config".format(GCS_CONFIG_PATH_KEY))
+        gcs_config = os.environ[GCS_CONFIG_PATH_KEY]
+        json_string = cls._download_gcs_json(gcs_config)
+        cls.model_config = json.loads(json_string)
+
+    def setup(self):
+        self._get_model_config()
