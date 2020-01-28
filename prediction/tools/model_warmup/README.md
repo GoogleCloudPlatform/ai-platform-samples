@@ -2,10 +2,7 @@
 
 From TensorFlow Serving [documentation](https://www.tensorflow.org/tfx/serving/saved_model_warmup):
 
-```
-The TensorFlow runtime has components that are lazily initialized, which can cause high latency for the first request/s sent to a model after it is loaded. This latency can be several orders of magnitude higher than that of a single inference request.
-To reduce the impact of lazy initialization on request latency, it’s possible to trigger the initialization of the sub-systems and components at model load time by providing a sample set of inference requests along with the SavedModel. This process is known as “warming up” the model.
-```
+> The TensorFlow runtime has components that are lazily initialized, which can cause high latency for the first request/s sent to a model after it is loaded. This latency can be several orders of magnitude higher than that of a single inference request. To reduce the impact of lazy initialization on request latency, it’s possible to trigger the initialization of the sub-systems and components at model load time by providing a sample set of inference requests along with the SavedModel. This process is known as “warming up” the model.
 
 When you deploy a TensorFlow model you may see this message during TensorFlow serving initialization:
 
@@ -17,6 +14,7 @@ When you deploy a TensorFlow model you may see this message during TensorFlow se
 For this example, we are deploying a [ResNet50v2](https://github.com/tensorflow/models/tree/master/official/r1/resnet) model for CPU
 
 1. Download model
+
 ```
 mkdir /tmp/resnet
 curl -s http://download.tensorflow.org/models/official/20181001_resnet/savedmodels/resnet_v2_fp32_savedmodel_NHWC_jpg.tar.gz | tar — strip-components=2 -C /tmp/resnet -xvz
@@ -64,7 +62,7 @@ signature_def['serving_default']:
   Method name is: tensorflow/serving/predict
 ```
 
-3. Now run the Docker container:
+3. Run the Docker container
 
 ```
 docker run -p 8501:8501 --mount type=bind,source=/tmp/resnet/,target=/models/resnet -e MODEL_NAME=resnet --rm -i -t tensorflow/serving:latest
@@ -94,7 +92,7 @@ Output
 [evhttp_server.cc : 238] NET_LOG: Entering the event loop …
 ```
 
-4. Please take a look at this message:
+4. Take a look at this message:
 
 ```
 No warmup data file found at /models/resnet/1538687457/assets.extra/tf_serving_warmup_requests
@@ -104,16 +102,18 @@ No warmup data file found at /models/resnet/1538687457/assets.extra/tf_serving_w
  
 Use [this Python script](model_warmup.py) to generate a warmup file which is relevant to this specific model and inference data.
 
-This script will create a new file called `tf_serving_warmup_requests`
+Script will create a new file called: `tf_serving_warmup_requests`
 
-Move this file to `/tmp/resnet/1538687457/assets.extra/` and then restart the docker image:
+Move this file to `/tmp/resnet/1538687457/assets.extra/` and then
+restart the docker image:
 
 ```
 mkdir -p /tmp/resnet/1538687457/assets.extra/
 cp tf_serving_warmup_requests /tmp/resnet/1538687457/assets.extra/
 ```
 
-6. Run the Docker container again. Now, Now, you should see logs about reading the warmup data:
+1. Re-run the Docker container. Now, you should see logs showing
+   TensorFlow serving reading the warmup data:
 
 ```
 docker run -p 8500:8500 -p 8501:8501 --mount type=bind,source=/tmp/resnet/,target=/models/resnet -e MODEL_NAME=resnet --rm -i -t tensorflow/serving:latest
@@ -127,3 +127,6 @@ Output
 ```
 
 You can see now the 100 records being read in 7.6 seconds.
+
+Now when you start sending Prediction requests, initial time should
+reduce.
