@@ -1,24 +1,22 @@
 # Model warmup
 
-If you come a cross a familiar message:
-
-```
-2020–01–23 23:58:40.355818: I tensorflow_serving/servables/tensorflow/saved_model_warmup.cc:105] No warmup data file found at /models/resnet/1538687457/assets.extra/tf_serving_warmup_requests
-```
-
-Note: This document can be used in AI Platform prediction during model creation.
-
-From TensorFlow Serving documentation:
+From TensorFlow Serving [documentation](https://www.tensorflow.org/tfx/serving/saved_model_warmup):
 
 ```
 The TensorFlow runtime has components that are lazily initialized, which can cause high latency for the first request/s sent to a model after it is loaded. This latency can be several orders of magnitude higher than that of a single inference request.
 To reduce the impact of lazy initialization on request latency, it’s possible to trigger the initialization of the sub-systems and components at model load time by providing a sample set of inference requests along with the SavedModel. This process is known as “warming up” the model.
 ```
 
-I’m using `ResNet50v2` model for CPU
+When you deploy a TensorFlow model you may see this message during TensorFlow serving initialization:
 
-Model location [here](https://github.com/tensorflow/models/tree/master/official/r1/resnet) 
+```
+2020–01–23 23:58:40.355818: I tensorflow_serving/servables/tensorflow/saved_model_warmup.cc:105] No warmup data file found at /models/resnet/1538687457/assets.extra/tf_serving_warmup_requests
+```
+**Note:** This document can be used in AI Platform prediction during model creation.
 
+For this example, we are deploying a [ResNet50v2](https://github.com/tensorflow/models/tree/master/official/r1/resnet) model for CPU
+
+1. Download model
 ```
 mkdir /tmp/resnet
 curl -s http://download.tensorflow.org/models/official/20181001_resnet/savedmodels/resnet_v2_fp32_savedmodel_NHWC_jpg.tar.gz | tar — strip-components=2 -C /tmp/resnet -xvz
@@ -26,7 +24,7 @@ ls /tmp/resnet/*
 saved_model.pb variables
 ```
 
-Verify model using `saved_model_cli` utility:
+2. Verify model using `saved_model_cli` utility:
 
 ```
 saved_model_cli show --dir /tmp/resnet/1538687457 --allMetaGraphDef with tag-set: 'serve' contains the following SignatureDefs:
@@ -66,10 +64,10 @@ signature_def['serving_default']:
   Method name is: tensorflow/serving/predict
 ```
 
-Now run the Docker container:
+3. Now run the Docker container:
 
 ```
-docker run --name tfserving_resnet -p 8501:8501 --mount type=bind,source=/tmp/resnet/,target=/models/resnet -e MODEL_NAME=resnet -t tensorflow/serving:latest &
+docker run -p 8501:8501 --mount type=bind,source=/tmp/resnet/,target=/models/resnet -e MODEL_NAME=resnet --rm -i -t tensorflow/serving:latest
 ```
 
 Output
@@ -96,27 +94,29 @@ Output
 [evhttp_server.cc : 238] NET_LOG: Entering the event loop …
 ```
 
-Please take a look at this message:
+4. Please take a look at this message:
 
 ```
 No warmup data file found at /models/resnet/1538687457/assets.extra/tf_serving_warmup_requests
 ```
 
-I created [this](model_warmup.py) Python script to generate a warmup file which is relevant to this specific model and inference data.
+5. Generate a warmup request file:
+ 
+Use [this Python script](model_warmup.py) to generate a warmup file which is relevant to this specific model and inference data.
 
-This script will create a file called `tf_serving_warmup_requests`
+This script will create a new file called `tf_serving_warmup_requests`
 
-I moved this file to `/tmp/resnet/1538687457/assets.extra/` and then restart my docker image:
+Move this file to `/tmp/resnet/1538687457/assets.extra/` and then restart the docker image:
 
 ```
 mkdir -p /tmp/resnet/1538687457/assets.extra/
 cp tf_serving_warmup_requests /tmp/resnet/1538687457/assets.extra/
 ```
 
-Now I can see the warmup records and message has disappeared:
+6. Run the Docker container again. Now, Now, you should see logs about reading the warmup data:
 
 ```
-docker run --name tfserving_resnet -p 8500:8500 -p 8501:8501 --mount type=bind,source=/tmp/resnet/,target=/models/resnet -e MODEL_NAME=resnet -t tensorflow/serving:latest &
+docker run -p 8500:8500 -p 8501:8501 --mount type=bind,source=/tmp/resnet/,target=/models/resnet -e MODEL_NAME=resnet --rm -i -t tensorflow/serving:latest
 ```
 
 Output
