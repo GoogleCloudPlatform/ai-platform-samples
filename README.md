@@ -30,7 +30,7 @@ that developers are trying to solve. For instance, if you are trying to train a 
 you will find the sample under [training/sklearn/structured/base](./training/sklearn/structured/base) directory.
 AI Platform also supports [xgboost](https://xgboost.readthedocs.io/en/latest/), [TensorFlow](https://www.tensorflow.org), and [PyTorch](https://pytorch.org/).
 
-Please refer to the `README` file in each sample directory for more specific instructions.
+Please refer to the `README.md` file in each sample directory for more specific instructions.
 
 
 ## Google Machine Learning Repositories
