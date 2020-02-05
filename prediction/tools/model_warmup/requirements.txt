@@ -1,0 +1,2 @@
+requests
+tensorflow-serving-api==1.15.0
