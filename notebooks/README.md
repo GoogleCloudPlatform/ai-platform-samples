@@ -19,7 +19,7 @@ workload runs on a separate Compute Engine instance using Nteract [papermill](ht
 - [Notebook Deployment Manager](deployment-manager): Automating AI Platform Notebook Instance Creation With GCP Deployment Manager.
 
 
-# How to get help
+# How to get help?
 
 If you have further questions, or encounter issues using AI Platform Notebooks, 
 open an issue or reach out at our team's forum: https://groups.google.com/forum/#!forum/google-dl-platform
