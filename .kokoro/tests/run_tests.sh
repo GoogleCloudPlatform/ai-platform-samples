@@ -13,35 +13,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # This is the common setup.
-set -eo pipefail
 
-export KEYFILE="${KOKORO_GFILE_DIR}/keyfile.json"
+set -eo pipefail
 
 
 check_if_changed(){
     # Ignore this test if there are no changes.
-    cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_DIR}
-    # Check if a change happened to directory.
-    DIFF=`git diff master $KOKORO_GITHUB_PULL_REQUEST_COMMIT $PWD`
-    echo "git diff:\n $DIFF"
+    cd "${KOKORO_ARTIFACTS_DIR}"/github/ai-platform-samples/"${CAIP_TEST_DIR}"
+    DIFF=$(git diff master "${KOKORO_GITHUB_PULL_REQUEST_COMMIT}" "${PWD}")
+    echo -e "git diff:\n ${DIFF}"
     if [[ -z ${DIFF} ]]; then
-        echo "Test ignored; directory was not modified in pull request $KOKORO_GITHUB_PULL_REQUEST_NUMBER"
+        echo -e "Test ignored; directory was not modified in pull request ${KOKORO_GITHUB_PULL_REQUEST_NUMBER}"
         exit 0
     fi
-}
 
-
-create_virtualenv(){
-    sudo pip install virtualenv
-    virtualenv ${KOKORO_ARTIFACTS_DIR}/envs/venv
-    source ${KOKORO_ARTIFACTS_DIR}/envs/venv/bin/activate
-    # Install dependencies.
-    pip install --upgrade -r requirements.txt
 }
 
 
 project_setup(){
-    # Update SDK for gcloud ai-platform command.
+    # Update to latest SDK for gcloud ai-platform command.
+    local KEYFILE="${KOKORO_GFILE_DIR}/keyfile.json"
     gcloud components update --quiet
     export GOOGLE_APPLICATION_CREDENTIALS="${KEYFILE}"
     gcloud auth activate-service-account --key-file "${KEYFILE}"
@@ -49,28 +40,38 @@ project_setup(){
 }
 
 
-run_flake8() {
-    # Install Flake8
-    pip install flake8
+create_virtualenv(){
+    sudo pip install virtualenv
+    virtualenv "${KOKORO_ARTIFACTS_DIR}"/envs/venv
+    source "${KOKORO_ARTIFACTS_DIR}"/envs/venv/bin/activate
+    # Install dependencies.
+    pip install --upgrade -r requirements.txt
+}
+
+
+install_and_run_flake8() {
+    pip install -q flake8 --user
     # Run Flake in current directory.
-    cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_DIR}
+    cd "${KOKORO_ARTIFACTS_DIR}"/github/ai-platform-samples/"${CAIP_TEST_DIR}"
     flake8 --max-line-length=80 . --statistics
     result=$?
-	if [ ${result} -ne 0 ];then
-		exit 1
-	else
-	    echo "Flake run successfully in directory $PWD"
-	fi
+    if [ ${result} -ne 0 ];then
+      echo -e "\n Testing failed: flake8 returned a non-zero exit code. \n"
+      exit 1
+    else
+      echo -e "\n flake8 run successfully in directory $(pwd).\n"
+    fi
 }
 
 main(){
+    cd github/ai-platform-samples/
     check_if_changed
     project_setup
     create_virtualenv
-    cd ${KOKORO_ARTIFACTS_DIR}
+    install_and_run_flake8
     # Run specific test.
-    bash "${CAIP_TEST_SCRIPT}"
-    run_flake8
+    bash "${KOKORO_ARTIFACTS_DIR}"/"${CAIP_TEST_SCRIPT}"
+
 }
 
 main

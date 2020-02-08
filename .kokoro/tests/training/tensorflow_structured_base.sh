@@ -19,7 +19,7 @@ download_files() {
     # Download files for testing.
     GCS_FOLDER="gs://cloud-samples-data/ml-engine/chicago_taxi"
 
-    echo "Downloading files"
+    echo -e "Downloading files"
     gsutil cp ${GCS_FOLDER}/training/small/taxi_trips_train.csv data/taxi_trips_train.csv
     gsutil cp ${GCS_FOLDER}/training/small/taxi_trips_eval.csv data/taxi_trips_eval.csv
     gsutil cp ${GCS_FOLDER}/prediction/taxi_trips_prediction_dict.ndjson data/taxi_trips_prediction_dict.ndjson
@@ -33,7 +33,7 @@ download_files() {
 
 run_tests() {
     # Run base tests.
-    echo "Running code tests in `pwd`."
+    echo -e "Running code tests in $(pwd)."
     download_files
     # Run local training and local prediction
     source scripts/train-local.sh
@@ -41,9 +41,9 @@ run_tests() {
 
 
 main(){
-    cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_DIR}
+    cd "${KOKORO_ARTIFACTS_DIR}"/github/ai-platform-samples/"${CAIP_TEST_DIR}"
     run_tests
-    echo 'Test was successful'
+    echo -e "Test was successful"
 }
 
 main
