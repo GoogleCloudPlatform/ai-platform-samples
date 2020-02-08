@@ -17,16 +17,16 @@ set -eo pipefail
 
 run_tests() {
     # Run base tests.
-    echo "Running code tests in `pwd`."
+    echo -e "Running code tests in $(pwd)."
     # Run local training and local prediction
     source scripts/train-local.sh
 }
 
 
 main(){
-    cd ${KOKORO_ARTIFACTS_DIR}/github/ai-platform-samples/${CAIP_TEST_DIR}
+    cd "${KOKORO_ARTIFACTS_DIR}"/github/ai-platform-samples/"${CAIP_TEST_DIR}"
     run_tests
-    echo 'Test was successful'
+    echo -e "Test was successful"
 }
 
 main
