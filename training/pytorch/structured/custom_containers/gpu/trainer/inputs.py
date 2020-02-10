@@ -67,7 +67,7 @@ class CSVDataset(Dataset):
 
         # Load the data as a tensor
         item = {
-            'features': torch.from_numpy(features).to(self.device), 
+            'features': torch.from_numpy(features).to(self.device),
             'target': torch.from_numpy(target).to(self.device)
         }
 
