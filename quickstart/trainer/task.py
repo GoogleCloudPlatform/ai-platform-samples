@@ -19,6 +19,7 @@ import sys
 import os.path
 import logging
 import tensorflow as tf
+
 from sklearn.externals import joblib
 from sklearn.linear_model import LinearRegression
 
@@ -44,8 +45,8 @@ def main():
     joblib.dump(model, temp_file)
 
     # Copy the temporary model file to its destination
-    with tf.gfile.Open(temp_file, 'rb') as temp_file_object:
-        with tf.gfile.Open(model_name, 'wb') as file_object:
+    with tf.io.gfile.GFile(temp_file, 'rb') as temp_file_object:
+        with tf.io.gfile.GFile(model_name, 'wb') as file_object:
             file_object.write(temp_file_object.read())
 
     logging.info('Model was saved')
