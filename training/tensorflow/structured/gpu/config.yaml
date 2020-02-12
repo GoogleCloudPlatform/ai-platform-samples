@@ -1,2 +1,7 @@
 trainingInput:
-  scaleTier: BASIC_GPU # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
+  scaleTier: CUSTOM
+  masterType: n1-standard-8
+  masterConfig:
+    acceleratorConfig:
+      count: 1
+      type: NVIDIA_TESLA_T4
