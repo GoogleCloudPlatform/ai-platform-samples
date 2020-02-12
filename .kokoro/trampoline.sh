@@ -19,9 +19,9 @@ set -eo pipefail
 # the container.
 
 function cleanup() {
-    chmod +x ${KOKORO_GFILE_DIR}/trampoline_cleanup.sh
-    ${KOKORO_GFILE_DIR}/trampoline_cleanup.sh
-    echo "cleanup";
+    chmod +x "${KOKORO_GFILE_DIR}"/trampoline_cleanup.sh
+    "${KOKORO_GFILE_DIR}"/trampoline_cleanup.sh
+    echo -e "Trampoline cleanup";
 }
 trap cleanup EXIT
 
