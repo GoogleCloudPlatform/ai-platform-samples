@@ -85,13 +85,12 @@ run_tests() {
       cd "$ROOT"
       # Navigate to the project folder.
       file=$(dirname "$file")
-      cd "$file"
-      # If $DIFF_ONLY is true, skip projects without changes.
+      cd "${KOKORO_ARTIFACTS_DIR}"/"${file%/*}"
+      # If $ONLY_DIFF is true, skip projects without changes.
       if [[ "$ONLY_DIFF" = "true" ]]; then
-          git diff --quiet origin/master.. .
-          CHANGED=$?
-          if [[ "$CHANGED" -eq 0 ]]; then
-            # echo -e "\n Skipping $file: no changes in folder.\n"
+          CHANGED=$(git diff master "${KOKORO_GITHUB_PULL_REQUEST_COMMIT}" $(pwd))
+          if [[ -z "$CHANGED" ]]; then
+            echo -e "\n Skipping $file: no changes in folder.\n"
             continue
           fi
       fi
@@ -101,7 +100,6 @@ run_tests() {
       if [[ "$file" == *"pytorch/"* ]]; then
         continue
       fi
-      cd "${KOKORO_ARTIFACTS_DIR}"/"${file%/*}"
       run_flake8
       echo "------------------------------------------------------------"
       echo "- Installing dependencies for $file"
