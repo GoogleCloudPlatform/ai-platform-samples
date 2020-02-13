@@ -22,7 +22,7 @@ use GitHub pull requests for this purpose. Consult
 [GitHub Help](https://help.github.com/articles/about-pull-requests/) for more
 information on using pull requests.
 
-## Notebook contributions {#contributions}
+## Notebook contributions
 
 To guarantee standardization for assets in Google repositories we have
 put together some recommendations which will help Google provide
