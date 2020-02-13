@@ -94,7 +94,7 @@ def parse_csv(csv_row, is_serving=False):
         column_names = metadata.COLUMN_NAMES
         defaults = metadata.DEFAULTS
 
-    columns = tf.decode_csv(csv_row, record_defaults=defaults)
+    columns = tf.io.decode_csv(csv_row, record_defaults=defaults)
     features = dict(zip(column_names, columns))
 
     return features

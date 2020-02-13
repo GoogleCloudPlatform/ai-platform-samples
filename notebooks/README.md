@@ -8,18 +8,25 @@ and deployment.
 
 # Tools
 
-- [Notebooks auto-shutdown](auto-shutdown): This script will continuously monitor the CPU load and will shut down the instance if the load is less than a particular threshold (for a specified amount of time). 
-- [Notebook executor](gcp-notebook-executor): 
+- [Notebooks auto-shutdown](tools/auto-shutdown): This script will
+  continuously monitor the CPU load and will shut down the instance if
+  the load is less than a particular threshold (for a specified amount
+  of time).
+- [Notebook executor](tools/gcp-notebook-executor): 
 This repository contains the logic that can be used to schedule Jupyter notebooks from anywhere (local, GCE, GCP Notebooks) to the [Google Cloud Deep Learning VM](https://cloud.google.com/deep-learning-vm/). You can read more about the usage of this tool [here](https://blog.kovalevskyi.com/gcp-notebook-executor-v0-1-2-8e37abd6fae1).
-- [Notebook CI showcase](notebooks-ci-showcase):
+- [Notebook CI showcase](tools/notebooks-ci-showcase):
 A fully functional continuous integration and continuous deployment system for Jupyter Notebooks.
-- [Nova Agent](nova-agents): Allows you to execute notebooks directly from your Jupyter UI. Nova and its corresponding compute 
+- [Nova Agent](tools/nova-agents): Allows you to execute notebooks directly from your Jupyter UI. Nova and its corresponding compute 
 workload runs on a separate Compute Engine instance using Nteract [papermill](https://github.com/nteract/papermill).
-- [Nova Jupyterlab extensions](nova-jupyterlab-extensions): Nova Plugin.
-- [Notebook Deployment Manager](deployment-manager): Automating AI Platform Notebook Instance Creation With GCP Deployment Manager.
+- [Nova Jupyterlab extensions](tools/nova-jupyterlab-extensions): Nova Plugin.
+- [Notebook Deployment Manager](tools/deployment-manager): Automating AI Platform Notebook Instance Creation With GCP Deployment Manager.
 
+# Templates
 
-# How to get help
+- [AI Platform Notebooks Template](templates/ai_platform_notebooks_template.ipynb)
+- [AI Platform Notebooks/Colab Template](templates/ai_platform_notebooks_template_hybrid.ipynb)
+
+# How to get help?
 
 If you have further questions, or encounter issues using AI Platform Notebooks, 
 open an issue or reach out at our team's forum: https://groups.google.com/forum/#!forum/google-dl-platform
