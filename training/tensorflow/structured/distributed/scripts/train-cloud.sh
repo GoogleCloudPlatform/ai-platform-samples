@@ -37,7 +37,7 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         -- \
         --train-files=${GCS_TAXI_TRAIN_BIG} \
         --eval-files=${GCS_TAXI_EVAL_BIG} \
-	    --train-steps=100000
+	      --train-steps=100000
 
 
 # Notes:
