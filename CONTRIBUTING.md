@@ -40,18 +40,18 @@ Please make sure you follow the next steps when developing Notebooks:
 
  
    If Colab is required please provide compatibility with AI Platform
-   notebooks, to help you on this we have created a template for you!
+   Notebooks, to help you on this we have created a template for you!
    [Template here](notebooks/templates/ai_platform_notebooks_template_hybrid.ipynb)
    
    ## Notebook requirements
    1. Use [AI Platform notebooks](https://cloud.google.com/ai-platform-notebooks/)
-   We highly recommend to guarantee that your Notebook runs in AI Platform notebooks
+   We highly recommend to guarantee that your Notebook runs in AI Platform Notebooks
    
    2. Use [templates](notebooks/templates) listed above. 
    3. Provide novel and relevant content 
    4. Provide Notebook documentation
    5. Use latest ML framework version
-   6. Follow Software engineering principles:
+   6. Follow software engineering principles:
       - [Python style guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md)
       - Notebook code is [formatted](https://jupyter-contrib-nbextensions.readthedocs.io/en/latest/nbextensions/code_prettify/README_autopep8.html)
       - Use [Python 3.X](https://www.python.org/download/releases/3.0/)
@@ -70,7 +70,7 @@ Please make sure you follow the next steps when developing Notebooks:
    - AI Platform Training
    - AI Platform Prediction
    - AI Platform Explanations
-   - AI Platform notebooks
+   - AI Platform Notebooks
    
    Directory structure:
 
