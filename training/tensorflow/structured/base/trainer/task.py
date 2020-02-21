@@ -246,17 +246,17 @@ def main():
     _setup_logging()
 
     # If job_dir_reuse is False then remove the job_dir if it exists.
-    logging.info('Resume training:', args.reuse_job_dir)
+    logging.info('Resume training: {}'.format(args.reuse_job_dir))
     if not args.reuse_job_dir:
-        if tf.gfile.Exists(args.job_dir):
-            tf.gfile.DeleteRecursively(args.job_dir)
+        if tf.io.gfile.exists(args.job_dir):
+            tf.io.gfile.rmtree(args.job_dir)
             logging.info(
                 'Deleted job_dir {} to avoid re-use'.format(args.job_dir))
     else:
         logging.info('Reusing job_dir {} if it exists'.format(args.job_dir))
 
     run_config = experiment.create_run_config(args)
-    logging.info('Job directory:', run_config.model_dir)
+    logging.info('Job directory: {}'.format(run_config.model_dir))
 
     # Compute the number of Training steps.
     if args.train_size is not None and args.num_epochs is not None:

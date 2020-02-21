@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# Copyright 2019 Google LLC
+#!/usr/bin/env bash
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,20 +12,5 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from setuptools import find_packages
-from setuptools import setup
-
-REQUIRED_PACKAGES = [
-    'tensorflow==1.15.2',
-    'tensorflow-model-analysis>=0.15.4'
-]
-
-setup(
-    name='trainer',
-    description='AI Platform Training job for TensorFlow',
-    author='Google Cloud Platform',
-    install_requires=REQUIRED_PACKAGES,
-    version='0.1',
-    packages=find_packages(),
-    include_package_data=True
-)
+mydir="${0%/*}"
+"$mydir"/run_tests.sh --only-diff

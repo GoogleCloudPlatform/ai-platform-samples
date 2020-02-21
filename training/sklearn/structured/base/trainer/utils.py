@@ -18,9 +18,10 @@
 import os
 
 import pandas as pd
+import tensorflow as tf
+
 from sklearn import model_selection as ms
 from sklearn.externals import joblib
-from tensorflow import gfile
 from trainer import metadata
 
 
@@ -92,8 +93,8 @@ def read_df_from_gcs(file_pattern):
     # Download the files to local /tmp/ folder
     df_list = []
 
-    for filepath in gfile.Glob(file_pattern):
-        with gfile.Open(filepath, 'r') as f:
+    for filepath in tf.io.gfile.glob(file_pattern):
+        with tf.io.gfile.GFile(filepath, 'r') as f:
             if metadata.CSV_COLUMNS is None:
                 df_list.append(pd.read_csv(f))
             else:
@@ -115,7 +116,7 @@ def upload_to_gcs(local_path, gcs_path):
     Returns:
       None
     """
-    gfile.Copy(local_path, gcs_path)
+    tf.io.gfile.copy(local_path, gcs_path)
 
 
 def dump_object(object_to_dump, output_path):
@@ -129,9 +130,9 @@ def dump_object(object_to_dump, output_path):
       None
     """
 
-    if not gfile.Exists(output_path):
-        gfile.MakeDirs(os.path.dirname(output_path))
-    with gfile.Open(output_path, 'w') as wf:
+    if not tf.io.gfile.exists(output_path):
+        tf.io.gfile.makedirs(os.path.dirname(output_path))
+    with tf.io.gfile.GFile(output_path, 'w') as wf:
         joblib.dump(object_to_dump, wf)
 
 
