@@ -30,35 +30,66 @@ consistency and quality for the notebook assets:
 
 Please make sure you follow the next steps when developing Notebooks:
 
-Use Notebook [templates](notebooks/templates)
+   1. Clone and develop off of this notebook [templates](notebooks/templates)
+   2. If notebook is meant as official documentation, work with techwriter on written content 
+   3. Ensure notebook [requirements](#Notebook-requirements) are met
+   4. Ensure notebook runs from top to bottom without errors
+   5. Place the notebook in correct [location](#Notebooks-location)
+   6. Create a pull request in a relevant repository
+   7. Reviewers provide feedback and work with you to merge pull request
 
--  Use
-   [AI Platform notebooks](https://cloud.google.com/ai-platform-notebooks/):
-   We highly recommend to guarantee that your Notebook runs in AI
-   Platform notebooks
-   [Template here](notebooks/templates/ai_platform_notebooks_template.ipynb).
-   
+ 
    If Colab is required please provide compatibility with AI Platform
-   notebooks, to help you on this we have created a template for you!
-   [Template here]((notebooks/templates/ai_platform_notebooks_template_hybrid.ipynb)
+   Notebooks, to help you on this we have created a template for you!
+   [Template here](notebooks/templates/ai_platform_notebooks_template_hybrid.ipynb)
    
-   **Notebook Development Guidelines:**
-   1. Use [templates](notebooks/templates) listed above. 
-   2. Provide novel and relevant content 
-   3. Documentation
-   4. Asset is executable without errors 
-   5. Use latest ML framework
-   6. Follow Software engineering principles
-      - Python 3.X
+   ## Notebook requirements
+   1. Use [AI Platform notebooks](https://cloud.google.com/ai-platform-notebooks/)
+   We highly recommend to guarantee that your Notebook runs in AI Platform Notebooks
+   
+   2. Use [templates](notebooks/templates) listed above. 
+   3. Provide novel and relevant content 
+   4. Provide Notebook documentation
+   5. Use latest ML framework version
+   6. Follow software engineering principles:
       - [Python style guide](https://github.com/google/styleguide/blob/gh-pages/pyguide.md)
-      - Notebook code is
-        [formatted](https://jupyter-contrib-nbextensions.readthedocs.io/en/latest/nbextensions/code_prettify/README_autopep8.html)
-      - Documentation
+      - Notebook code is [formatted](https://jupyter-contrib-nbextensions.readthedocs.io/en/latest/nbextensions/code_prettify/README_autopep8.html)
+      - Use [Python 3.X](https://www.python.org/download/releases/3.0/)
+      - Documentation      
+      
+   ## Notebooks location
+   
+   Add your notebook to the following folder: ai-platform-samples > notebooks > samples:
+   
+   - AutoML Tables
+   - BigQuery
+   - BigQuery ML
+   
+   For the following products, select the ML framework and place it accordingly:
+   
+   - AI Platform Training
+   - AI Platform Prediction
+   - AI Platform Explanations
+   - AI Platform Notebooks
+   
+   Directory structure:
 
--  We encourage you to verify your notebook executes without errors. If
-   you need to use other notebook environment (e.g. Colab, Kaggle,
-   Datalab, etc. we still encourage you to make sure the notebook is
-   compatible with AI Platform Notebooks).
+         
+         .
+         ├── datasets
+         └── notebooks
+             └── samples
+                 ├── automl
+                 ├── bigquery
+                 ├── bigquery_ml
+                 ├── mxnet
+                 ├── pytorch
+                 ├── scikit-learn
+                 └── tensorflow
+                     └── census
+                           └── tensorflow_census_getting_started.ipynb
+         
+
 
 ## Community Guidelines
 
