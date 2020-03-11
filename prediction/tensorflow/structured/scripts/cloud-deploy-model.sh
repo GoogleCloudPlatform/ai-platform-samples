@@ -21,7 +21,8 @@ MODEL_VERSION="v1" # change to your model version, e.g. "v1"
 
 # Model Binaries corresponds to the tf.estimator.FinalExporter configuration in trainer/experiment.py
 MODEL_BINARIES=$(gsutil ls gs://${BUCKET}/models/${MODEL_NAME}/export/estimate | tail -1)
-RUNTIME_VERSION=1.13
+RUNTIME_VERSION=1.15
+PYTHON_VERSION=3.7
 
 gsutil ls ${MODEL_BINARIES}
 
@@ -35,7 +36,11 @@ gcloud ai-platform models delete ${MODEL_NAME}
 gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
 
 # Deploy model version
-gcloud ai-platform versions create ${MODEL_VERSION} --model=${MODEL_NAME} --origin=${MODEL_BINARIES} --runtime-version=${RUNTIME_VERSION}
+gcloud ai-platform versions create ${MODEL_VERSION} \
+--model=${MODEL_NAME} \
+--origin=${MODEL_BINARIES} \
+--python-version=${PYTHON_VERSION} \
+--runtime-version=${RUNTIME_VERSION}
 
 # Invoke deployed model to make prediction given new data instances
 gcloud ai-platform predict --model=${MODEL_NAME} --version=${MODEL_VERSION} --json-instances=data/new-data.json
