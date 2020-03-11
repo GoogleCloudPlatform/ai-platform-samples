@@ -17,8 +17,6 @@ variable, `CLUSTER_SPEC`, on each machine.
 
 ## Prerequisites
 
-## Prerequisites
-
 * Setup your project by following the instructions in the [setup](../../../../setup) folder.
   Run [variables.sh](../../../../setup/variables.sh) in [setup](../../../../setup) folder.
   

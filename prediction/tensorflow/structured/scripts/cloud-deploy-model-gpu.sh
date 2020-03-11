@@ -21,7 +21,7 @@ MODEL_VERSION="v1" # change to your model version, e.g. "v1"
 
 # Model Binaries corresponds to the tf.estimator.FinalExporter configuration in trainer/experiment.py
 MODEL_BINARIES=$(gsutil ls gs://${BUCKET}/models/${MODEL_NAME}/export/estimate | tail -1)
-RUNTIME_VERSION=1.14
+RUNTIME_VERSION=1.15
 GPU_TYPE="nvidia-tesla-t4"
 
 gsutil ls ${MODEL_BINARIES}
@@ -39,7 +39,7 @@ gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
 gcloud alpha ai-platform versions create ${MODEL_VERSION} \
  --model=${MODEL_NAME} \
  --runtime-version=${RUNTIME_VERSION} \
- --python-version 3.5 \
+ --python-version 3.7 \
  --framework tensorflow \
  --machine-type "n1-standard-4" \
  --accelerator=count=4,type=${GPU_TYPE} \
