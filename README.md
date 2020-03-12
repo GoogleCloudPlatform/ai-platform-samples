@@ -1,4 +1,4 @@
-# AI Platform Products
+# Google Cloud AI Platform Products
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
@@ -11,6 +11,7 @@ The repository is organized by products:
  - [AI Platform Training](training)
  - [AI Platform Prediction](prediction)
  - [AI Platform Notebooks](notebooks)
+ - [AI Platform Optimizer](notebooks/samples/optimizer)
  - [AI Hub](notebooks/samples/aihub)
  
 <!--
