@@ -11,6 +11,7 @@ The repository is organized by products:
  - [AI Platform Training](training)
  - [AI Platform Prediction](prediction)
  - [AI Platform Notebooks](notebooks)
+ - [AI Platform Optimizer](notebooks/samples/optimizer)
  - [AI Hub](notebooks/samples/aihub)
  
 <!--
