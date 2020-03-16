@@ -20,7 +20,6 @@ set -ev
 echo "Training cloud ML model"
 
 
-
 DATE=$(date '+%Y%m%d_%H%M%S')
 MODEL_DIR=/tmp/trained_models/census_$DATE
 PACKAGE_PATH=./trainer
