@@ -8,11 +8,28 @@ Welcome to the [AI Platform](https://cloud.google.com/ml-engine/docs/) sample co
 
 The repository is organized by products: 
 
- - [AI Platform Training](training)
+ - [AI Platform Training](training)   
+     - [Horovod](training/horovod)
+     - [PyTorch](training/pytorch)
+     - [scikit-learn](training/sklearn)
+     - [TensorFlow](training/tensorflow)
+     - [XGBoost](training/xgboost)
  - [AI Platform Prediction](prediction)
- - [AI Platform Notebooks](notebooks)
+     - [scikit-learn](prediction/sklearn)
+     - [TensorFlow](prediction/tensorflow)
+     - [XGBoost](training/xgboost)
+    - [Tools](prediction/tools) AI Platform Prediction tools 
  - [AI Platform Optimizer](notebooks/samples/optimizer)
+ - [AI Platform Pipelines](pipelines)
+ - [AI Platform Notebooks](notebooks)
+    - [Templates](notebooks/templates) Templates used to contribute to AI Platform samples
+    - [Tools](notebooks/tools) AI Platform Notebooks tools
+    - [Samples](notebooks/samples)
+       - [AI Hub](notebooks/samples/aihub)
+       - [PyTorch](notebooks/samples/pytorch)
+       - [AI Platform Optimizer](notebooks/samples/optimizer)
  - [AI Hub](notebooks/samples/aihub)
+ 
  
 <!--
  Commenting these out until we have at least a sample for them in the repo:
