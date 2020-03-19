@@ -1,4 +1,4 @@
-# AI Platform Products
+# Google Cloud AI Platform Products
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
@@ -8,9 +8,28 @@ Welcome to the [AI Platform](https://cloud.google.com/ml-engine/docs/) sample co
 
 The repository is organized by products: 
 
- - [AI Platform Training](training)
+ - [AI Platform Training](training)   
+     - [Horovod](training/horovod)
+     - [PyTorch](training/pytorch)
+     - [scikit-learn](training/sklearn)
+     - [TensorFlow](training/tensorflow)
+     - [XGBoost](training/xgboost)
  - [AI Platform Prediction](prediction)
+     - [scikit-learn](prediction/sklearn)
+     - [TensorFlow](prediction/tensorflow)
+     - [XGBoost](training/xgboost)
+    - [Tools](prediction/tools) AI Platform Prediction tools 
+ - [AI Platform Optimizer](notebooks/samples/optimizer)
+ - [AI Platform Pipelines](pipelines)
  - [AI Platform Notebooks](notebooks)
+    - [Templates](notebooks/templates) Templates used to contribute to AI Platform samples
+    - [Tools](notebooks/tools) AI Platform Notebooks tools
+    - [Samples](notebooks/samples)
+       - [AI Hub](notebooks/samples/aihub)
+       - [PyTorch](notebooks/samples/pytorch)
+       - [AI Platform Optimizer](notebooks/samples/optimizer)
+ - [AI Hub](notebooks/samples/aihub)
+ 
  
 <!--
  Commenting these out until we have at least a sample for them in the repo:
@@ -38,7 +57,9 @@ Please refer to the `README.md` file in each sample directory for more specific 
 If you’re looking for our guides on how to do Machine Learning on Google Cloud Platform (GCP) using other services, please checkout our other repositories: 
 
 - [ML on GCP](https://github.com/GoogleCloudPlatform/ml-on-gcp), which has guides on how to bring your code from various ML frameworks to [Google Cloud Platform](https://cloud.google.com/) using things like [Google Compute Engine](https://cloud.google.com/compute/) or [Kubernetes](https://kubernetes.io/).
+- [Keras Idiomatic Programmer](https://github.com/GoogleCloudPlatform/keras-idiomatic-programmer) This repository contains content produced by Google Cloud AI Developer Relations for machine learning and artificial intelligence. The content covers a wide spectrum from educational, training, and research, covering from novices, junior/intermediate to advanced.
 - [Professional Services](https://github.com/GoogleCloudPlatform/professional-services), common solutions and tools developed by Google Cloud's Professional Services team.
+
 
 
 ## Troubleshooting

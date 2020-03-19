@@ -81,7 +81,7 @@ Please make sure you follow the next steps when developing Notebooks:
              └── samples
                  ├── automl
                  ├── bigquery
-                 ├── bigquery_ml
+                 ├── bqml
                  ├── mxnet
                  ├── pytorch
                  ├── scikit-learn
