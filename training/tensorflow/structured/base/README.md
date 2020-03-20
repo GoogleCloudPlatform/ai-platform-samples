@@ -1,4 +1,4 @@
-# TensorFlow - Trainer Package
+# TensorFlow Estimator - Trainer Package
 
 ## Overview
 
@@ -11,7 +11,6 @@ the template covers the following functionality:
 *   Standard implementation of input, parsing, and serving functions.
 *   Automatic feature columns creation based on the metadata (and normalization stats).
 *   Wide & Deep model construction using canned estimators.
-*   Wide & Deep model custom model using tf.keras (1.14+).
 *   Train, evaluate, and export the model.
 *   Parameterization of the experiment.
 
@@ -66,7 +65,6 @@ File Name                                         | Purpose                     
 [model.py](trainer/model.py)           | Includes: 1) function to create DNNLinearCombinedRegressor, and 2) DNNLinearCombinedClassifier.                                                                                                                                                                                                                                        | **No, unless** you want to change something in the estimator, e.g., activation functions, optimizers, etc..
 [experiment.py](trainer/experiment.py)       | Runs the model training and evaluation experiment, and exports the final model.                                                                                                                                                                                                                                                        | **No, unless** you want to add/remove parameters, or change parameter default values.
 [task.py](trainer/task.py)             | Includes: 1) Initialise and parse task arguments (hyper parameters), and 2) Entry point to the trainer.                                                                                                                                                                                                                                | **No, unless** you want to add/remove parameters, or change parameter default values.
-[custom.py](trainer/custom.py)         | Includes: 1) Constructs a custom tf.keras wide & deep model. | **No, unless** you want to change how the model is constructed in a manner not covered by the task.py arguments.
 
 ### Scripts
 
