@@ -1,0 +1,4 @@
+numpy>=1.18.0
+pandas>=0.25.3
+six>=1.13.0
+tensorflow>=2.1.0

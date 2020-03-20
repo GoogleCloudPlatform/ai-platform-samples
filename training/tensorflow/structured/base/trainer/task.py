@@ -24,7 +24,6 @@ import tensorflow as tf
 
 from . import model
 from . import experiment
-from . import custom
 
 
 def get_args():
@@ -208,12 +207,7 @@ def get_args():
         help='The input format of the exported evaluating SavedModel.',
         choices=['CSV', 'EXAMPLE'],
         default='CSV')
-    args_parser.add_argument(
-        '--custom-model',
-        help='Use the custom wide and deep model.',
-        action='store_true',        
-        default=False)
-    
+
     return args_parser.parse_args()
 
 
@@ -273,12 +267,8 @@ def main():
         'supplied' if args.train_size is None else 'computed'))
     logging.info('Evaluate every {} steps.'.format(args.eval_frequency_secs))
 
-    # Create custom tf.keras model
-    if args.custom_model:
-        estimator = custom.create(args, run_config)
     # Create the Estimator
-    else:
-        estimator = model.create(args, run_config)
+    estimator = model.create(args, run_config)
     logging.info('Creating an Estimator: {}'.format(type(estimator)))
 
     # Run the train and evaluate experiment
