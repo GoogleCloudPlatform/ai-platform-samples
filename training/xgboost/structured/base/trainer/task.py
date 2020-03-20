@@ -49,7 +49,7 @@ def _train_and_evaluate(estimator, dataset, output_dir):
 
     utils.save_model(estimator, model_output_path, how='bst')
 
-    if metadata.HYPERPARAMTER_TUNING:
+    if metadata.HYPERPARAMETER_TUNING:
         # Note: for now, use `cross_val_score` defaults (i.e. 3-fold)
         scores = model_selection.cross_val_score(estimator, x_val, y_val, cv=3)
 
