@@ -37,7 +37,7 @@ FEATURE_NAMES = [
 MODEL_FILE_NAME = 'model.bst'
 
 # Set to True if you want to tune some hyperparameters
-HYPERPARAMTER_TUNING = True
+HYPERPARAMETER_TUNING = True
 
 # Used only if the dataset is to be read from BigQuery
 BASE_QUERY = '''
