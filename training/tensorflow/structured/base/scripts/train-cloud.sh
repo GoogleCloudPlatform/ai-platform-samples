@@ -24,22 +24,22 @@ MODEL_NAME="tensorflow_taxi" # change to your model name
 PACKAGE_PATH=./trainer # This can be a GCS location to a zipped and uploaded package
 MODEL_DIR=gs://${BUCKET_NAME}/taxi/model/${MODEL_NAME}
 
-CURRENT_DATE=`date +%Y%m%d_%H%M%S`
+CURRENT_DATE=$(date +%Y%m%d_%H%M%S)
 JOB_NAME=train_${MODEL_NAME}_${CURRENT_DATE}
 
 
-gcloud ai-platform jobs submit training ${JOB_NAME} \
+gcloud ai-platform jobs submit training "${JOB_NAME}" \
         --stream-logs \
-        --job-dir=${MODEL_DIR} \
-        --runtime-version=${RUNTIME_VERSION} \
-        --python-version=${PYTHON_VERSION} \
-        --region=${REGION} \
+        --job-dir="${MODEL_DIR}" \
+        --runtime-version="${RUNTIME_VERSION}" \
+        --python-version="${PYTHON_VERSION}" \
+        --region="${REGION}" \
         --module-name=trainer.task \
-        --package-path=${PACKAGE_PATH}  \
+        --package-path="${PACKAGE_PATH}"  \
         --config=./config.yaml \
         -- \
-        --train-files=${GCS_TAXI_TRAIN_SMALL} \
-        --eval-files=${GCS_TAXI_EVAL_SMALL} \
+        --train-files="${GCS_TAXI_TRAIN_SMALL}" \
+        --eval-files="${GCS_TAXI_EVAL_SMALL}" \
         --train-size=80000 \
         --num-epochs=10 \
         --batch-size=128 \

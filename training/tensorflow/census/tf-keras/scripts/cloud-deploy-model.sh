@@ -14,13 +14,13 @@
 # limitations under the License.
 
 REGION="us-central1" # choose a GCP region, e.g. "us-central1". Choose from https://cloud.google.com/ml-engine/docs/tensorflow/regions
-BUCKET_NAME="your-bucket-name" # change to your bucket name, e.g. "my-bucket"
+BUCKET_NAME="dpe-sandbox" # change to your bucket name, e.g. "my-bucket"
 
-MODEL_NAME="you_model_name" # change to your model name, e.g. "estimator"
+MODEL_NAME="tf2" # change to your model name, e.g. "estimator"
 MODEL_VERSION="v1" # change to your model version, e.g. "v1"
 
 # Model Binaries corresponds to the tf.estimator.FinalExporter configuration in trainer/experiment.py
-MODEL_BINARIES=gs://${BUCKET_NAME}/keras-job-dir
+MODEL_BINARIES=gs://${BUCKET_NAME}/keras-job-dir/keras_export/
 RUNTIME_VERSION=2.1
 PYTHON_VERSION=3.7
 
@@ -37,7 +37,13 @@ gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
 
 # Deploy model version
 gcloud ai-platform versions create ${MODEL_VERSION} \
---model=${MODEL_NAME} \
---origin=${MODEL_BINARIES} \
---python-version=${PYTHON_VERSION} \
---runtime-version=${RUNTIME_VERSION}
+ --model=${MODEL_NAME} \
+ --origin=${MODEL_BINARIES} \
+ --python-version=${PYTHON_VERSION} \
+ --runtime-version=${RUNTIME_VERSION}
+
+# Test predictions
+gcloud ai-platform predict \
+  --model tf2 \
+  --version v1 \
+  --json-instances ../input.json
