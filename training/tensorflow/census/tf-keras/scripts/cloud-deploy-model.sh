@@ -46,4 +46,4 @@ gcloud ai-platform versions create ${MODEL_VERSION} \
 gcloud ai-platform predict \
   --model tf2 \
   --version v1 \
-  --json-instances ../input.json
+  --json-instances ../data/input.json
