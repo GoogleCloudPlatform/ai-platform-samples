@@ -78,7 +78,6 @@ Install additional dependencies not installed in Notebook environment
 ```python
 ! pip install --upgrade pip
 ! pip install -U tensorflow_hub
-! pip install tfa-nightly
 ```
 
 
