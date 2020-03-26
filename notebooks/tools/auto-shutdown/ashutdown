@@ -49,7 +49,7 @@ function err() {
 
 
 function check_cpu(){
-	# Check CPU idle value for local VM or Docker container
+  # Check CPU idle value for local VM or Docker container
   while true; do
    if [[ "$CHECK_DOCKER" = "true" ]]; then
     CPU_PERCENT=$(docker ps -f name=$CONTAINER_NAME -q | xargs docker stats --format "{{.CPUPerc}}" --no-stream | \
