@@ -25,7 +25,7 @@ SLEEP_INTERVAL_SECONDS=5
 # if we want an instance to be stopped after 20min of idle. Each utilization probe
 # happens every 5sec (SLEEP_INTERVAL_SECONDS), therefore since there are 1200 seconds
 # in 20 min (20 * 60 = 1200) we need counter threshold to be 240 (1200 / 5).
-HALT_THRESHOLD=12
+HALT_THRESHOLD=240
 CONTAINER_NAME="" # If using mutiple containers define CONTAINER_NAME value.
 
 
