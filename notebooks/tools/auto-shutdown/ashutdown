@@ -52,7 +52,7 @@ function check_cpu(){
   # Check CPU idle value for local VM or Docker container
   while true; do
    if [[ "$CHECK_DOCKER" = "true" ]]; then
-    CPU_PERCENT=$(docker ps -f name=$CONTAINER_NAME -q | xargs docker stats --format "{{.CPUPerc}}" --no-stream | \
+    CPU_PERCENT=$(docker ps -f name="$CONTAINER_NAME" -q | xargs docker stats --format "{{.CPUPerc}}" --no-stream | \
     awk '{ print $1+0 }')
    else
     # Selects only the final lines (the ones starting with Average: and, among those, only select those whose
