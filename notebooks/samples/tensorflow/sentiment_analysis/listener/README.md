@@ -1,4 +1,6 @@
-# Twitter listener
+## Google Cloud Streaming Pipeline
+
+### Overview
 
 This Python script collects information from Twitter stream and
 pushes Tweets to PubSub.
@@ -19,7 +21,7 @@ Technically, the API exposes dozens of HTTP endpoints related to:
 We will use [Tweepy](https://www.tweepy.org/), it provides a way to invoke 
 Twitter API endpoints without dealing with low-level details.
 
-## Configuration
+### Configuration
 
 Install dependencies in `requirements.txt` file Create a Twitter
 developer account and get Authentication information
@@ -98,5 +100,4 @@ docker logs -f twitter-listener
 ```
 
 References:
-
 https://realpython.com/twitter-bot-python-tweepy/#reader-comments
