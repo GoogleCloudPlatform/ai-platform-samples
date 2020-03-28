@@ -1,9 +1,14 @@
-## Streaming Analytics
+### Google Cloud Machine Learning Pipeline
 
-### Google Cloud Machine Learning Pipeline.
 #### Pub/Sub to AI Platform and then Google Cloud BigQuery
 
-* [PubSubToBigQuery.py](PubSubToBigQuery.py)
+* [PubSubToBigQueryWithAIPlatform.py](PubSubToBigQueryWithAIPlatform.py)
+
+#### Pub/Sub to ML API and then Google Cloud BigQuery
+
+* [PubSubToBigQueryWithAPI.py](PubSubToBigQueryWithAPI.py)
+
+# Running pipeline
 
 The following example will run a streaming pipeline. It will read 
 messages from a Pub/Sub topic, then window them into fixed-sized intervals, 
@@ -21,6 +26,7 @@ will write them into BigQuery.
 + `--min-batch-size [optional]`: specifies the batch min size
 + `--max-batch-size [optional]`: specifies the batch max size
 + `--runner`: specifies the runner to run the pipeline, if not set to `DataflowRunner`, `DirectRunner` is used
+
 
 ### Pre-requisites
 
@@ -103,10 +109,10 @@ Create a `config.env` file:
 ```shell script
 PROJECT_ID=
 MODEL_NAME=sentiment_classifier
-INPUT_TOPIC=projects/your_project/topics/news-ml-twitter
+INPUT_TOPIC=projects/your_project/topics/twitter
 REGION=us-central1
-STAGING_LOCATION=gs://BUCKET_NAME/news-ml-twitter/staging
-TEMP_LOCATION=gs://BUCKET_NAME/news-ml-twitter/tmp
+STAGING_LOCATION=gs://BUCKET_NAME/twitter/staging
+TEMP_LOCATION=gs://BUCKET_NAME/twitter/tmp
 BIGQUERY_DATASET=your_dataset_twitter_test
 BIGQUERY_TABLE=twitter_posts_test
 GOOGLE_APPLICATION_CREDENTIALS=/config
