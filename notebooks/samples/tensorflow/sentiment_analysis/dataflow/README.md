@@ -1,6 +1,6 @@
 ## Streaming Analytics
 
-### Google Cloud E2E Machine Learning Pipeline.
+### Google Cloud Machine Learning Pipeline.
 #### Pub/Sub to AI Platform and then Google Cloud BigQuery
 
 * [PubSubToBigQuery.py](PubSubToBigQuery.py)
