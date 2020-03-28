@@ -1,4 +1,6 @@
-### Google Cloud DataFlow Streaming Pipeline
+## Google Cloud DataFlow Streaming Pipeline
+
+### Overview
 
 The following example will run a streaming pipeline. It will read 
 messages from a Pub/Sub topic, then window them into fixed-sized intervals, 
@@ -26,7 +28,7 @@ will write them into BigQuery.
 * [PubSubToBigQueryWithAPI.py](PubSubToBigQueryWithAPI.py)
 
 
-### Pre-requisites
+## Pre-requisites
 
 ### Streaming data
 
@@ -121,7 +123,7 @@ MAX_BATCH_SIZE=100
 
 ```
 
-Start API
+Start Docker container and DataFlow pipeline
 
 ```shell script
 docker run -d -itd --env-file=config.env \
