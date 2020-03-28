@@ -1,0 +1,5 @@
+apache-beam[gcp]==2.18.0
+cython
+google-api-python-client
+google-cloud-language
+google-api-core
