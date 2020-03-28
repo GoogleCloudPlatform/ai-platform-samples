@@ -1,14 +1,4 @@
-### Google Cloud Machine Learning Pipeline
-
-#### Pub/Sub to AI Platform and then Google Cloud BigQuery
-
-* [PubSubToBigQueryWithAIPlatform.py](PubSubToBigQueryWithAIPlatform.py)
-
-#### Pub/Sub to ML API and then Google Cloud BigQuery
-
-* [PubSubToBigQueryWithAPI.py](PubSubToBigQueryWithAPI.py)
-
-# Running pipeline
+### Google Cloud DataFlow Streaming Pipeline
 
 The following example will run a streaming pipeline. It will read 
 messages from a Pub/Sub topic, then window them into fixed-sized intervals, 
@@ -26,6 +16,14 @@ will write them into BigQuery.
 + `--min-batch-size [optional]`: specifies the batch min size
 + `--max-batch-size [optional]`: specifies the batch max size
 + `--runner`: specifies the runner to run the pipeline, if not set to `DataflowRunner`, `DirectRunner` is used
+
+#### Pub/Sub to AI Platform and then Google Cloud BigQuery
+
+* [PubSubToBigQueryWithAIPlatform.py](PubSubToBigQueryWithAIPlatform.py)
+
+#### Pub/Sub to ML API and then Google Cloud BigQuery
+
+* [PubSubToBigQueryWithAPI.py](PubSubToBigQueryWithAPI.py)
 
 
 ### Pre-requisites
