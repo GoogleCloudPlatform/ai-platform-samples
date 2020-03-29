@@ -11,7 +11,8 @@ and deployment.
 - [Notebooks auto-shutdown](tools/auto-shutdown): This script will
   continuously monitor the CPU load and will shut down the instance if
   the load is less than a particular threshold (for a specified amount
-  of time).
+  of time). It also can check Docker CPU utilization and shut down the host VM
+  as described above.
 - [Notebook executor](tools/gcp-notebook-executor): 
 This repository contains the logic that can be used to schedule Jupyter notebooks from anywhere (local, GCE, GCP Notebooks) to the [Google Cloud Deep Learning VM](https://cloud.google.com/deep-learning-vm/). You can read more about the usage of this tool [here](https://blog.kovalevskyi.com/gcp-notebook-executor-v0-1-2-8e37abd6fae1).
 - [Notebook CI showcase](tools/notebooks-ci-showcase):
