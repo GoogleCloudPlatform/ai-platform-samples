@@ -37,7 +37,7 @@ if [[ $* == *--check-docker* ]]; then
     echo 'Error: docker is not installed.' >&2
     exit 1;
   fi
-  NUM_CONTAINERS=$(docker ps | grep imagename | wc -l)
+  NUM_CONTAINERS=$(docker ps | tail -n +2 | wc -l)
   if [ "$NUM_CONTAINERS" -eq "0" ]; then
     echo "No Running containers"
     exit 1;
