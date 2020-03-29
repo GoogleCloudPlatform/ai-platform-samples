@@ -37,7 +37,7 @@ must be consistent.
 1. Clone the repository.
 
     ```
-    git clone https://github.com/GoogleCloudPlatform/cloudml-samples.git
+    git clone https://github.com/GoogleCloudPlatform/ai-platform-samples.git
     ```
 
 2. If you do not already have a Cloud Storage bucket, create one to be used for the training job.
