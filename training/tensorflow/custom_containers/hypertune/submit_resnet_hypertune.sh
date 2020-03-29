@@ -1,5 +1,9 @@
-IMAGE_URI=gcr.io/gcp-ml-demo-233523/estimator-hypertune:latest
+export PROJECT_ID=$(gcloud config list project --format "value(core.project)")
+export IMAGE_REPO_NAME=estimator-hypertune
+export IMAGE_TAG=latest
+export IMAGE_URI=gcr.io/$PROJECT_ID/$IMAGE_REPO_NAME:$IMAGE_TAG
 now=$(date +"%Y%m%d_%H%M%S")
+# GCS_BUCKET is expected as en environment variable 
 #GCS_BUCKET=gs://tpu-exp-02272020
 BUCKET=$GCS_BUCKET
 
@@ -11,7 +15,10 @@ REGION=us-central1
 DATA_DIR=gs://cloud-tpu-test-datasets/fake_imagenet
 OUTPUT_PATH=$JOB_DIR
 
-gcloud ai-platform jobs submit training $JOB_NAME \
+if [ "$1" = "--test_local" ]; then
+    docker run $IMAGE_URI   --data_dir=$DATA_DIR   --model_dir=$OUTPUT_PATH   --resnet_depth=50   --train_steps=1024
+else
+  gcloud ai-platform jobs submit training $JOB_NAME \
   --scale-tier CUSTOM \
   --master-machine-type n1-highmem-8 \
   --master-accelerator count=1,type=nvidia-tesla-v100 \
@@ -23,3 +30,4 @@ gcloud ai-platform jobs submit training $JOB_NAME \
   --model_dir=$OUTPUT_PATH \
   --resnet_depth=50 \
   --train_steps=1024
+fi
