@@ -15,7 +15,7 @@
 # ==============================================================================
 # This scripts performs cloud training for a TensorFlow model.
 
-set -ev
+set -v
 
 echo "Training Cloud ML model"
 
@@ -35,11 +35,13 @@ REGION=us-central1
 
 export TRAIN_STEPS=1000
 export EVAL_STEPS=100
+export CONFIG_FILE=hptuning_config.yaml
 
 gcloud ai-platform jobs submit training "${JOB_NAME}" \
   --package-path trainer/ \
   --module-name trainer.task \
   --region ${REGION} \
+  --config ${CONFIG_FILE} \
   --python-version 3.7 \
   --runtime-version 2.1 \
   --job-dir "${JOB_DIR}" \

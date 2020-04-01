@@ -3,7 +3,7 @@ trainingInput:
     goal: MAXIMIZE
     maxTrials: 4
     maxParallelTrials: 2
-    hyperparameterMetricTag: epoch_acc
+    hyperparameterMetricTag: epoch_accuracy
     params:
     - parameterName: batch-size
       type: INTEGER
