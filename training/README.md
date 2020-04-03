@@ -5,6 +5,7 @@ The AI Platform training service allows you to train models using a wide range o
 You can use the following features:
 
  - Running a training job using many different machine types
+ - Use custom Docker containers with your preferred ML Framework
  - Use GPUs
  - Use TPUs
  - Hyperparameter tuning
@@ -39,19 +40,19 @@ You can select many different machine types to power your training jobs, enable 
 tuning, and accelerate with GPUs and TPUs.
 
  - [TensorFlow](tensorflow/structured)
-     - [Base](tensorflow/structured/base) Standard code to perform AI Platform Training using TensorFlow Estimators 
+     - [base](tensorflow/structured/base) Standard code to perform AI Platform Training using TensorFlow Estimators 
               using CPU.
-     - [GPU](tensorflow/structured/gpu) Uses GPU and MirroredStrategy for Model Training.
+     - [census TF Keras](tensorflow/census/tf-keras) A Binary classification model using with TF Keras and AI Platform Trainining.
      - [TPU](tensorflow/structured/tpu) Uses Cloud TPU for Model Training.
      - [Hyperparameter tuning](tensorflow/structured/hp_tuning) Use Hyperparameter tuning.
      - [Distributed training](tensorflow/structured/distributed) Uses Distributed Training using TensorFlow 
               Distribution strategy.
      
  - [scikit-learn](sklearn/structured/)
-      - [Base](sklearn/structured/base) Standard code to perform AI Platform Training using Sci-kit learn 
+      - [base](sklearn/structured/base) Standard code to perform AI Platform Training using Sci-kit learn 
               using CPU.
  - [XGBoost](xgboost/structured/)
-      - [Base](xgboost/structured/base) Standard code to perform AI Platform Training using XGBoost. 
+      - [base](xgboost/structured/base) Standard code to perform AI Platform Training using XGBoost. 
  
 #### AI Platform Training - Custom Containers
 
@@ -59,6 +60,7 @@ Containers on AI Platform is a feature that allows you to run your application w
 
  - [PyTorch](pytorch/structured) Train a PyTorch model in AI Platform
  - [Horovod](horovod) How to run Horovod on AI Platform.
+ - [ResNet](tensorflow/custom_containers/hypertune) How to run custom containers using Hyperparameter tuning.
 
 #### AI Platform Prediction
 
