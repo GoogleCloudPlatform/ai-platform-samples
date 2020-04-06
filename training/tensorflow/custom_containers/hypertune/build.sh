@@ -4,3 +4,7 @@ export IMAGE_TAG=latest
 export IMAGE_URI=gcr.io/$PROJECT_ID/$IMAGE_REPO_NAME:$IMAGE_TAG
 
 docker build -f Dockerfile -t $IMAGE_URI ./
+
+gcloud auth configure-docker
+
+docker push $IMAGE_URI:latest
