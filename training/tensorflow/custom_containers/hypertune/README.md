@@ -7,18 +7,18 @@ This sample is adapted from [the official samples for tuning ResNet-50 with Clou
 
 
 ## Main Flow
-resnet_main_hypertune.py is executed in the train_and_eval mode. Notice that
+[resnet_main_hypertune.py](resnet/resnet_main_hypertune.py) is executed in the `train_and_eval` mode. Notice that
 in this mode the training is executed for set number of steps followed by
 evaluation.
 
 ## Key Concept(s)
-'evaluate' method of the estimator can accept a set of session hooks to  allow
+`evaluate` method of the estimator can accept a set of session hooks to  allow
 some custom operations/computations during evaluation. In this specific example
 the desired task is to communicate the target evaluation metric to the hypertune
-service. HypertuneHook example provided in this sample accomplishes this task.
+service. `HypertuneHook` example provided in this sample accomplishes this task.
 
 Notice also that estimatorSpec for evaluation also specified
-evaluation_metric_ops to ensure that target tensors to compute the required
+`evaluation_metric_ops` to ensure that target tensors to compute the required
 metric are present in the evaluation graph with the write tags. 
 
 Tag of the evaluation metric provided the config yaml file the tag in the
