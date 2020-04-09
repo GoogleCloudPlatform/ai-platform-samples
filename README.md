@@ -21,13 +21,15 @@ The repository is organized by products:
     - [Tools](prediction/tools) AI Platform Prediction tools 
  - [AI Platform Optimizer](notebooks/samples/optimizer)
  - [AI Platform Pipelines](pipelines)
- - [AI Platform Notebooks](notebooks)
+ - [AI Platform Notebooks](notebooks)    
+    - [Samples](notebooks/samples)
+       - [AI Hub](notebooks/samples/aihub)       
+       - [AI Platform Optimizer](notebooks/samples/optimizer)
+       - [AI Platform Pipelines](notebooks/samples/tensorflow/sentiment_analysis)
+       - [PyTorch](notebooks/samples/pytorch)
+       - [TensorFlow](notebooks/samples/tensorflow)
     - [Templates](notebooks/templates) Templates used to contribute to AI Platform samples
     - [Tools](notebooks/tools) AI Platform Notebooks tools
-    - [Samples](notebooks/samples)
-       - [AI Hub](notebooks/samples/aihub)
-       - [PyTorch](notebooks/samples/pytorch)
-       - [AI Platform Optimizer](notebooks/samples/optimizer)
  - [AI Hub](notebooks/samples/aihub)
  
  
