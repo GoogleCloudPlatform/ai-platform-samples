@@ -6,6 +6,14 @@ science and machine learning frameworks in a single click. Notebooks is integrat
 Cloud Dataflow, making it easy to go from data ingestion to preprocessing and exploration, and eventually model training 
 and deployment.
 
+# Samples
+
+[This directory](samples) contains multiple Notebooks showing Machine Learning examples:
+ - [AI Hub](samples/aihub/)
+ - [AI Platform Optimizer](samples/optimizer/)
+ - [PyTorch](samples/pytorch/)
+ - [TensorFlow](samples/tensorflow/)
+
 # Tools
 
 - [Notebooks auto-shutdown](tools/auto-shutdown): This script will
