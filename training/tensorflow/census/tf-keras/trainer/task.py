@@ -62,6 +62,14 @@ def get_args():
     return args
 
 
+class CustomCallback(tf.keras.callbacks.TensorBoard):
+    """Callback to write out a custom metric used by CAIP for HP Tuning."""
+
+    def on_epoch_end(self, epoch, logs=None):  # pylint: disable=no-self-use
+        """Write tf.summary.scalar on epoch end."""
+        tf.summary.scalar('epoch_accuracy', logs['accuracy'], epoch)
+
+
 def train_and_evaluate(args):
     """Trains and evaluates the Keras model.
 
@@ -105,9 +113,8 @@ def train_and_evaluate(args):
         verbose=True)
 
     # Setup TensorBoard callback.
-    tensorboard_cb = tf.keras.callbacks.TensorBoard(
-        os.path.join(args.job_dir, 'keras_tensorboard'),
-        histogram_freq=1)
+    custom_cb = CustomCallback(os.path.join(args.job_dir, 'metric_tb'),
+                               histogram_freq=1)
 
     # Train model
     keras_model.fit(
@@ -117,7 +124,7 @@ def train_and_evaluate(args):
         validation_data=validation_dataset,
         validation_steps=1,
         verbose=1,
-        callbacks=[lr_decay_cb, tensorboard_cb])
+        callbacks=[lr_decay_cb, custom_cb])
 
     export_path = os.path.join(args.job_dir, 'keras_export')
     tf.keras.models.save_model(keras_model, export_path)
