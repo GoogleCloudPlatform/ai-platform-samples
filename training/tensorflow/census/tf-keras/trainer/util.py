@@ -18,8 +18,9 @@ from __future__ import division
 from __future__ import print_function
 
 import os
-from six.moves import urllib
 import tempfile
+
+from six.moves import urllib
 
 import numpy as np
 import pandas as pd
