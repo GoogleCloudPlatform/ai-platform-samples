@@ -62,7 +62,8 @@ function check_cpu(){
    else
     # Selects only the final lines (the ones starting with Average: and, among those, only select those whose
     # second column is numeric. For those lines, the third column (cpu load) is printed.
-    CPU_PERCENT=$(mpstat -P ALL 1 1 | awk '/Average:/ && $2 ~ /[0-9]/ {print $3}')
+    # For multicore AI Notebooks we select CPU_PERCENT for the core with most CPU usage
+    CPU_PERCENT=$(mpstat -P ALL 1 1 | awk '/Average:/ && $2 ~ /[0-9]/ {print $3}' | awk '{{max=0};if($1>max) {max=$1}} END {print max}')
    fi
    if (( $(echo "${CPU_PERCENT} < ${THRESHOLD_PERCENT}" | bc -l) )); then
      COUNTER=$((COUNTER + 1))
