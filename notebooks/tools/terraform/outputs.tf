@@ -12,14 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-provider "google" {
-  credentials = var.credentials_file
-  project     = var.project_id
-  region      = var.region
-  version = "~> 2.5.0"
+output "instance_name" {
+  description = "Name of instance"
+  value = google_compute_instance.default.name
 }
 
-# Terraform version requirements
-terraform {
-  required_version = "~>0.12.0"
+output "ip" {
+  description = "Public IP address of instance"
+  value = google_compute_instance.default.network_interface[0].access_config[0].nat_ip
 }
