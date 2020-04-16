@@ -17,34 +17,34 @@ variable "project_id" {
   description = "The name of the project"
 }
 
-variable "credentials_file" { }
+variable "credentials_file" {}
 
 variable "region" {
   type        = string
-  default = "us-central1"
+  default     = "us-central1"
   description = "The region that this terraform configuration will use."
 }
 
 variable "zone" {
   type        = string
-  default = "us-central1-b"
+  default     = "us-central1-b"
   description = "The zone that this terraform configuration will use."
 }
 
 variable "instance_type" {
   type        = string
-  default = "n1-standard-4"
+  default     = "n1-standard-4"
   description = "The instance_type that this terraform configuration will use."
 }
 
 variable "gpu_type" {
   type        = string
-  default = "nvidia-tesla-t4"
+  default     = "nvidia-tesla-t4"
   description = "The GPU type: https://cloud.google.com/gpu"
 }
 
 variable "gpu_count" {
-  type = number
-  default = 1
+  type        = number
+  default     = 1
   description = "The GPU number"
 }

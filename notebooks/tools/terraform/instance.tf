@@ -24,7 +24,7 @@ resource "google_compute_instance" "default" {
   boot_disk {
     initialize_params {
       image = "deeplearning-platform-release/tf-ent-latest-gpu" # TensorFlow Enterprise
-      size = 50 // 50 GB Storage
+      size  = 50                                                // 50 GB Storage
     }
   }
 
@@ -34,18 +34,18 @@ resource "google_compute_instance" "default" {
   }
 
   guest_accelerator {
-    type = var.gpu_type
+    type  = var.gpu_type
     count = var.gpu_count
   }
 
   scheduling {
-    automatic_restart = true
+    automatic_restart   = true
     on_host_maintenance = "TERMINATE"
   }
 
   metadata = {
     install-nvidia-driver = "True"
-    proxy-mode = "service_account"
+    proxy-mode            = "service_account"
   }
 
   tags = ["deeplearning-vm"]
