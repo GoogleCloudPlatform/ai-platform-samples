@@ -24,4 +24,4 @@ docker build -f Dockerfile -t "$IMAGE_URI" ./
 
 gcloud auth configure-docker
 
-docker push "$IMAGE_URI":latest
+docker push "$IMAGE_URI"

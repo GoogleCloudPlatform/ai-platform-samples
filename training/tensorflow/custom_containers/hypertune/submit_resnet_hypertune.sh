@@ -20,7 +20,7 @@ export IMAGE_REPO_NAME=estimator-hypertune
 export IMAGE_TAG=latest
 export IMAGE_URI=gcr.io/$PROJECT_ID/$IMAGE_REPO_NAME:$IMAGE_TAG
 
-# GCS_BUCKET is expected as en environment variable.
+#GCS_BUCKET is expected as en environment variable.
 #GCS_BUCKET=gs://tpu-exp-02272020
 BUCKET=$GCS_BUCKET
 
