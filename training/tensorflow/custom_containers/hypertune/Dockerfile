@@ -25,5 +25,4 @@ COPY resnet /resnet
 
 # Sets up the entry point to invoke the trainer.
 ENTRYPOINT ["python", "-m", "resnet.resnet_main_hypertune"]
-#ENTRYPOINT ["bash"]
 
