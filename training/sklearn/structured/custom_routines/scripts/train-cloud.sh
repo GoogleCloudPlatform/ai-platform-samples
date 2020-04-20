@@ -25,12 +25,13 @@ export CUSTOM_ROUTINE_PATH=gs://${BUCKET_NAME}/${MODEL_NAME}/library/custom_rout
 
 gsutil mb gs://"${BUCKET_NAME}"
 
+TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
+
 PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
 CURRENT_DATE=$(date +%Y%m%d_%H%M%S)
 JOB_NAME=train_${MODEL_NAME}_${CURRENT_DATE}
 PYTHON_VERSION=3.7
-RUNTIME_VERSION=2.1
-TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
+RUNTIME_VERSION=1.15
 
 
 gcloud ai-platform jobs submit training "${JOB_NAME}" \
