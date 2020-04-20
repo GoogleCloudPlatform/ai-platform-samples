@@ -35,7 +35,7 @@ RUNTIME_VERSION=1.15
 
 
 gcloud ai-platform jobs submit training "${JOB_NAME}" \
-        --job-dir=${MODEL_DIR} \
+        --job-dir="${MODEL_DIR}" \
         --python-version=$PYTHON_VERSION \
         --runtime-version=$RUNTIME_VERSION \
         --region="${REGION}" \

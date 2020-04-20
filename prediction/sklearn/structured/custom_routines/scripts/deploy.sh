@@ -16,19 +16,23 @@
 # ==============================================================================
 
 # This has to be run after train-cloud.sh is successfully executed
+REGION="us-central1" # choose a GCP region, e.g. "us-central1". Choose from https://cloud.google.com/ai-platform/training/docs/regions
 
-export MODEL_VERSION=v1
+MODEL_VERSION="v2"
 
-FRAMEWORK=SCIKIT_LEARN
+PYTHON_VERSION=3.7
+RUNTIME_VERSION=1.15
 
 echo "First, creating the model resource..."
-gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
+gcloud beta ai-platform models create "${MODEL_NAME}" --region=${REGION}
 
 echo "Second, creating the model version..."
 gcloud beta ai-platform versions create ${MODEL_VERSION} \
-  --model ${MODEL_NAME} \
-  --origin ${MODEL_DIR}/model \
-  --framework ${FRAMEWORK} \
+  --model "${MODEL_NAME}" \
+  --region "${REGION}" \
+  --origin "${MODEL_DIR}"/model \
+  --framework SCIKIT_LEARN \
+  --machine-type "n1-standard-4" \
   --runtime-version=${RUNTIME_VERSION} \
   --python-version=${PYTHON_VERSION} \
-  --package-uris ${CUSTOM_ROUTINE_PATH}
+  --package-uris "${CUSTOM_ROUTINE_PATH}"

@@ -14,6 +14,7 @@
 # limitations under the License.
 # ==============================================================================
 
+from google.api_core.client_options import ClientOptions
 import os
 import logging
 import googleapiclient.discovery
@@ -33,10 +34,16 @@ instances = [
 PROJECT_ID = os.getenv('PROJECT_ID')
 MODEL_NAME = os.getenv('MODEL_NAME')
 MODEL_VERSION = os.getenv('MODEL_VERSION')
+REGION = os.getenv('REGION')
 
 logging.info('PROJECT_ID: %s', PROJECT_ID)
 logging.info('MODEL_NAME: %s', MODEL_NAME)
 logging.info('MODEL_VERSION: %s', MODEL_VERSION)
+logging.info('REGION: %s', REGION)
+
+prefix = "{}-ml".format(REGION) if REGION else "ml"
+api_endpoint = "https://{}.googleapis.com".format(prefix)
+client_options = ClientOptions(api_endpoint=api_endpoint)
 
 service = googleapiclient.discovery.build('ml', 'v1')
 name = 'projects/{}/models/{}/versions/{}'.format(PROJECT_ID, MODEL_NAME,
