@@ -21,13 +21,21 @@ echo "Submitting an AI Platform job..."
 
 export MODEL_NAME="sklearn_taxi"
 
+<<<<<<< HEAD
 export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}  # TODO Change BUCKET_NAME to your bucket name
 
 PACKAGE_PATH=./trainer # this can be a GCS location to a zipped and uploaded package
+=======
+PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
+
+export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}  # TODO Change BUCKET_NAME to your bucket name
+
+>>>>>>> ebd38b971ba1ac9d0553f99abbe4cb2aac4e0c50
 CURRENT_DATE=$(date +%Y%m%d_%H%M%S)
 JOB_NAME=train_${MODEL_NAME}_${CURRENT_DATE}
 PYTHON_VERSION=3.7
 RUNTIME_VERSION=1.15
+<<<<<<< HEAD
 TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
 
 
@@ -43,6 +51,22 @@ gcloud ai-platform jobs submit training "${JOB_NAME}" \
  --config=./config.yaml \
  -- \
  --input="${GCS_TAXI_TRAIN_BIG}"
+=======
+
+
+gcloud ai-platform jobs submit training "${JOB_NAME}" \
+        --job-dir="${MODEL_DIR}" \
+        --runtime-version=${RUNTIME_VERSION} \
+        --region="${REGION}" \
+        --scale-tier=${TIER} \
+        --module-name=trainer.task \
+        --package-path=${PACKAGE_PATH}  \
+        --python-version=${PYTHON_VERSION} \
+        --stream-logs \
+        --config=./config.yaml \
+        -- \
+        --input="${GCS_TAXI_TRAIN_BIG}"
+>>>>>>> ebd38b971ba1ac9d0553f99abbe4cb2aac4e0c50
 
 set -
 

@@ -37,6 +37,7 @@ gcloud ai-platform models delete ${MODEL_NAME}
 gcloud beta ai-platform models create ${MODEL_NAME} --region=${REGION}
 
 # Deploy model version
+<<<<<<< HEAD:prediction/tensorflow/structured/scripts/deploy.sh
 gcloud beta ai-platform versions create ${MODEL_VERSION} \
    --model=${MODEL_NAME} \
    --region "${REGION}" \
@@ -45,6 +46,14 @@ gcloud beta ai-platform versions create ${MODEL_VERSION} \
    --origin="${MODEL_BINARIES}" \
    --python-version=${PYTHON_VERSION} \
    --runtime-version=${RUNTIME_VERSION}
+=======
+gcloud ai-platform versions create ${MODEL_VERSION} \
+ --model=${MODEL_NAME} \
+ --region $REGION \
+ --origin="${MODEL_BINARIES}" \
+ --python-version=${PYTHON_VERSION} \
+ --runtime-version=${RUNTIME_VERSION}
+>>>>>>> ebd38b971ba1ac9d0553f99abbe4cb2aac4e0c50:prediction/tensorflow/structured/scripts/cloud-deploy-model.sh
 
 # Invoke deployed model to make prediction given new data instances
 gcloud ai-platform predict --model=${MODEL_NAME} --version=${MODEL_VERSION} --json-instances=data/new-data.json
