@@ -29,6 +29,9 @@ A fully functional continuous integration and continuous deployment system for J
 workload runs on a separate Compute Engine instance using Nteract [papermill](https://github.com/nteract/papermill).
 - [Nova Jupyterlab extensions](tools/nova-jupyterlab-extensions): Nova Plugin.
 - [Notebook Deployment Manager](tools/deployment-manager): Automating AI Platform Notebook Instance Creation With GCP Deployment Manager.
+- [Terraform](tools/terraform): Deploy a Notebook instance using
+  Terraform.
+
 
 # Templates
 
