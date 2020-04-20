@@ -23,7 +23,7 @@ TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
 
 export MODEL_NAME="xgboost_taxi"
 
-PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
+PACKAGE_PATH=./trainer # this can be a GCS location to a zipped and uploaded package
 export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}
 
 
@@ -51,5 +51,5 @@ set -
 
 # Notes:
 # GCS_TAXI_TRAIN_BIG is set by datasets/downlaod-taxi.sh script
-# use --packages instead of --package-path if gcs location
+# use --packages instead of --package-path if GCS location
 # add --reuse-job-dir to resume training
