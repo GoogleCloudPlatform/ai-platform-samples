@@ -6,3 +6,11 @@ Set](https://archive.ics.uci.edu/ml/datasets/Census+Income). It's designed so
 you can run the training on [Cloud Machine Learning
 Engine](https://cloud.google.com/ml-engine). To learn how to use this code, view
 the Getting Started tutorial in one of the following formats:
+
+* Work through the tutorial as [a Jupyter notebook on
+  Colab](https://colab.research.google.com/github/GoogleCloudPlatform/ai-platform-samples/blob/master/notebooks/samples/tensorflow/keras/getting_started_keras.ipynb).
+* View the [tutorial notebook in
+  GitHub](../../../../notebooks/samples/tensorflow/keras/getting-started-keras.ipynb). You can
+  download and run it in any Jupyter environment you would like.
+* Read the [tutorial in the AI Platform
+  documentation](https://cloud.google.com/ml-engine/docs/tensorflow/getting-started-keras).
