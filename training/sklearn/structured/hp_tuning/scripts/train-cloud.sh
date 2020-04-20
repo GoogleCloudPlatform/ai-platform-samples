@@ -24,17 +24,19 @@ TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
 export MODEL_NAME="sklearn_taxi"
 
 PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
-export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}
 
-gsutil mb gs://${BUCKET_NAME}
+export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}  # TODO Change BUCKET_NAME to your bucket name
 
-CURRENT_DATE=`date +%Y%m%d_%H%M%S`
+CURRENT_DATE=$(date +%Y%m%d_%H%M%S)
 JOB_NAME=train_${MODEL_NAME}_${CURRENT_DATE}
+PYTHON_VERSION=3.7
+RUNTIME_VERSION=1.15
 
-gcloud ai-platform jobs submit training ${JOB_NAME} \
-        --job-dir=${MODEL_DIR} \
+
+gcloud ai-platform jobs submit training "${JOB_NAME}" \
+        --job-dir="${MODEL_DIR}" \
         --runtime-version=${RUNTIME_VERSION} \
-        --region=${REGION} \
+        --region="${REGION}" \
         --scale-tier=${TIER} \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH}  \
@@ -42,7 +44,7 @@ gcloud ai-platform jobs submit training ${JOB_NAME} \
         --stream-logs \
         --config=./config.yaml \
         -- \
-        --input=${GCS_TAXI_TRAIN_BIG}
+        --input="${GCS_TAXI_TRAIN_BIG}"
 
 set -
 
