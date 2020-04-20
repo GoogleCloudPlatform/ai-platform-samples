@@ -13,16 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-REGION="us-central1" # choose a GCP region, e.g. "us-central1". Choose from https://cloud.google.com/ml-engine/docs/tensorflow/regions
-BUCKET_NAME="dpe-sandbox" # change to your bucket name, e.g. "my-bucket"
+REGION="us-central1" # choose a GCP region, e.g. "us-central1". Choose from https://cloud.google.com/ai-platform/training/docs/regions
+BUCKET_NAME="" # TODO Change BUCKET_NAME to your bucket name
 
-MODEL_NAME="tf2" # change to your model name, e.g. "estimator"
+MODEL_NAME="my_first_keras_model" # change to your model name, e.g. "estimator"
 MODEL_VERSION="v1" # change to your model version, e.g. "v1"
 
 # Model Binaries corresponds to the tf.estimator.FinalExporter configuration in trainer/experiment.py
 MODEL_BINARIES=gs://${BUCKET_NAME}/keras-job-dir/keras_export/
-RUNTIME_VERSION=2.1
 PYTHON_VERSION=3.7
+RUNTIME_VERSION=2.1
 
 gsutil ls ${MODEL_BINARIES}
 
@@ -33,11 +33,12 @@ gcloud ai-platform versions delete ${MODEL_VERSION} --model=${MODEL_NAME}
 gcloud ai-platform models delete ${MODEL_NAME}
 
 # Deploy model to GCP
-gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
+gcloud beta ai-platform models create --region ${REGION} ${MODEL_NAME}
 
 # Deploy model version
-gcloud ai-platform versions create ${MODEL_VERSION} \
+gcloud beta ai-platform versions create ${MODEL_VERSION} \
  --model=${MODEL_NAME} \
+ --region $REGION \
  --origin=${MODEL_BINARIES} \
  --python-version=${PYTHON_VERSION} \
  --runtime-version=${RUNTIME_VERSION}

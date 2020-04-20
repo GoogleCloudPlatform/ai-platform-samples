@@ -19,35 +19,36 @@ set -v
 
 echo "Submitting an AI Platform job..."
 
-TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
-
 export MODEL_NAME="sklearn_taxi"
-
-PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
-export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}
+export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}  # TODO Change BUCKET_NAME to your bucket name
 export CUSTOM_ROUTINE_PATH=gs://${BUCKET_NAME}/${MODEL_NAME}/library/custom_routine-1.0.tar.gz
 
-gsutil mb gs://${BUCKET_NAME}
+gsutil mb gs://"${BUCKET_NAME}"
 
-CURRENT_DATE=`date +%Y%m%d_%H%M%S`
+PACKAGE_PATH=./trainer # this can be a gcs location to a zipped and uploaded package
+CURRENT_DATE=$(date +%Y%m%d_%H%M%S)
 JOB_NAME=train_${MODEL_NAME}_${CURRENT_DATE}
+PYTHON_VERSION=3.7
+RUNTIME_VERSION=2.1
+TIER="BASIC" # BASIC | BASIC_GPU | STANDARD_1 | PREMIUM_1
 
-gcloud ai-platform jobs submit training ${JOB_NAME} \
-        --job-dir=${MODEL_DIR} \
+
+gcloud ai-platform jobs submit training "${JOB_NAME}" \
+        --job-dir="${MODEL_DIR}" \
+        --python-version=${PYTHON_VERSION} \
         --runtime-version=${RUNTIME_VERSION} \
-        --region=${REGION} \
+        --region="${REGION}" \
         --scale-tier=${TIER} \
         --module-name=trainer.task \
         --package-path=${PACKAGE_PATH}  \
-        --python-version=${PYTHON_VERSION} \
         --stream-logs \
         -- \
-        --input=${GCS_TAXI_TRAIN_BIG} \
+        --input="${GCS_TAXI_TRAIN_BIG}" \
         --n-estimators=20 \
         --max-depth=3
 
 python ./package.py sdist --formats=gztar
-gsutil cp ./dist/custom_routine-1.0.tar.gz ${CUSTOM_ROUTINE_PATH}
+gsutil cp ./dist/custom_routine-1.0.tar.gz "${CUSTOM_ROUTINE_PATH}"
 
 set -
 

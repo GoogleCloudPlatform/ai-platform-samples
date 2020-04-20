@@ -29,7 +29,7 @@ gcloud ai-platform local train \
         --job-dir=${MODEL_DIR} \
         -- \
         --log-level DEBUG \
-        --input=${TAXI_TRAIN_SMALL}
+        --input="${TAXI_TRAIN_SMALL}"
 
 set -
 
