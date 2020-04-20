@@ -23,7 +23,7 @@ rm -rf trainer.egg-info
 rm -rf build
 
 # Delete model version resource
-gcloud ai-platform versions delete ${MODEL_VERSION} --model ${MODEL_NAME} --quiet
+gcloud ai-platform versions delete "${MODEL_VERSION}" --model "${MODEL_NAME}" --quiet
 
 # Delete model resource
-gcloud ai-platform models delete ${MODEL_NAME} --quiet
+gcloud ai-platform models delete "${MODEL_NAME}" --quiet

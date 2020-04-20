@@ -13,16 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-REGION="us-central1" # choose a GCP region, e.g. "us-central1". Choose from https://cloud.google.com/ml-engine/docs/tensorflow/regions
-BUCKET="your-bucket-name" # change to your bucket name, e.g. "my-bucket"
+# This has to be run after train-cloud.sh is successfully executed
 
-MODEL_NAME="you_model_name_gpu" # change to your model name, e.g. "estimator"
+REGION="us-central1" # choose a GCP region, e.g. "us-central1". Choose from https://cloud.google.com/ai-platform/training/docs/regions
+BUCKET_NAME="" # TODO Change BUCKET_NAME to your bucket name
+
+MODEL_NAME="my_first_keras_model" # change to your model name, e.g. "estimator"
 MODEL_VERSION="v1" # change to your model version, e.g. "v1"
 
 # Model Binaries corresponds to the tf.estimator.FinalExporter configuration in trainer/experiment.py
-MODEL_BINARIES=$(gsutil ls gs://${BUCKET}/models/${MODEL_NAME}/export/estimate | tail -1)
-RUNTIME_VERSION=1.15
-GPU_TYPE="nvidia-tesla-t4"
+MODEL_BINARIES=gs://${BUCKET_NAME}/keras-job-dir/keras_export/
+PYTHON_VERSION=3.7
+RUNTIME_VERSION=2.1
 
 gsutil ls ${MODEL_BINARIES}
 
@@ -32,19 +34,22 @@ gcloud ai-platform versions delete ${MODEL_VERSION} --model=${MODEL_NAME}
 # Delete model, if previous model exist.
 gcloud ai-platform models delete ${MODEL_NAME}
 
-# Deploy model to GCP
-gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
+# Deploy model to GCP using regional endpoints.
+gcloud beta ai-platform models create --region ${REGION} ${MODEL_NAME}
 
 # Deploy model version
-gcloud alpha ai-platform versions create ${MODEL_VERSION} \
+gcloud beta ai-platform versions create ${MODEL_VERSION} \
  --model=${MODEL_NAME} \
+ --region $REGION \
+ --framework TENSORFLOW \
+ --origin=${MODEL_BINARIES} \
+ --python-version=${PYTHON_VERSION} \
  --runtime-version=${RUNTIME_VERSION} \
- --python-version 3.7 \
- --framework tensorflow \
- --machine-type "n1-standard-4" \
- --accelerator=count=4,type=${GPU_TYPE} \
- --origin=${MODEL_BINARIES}
+ --machine-type "n1-highcpu-2"
 
-
-# Invoke deployed model to make prediction given new data instances
-gcloud ai-platform predict --model=${MODEL_NAME} --version=${MODEL_VERSION} --json-instances=data/new-data.json
+# Test predictions
+gcloud ai-platform predict \
+  --model ${MODEL_NAME} \
+  --version ${MODEL_VERSION} \
+  --json-instances ../input.json \
+  --region=${REGION}

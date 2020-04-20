@@ -17,17 +17,34 @@
 
 # This has to be run after train-cloud.sh is successfully executed
 
-export MODEL_VERSION=v1
+REGION="us-central1" # choose a GCP region, e.g. "us-central1". Choose from https://cloud.google.com/ai-platform/training/docs/regions
+BUCKET_NAME="" # TODO Change BUCKET_NAME to your bucket name
 
-FRAMEWORK=XGBOOST
+MODEL_NAME="xgboost_model" # change to your model name, e.g. "estimator"
+MODEL_VERSION="v1"
+
+MODEL_BINARIES=gs://${BUCKET_NAME}/"${MODEL_DIR}"/model
+
+PYTHON_VERSION=3.7
+RUNTIME_VERSION=1.15
+
+gsutil ls "${MODEL_BINARIES}"
+
+# Delete model version, if previous model version exist.
+gcloud ai-platform versions delete ${MODEL_VERSION} --model=${MODEL_NAME}
+
+# Delete model, if previous model exist.
+gcloud ai-platform models delete ${MODEL_NAME}
 
 echo "First, creating the model resource..."
-gcloud ai-platform models create ${MODEL_NAME} --regions=${REGION}
+gcloud beta ai-platform models create "${MODEL_NAME}" --region="${REGION}"
 
 echo "Second, creating the model version..."
-gcloud ai-platform versions create ${MODEL_VERSION} \
-  --model ${MODEL_NAME} \
-  --origin ${MODEL_DIR}/model \
-  --framework ${FRAMEWORK} \
-  --runtime-version=${RUNTIME_VERSION} \
-  --python-version=${PYTHON_VERSION}
+gcloud beta ai-platform versions create ${MODEL_VERSION} \
+    --model "${MODEL_NAME}" \
+    --origin "${MODEL_DIR}"/model \
+    --framework XGBOOST \
+    --region "$REGION" \
+    --runtime-version=${RUNTIME_VERSION} \
+    --python-version=${PYTHON_VERSION} \
+    --machine-type n1-highcpu-2
