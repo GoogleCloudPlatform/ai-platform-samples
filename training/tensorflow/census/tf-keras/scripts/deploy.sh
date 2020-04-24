@@ -35,7 +35,7 @@ gcloud ai-platform versions delete ${MODEL_VERSION} --model=${MODEL_NAME}
 gcloud ai-platform models delete ${MODEL_NAME}
 
 # Deploy model to GCP using regional endpoints.
-gcloud beta ai-platform models create --region ${REGION} ${MODEL_NAME}
+gcloud beta ai-platform models create "${MODEL_NAME}" --region="${REGION}"
 
 # Deploy model version
 gcloud beta ai-platform versions create ${MODEL_VERSION} \
