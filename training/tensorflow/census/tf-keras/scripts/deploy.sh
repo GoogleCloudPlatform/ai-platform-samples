@@ -29,13 +29,13 @@ RUNTIME_VERSION=2.1
 gsutil ls ${MODEL_BINARIES}
 
 # Delete model version, if previous model version exist.
-gcloud ai-platform versions delete ${MODEL_VERSION} --model=${MODEL_NAME}
+gcloud ai-platform versions delete ${MODEL_VERSION} --model=${MODEL_NAME} --region="${REGION}"
 
 # Delete model, if previous model exist.
-gcloud ai-platform models delete ${MODEL_NAME}
+gcloud ai-platform models delete ${MODEL_NAME} --region="${REGION}"
 
 # Deploy model to GCP using regional endpoints.
-gcloud beta ai-platform models create "${MODEL_NAME}" --region="${REGION}"
+gcloud ai-platform models create "${MODEL_NAME}" --region="${REGION}"
 
 # Deploy model version
 gcloud beta ai-platform versions create ${MODEL_VERSION} \
@@ -51,5 +51,5 @@ gcloud beta ai-platform versions create ${MODEL_VERSION} \
 gcloud ai-platform predict \
   --model ${MODEL_NAME} \
   --version ${MODEL_VERSION} \
-  --json-instances ../input.json \
+  --json-instances input.json \
   --region=${REGION}
