@@ -24,7 +24,7 @@ function err() {
 
 function export_variables(){
     # Preset environment variables. You may use them without changing:
-    export RUNTIME_VERSION=1.15
+    export RUNTIME_VERSION=2.1
     export PYTHON_VERSION=3.7
     export REGION=us-central1
 
