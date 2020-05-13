@@ -19,7 +19,7 @@ set -v
 
 echo "Submitting an AI Platform job..."
 
-export MODEL_NAME="xgboost_taxi"
+export MODEL_NAME="sklearn_taxi"
 export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}
 
 
