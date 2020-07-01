@@ -26,7 +26,7 @@ from trainer import metadata
 
 
 class CSVDataset(Dataset):
-    def __init__(self, args, csv_files, transform=None):
+    def __init__(self, args, csv_files, device, transform=None):
         """
         Args:
             args: arguments passed to the python script
@@ -41,6 +41,7 @@ class CSVDataset(Dataset):
             else:
                 self.dataframe = pd.concat(
                     [self.dataframe, pd.read_csv(csv_file, header=0)])
+        self.device = device
         self.transform = transform
 
         # Convert the categorical columns in place to a numerical category
@@ -65,7 +66,10 @@ class CSVDataset(Dataset):
         target = self.dataframe.iloc[idx, :1].values
 
         # Load the data as a tensor
-        item = {'features': torch.from_numpy(features), 'target': target}
+        item = {
+            'features': torch.from_numpy(features).to(self.device),
+            'target': torch.from_numpy(target).to(self.device)
+        }
 
         if self.transform:
             item = self.transform(item)
@@ -73,15 +77,15 @@ class CSVDataset(Dataset):
         return item
 
 
-def load_data(args):
+def load_data(args, device):
     """Loads the data into three different data loaders. (Train, Test, Evaluation)
         Split the training dataset into a train / test dataset.
 
         Args:
             args: arguments passed to the python script
     """
-    train_dataset = CSVDataset(args, args.train_files)
-    eval_dataset = CSVDataset(args, args.eval_files)
+    train_dataset = CSVDataset(args, args.train_files, device)
+    eval_dataset = CSVDataset(args, args.eval_files, device)
     # Determine the size of the dataset and the train/test sets
     dataset_size = len(train_dataset)
     test_size = int(args.test_split * dataset_size)

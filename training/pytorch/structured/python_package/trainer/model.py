@@ -36,14 +36,14 @@ class SequentialDNN(nn.Module):
         return self.sequential_model(x)
 
 
-def create(args):
+def create(args, device):
     """
     Create the model, loss function, and optimizer to be used for the DNN
 
     Args:
       args: experiment parameters.
     """
-    sequential_model = SequentialDNN().double()
+    sequential_model = SequentialDNN().double().to(device)
     criterion = nn.BCEWithLogitsLoss()
     optimizer = optim.Adam(sequential_model.parameters(),
                            lr=args.learning_rate,

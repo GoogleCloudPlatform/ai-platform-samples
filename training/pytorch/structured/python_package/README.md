@@ -52,7 +52,24 @@ submit an AI Platform Training job:
 source ./scripts/train-cloud.sh
 ```
 
+## Run on GPU
+The provided trainer code checks for the presence of a GPU and sets the PyTorch
+device accordingly. The PyTorch device information is passed to the data loading
+and model creation methods, so the entire training process runs on a GPU if one
+is available.
+
+To run the trainer code on GPU, make the following changes to the trainer script.
+* Update the PyTorch image URI to:
+  `gcr.io/cloud-ml-public/training/pytorch-gpu.1-4`.
+* Update the scale tier to one that includes a GPU, e.g. `BASIC_GPU`.
+
+Then, run the script to submit an AI PLatform Training job:
+```
+source ./scripts/train-cloud.sh
+```
+
 ### Versions
-This script uses the pre-built PyTorch container for PyTorch 1.4.
+This script uses the pre-built PyTorch containers for PyTorch 1.4.
 * `gcr.io/cloud-ml-public/training/pytorch-cpu.1-4`
+* `gcr.io/cloud-ml-public/training/pytorch-gpu.1-4`
 

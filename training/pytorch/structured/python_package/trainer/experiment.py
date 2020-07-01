@@ -98,13 +98,23 @@ def run(args):
     Args:
       args: experiment parameters.
     """
+    cuda_availability = torch.cuda.is_available()
+    if cuda_availability:
+      device = torch.device('cuda:{}'.format(torch.cuda.current_device()))
+    else:
+      device = 'cpu'
+    print('\n*************************')
+    print('`cuda` available: {}'.format(cuda_availability))
+    print('Current Device: {}'.format(device))
+    print('*************************\n')
+
     torch.manual_seed(args.seed)
 
     # Open our dataset
-    train_loader, test_loader, eval_loader = inputs.load_data(args)
+    train_loader, test_loader, eval_loader = inputs.load_data(args, device)
 
     # Create the model, loss function, and optimizer
-    sequential_model, criterion, optimizer = model.create(args)
+    sequential_model, criterion, optimizer = model.create(args, device)
 
     # Train / Test the model
     for epoch in range(1, args.num_epochs + 1):
