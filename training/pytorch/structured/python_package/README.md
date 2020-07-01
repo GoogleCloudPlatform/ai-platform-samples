@@ -18,7 +18,7 @@ you can customize these parts with your own implementation.
 
 ## Prerequisites
 * Setup your project by following the instructions in the
-  [setup](../../../../../setup/) directory.
+  [setup](../../../../setup/) directory.
 * [OPTIONAL] Download the datasets using
   [download-taxi.sh](../../../../datasets/download-taxi.sh) located in the
   [datasets](../../../../datasets) folder. The sample script only requires the
@@ -33,20 +33,11 @@ you can customize these parts with your own implementation.
 ### Trainer Modules
 | File Name | Purpose |
 | :-------- | :------ |
-| [metadata.py](trainer/metadata.py) | Defines: 1) task type, 2) input data
-header, 3) numeric and categorical feature names, and 4) target feature name
-(and labels, for a classification task) |
-| [inputs.py](trainer/inputs.py) | Includes: 1) data input functions to read
-data from csv files, 2) parsing functions to convert csv to tensors, 3) function
-to implement your custom features processing and creation functionality, and 4)
-prediction functions (for serving the model) that accepts CSV, JSON, and
-tf.example instances. |
-| [model.py](trainer/model.py) | Includes: 1) function to create
-DNNLinearCombinedRegressor, and 2) DNNLinearCombinedClassifier. |
-| [experiment.py](trainer/experiment.py) | Runs the model training and
-evaluation experiment, and exports the final model. |
-| [task.py](trainer/task.py) | Includes: 1) Initialise and parse task arguments
-(hyper parameters), and 2) Entry point to the trainer. |
+| [metadata.py](trainer/metadata.py) | Defines: 1) task type, 2) input data header, 3) numeric and categorical feature names, and 4) target feature name (and labels, for a classification task) |
+| [inputs.py](trainer/inputs.py) | Includes: 1) data input functions to read data from csv files, 2) parsing functions to convert csv to tensors, 3) function to implement your custom features processing and creation functionality, and 4) prediction functions (for serving the model) that accepts CSV, JSON, and tf.example instances. |
+| [model.py](trainer/model.py) | Includes: 1) function to create DNNLinearCombinedRegressor, and 2) DNNLinearCombinedClassifier. |
+| [experiment.py](trainer/experiment.py) | Runs the model training and evaluation experiment, and exports the final model. |
+| [task.py](trainer/task.py) | Includes: 1) Initialise and parse task arguments (hyper parameters), and 2) Entry point to the trainer. |
 
 ### Scripts
 
