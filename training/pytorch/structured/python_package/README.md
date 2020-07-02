@@ -28,7 +28,7 @@ you can customize these parts with your own implementation.
 ## Sample Structure
 
 * `trainer` directory: all Python modules to train the model.
-* `scripts` directory: command-line script to train the model on AI Platform.
+* `scripts` directory: command-line scripts to train the model on AI Platform.
 
 ### Trainer Modules
 | File Name | Purpose |
@@ -43,6 +43,8 @@ you can customize these parts with your own implementation.
 
 * [train-cloud.sh](scripts/train-cloud.sh) This script submits a training job to
   AI Platform.
+* [train-hptuning.sh](scripts/train-hptuning.sh) This script submits a
+  hyperparameter tuning job to AI Platform.
 
 ## How to run
 Once the prerequisites are satisfied, update the `BUCKET_NAME` environment

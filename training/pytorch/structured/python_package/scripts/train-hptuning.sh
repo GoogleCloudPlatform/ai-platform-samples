@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-# This scripts performs cloud training for a PyTorch model.
+# This script performs cloud training for a PyTorch model.
 
 echo "Submitting AI Platform PyTorch job"
 
