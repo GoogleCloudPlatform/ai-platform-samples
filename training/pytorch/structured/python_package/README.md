@@ -63,10 +63,26 @@ To run the trainer code on GPU, make the following changes to the trainer script
   `gcr.io/cloud-ml-public/training/pytorch-gpu.1-4`.
 * Update the scale tier to one that includes a GPU, e.g. `BASIC_GPU`.
 
-Then, run the script to submit an AI PLatform Training job:
+Then, run the script to submit an AI Platform Training job:
 ```
 source ./scripts/train-cloud.sh
 ```
+
+## Hyperparameter Tuning
+The provided trainer code uses the [cloudml-hypertune
+package](https://pypi.org/project/cloudml-hypertune/) to report hyperparameter
+tuning metrics to the AI Platform training service.
+
+The `scripts/train-hptuning.sh` script submits a hyperparameter tuning job to AI
+Platform. It defines a `config.yaml` file that specifies the desired
+optimization metric and hyperparameters, and submits a job with this
+configuration.
+
+Run the script to submit an AI Platform hyperparameter tuning job:
+```
+source ./scripts/train-hptuning.sh
+```
+
 
 ### Versions
 This script uses the pre-built PyTorch containers for PyTorch 1.4.

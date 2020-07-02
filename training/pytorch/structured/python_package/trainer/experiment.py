@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import hypertune
 import torch
 
 from trainer import inputs
@@ -53,7 +54,7 @@ def train(sequential_model, train_loader, criterion, optimizer, epoch):
             running_loss = 0.0
 
 
-def test(sequential_model, test_loader, criterion):
+def test(sequential_model, test_loader, criterion, epoch, report_metric=False):
     """Test / Evaluate the DNNs performance with a test / eval dataset.
      Read the data from the dataloader and calculate the loss. Lastly,
      display some statistics about the performance of the DNN during testing.
@@ -63,6 +64,8 @@ def test(sequential_model, test_loader, criterion):
       nn.Module
       test_loader: The test / evaluation dataset
       criterion: The loss function
+      epoch: The current epoch that the training loop is on
+      report_metric: Whether to report metrics for hyperparameter tuning
     """
     sequential_model.eval()
     test_loss = 0.0
@@ -82,6 +85,14 @@ def test(sequential_model, test_loader, criterion):
 
     # get the average loss for the test set.
     test_loss /= (len(test_loader.sampler) / test_loader.batch_size)
+
+    if report_metric:
+      # Uses hypertune to report metrics for hyperparameter tuning.
+      hpt = hypertune.HyperTune()
+      hpt.report_hyperparameter_tuning_metric(
+          hyperparameter_metric_tag='test_loss',
+          metric_value=test_loss,
+          global_step=epoch)
 
     # print statistics
     print('\nTest set:\n\tAverage loss: {:.4f}'.format(test_loss))
@@ -119,11 +130,13 @@ def run(args):
     # Train / Test the model
     for epoch in range(1, args.num_epochs + 1):
         train(sequential_model, train_loader, criterion, optimizer, epoch)
-        test(sequential_model, test_loader, criterion)
+        test(sequential_model, test_loader, criterion,
+             epoch, report_metric=True)
 
-    # Evalutate the model
+    # Evaluate the model
     print("Evaluate the model using the evaluation dataset")
-    test(sequential_model, eval_loader, criterion)
+    test(sequential_model, eval_loader, criterion,
+         args.num_epochs, report_metric=False)
 
     # Export the trained model
     torch.save(sequential_model.state_dict(), args.model_name)
