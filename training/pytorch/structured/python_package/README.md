@@ -22,7 +22,7 @@ you can customize these parts with your own implementation.
 * [OPTIONAL] Download the datasets using
   [download-taxi.sh](../../../../datasets/download-taxi.sh) located in the
   [datasets](../../../../datasets) folder. The sample script only requires the
-  `GCS_TAXI_TRAIN_BIG` AND `GCS_TAXI_EVAL_BIG` environment variables to be set.
+  `GCS_TAXI_TRAIN_SMALL` AND `GCS_TAXI_EVAL_SMALL` environment variables to be set.
 * Change directories to this sample.
 
 ## Sample Structure
@@ -41,15 +41,22 @@ you can customize these parts with your own implementation.
 
 ### Scripts
 
+* [train-local.sh](scripts/train-local.sh) This script executes the PyTorch
+  module locally to verify the correctness of the training script.
 * [train-cloud.sh](scripts/train-cloud.sh) This script submits a training job to
   AI Platform.
 * [train-hptuning.sh](scripts/train-hptuning.sh) This script submits a
   hyperparameter tuning job to AI Platform.
 
 ## How to run
-Once the prerequisites are satisfied, update the `BUCKET_NAME` environment
-variable in `scripts/train-cloud.sh`. You may then run the following script to
-submit an AI Platform Training job:
+For local testing, run:
+```
+source ./scripts/train-local.sh
+```
+
+For cloud training, once the prerequisites are satisfied, update the
+`BUCKET_NAME` environment variable in `scripts/train-cloud.sh`. You may then
+run the following script to submit an AI Platform Training job:
 ```
 source ./scripts/train-cloud.sh
 ```
@@ -84,7 +91,6 @@ Run the script to submit an AI Platform hyperparameter tuning job:
 ```
 source ./scripts/train-hptuning.sh
 ```
-
 
 ### Versions
 This script uses the pre-built PyTorch containers for PyTorch 1.4.

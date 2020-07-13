@@ -36,8 +36,8 @@ REGION=us-central1
 JOB_DIR=gs://${BUCKET_NAME}/${JOB_NAME}/models
 
 # Datasets are set by datasets/download-taxi.sh script
-TRAIN_FILES=${GCS_TAXI_TRAIN_BIG}
-EVAL_FILES=${GCS_TAXI_EVAL_BIG}
+TRAIN_FILES=${GCS_TAXI_TRAIN_SMALL}
+EVAL_FILES=${GCS_TAXI_EVAL_SMALL}
 
 # Define the HyperparameterSpec used for HPTuning.
 cat > config.yaml <<EOF
