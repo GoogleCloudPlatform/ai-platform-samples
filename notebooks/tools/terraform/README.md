@@ -18,7 +18,7 @@ AI Platform Notebooks instance.
 1. Clone the repository.
 ```bash
 git clone https://github.com/GoogleCloudPlatform/ai-platform-samples.git
-cd ai-platform-samples/notebooks/tools/terraform
+cd ai-platform-samples/notebooks/tools/terraform/dlvm
 ``` 
 
 2. Modify your variables 

@@ -14,26 +14,26 @@
 # ==============================================================================
 variable "project_id" {
   type        = string
-  description = "The name of the project"
+  description = "news-ml-257304"
 }
 
 variable "credentials_file" {}
 
 variable "region" {
   type        = string
-  default     = "us-central1"
+  default     = "us-west1"
   description = "The region that this terraform configuration will use."
 }
 
-variable "zone" {
+variable "location" {
   type        = string
-  default     = "us-central1-b"
+  default     = "us-west1-b"
   description = "The zone that this terraform configuration will use."
 }
 
 variable "instance_type" {
   type        = string
-  default     = "n1-standard-4"
+  default     = "n1-standard-1"
   description = "The instance_type that this terraform configuration will use."
 }
 
