@@ -14,7 +14,7 @@
 # ==============================================================================
 variable "project_id" {
   type        = string
-  description = "news-ml-257304"
+  description = "Project ID"
 }
 
 variable "credentials_file" {}
