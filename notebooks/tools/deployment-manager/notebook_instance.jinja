@@ -47,7 +47,7 @@ resources:
        value: "True"
     {% if properties["gpu-type"] %}
     guestAccelerators:
-      - acceleratorType: {{ properties["gpu-type"] }}
+      - acceleratorType: https://www.googleapis.com/compute/v1/projects/{{ env["project"] }}/zones/{{ properties["zone"] }}/acceleratorTypes/{{ properties["gpu-type"] }}
         acceleratorCount: {{ properties["gpu-count"] }}
     scheduling:
       onHostMaintenance: "TERMINATE"

@@ -18,10 +18,8 @@ from setuptools import find_packages
 from setuptools import setup
 
 REQUIRED_PACKAGES = [
-    'tensorflow==1.15.2',
-    'scikit-learn>=0.20.2',
-    'pandas==0.24.2',
-    'cloudml-hypertune',
+    'google-cloud-storage>=1.14.0',
+    'pandas>=0.23.4'
 ]
 
 setup(
@@ -30,5 +28,5 @@ setup(
     install_requires=REQUIRED_PACKAGES,
     packages=find_packages(),
     include_package_data=True,
-    description='AI Platform | Training | scikit-learn | Base'
+    description='AI Platform | Training | PyTorch | Structured | Python Package'
 )

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/bin/bash
 # Copyright 2019 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,22 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+# This script performs local training for a PyTorch model.
 
-from setuptools import find_packages
-from setuptools import setup
+echo "Running PyTorch model locally"
 
-REQUIRED_PACKAGES = [
-    'tensorflow==1.15.2',
-    'scikit-learn>=0.20.2',
-    'pandas==0.24.2',
-    'cloudml-hypertune',
-]
+# Datasets are set by datasets/download-taxi.sh script
+TRAIN_FILES=${GCS_TAXI_TRAIN_SMALL}
+EVAL_FILES=${GCS_TAXI_EVAL_SMALL}
 
-setup(
-    name='trainer',
-    version='0.1',
-    install_requires=REQUIRED_PACKAGES,
-    packages=find_packages(),
-    include_package_data=True,
-    description='AI Platform | Training | scikit-learn | Base'
-)
+python -m trainer.task \
+  --train-files ${TRAIN_FILES} \
+  --eval-files ${EVAL_FILES} \
+  --num-epochs 10 \
+  --batch-size 100 \
+  --learning-rate 0.001
+

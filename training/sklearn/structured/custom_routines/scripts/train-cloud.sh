@@ -19,7 +19,7 @@ set -v
 
 echo "Submitting an AI Platform job..."
 
-export MODEL_NAME="sklearn_taxi"
+export MODEL_NAME="sklearn_taxi_custom"
 export MODEL_DIR=gs://${BUCKET_NAME}/${MODEL_NAME}  # TODO Change BUCKET_NAME to your bucket name
 export CUSTOM_ROUTINE_PATH=gs://${BUCKET_NAME}/${MODEL_NAME}/library/custom_routine-1.0.tar.gz
 
