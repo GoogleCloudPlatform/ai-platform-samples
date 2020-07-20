@@ -35,7 +35,7 @@ Please make sure you follow the next steps when developing Notebooks:
    3. Ensure notebook [requirements](#Notebook-requirements) are met
    4. Ensure notebook runs from top to bottom without errors
    5. Place the notebook in correct [location](#Notebooks-location)
-   6. Run nbfmt(#Notebook-formatting).
+   6. Run [nbfmt](#Notebook-formatting).
    7. Create a pull request in a relevant repository
    8. Reviewers provide feedback and work with you to merge pull request
 
