@@ -22,7 +22,7 @@ from torch.utils.data import DataLoader
 from torch.utils.data import random_split
 from torch.utils.data.sampler import SubsetRandomSampler
 
-import metadata
+from trainer import metadata
 
 
 class CSVDataset(Dataset):
@@ -31,6 +31,7 @@ class CSVDataset(Dataset):
         Args:
             args: arguments passed to the python script
             csv_files (list): Path to the list of csv files with annotations.
+            device (string): PyTorch device on which to load the dataset.
             transform (callable, optional): Optional transform to be applied
                 on a sample.
         """
@@ -83,6 +84,7 @@ def load_data(args, device):
 
         Args:
             args: arguments passed to the python script
+            device: PyTorch device on which to load the dataset
     """
     train_dataset = CSVDataset(args, args.train_files, device)
     eval_dataset = CSVDataset(args, args.eval_files, device)

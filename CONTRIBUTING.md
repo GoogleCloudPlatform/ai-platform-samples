@@ -35,8 +35,9 @@ Please make sure you follow the next steps when developing Notebooks:
    3. Ensure notebook [requirements](#Notebook-requirements) are met
    4. Ensure notebook runs from top to bottom without errors
    5. Place the notebook in correct [location](#Notebooks-location)
-   6. Create a pull request in a relevant repository
-   7. Reviewers provide feedback and work with you to merge pull request
+   6. Run [nbfmt](#Notebook-formatting).
+   7. Create a pull request in a relevant repository
+   8. Reviewers provide feedback and work with you to merge pull request
 
  
    If Colab is required please provide compatibility with AI Platform
@@ -56,6 +57,19 @@ Please make sure you follow the next steps when developing Notebooks:
       - Notebook code is [formatted](https://jupyter-contrib-nbextensions.readthedocs.io/en/latest/nbextensions/code_prettify/README_autopep8.html)
       - Use [Python 3.X](https://www.python.org/download/releases/3.0/)
       - Documentation      
+      
+   ## Notebook formatting
+   
+   ```
+   # Install the tensorflow-docs package:
+   $ python3 -m pip install -U [--user] git+https://github.com/tensorflow/docs
+
+   # Format individual notebooks:
+   $ python3 -m tensorflow_docs.tools.nbfmt ./path/to/notebook.ipynb [...]
+
+   # Or a directory of notebooks:
+   $ python3 -m tensorflow_docs.tools.nbfmt ./path/to/notebooks/
+   ```
       
    ## Notebooks location
    

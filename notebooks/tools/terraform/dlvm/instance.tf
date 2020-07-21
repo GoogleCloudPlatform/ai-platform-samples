@@ -17,7 +17,7 @@ resource "random_id" "instance_id" {
 }
 
 resource "google_compute_instance" "default" {
-  name         = "vm-${random_id.instance_id.hex}"
+  name         = "dlvm-${random_id.instance_id.hex}"
   machine_type = var.instance_type
   zone         = var.zone
 

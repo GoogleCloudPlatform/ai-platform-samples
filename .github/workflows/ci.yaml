@@ -1,9 +1,9 @@
-name: CI
+name: ci
 on: pull_request
 
 jobs:
   notebook_format:
-    name: Notebook format
+    name: notebook format
     runs-on: ubuntu-latest
     steps:
     - uses: actions/setup-python@v1
