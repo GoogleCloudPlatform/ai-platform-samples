@@ -62,7 +62,7 @@ Please make sure you follow the next steps when developing Notebooks:
    
    ```
    # Install the tensorflow-docs package:
-   $ python3 -m pip install -U [--user] git+https://github.com/tensorflow/docs
+   $ python3 -m pip install -U git+https://github.com/tensorflow/docs
 
    # Format individual notebooks:
    $ python3 -m tensorflow_docs.tools.nbfmt ./path/to/notebook.ipynb [...]
