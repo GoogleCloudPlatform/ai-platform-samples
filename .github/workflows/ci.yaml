@@ -45,8 +45,10 @@ jobs:
         notebooks="$(git diff --name-only master | grep '\.ipynb$' || true)"
         scripts="${notebooks//ipynb/py}"
         if [[ -n "$notebooks" ]]; then
-          echo "Converting code blocks into .py:"
+          echo "Converting code blocks into .py..."
           jupyter nbconvert $notebooks --to python --PythonExporter.exclude_markdown=True
+          sed -i -e 's/ #@param.*}//g' $scripts
+          echo "Lint checking..."
           flake8 $scripts --show-source --ignore=W391,E501,F821,E402
         else
           echo "No notebooks modified in this pull request."
