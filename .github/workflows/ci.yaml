@@ -22,3 +22,32 @@ jobs:
         else
           echo "No notebooks modified in this pull request."
         fi
+
+  notebook_lint:
+    name: notebook lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-python@v1
+    - uses: actions/checkout@v2
+    - name: Fetch master branch
+      run: git fetch -u origin master:master
+    - name: Install ipython
+      run: python3 -m pip install -U ipython
+    - name: Install jupyter
+      run: python3 -m pip install -U jupyter
+    - name: Install nbconvert t 
+      run: python3 -m pip install -U nbconvert
+    - name: Install flake8
+      run: python3 -m pip install -U flake8
+    - name: Lint check code blocks
+      run: |
+        # Only check notebooks modified in this pull request.
+        notebooks="$(git diff --name-only master | grep '\.ipynb$' || true)"
+        scripts="${notebooks//ipynb/py}"
+        if [[ -n "$notebooks" ]]; then
+          echo "Converting code blocks into .py:"
+          jupyter nbconvert $notebooks --to python --PythonExporter.exclude_markdown=True
+          flake8 $scripts --show-source --ignore=W391,E501,F821,E402
+        else
+          echo "No notebooks modified in this pull request."
+        fi
