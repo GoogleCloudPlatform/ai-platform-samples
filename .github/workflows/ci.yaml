@@ -1,4 +1,4 @@
-name: 
+name: ci
 on: pull_request
 
 jobs:
@@ -31,17 +31,23 @@ jobs:
     - uses: actions/checkout@v2
     - name: Fetch master branch
       run: git fetch -u origin master:master
-    - name: Install tensorflow-docs
-      run: python3 -m pip install -U git+https://github.com/tensorflow/docs
-    - name: Lint notebooks
+    - name: Install ipython
+      run: python3 -m pip install -U ipython
+    - name: Install jupyter
+      run: python3 -m pip install -U jupyter
+    - name: Install nbconvert t 
+      run: python3 -m pip install -U nbconvert
+    - name: Install flake8
+      run: python3 -m pip install -U flake8
+    - name: Lint check code blocks
       run: |
         # Only check notebooks modified in this pull request.
-        notebooks="$(git diff --name-only master | grep '\.ipynb$' | grep -v 'en-snapshot' || true)"
+        notebooks="$(git diff --name-only master | grep '\.ipynb$' || true)"
+        scripts="${notebooks//ipynb/py}"
         if [[ -n "$notebooks" ]]; then
-          echo "Lint check with nblint:"
-          python3 -m tensorflow_docs.tools.nblint \
-            --styles=tensorflow,tensorflow_docs_l10n \
-            --arg=repo:tensorflow/docs-l10n $notebooks
+          echo "Converting code blocks into .py:"
+          jupyter nbconvert $notebooks --to python --PythonExporter.exclude_markdown=True
+          flake8 $scripts --show-source --ignore=W391,E501,F821,E402
         else
           echo "No notebooks modified in this pull request."
         fi

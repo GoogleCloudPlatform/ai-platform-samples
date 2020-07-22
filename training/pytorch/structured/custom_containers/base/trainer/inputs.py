@@ -121,9 +121,12 @@ def save_model(args):
     Args:
       args: contains name for saved model.
     """
-    bucket_name = args.job_dir.lstrip('gs://').split('/')[0]
-    bucket_path = args.job_dir.lstrip(
-        'gs://{}/'.format(bucket_name)).rstrip('/')
+    scheme = 'gs://'
+    bucket_name = args.job_dir[len(scheme):].split('/')[0]
+
+    prefix = '{}{}/'.format(scheme, bucket_name)
+    bucket_path = args.job_dir[len(prefix):].rstrip('/')
+
     datetime_ = datetime.datetime.now().strftime('model_%Y%m%d_%H%M%S')
 
     if bucket_path:
