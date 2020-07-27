@@ -1,9 +1,15 @@
-FROM gcr.io/deeplearning-platform-release/tf-gpu
+FROM gcr.io/deeplearning-platform-release/tf-gpu.1-15
 
-# Install OpenSSH, CUDA, OpenMPI, and NCCL
+# Install OpenSSH, CUDA 10.0, NCCL and OpenMPI 4.0
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --allow-change-held-packages \
-        openssh-client openssh-server openmpi-bin cuda-toolkit-10-0 libopenmpi-dev libnccl2 libnccl-dev
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-change-held-packages \
+        openssh-client openssh-server cuda-toolkit-10-0 libnccl2 libnccl-dev && \
+    wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.2.tar.gz && \
+    tar -xf openmpi-4.0.2.tar.gz && \
+    cd openmpi-4.0.2 && \
+    ./configure --enable-static --prefix=/usr --enable-shared --with-cuda=/usr/local/cuda/ && \
+    make -j && make install && \
+    cd .. && rm -rf openmpi-4.0.2
 
 # Install Horovod, temporarily using CUDA stubs
 RUN ldconfig /usr/local/cuda/targets/x86_64-linux/lib && \

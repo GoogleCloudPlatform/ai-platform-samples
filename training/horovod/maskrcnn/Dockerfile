@@ -8,10 +8,9 @@ ENV STAGE_GCS_PATH ${STAGE_GCS_PATH}
 ENV GCS_OUTPUT_PATH ${GCS_OUTPUT_PATH}
 
 RUN git clone https://github.com/tensorpack/tensorpack && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --allow-change-held-packages \
-        python3-opencv && \
-    pip install cython git+https://github.com/tensorpack/tensorpack.git && \
-    pip install git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI
+    pip install cython scipy opencv-python==3.4.2.17 \
+        ./tensorpack \
+        git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI
 
 # Staging from GCS takes a long time so extend the timeout limit
 ENV TASK_STARTUP_TIMEOUT_SECONDS=3600

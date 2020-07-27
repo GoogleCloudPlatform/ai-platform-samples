@@ -157,7 +157,7 @@ def copy_files_recursively(src, dest):
       os.makedirs(dest)
     except OSError:
       pass
-  copy_cmd = ["gsutil", "-q", "-m", "rsync", "-r", src, dest]
+  copy_cmd = ["gsutil", "-m", "rsync", "-r", src, dest]
   exit_code = subprocess.call(copy_cmd)
   if exit_code != 0:
     raise RuntimeError("Error while copying %s to %s" % (src, dest))

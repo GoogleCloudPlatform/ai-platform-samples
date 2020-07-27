@@ -53,7 +53,10 @@ echo "Building Horovod container image"
 docker build -f base/Dockerfile -t horovod-wrapper base/
 
 # Build the docker image
-docker build -f ${MODEL_NAME}/Dockerfile --build-arg GCS_OUTPUT_PATH=${GCS_OUTPUT_PATH} -t ${IMAGE_URI} ./
+docker build -f ${MODEL_NAME}/Dockerfile \
+    --build-arg GCS_OUTPUT_PATH=${GCS_OUTPUT_PATH} \
+    --build-arg STAGE_GCS_PATH=${STAGE_GCS_PATH} \
+    -t ${IMAGE_URI} ./
 
 # Deploy the docker image to Cloud Container Registry
 docker push ${IMAGE_URI}
