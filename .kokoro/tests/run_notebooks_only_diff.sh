@@ -20,6 +20,12 @@ set -eo pipefail
 shopt -s globstar
 
 project_setup(){
+    if [[ -z "${PROJECT_ROOT:-}" ]]; then
+        PROJECT_ROOT="github/ai-platform-samples"
+    fi
+
+    cd "${PROJECT_ROOT}"
+
     # add user's pip binary path to PATH
     export PATH="${HOME}/.local/bin:${PATH}"
 
