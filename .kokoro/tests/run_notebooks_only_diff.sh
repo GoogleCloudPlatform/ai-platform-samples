@@ -36,7 +36,7 @@ project_setup(){
         # - testing/test-env.sh
         # - testing/service-account.json
         # - testing/client-secrets.json
-        ./scripts/decrypt-secrets.sh
+        ./.kokoro/scripts/decrypt-secrets.sh
     fi
 
     source ./testing/test-env.sh
@@ -117,7 +117,6 @@ install_jupyter () {
 
 get_date () {
     # Return current date.
-
     CURRENT_DATE=$(date +%Y%m%d_%H%M%S)
     echo "${CURRENT_DATE}"
 }
@@ -125,7 +124,6 @@ get_date () {
 update_value () {
     # replace variable in notebook in-line. example:
     # "PROJECT_ID = '[your-project-id]' -> "PROJECT_ID = 'gcp-project'
-
     sed -i -E "s/(\"$1.*\=.*)\[.*\](.*)/\1$2\2/" "$3"
 }
 
@@ -141,7 +139,6 @@ cloud_notebooks_update_contents () {
     # replace variables inside .ipynb files
     # looking for this format inside notebooks:
     # VARIABLE_NAME = '[description]'
-
     for notebook in $1
     do
         update_value "PROJECT_ID" "${GOOGLE_CLOUD_PROJECT}" "$notebook"
@@ -168,7 +165,7 @@ run_tests() {
         cloud_notebooks_update_contents $notebooks
         echo "Running notebooks..."
         jupyter nbconvert \
-            --Exporter.preprocessors=[\"../notebooks/preprocess.remove_no_execute_cells\"] \
+            --Exporter.preprocessors=[\"./.kokoro/notebooks/preprocess.remove_no_execute_cells\"] \
             --ClearOutputPreprocessor.enabled=True \
             --to notebook \
             --execute $notebooks
