@@ -161,7 +161,11 @@ run_tests() {
     if [[ -n "$notebooks" ]]; then
         cloud_notebooks_update_contents $notebooks
         echo "Running notebooks..."
-        jupyter nbconvert --to notebook --execute $notebooks
+        jupyter nbconvert \
+            --Exporter.preprocessors=[\"../notebooks/preprocess.remove_no_execute_cells\"] \
+            --ClearOutputPreprocessor.enabled=True \
+            --to notebook \
+            --execute $notebooks
     else
         echo "No notebooks modified in this pull request."
     fi
