@@ -29,6 +29,8 @@ project_setup(){
     # add user's pip binary path to PATH
     export PATH="${HOME}/.local/bin:${PATH}"
 
+    mkdir testing
+
     # On kokoro, we should be able to use the default service account. We
     # need to somehow bootstrap the secrets on other CI systems.
     if [[ "${TRAMPOLINE_CI}" == "kokoro" ]]; then
