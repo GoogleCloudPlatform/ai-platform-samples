@@ -146,7 +146,7 @@ cloud_notebooks_update_contents () {
         update_value "PROJECT_ID" "${GOOGLE_CLOUD_PROJECT}" "$notebook"
         update_value "REGION" "${REGION}" "$notebook"
         update_value "BUCKET_NAME" "${BUCKET_NAME}" "$notebook"
-        update_value "OUTPUT_DIR" "$(_get_date)" "$notebook"
+        update_value "OUTPUT_DIR" "$(get_date)" "$notebook"
         update_value "USER" "${NOTEBOOKS_USER}" "$notebook"
         # update pip installation settings
         update_notebook_install "$notebook"
