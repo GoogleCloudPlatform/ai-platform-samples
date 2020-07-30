@@ -29,8 +29,7 @@ project_setup(){
     # add user's pip binary path to PATH
     export PATH="${HOME}/.local/bin:${PATH}"
 
-    mkdir testing
-    touch testing/{test-env.sh,client-secrets.json,service-account.json}
+    mkdir ./.kokoro/testing
 
     # On kokoro, we should be able to use the default service account. We
     # need to somehow bootstrap the secrets on other CI systems.
@@ -42,8 +41,8 @@ project_setup(){
         ./.kokoro/scripts/decrypt-secrets.sh
     fi
 
-    source ./testing/test-env.sh
-    export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/testing/service-account.json
+    source ./.kokoro/testing/test-env.sh
+    export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/.kokoro/testing/service-account.json
 
     # For cloud-run session, we activate the service account for gcloud sdk.
     gcloud auth activate-service-account \
@@ -161,14 +160,17 @@ run_tests() {
     RTN=0
     ROOT=$(pwd)
 
+    cd .kokoro/notebooks
+
+    path=$(git rev-parse --show-toplevel)
     # Only check notebooks modified in this pull request.
-    notebooks="$(git diff --name-only master | grep '\.ipynb$' || true)"
+    notebooks="$(git diff --name-only master | sed "s,^,$path/," | grep '\.ipynb$' || true)"
 
     if [[ -n "$notebooks" ]]; then
         cloud_notebooks_update_contents $notebooks
         echo "Running notebooks..."
         jupyter nbconvert \
-            --Exporter.preprocessors=[\"./.kokoro/notebooks/preprocess.remove_no_execute_cells\"] \
+            --Exporter.preprocessors=[\"preprocess.remove_no_execute_cells\"] \
             --ClearOutputPreprocessor.enabled=True \
             --to notebook \
             --execute $notebooks
@@ -181,7 +183,7 @@ run_tests() {
 
     # Remove secrets if we used decrypt-secrets.sh.
     if [[ -f "${KOKORO_GFILE_DIR}/secrets_viewer_service_account.json" ]]; then
-        rm testing/{test-env.sh,client-secrets.json,service-account.json}
+        rm .kokoro/testing/{test-env.sh,client-secrets.json,service-account.json}
     fi
 
     exit "$RTN"
