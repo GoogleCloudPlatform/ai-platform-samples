@@ -30,6 +30,7 @@ project_setup(){
     export PATH="${HOME}/.local/bin:${PATH}"
 
     mkdir testing
+    touch testing/{test-env.sh,client-secrets.json,service-account.json}
 
     # On kokoro, we should be able to use the default service account. We
     # need to somehow bootstrap the secrets on other CI systems.
