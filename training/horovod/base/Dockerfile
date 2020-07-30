@@ -1,40 +1,34 @@
-FROM ai-platform-horovod-base
+FROM gcr.io/deeplearning-platform-release/tf-gpu.1-15
 
-ARG CLOUD_SDK_VERSION=240.0.0
-ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
+# Install OpenSSH, CUDA 10.0, NCCL and OpenMPI 4.0
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-change-held-packages \
+        openssh-client openssh-server cuda-toolkit-10-0 libnccl2 libnccl-dev && \
+    wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.2.tar.gz && \
+    tar -xf openmpi-4.0.2.tar.gz && \
+    cd openmpi-4.0.2 && \
+    ./configure --enable-static --prefix=/usr --enable-shared --with-cuda=/usr/local/cuda/ && \
+    make -j && make install && \
+    cd .. && rm -rf openmpi-4.0.2
 
-RUN apt-get -y update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget python2.7
+# Install Horovod, temporarily using CUDA stubs
+RUN ldconfig /usr/local/cuda/targets/x86_64-linux/lib && \
+    HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_GPU_BROADCAST=NCCL HOROVOD_WITH_TENSORFLOW=1 \
+         pip install --no-cache-dir horovod && \
+    ldconfig
 
-# Installs google cloud sdk, this is mostly for using gsutil to export model.
-RUN wget -nv \
-    https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
-    mkdir /root/tools && \
-    tar xvzf google-cloud-sdk.tar.gz -C /root/tools && \
-    rm google-cloud-sdk.tar.gz && \
-    /root/tools/google-cloud-sdk/install.sh --usage-reporting=false \
-        --path-update=false --bash-completion=false \
-        --disable-installation-options && \
-    rm -rf /root/.config/* && \
-    ln -s /root/.config /config && \
-    # Remove the backup directory that gcloud creates
-    rm -rf /root/tools/google-cloud-sdk/.install/.backup
-
-RUN pip install pandas google-cloud-storage
-
-ENV PATH $PATH:/root/tools/google-cloud-sdk/bin
-ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/nvidia/lib:/usr/local/nvidia/lib64"
-# Make sure gsutil will use the default service account
-RUN echo '[GoogleCompute]\nservice_account = default' > /etc/boto.cfg
+# Allow OpenSSH to talk to containers without asking for confirmation
+RUN cat /etc/ssh/ssh_config | grep -v StrictHostKeyChecking > /etc/ssh/ssh_config.new && \
+    echo "    StrictHostKeyChecking no" >> /etc/ssh/ssh_config.new && \
+    mv /etc/ssh/ssh_config.new /etc/ssh/ssh_config
 
 # Create SSH key.
 RUN mkdir -p /root/.ssh/ && \
     mkdir -p /var/run/sshd && \
     ssh-keygen -q -t rsa -N '' -f /root/.ssh/id_rsa && \
     cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+
 WORKDIR /infra
-ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 
 # Use along with
 # ENV GCS_OUTPUT_PATH gs://path
