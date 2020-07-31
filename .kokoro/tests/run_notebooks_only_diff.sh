@@ -125,8 +125,8 @@ get_date () {
 
 update_value () {
     # replace variable in notebook in-line. example:
-    # "PROJECT_ID = '[your-project-id]' -> "PROJECT_ID = 'gcp-project'
-    sed -i -E "s/(\"$1.*\=.*)\[.*\](.*)/\1$2\2/" "$3"
+    # '$1' -> '$2' in $3
+    sed -i -E "s/$1/$2/g" "$3"
 }
 
 update_notebook_install () {
@@ -139,15 +139,14 @@ update_notebook_install () {
 
 cloud_notebooks_update_contents () {
     # replace variables inside .ipynb files
-    # looking for this format inside notebooks:
-    # VARIABLE_NAME = '[description]'
+    # ex: replaces '[your-project-id]' with '[project-id-used-for-testing]'
     for notebook in $1
     do
-        update_value "PROJECT_ID" "${GOOGLE_CLOUD_PROJECT}" "$notebook"
-        update_value "REGION" "${REGION}" "$notebook"
-        update_value "BUCKET_NAME" "${BUCKET_NAME}" "$notebook"
-        update_value "OUTPUT_DIR" "$(get_date)" "$notebook"
-        update_value "USER" "${NOTEBOOKS_USER}" "$notebook"
+        update_value "[your-project-id]" "${GOOGLE_CLOUD_PROJECT}" "$notebook"
+        update_value "[your-region]" "${REGION}" "$notebook"
+        update_value "[your-bucket-name]" "${BUCKET_NAME}" "$notebook"
+        update_value "[your-output-dir]" "$(get_date)" "$notebook"
+        update_value "[your-username]" "${NOTEBOOKS_USER}" "$notebook"
         # update pip installation settings
         update_notebook_install "$notebook"
     done
