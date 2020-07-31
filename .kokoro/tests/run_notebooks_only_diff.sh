@@ -47,7 +47,7 @@ project_setup(){
     # For cloud-run session, we activate the service account for gcloud sdk.
     gcloud auth activate-service-account \
            --key-file "${GOOGLE_APPLICATION_CREDENTIALS}"
-    gcloud config set project "${PROJECT_ID}"
+    gcloud config set project "${GOOGLE_CLOUD_PROJECT}"
     gcloud config set compute/region "${REGION}"
     gcloud config list
 }
