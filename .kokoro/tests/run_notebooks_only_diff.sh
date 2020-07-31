@@ -126,7 +126,7 @@ get_date () {
 update_value () {
     # replace variable in notebook in-line. example:
     # '$1' -> '$2' in $3
-    sed -i -E "s/$1/$2/g" "$3"
+    sed -i "s/${1}/${2}/g" "$3"
 }
 
 update_notebook_install () {

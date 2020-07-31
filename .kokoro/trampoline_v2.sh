@@ -124,6 +124,9 @@ pass_down_envvars=(
     "TRAMPOLINE_CI"
     # Indicates the version of the script.
     "TRAMPOLINE_VERSION"
+    "REGION"
+    "BUCKET_NAME"
+    "NOTEBOOKS_USER"
 )
 
 log_yellow "Building with Trampoline ${TRAMPOLINE_VERSION}"
