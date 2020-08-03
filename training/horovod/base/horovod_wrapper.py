@@ -122,9 +122,7 @@ def wait_for_ssh_servers(hosts, port, timeout_seconds):
 
 def run_horovod(env_config, jobs_per_host, args):
   env = dict(os.environ)
-  if jobs_per_host == 8:
-    # Workaround for https://github.com/NVIDIA/nccl/issues/262
-    env["CUDA_VISIBLE_DEVICES"] = '0,1,3,2,7,6,4,5'
+  del env["TF_CONFIG"]
 
   num_jobs = len(env_config.hosts) * jobs_per_host
   hosts = ",".join("%s:%d" % (h, jobs_per_host) for h in env_config.hosts)
@@ -140,13 +138,13 @@ def run_horovod(env_config, jobs_per_host, args):
 def benchmark_network(env_config):
   if not env_config.pools["worker"]:
     raise ValueError("No workers in the pool to do network benchmarking.")
-  iperf_server = ["iperf", "-s", "-p", "3000"]
+  iperf_server = ["iperf", "-s", "-p", "6000"]
   server = subprocess.Popen(iperf_server)
   # Wait 10 seconds for the local server to start.
   time.sleep(10)
   iperf_command = ["ssh", "-q", env_config.pools["worker"][0], "-p",
                    str(env_config.port),
-                   "iperf", "-p", "3000", "-c", env_config.pools["chief"][0]]
+                   "iperf", "-p", "6000", "-c", env_config.pools["chief"][0]]
   subprocess.call(iperf_command)
   server.kill()
 
@@ -157,7 +155,7 @@ def copy_files_recursively(src, dest):
       os.makedirs(dest)
     except OSError:
       pass
-  copy_cmd = ["gsutil", "-q", "-m", "rsync", "-r", src, dest]
+  copy_cmd = ["gsutil", "-m", "rsync", "-r", src, dest]
   exit_code = subprocess.call(copy_cmd)
   if exit_code != 0:
     raise RuntimeError("Error while copying %s to %s" % (src, dest))
@@ -176,7 +174,7 @@ def main():
         os.environ.get("STAGING_DIR", "/input"))
 
   start_ssh_server(env_config.port, env_config.is_chief)
-  max_num_retries = os.environ.get("NUM_HOROVOD_RETRIES", 10)
+  max_num_retries = os.environ.get("NUM_HOROVOD_RETRIES", 1)
   if env_config.is_chief:
     exit_code = 0
     for retry in range(max_num_retries):

@@ -35,7 +35,7 @@ GPU_COUNT=${GPU_COUNT:-4}
 # IMAGE_REPO_NAME: the image will be stored on Cloud Container Registry
 IMAGE_REPO_NAME=horovod_${MODEL_NAME}
 
-PROJECT_ID=$(gcloud config list project --format "value(core.project)")
+PROJECT_ID=${PROJECT_ID:-$(gcloud config list project --format "value(core.project)")}
 
 # IMAGE_URI: the complete URI location for Cloud Container Registry
 IMAGE_URI=gcr.io/${PROJECT_ID}/${IMAGE_REPO_NAME}
@@ -80,7 +80,8 @@ gcloud beta ai-platform jobs submit training ${JOB_NAME} \
     --master-machine-type ${MACHINE_TYPE} \
     --master-accelerator count=${GPU_COUNT},type=${GPU_TYPE} \
     ${WORKER_CONFIG} \
-    --scale-tier CUSTOM 
+    --scale-tier CUSTOM \
+    --project ${PROJECT_ID}
 
 # Verify the model was exported
 echo "Verify the model was exported:"

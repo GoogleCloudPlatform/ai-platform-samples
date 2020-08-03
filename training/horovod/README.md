@@ -39,6 +39,14 @@ Run the following script
 MODEL_NAME=maskrcnn STAGE_GCS_PATH=<COCO_DATASET> GCS_OUTPUT_PATH=<GCS_BUCKET> scripts/train-cloud.sh
 ```
 
+### BERT
+
+Configure the hyperparameters (e.g. `num_train_epochs`, `learning_rate`, `train_batch_size`, `max_seq_length`, `doc_stride`, etc.) in `bert/Dockerfile`. Run the following script
+
+```
+MODEL_NAME=bert GCS_OUTPUT_PATH=<GCS_BUCKET> scripts/train-cloud.sh
+```
+
 ## Bring Your Own Models
 
 Create a folder `<MODEL_NAME>` under the same level as example models (e.g. `mnist` and `maskrcnn`). Create a `Dockerfile` that builds a Docker image based on the `horovod_wrapper` base image. 
