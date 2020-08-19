@@ -2,32 +2,32 @@
 # the repo. Unless a later match takes precedence,
 # @global-owner1 and @global-owner2 will be requested for
 # review when someone opens a pull request.
-# Our Global Owners: @happyhuman @dizcology @nnegrey @sirtorry @andrewferlitsch @gogasca
+# Our Global Owners: @dizcology @sirtorry @andrewferlitsch @lucaswadedavis @vinnysenthil @telpirion @aribray
 *       @GoogleCloudPlatform/cloudml-samples-owners
 
 # Datasets Subfolder
-/datasets @gogasca @happyhuman
+/datasets @dizcology
 
 # Notebooks Subfolder
-/notebooks @gogasca @sirtorry @thedriftofwords
+/notebooks @sirtorry @thedriftofwords
 
 # Prediction Subfolder
-/prediction/pytorch @nnegrey
-/prediction/sklearn @happyhuman
-/prediction/tensorflow @gogasca
-/predition/xgboost @happyhuman
+/prediction/pytorch @sirtorry
+/prediction/sklearn @sirtorry
+/prediction/tensorflow @dizcology
+/predition/xgboost @sirtorry
 
 # Quickstart Subfolder
-/quickstart @gogasca @happyhuman
+/quickstart @dizcology
 
 # Setup Subfolder
-/setup @happyhuman @gogasca
+/setup @dizcology
 
 # Training Subfolder
-/training/pytorch @nnegrey
-/training/sklearn @happyhuman
-/training/tensorflow @gogasca
-/training/xgboost @happyhuman
+/training/pytorch @sirtorry
+/training/sklearn @sirtorry
+/training/tensorflow @dizcology
+/training/xgboost @sirtorry
 
 # READMEs
-*.md @nnegrey
+*.md @dizcology
