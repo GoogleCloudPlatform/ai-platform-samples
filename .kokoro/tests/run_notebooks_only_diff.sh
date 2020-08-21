@@ -174,6 +174,7 @@ run_tests() {
         echo "Running notebooks..."
         jupyter nbconvert \
             --Exporter.preprocessors=[\"preprocess.remove_no_execute_cells\"] \
+            --ExecutePreprocessor.timeout=-1 \
             --ClearOutputPreprocessor.enabled=True \
             --to notebook \
             --execute $notebooks
