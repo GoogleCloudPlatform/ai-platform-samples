@@ -34,7 +34,7 @@ CMD ["python", "/infra/DeepLearningExamples/TensorFlow/LanguageModeling/BERT/run
      "--output_dir=/output/", \
      "--dllog_path=/output/bert_dllog.json", \
      "--train_batch_size=3", \
-     "--num_train_epochs=1", \
+     "--num_train_epochs=2", \
      "--max_seq_length=384", \
      "--doc_stride=128", \
      "--do_train", \
