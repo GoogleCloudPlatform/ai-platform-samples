@@ -46,5 +46,6 @@ ENV STAGING_DIR /input
 ENV TF_CONFIG '{"cluster":{"master":["127.0.0.1:2222"]}, "task":{"type":"master","index":0}}'
 
 ENV NCCL_DEBUG INFO
+ENV NCCL_FAST_SOCKET_ENABLE 1
 
 ENTRYPOINT ["python", "/infra/horovod_wrapper.py"]
