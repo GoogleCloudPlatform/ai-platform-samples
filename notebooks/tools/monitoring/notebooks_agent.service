@@ -1,0 +1,14 @@
+[Unit]
+Description=AI Platform Notebooks Metric Agent
+
+[Service]
+Type=simple
+PIDFile=/run/notebooks_agent.pid
+ExecStart=/bin/bash --login -c '/usr/bin/python /opt/deeplearning/bin/notebooks_agent.py'
+User=root
+Group=root
+WorkingDirectory=/
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
