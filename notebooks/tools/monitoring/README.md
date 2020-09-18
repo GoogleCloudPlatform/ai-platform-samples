@@ -3,7 +3,16 @@
 ## Overview
 
 This service monitors AI Platform Notebooks JupyterLab and Proxy Agent in Docker, 
-just run the agent on each of your Notebooks instances in GCP:
+just run the agent on each of your Notebooks instances in GCP. The following metrics are collected:
+
+- Jupyter Number of Kernels
+- Jupyter Number of Connections
+- Jupyter Number of Sessions
+- Jupyter Number of Terminals
+- JupyterLab memory utilization. Current, High, Max.
+- JupyterLab service status
+- Proxy Agent status
+
 
 ### Report metrics
 
