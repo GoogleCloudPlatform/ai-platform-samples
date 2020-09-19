@@ -1,13 +1,13 @@
 [Unit]
-Description=AI Platform Notebooks Metric Agent
+Description=AI Platform Notebooks Collection Agent
 
 [Service]
 Type=simple
-PIDFile=/run/notebooks_agent.pid
-ExecStart=/bin/bash --login -c '/usr/bin/python /opt/deeplearning/bin/notebooks_agent.py'
+PIDFile=/run/notebooks_collection_agent.pid
+ExecStart=/bin/bash --login -c '/opt/conda/bin/python /opt/deeplearning/bin/notebooks_collection_agent.py'
 User=root
 Group=root
-WorkingDirectory=/
+WorkingDirectory=/root
 Restart=always
 
 [Install]
