@@ -1,4 +1,4 @@
-"""Report JupyterLab Metrics"""
+"""Report JupyterLab Metrics to Google Cloud Monitoring."""
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,62 +21,35 @@ from google.cloud import monitoring_v3
 
 import argparse
 import requests
+from requests.adapters import HTTPAdapter
 import subprocess
 import time
 
+# JupyterLab default settings.
 JUPYTER_HOST = "http://127.0.0.1"
 JUPYTER_PORT = 8080
 
-_API_STATUS = "{}:{}/api/status".format(JUPYTER_HOST, JUPYTER_PORT)
-_API_KERNELS = "{}:{}/api/kernels".format(JUPYTER_HOST, JUPYTER_PORT)
-_API_SESSIONS = "{}:{}/api/sessions".format(JUPYTER_HOST, JUPYTER_PORT)
-_API_TERMINALS = "{}:{}/api/terminals".format(JUPYTER_HOST, JUPYTER_PORT)
-_JUPYTERLAB_MEMORY_HIGH = "systemctl show jupyter.service --no-pager | grep MemoryHigh | awk -F \"=\" '{print $2}'"
-_JUPYTERLAB_MEMORY_MAX = "systemctl show jupyter.service --no-pager | grep MemoryMax | awk -F \"=\" '{print $2}'"
-_JUPYTERLAB_MEMORY_CURRENT = "systemctl show jupyter.service --no-pager | grep MemoryCurrent | awk -F \"=\" '{print $2}'"
-_JUPYTERLAB_STATUS = " if [ \"$(systemctl show --property ActiveState jupyter | awk -F \"=\" '{print $2}')\" == \"active\" ]; then echo 1; else echo 0; fi"
-_PROXY_AGENT_STATUS="if [ \"$( docker container inspect -f '{{.State.Running}}' proxy-agent )\" == \"true\" ]; then echo 1; else echo 0; fi"
+# JupyterLab API checks
+API_STATUS = "{}:{}/api/status".format(JUPYTER_HOST, JUPYTER_PORT)
+API_KERNELS = "{}:{}/api/kernels".format(JUPYTER_HOST, JUPYTER_PORT)
+API_SESSIONS = "{}:{}/api/sessions".format(JUPYTER_HOST, JUPYTER_PORT)
+API_TERMINALS = "{}:{}/api/terminals".format(JUPYTER_HOST, JUPYTER_PORT)
 
+# JupyterLab service status
+JUPYTERLAB_MEMORY_HIGH = "systemctl show jupyter.service --no-pager | grep MemoryHigh | awk -F \"=\" '{print $2}'"
+JUPYTERLAB_MEMORY_MAX = "systemctl show jupyter.service --no-pager | grep MemoryMax | awk -F \"=\" '{print $2}'"
+JUPYTERLAB_MEMORY_CURRENT = "systemctl show jupyter.service --no-pager | grep MemoryCurrent | awk -F \"=\" '{print $2}'"
+JUPYTERLAB_STATUS = "if [ \"$(systemctl show --property ActiveState jupyter | awk -F \"=\" '{print $2}')\" == \"active\" ]; then echo 1; else echo 0; fi"
 
-_METADATA_SERVER = "http://metadata/computeMetadata/v1/instance/"
-_METADATA_FLAVOR = {"Metadata-Flavor": "Google"}
+# Inverse Proxy agent
+PROXY_AGENT_STATUS = "if [ \"$( docker container inspect -f '{{ .State.Running}}' proxy-agent )\" == \"true\" ]; then echo 1; else echo 0; fi"
 
+METADATA_SERVER = "http://metadata/computeMetadata/v1/instance/"
+METADATA_FLAVOR = {"Metadata-Flavor": "Google"}
 
-class Kernel(object):
-    """Represents a Jupyter Kernel."""
-
-    def __init__(self, kernel_id, name, last_activity, execution_state,
-                 connections):
-        self._kernel_id = kernel_id
-        self._name = name
-        self._last_activity = last_activity
-        self._execution_state = execution_state
-        self._connections = connections
-
-    @property
-    def kernel_id(self):
-        return self._kernel_id
-
-    @property
-    def name(self):
-        return self._name
-
-    @property
-    def last_activity(self):
-        return self._last_activity
-
-    @property
-    def execution_state(self):
-        return self._execution_state
-
-    @property
-    def connections(self):
-        return self._connections
-
-    def __str__(self):
-        return "{},{},{},{},{}".format(self.kernel_id, self.name,
-                                       self.last_activity,
-                                       self.execution_state, self.connections)
+ULONG_MAX = "18446744073709551615"
+MAX_RETRIES = 2
+HTTP_TIMEOUT_SESSION = 5
 
 
 def get_args():
@@ -90,10 +63,17 @@ def get_args():
     parser.add_argument(
         '--sleep',
         type=int,
-        default=30,
+        default=15,
         help='number of seconds to wait while collecting metrics, default=15')
     args, _ = parser.parse_known_args()
     return args
+
+
+def get_session():
+    """Return an HTTP Session. """
+    session = requests.Session()
+    session.mount('http://', HTTPAdapter(max_retries=MAX_RETRIES))
+    return session
 
 
 def api_status():
@@ -109,7 +89,8 @@ def api_status():
     try:
         total_connections = 0
         total_kernels = 0
-        r = requests.get(_API_STATUS)
+        session = get_session()
+        r = session.get(API_STATUS, timeout=HTTP_TIMEOUT_SESSION)
         r.raise_for_status()
         result = r.json()
         if result is not None:
@@ -117,41 +98,11 @@ def api_status():
             total_kernels = result.get("kernels")
         return total_connections, total_kernels
     except requests.exceptions.RequestException as e:
-        print("Unable to contact API {}".format(e))
+        print("api_status. Unable to contact Jupyter API {}".format(e))
         return -1, -1
     except ValueError as e:
-        print("Unable to process API response {}".format(e))
+        print("api_status. Unable to process Jupyter API response {}".format(e))
         return -1, -1
-
-
-def api_kernels():
-    """Collects Jupyter API Kernels information.
-    curl -s http://127.0.0.1:8080/api/kernels
-
-    Returns:
-        Connections and Kernels
-
-    Raises:
-        Exception: Unable to contact API.
-    """
-    try:
-        kernel_list = []
-        r = requests.get(_API_KERNELS)
-        r.raise_for_status()
-        kernels = r.json()
-        if kernels is not None:
-            for kernel in kernels:
-                k = Kernel(kernel_id=kernel.get("id"),
-                           name=kernel.get("name"),
-                           last_activity=kernel.get("last_activity"),
-                           execution_state=kernel.get("execution_state"),
-                           connections=kernel.get("connections"))
-                kernel_list.append(k)
-        return kernel_list
-    except requests.exceptions.RequestException as e:
-        print("Unable to contact API {}".format(e))
-    except ValueError as e:
-        print("Unable to process API response {}".format(e))
 
 
 def api_sessions():
@@ -162,17 +113,19 @@ def api_sessions():
     """
     try:
         total_sessions = 0
-        r = requests.get(_API_SESSIONS)
+        session = get_session()
+        r = session.get(API_SESSIONS, timeout=HTTP_TIMEOUT_SESSION)
         r.raise_for_status()
         sessions = r.json()
         if sessions is not None:
             total_sessions = len(sessions)
         return total_sessions
     except requests.exceptions.RequestException as e:
-        print("Unable to contact API {}".format(e))
+        print("api_sessions. Unable to contact Jupyter API {}".format(e))
         return -1
     except ValueError as e:
-        print("Unable to process API response {}".format(e))
+        print(
+            "api_sessions. Unable to process Jupyter API response {}".format(e))
         return -1
 
 
@@ -184,22 +137,25 @@ def api_terminals():
     """
     try:
         total_terminals = 0
-        r = requests.get(_API_TERMINALS)
+        session = get_session()
+        r = session.get(API_TERMINALS, timeout=HTTP_TIMEOUT_SESSION)
         r.raise_for_status()
         terminals = r.json()
         if terminals is not None:
             total_terminals = len(terminals)
         return total_terminals
     except requests.exceptions.RequestException as e:
-        print("Unable to contact API {}".format(e))
+        print("api_terminals. Unable to contact Jupyter API {}".format(e))
         return -1
     except ValueError as e:
-        print("Unable to process API response {}".format(e))
+        print("api_terminals. Unable to process Jupyter API response {}".format(
+            e))
         return -1
 
 
 def get_notebooks_service(shell_command):
     """Obtain JupyterLab status.
+
     Args:
       shell_command: (str) Parse Jupyter Service status
 
@@ -210,6 +166,9 @@ def get_notebooks_service(shell_command):
         metric_value = subprocess.run([
             "/bin/bash", "-c",
             shell_command], stdout=subprocess.PIPE, text=True).stdout
+        # 2^64-1 - ULONG_MAX. Displayed when Service is stopped.
+        if metric_value.strip() == ULONG_MAX:
+            return -1
         return int(metric_value)
     except ValueError:
         return -1
@@ -222,13 +181,13 @@ def _get_resource_values():
     """Get Resources Values
 
     Return:
-        A dictionary with Instance values.
+        A dictionary with Notebook instance resource values.
     """
     # Get instance information
-    data = requests.get('{}zone'.format(_METADATA_SERVER),
-                        headers=_METADATA_FLAVOR).text
+    data = requests.get('{}zone'.format(METADATA_SERVER),
+                        headers=METADATA_FLAVOR).text
     instance_id = requests.get(
-        '{}id'.format(_METADATA_SERVER), headers=_METADATA_FLAVOR).text
+        '{}id'.format(METADATA_SERVER), headers=METADATA_FLAVOR).text
     client = monitoring_v3.MetricServiceClient()
     # Collect zone
     zone = data.split('/')[3]
@@ -262,7 +221,6 @@ def report_metric(metric_value, metric_type, resource_values):
     series = monitoring_v3.types.TimeSeries()
     metric_type = "custom.googleapis.com/notebooks/{type}".format(
         type=metric_type)
-    print("Reporting metric: {} Value: {}".format(metric_type, metric_value))
     series.metric.type = metric_type
     series.resource.type = "gce_instance"
     series.resource.labels["instance_id"] = instance_id
@@ -289,12 +247,32 @@ def report_metrics(sleep_time, resource_values):
     while True:
         try:
             report_metric(
-                metric_value=api_status()[0],
-                metric_type="kernels",
+                metric_value=get_notebooks_service(JUPYTERLAB_STATUS),
+                metric_type="jupyterlab_status",
+                resource_values=resource_values)
+            report_metric(
+                metric_value=get_notebooks_service(PROXY_AGENT_STATUS),
+                metric_type="proxy_agent_status",
+                resource_values=resource_values)
+            report_metric(
+                metric_value=get_notebooks_service(JUPYTERLAB_MEMORY_CURRENT),
+                metric_type="jupyterlab_memory_current",
+                resource_values=resource_values)
+            report_metric(
+                metric_value=get_notebooks_service(JUPYTERLAB_MEMORY_HIGH),
+                metric_type="jupyterlab_memory_high",
+                resource_values=resource_values)
+            report_metric(
+                metric_value=get_notebooks_service(JUPYTERLAB_MEMORY_MAX),
+                metric_type="jupyterlab_memory_max",
                 resource_values=resource_values)
             report_metric(
                 metric_value=api_status()[1],
                 metric_type="connections",
+                resource_values=resource_values)
+            report_metric(
+                metric_value=api_status()[0],
+                metric_type="kernels",
                 resource_values=resource_values)
             report_metric(
                 metric_value=api_sessions(),
@@ -303,26 +281,6 @@ def report_metrics(sleep_time, resource_values):
             report_metric(
                 metric_value=api_terminals(),
                 metric_type="terminals",
-                resource_values=resource_values)
-            report_metric(
-                metric_value=get_notebooks_service(_JUPYTERLAB_MEMORY_CURRENT),
-                metric_type="jupyterlab_memory_current",
-                resource_values=resource_values)
-            report_metric(
-                metric_value=get_notebooks_service(_JUPYTERLAB_MEMORY_HIGH),
-                metric_type="jupyterlab_memory_high",
-                resource_values=resource_values)
-            report_metric(
-                metric_value=get_notebooks_service(_JUPYTERLAB_MEMORY_MAX),
-                metric_type="jupyterlab_memory_max",
-                resource_values=resource_values)
-            report_metric(
-                metric_value=get_notebooks_service(_JUPYTERLAB_STATUS),
-                metric_type="jupyterlab_status",
-                resource_values=resource_values)
-            report_metric(
-                metric_value=get_notebooks_service(_PROXY_AGENT_STATUS),
-                metric_type="proxy_agent_status",
                 resource_values=resource_values)
         except IndexError as e:
             print("IndexError found reporting metrics {}".format(e))
