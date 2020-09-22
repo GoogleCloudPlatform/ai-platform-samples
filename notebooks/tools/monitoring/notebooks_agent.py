@@ -13,10 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 from google.cloud import monitoring_v3
 
 import argparse
@@ -29,25 +25,26 @@ import time
 JUPYTER_HOST = "http://127.0.0.1"
 JUPYTER_PORT = 8080
 
-# JupyterLab API checks
-API_STATUS = "{}:{}/api/status".format(JUPYTER_HOST, JUPYTER_PORT)
-API_KERNELS = "{}:{}/api/kernels".format(JUPYTER_HOST, JUPYTER_PORT)
-API_SESSIONS = "{}:{}/api/sessions".format(JUPYTER_HOST, JUPYTER_PORT)
-API_TERMINALS = "{}:{}/api/terminals".format(JUPYTER_HOST, JUPYTER_PORT)
-
 # JupyterLab service status
 JUPYTERLAB_MEMORY_HIGH = "systemctl show jupyter.service --no-pager | grep MemoryHigh | awk -F \"=\" '{print $2}'"
 JUPYTERLAB_MEMORY_MAX = "systemctl show jupyter.service --no-pager | grep MemoryMax | awk -F \"=\" '{print $2}'"
 JUPYTERLAB_MEMORY_CURRENT = "systemctl show jupyter.service --no-pager | grep MemoryCurrent | awk -F \"=\" '{print $2}'"
 JUPYTERLAB_STATUS = "if [ \"$(systemctl show --property ActiveState jupyter | awk -F \"=\" '{print $2}')\" == \"active\" ]; then echo 1; else echo 0; fi"
 
-# Inverse Proxy agent
+# JupyterLab API checks
+API_STATUS = "{}:{}/api/status".format(JUPYTER_HOST, JUPYTER_PORT)
+API_KERNELS = "{}:{}/api/kernels".format(JUPYTER_HOST, JUPYTER_PORT)
+API_SESSIONS = "{}:{}/api/sessions".format(JUPYTER_HOST, JUPYTER_PORT)
+API_TERMINALS = "{}:{}/api/terminals".format(JUPYTER_HOST, JUPYTER_PORT)
+
+# Docker Service and Inverse Proxy agent
+DOCKER_STATUS = "if [ \"$(systemctl show --property ActiveState docker | awk -F \"=\" '{print $2}')\" == \"active\" ]; then echo 1; else echo 0; fi"
 PROXY_AGENT_STATUS = "if [ \"$( docker container inspect -f '{{ .State.Running}}' proxy-agent )\" == \"true\" ]; then echo 1; else echo 0; fi"
 
 METADATA_SERVER = "http://metadata/computeMetadata/v1/instance/"
 METADATA_FLAVOR = {"Metadata-Flavor": "Google"}
 
-ULONG_MAX = "18446744073709551615"
+ULONG_MAX = 18446744073709551615
 MAX_RETRIES = 2
 HTTP_TIMEOUT_SESSION = 5
 
@@ -61,7 +58,7 @@ def get_args():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        '--sleep',
+        '--sampling_interval',
         type=int,
         default=15,
         help='number of seconds to wait while collecting metrics, default=15')
@@ -157,23 +154,24 @@ def get_notebooks_service(shell_command):
     """Obtain JupyterLab status.
 
     Args:
-      shell_command: (str) Parse Jupyter Service status
+      shell_command: (str) Parse a shell command and return status code.
 
     Returns:
-      A Metric.
+      A metric value.
     """
     try:
         metric_value = subprocess.run([
             "/bin/bash", "-c",
             shell_command], stdout=subprocess.PIPE, text=True).stdout
         # 2^64-1 - ULONG_MAX. Displayed when Service is stopped.
-        if metric_value.strip() == ULONG_MAX:
+        metric_value = int(metric_value)
+        if metric_value == ULONG_MAX:
             return -1
-        return int(metric_value)
-    except ValueError:
-        return -1
+        return metric_value
     except subprocess.CalledProcessError as e:
         print(e)
+        return -1
+    except ValueError:
         return -1
 
 
@@ -215,8 +213,8 @@ def report_metric(metric_value, metric_type, resource_values):
     project_id = resource_values.get("project_id")
     instance_id = resource_values.get("instance_id")
     zone = resource_values.get("zone")
-
     project_name = client.project_path(project_id)
+
     # TimeSeries definition.
     series = monitoring_v3.types.TimeSeries()
     metric_type = "custom.googleapis.com/notebooks/{type}".format(
@@ -235,11 +233,11 @@ def report_metric(metric_value, metric_type, resource_values):
     client.create_time_series(project_name, [series])
 
 
-def report_metrics(sleep_time, resource_values):
+def report_metrics(sampling_interval, resource_values):
     """Collects metrics
 
     Args:
-      sleep_time:(int) Wait time.
+      sampling_interval:(int) Wait time.
       resource_values:(dict) Dict to pass to Stackdriver.
 
     Returns:
@@ -249,6 +247,10 @@ def report_metrics(sleep_time, resource_values):
             report_metric(
                 metric_value=get_notebooks_service(JUPYTERLAB_STATUS),
                 metric_type="jupyterlab_status",
+                resource_values=resource_values)
+            report_metric(
+                metric_value=get_notebooks_service(DOCKER_STATUS),
+                metric_type="docker_status",
                 resource_values=resource_values)
             report_metric(
                 metric_value=get_notebooks_service(PROXY_AGENT_STATUS),
@@ -286,13 +288,13 @@ def report_metrics(sleep_time, resource_values):
             print("IndexError found reporting metrics {}".format(e))
         except Exception as e:
             print("Exception found reporting metrics {}".format(e))
-        time.sleep(sleep_time)
+        time.sleep(sampling_interval)
 
 
 def main(args):
     resource_values = _get_resource_values()
-    print("Notebooks Collection Agent starting...")
-    report_metrics(args.sleep, resource_values)
+    print("AI Platform Notebooks Collection Agent starting...")
+    report_metrics(args.sampling_interval, resource_values)
 
 
 if __name__ == '__main__':
