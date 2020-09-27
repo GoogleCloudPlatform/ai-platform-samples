@@ -6,8 +6,8 @@ TensorFlow trained model in AI Platform with GPU.
 *   Run the training example under `/training/tensorflow/structured/base/scripts` using the
     `train-cloud.sh` or `train-local.sh` scripts.
 *   Run either:
-    - [`cloud-deploy-model.sh`](structured/scripts/cloud-deploy-model.sh)
-    - [`cloud-deploy-model-gpu.sh`](structured/scripts/cloud-deploy-model-gpu.sh)
+    - [`deploy.sh`](structured/scripts/deploy.sh)
+    - [`deploy-gpu.sh`](structured/scripts/deploy-gpu.sh)
 
 ## GPU support
 
@@ -52,10 +52,10 @@ gcloud alpha ai-platform versions create gpu_v1 \
 
 ## Scripts
 
-  [cloud-deploy-model.sh](structured/scripts/cloud-deploy-model.sh)  This script deploys a model in 
+  [deploy.sh](structured/scripts/deploy.sh)  This script deploys a model in 
   AI platform Prediction. It expects a Saved Model in Google Cloud Storage.
   
-  [cloud-deploy-model-gpu.sh](structured/scripts/cloud-deploy-model-gpu.sh) This script deploys a model in 
+  [deploy-gpu.sh](structured/scripts/deploy-gpu.sh) This script deploys a model in 
   AI platform Prediction using GPU. It expects a Saved Model in Google Cloud Storage.
 
 ## Versions
