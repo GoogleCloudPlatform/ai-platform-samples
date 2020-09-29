@@ -10,9 +10,8 @@ ENV GCS_OUTPUT_PATH ${GCS_OUTPUT_PATH}
 WORKDIR /infra
 
 # Download examples
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends subversion && \
-    svn checkout https://github.com/horovod/horovod/trunk/examples && \
-    rm -rf examples/.svn
+RUN git clone --depth 1 https://github.com/horovod/horovod.git && \
+    mv horovod/examples . && rm -rf horovod
 
 WORKDIR /output
 
