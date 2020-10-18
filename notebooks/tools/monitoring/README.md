@@ -13,6 +13,7 @@ just run the agent on each of your Notebooks instances in GCP. The following met
 - JupyterLab service status
 - Proxy Agent status
 
+*Note:* DLVM 58+ includes the latest version of Monitoring Agent.
 
 ### Report metrics
 
