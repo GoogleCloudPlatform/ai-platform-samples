@@ -1,6 +1,6 @@
 trainingInput:
   args:
-  - --gcp-project=remy-demos
+  - --gcp-project=[PROJECT_NAME]
   - --train-files=gs://[GCS_BUCKET]/*/*.csv #100 GB 
   - --model-file=gs://[GCS_BUCKET]/models/1t.model
   - --num-gpu-per-worker=8

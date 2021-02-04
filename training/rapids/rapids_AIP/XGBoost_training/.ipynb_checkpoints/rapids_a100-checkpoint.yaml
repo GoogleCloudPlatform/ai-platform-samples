@@ -1,6 +1,6 @@
 trainingInput:
   args:
-  - --gcp-project=remy-demos
+  - --gcp-project=[PROJECT_NAME]
   - --train-files=gs://[GCS_BUCKET]/*/*.csv #100 GB of data - all folders of data
   - --model-file=gs://[GCS_BUCKET]/models/1t.model #Change to your GCS Bucket
   - --num-gpu-per-worker=4 # Attaching all GPUs to a single worker so they can share memory (single node deployment)
