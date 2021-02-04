@@ -1,0 +1,17 @@
+trainingInput:
+  args:
+  - --gcp-project=remy-demos
+  - --train-files=gs://[GCS_BUCKET]/*/*.csv #100 GB 
+  - --model-file=gs://[GCS_BUCKET]/models/1t.model
+  - --num-gpu-per-worker=8
+  - --threads-per-worker=1
+  - --do-wait
+  masterConfig:
+    acceleratorConfig:
+      count: '8' 
+      type: NVIDIA_TESLA_V100 
+    imageUri: gcr.io/[PROJECT_NAME]/[IMAGE]:[VERSION] #Change this to your GCR path 
+  masterType: n1-standard-32
+  scaleTier: CUSTOM
+  
+#run training with v100

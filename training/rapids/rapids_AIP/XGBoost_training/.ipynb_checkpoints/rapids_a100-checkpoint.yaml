@@ -1,0 +1,18 @@
+trainingInput:
+  args:
+  - --gcp-project=remy-demos
+  - --train-files=gs://[GCS_BUCKET]/*/*.csv #100 GB of data - all folders of data
+  - --model-file=gs://[GCS_BUCKET]/models/1t.model #Change to your GCS Bucket
+  - --num-gpu-per-worker=4 # Attaching all GPUs to a single worker so they can share memory (single node deployment)
+  - --threads-per-worker=1
+  - --do-wait # set to true if you want to persist your dataset...useful for if you have a lot of processing and training steps on the same Dask Dataframe
+  masterConfig:
+    acceleratorConfig:
+      count: '4' 
+      type: NVIDIA_TESLA_A100
+    imageUri: gcr.io/[PROJECT_NAME]/[IMAGE]:[VERSION] #Change this to your GCR path 
+  masterType: a2-highgpu-4g
+  scaleTier: CUSTOM
+
+# XGboost training job using 4 A100 GPUs
+# Update bracketed fields with your paths

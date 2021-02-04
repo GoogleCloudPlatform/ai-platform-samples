@@ -1,0 +1,24 @@
+trainingInput:
+  args:
+  - --gcp-project=[PROJECT_NAME]
+  - --train-files=gs://[GCS_BUCKET]/abcdefgh*/*.csv #30 GB 
+  - --model-file=gs://[GCS_BUCKET]/models/1t.model
+  masterConfig:
+    acceleratorConfig:
+      count: '1'
+      type: NVIDIA_TESLA_T4
+    imageUri: gcr.io/[PROJECT_NAME]/[IMAGE]:[VERSION]
+    diskConfig:
+      bootDiskSizeGb: 500
+      bootDiskType: pd-ssd
+  masterType: n1-highmem-8
+  scaleTier: CUSTOM
+  workerConfig:
+    acceleratorConfig:
+      count: '1'
+      type: NVIDIA_TESLA_T4
+    imageUri: gcr.io/[PROJECT_NAME]/[IMAGE]:[VERSION]
+  workerCount: '4'
+  workerType: n1-highmem-4
+
+# Distributed processing config...not officially supported

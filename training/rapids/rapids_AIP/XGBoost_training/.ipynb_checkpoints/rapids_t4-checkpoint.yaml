@@ -1,0 +1,17 @@
+trainingInput:
+  args:
+  - --gcp-project=[PROJECT_NAME]
+  - --train-files=gs://[GCS_BUCKET]/abcdefghij/*.csv #10 GB 
+  - --model-file=gs://[GCS_BUCKET]/models/1t.model
+  - --num-gpu-per-worker=2
+  - --threads-per-worker=1
+  - --do-wait
+  masterConfig:
+    acceleratorConfig:
+      count: '2' 
+      type: NVIDIA_TESLA_T4
+    imageUri: gcr.io/[PROJECT_NAME]/[IMAGE]:[VERSION] #Change this to your GCR path 
+  masterType: n1-standard-16
+  scaleTier: CUSTOM
+
+#example of running the same XGBoost code with a 10 GB dataset and two T4's
