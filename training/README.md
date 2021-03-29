@@ -42,7 +42,7 @@ tuning, and accelerate with GPUs and TPUs.
  - [TensorFlow](tensorflow/structured)
      - [base](tensorflow/structured/base) Standard code to perform AI Platform Training using TensorFlow Estimators 
               using CPU.
-     - [census TF Keras](tensorflow/census/tf-keras) A Binary classification model using with TF Keras and AI Platform Trainining.
+     - [census TF Keras](tensorflow/census/tf-keras) A Binary classification model using with TF Keras and AI Platform Training.
      - [TPU](tensorflow/structured/tpu) Uses Cloud TPU for Model Training.
      - [Hyperparameter tuning](tensorflow/structured/hp_tuning) Use Hyperparameter tuning.
      - [Distributed training](tensorflow/structured/distributed) Uses Distributed Training using TensorFlow 
@@ -53,6 +53,9 @@ tuning, and accelerate with GPUs and TPUs.
               using CPU.
  - [XGBoost](xgboost/structured/)
       - [base](xgboost/structured/base) Standard code to perform AI Platform Training using XGBoost. 
+
+ - [PyTorch](pytorch/)
+     - [Text Classification](pytorch/text/text_classification) PyTorch based text classification model by fine tuning a pre-trained Huggingface Transformers model on AI Platform Training
  
 #### AI Platform Training - Custom Containers
 
