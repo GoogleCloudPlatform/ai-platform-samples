@@ -27,7 +27,7 @@ JOB_NAME=${JOB_PREFIX}_$(date +%Y%m%d_%H%M%S)
 # JOB_DIR: Where to store prepared package and upload output model.
 JOB_DIR=gs://${BUCKET_NAME}/${JOB_PREFIX}/models/${JOB_NAME}
 
-cd ../ && python -m trainer.task \
+python -m trainer.task \
     --job-dir ${JOB_DIR} \
     --model-name="finetuned-bert-classifier"
     
