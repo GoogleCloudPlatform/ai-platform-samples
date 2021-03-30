@@ -29,20 +29,20 @@ project_setup(){
     # add user's pip binary path to PATH
     export PATH="${HOME}/.local/bin:${PATH}"
 
-    mkdir ./.kokoro/testing
-
     # On kokoro, we should be able to use the default service account. We
     # need to somehow bootstrap the secrets on other CI systems.
     if [[ "${TRAMPOLINE_CI}" == "kokoro" ]]; then
+        mkdir ./.kokoro/testing
+
         # This script will create 3 files:
         # - testing/test-env.sh
         # - testing/service-account.json
         # - testing/client-secrets.json
         ./.kokoro/scripts/decrypt-secrets.sh
-    fi
 
-    source ./.kokoro/testing/test-env.sh
-    export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/.kokoro/testing/service-account.json
+        source ./.kokoro/testing/test-env.sh
+        export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/.kokoro/testing/service-account.json
+    fi    
 
     # For cloud-run session, we activate the service account for gcloud sdk.
     gcloud auth activate-service-account \
