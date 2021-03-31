@@ -44,7 +44,7 @@ jobs:
         export_default_credentials: true
     - name: Authenticate GCP
       run: |
-          gcloud auth activate-service-account --key-file client-secret.json
+          gcloud auth activate-service-account --key-file ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}
           gcloud config set project "${{ env.REGION }}"
           gcloud config set compute/region "us-central1"
           gcloud config list           
