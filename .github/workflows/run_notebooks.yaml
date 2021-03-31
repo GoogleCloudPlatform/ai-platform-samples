@@ -18,7 +18,7 @@ jobs:
       REGION: ${{ secrets.GCP_REGION }}
       BUCKET_NAME: ${{ secrets.GCP_STAGING_BUCKET }}
       OUTPUT_DIR: "output"
-      USER: "notebook-tester",
+      USER: "notebook-tester"
       AUTORUN: "1"
     strategy:
       matrix:
@@ -26,6 +26,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Fetch master branch
+      run: git fetch origin master:master
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
