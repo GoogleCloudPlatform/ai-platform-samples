@@ -16,8 +16,6 @@
 # `-e` enables the script to automatically fail when a command fails
 # `-o pipefail` sets the exit code to the rightmost comment to exit with a non-zero
 set -eo pipefail
-# Enables `**` to include files nested inside sub-folders
-shopt -s globstar
 
 project_setup(){
     if [[ -z "${PROJECT_ROOT:-}" ]]; then
@@ -165,19 +163,38 @@ run_tests() {
 
     cd .kokoro/notebooks
 
-    path=$(git rev-parse --show-toplevel)
-    # Only check notebooks modified in this pull request.
-    notebooks="$(git diff --name-only master | sed "s,^,$path/," | grep '\.ipynb$' || true)"
+    # Get the repo's root directory
+    root_folder=$(git rev-parse --show-toplevel)
 
+    # Read each official folder into a variable
+    official_folders=()
+    while read line || [ -n "$line" ]
+    do
+        # Combine the root directory and relative directory
+        official_folders+=("$root_folder/$line")
+    done < test_folders.txt
+
+    echo "Checking official folders: ${official_folders[@]}"
+
+    # Only check notebooks in official folders modified in this pull request.
+    # Note: Use process substitution to persist the data in the array
+    notebooks=()
+    while read file || [ -n "$line" ]; 
+    do
+        notebooks+=("$file")
+        echo "file: $file"
+    done < <(git diff --name-only master ${official_folders[@]} | sed "s,^,$root_folder/," | grep '\.ipynb$')
+    
     if [[ -n "$notebooks" ]]; then
+        echo "Found modified notebooks: ${notebooks[@]}"
         cloud_notebooks_update_contents $notebooks
         echo "Running notebooks..."
         jupyter nbconvert \
-            --Exporter.preprocessors=[\"preprocess.remove_no_execute_cells\"] \
+            --Exporter.preprocessors preprocess.remove_no_execute_cells \
             --ExecutePreprocessor.timeout=-1 \
             --ClearOutputPreprocessor.enabled=True \
             --to notebook \
-            --execute $notebooks
+            --execute "${notebooks[@]}"
     else
         echo "No notebooks modified in this pull request."
     fi
