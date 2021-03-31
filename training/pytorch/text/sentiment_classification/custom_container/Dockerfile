@@ -21,12 +21,12 @@ WORKDIR /root
 RUN pip install google-cloud-storage transformers datasets tqdm
 
 # Copies the trainer code to the docker image.
-COPY trainer/__init__.py ./trainer/__init__.py
-COPY trainer/experiment.py ./trainer/experiment.py
-COPY trainer/utils.py ./trainer/utils.py
-COPY trainer/metadata.py ./trainer/metadata.py
-COPY trainer/model.py ./trainer/model.py
-COPY trainer/task.py ./trainer/task.py
+COPY ./trainer/__init__.py ./trainer/__init__.py
+COPY ./trainer/experiment.py ./trainer/experiment.py
+COPY ./trainer/utils.py ./trainer/utils.py
+COPY ./trainer/metadata.py ./trainer/metadata.py
+COPY ./trainer/model.py ./trainer/model.py
+COPY ./trainer/task.py ./trainer/task.py
 
 # Set up the entry point to invoke the trainer.
 ENTRYPOINT ["python", "-m", "trainer.task"]
