@@ -17,55 +17,6 @@
 # `-o pipefail` sets the exit code to the rightmost comment to exit with a non-zero
 set -eo pipefail
 
-project_setup(){
-    if [[ -z "${PROJECT_ROOT:-}" ]]; then
-        PROJECT_ROOT="github/ai-platform-samples"
-    fi
-
-    cd "${PROJECT_ROOT}"
-
-    # add user's pip binary path to PATH
-    export PATH="${HOME}/.local/bin:${PATH}"
-
-    # On kokoro, we should be able to use the default service account. We
-    # need to somehow bootstrap the secrets on other CI systems.
-    if [[ "${TRAMPOLINE_CI}" == "kokoro" ]]; then
-        mkdir ./.kokoro/testing
-
-        # This script will create 3 files:
-        # - testing/test-env.sh
-        # - testing/service-account.json
-        # - testing/client-secrets.json
-        ./.kokoro/scripts/decrypt-secrets.sh
-
-        source ./.kokoro/testing/test-env.sh
-        export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/.kokoro/testing/service-account.json
-    fi    
-
-    # For cloud-run session, we activate the service account for gcloud sdk.
-    gcloud auth activate-service-account \
-           --key-file "${GOOGLE_APPLICATION_CREDENTIALS}"
-    gcloud config set project "${GOOGLE_CLOUD_PROJECT}"
-    gcloud config set compute/region "${REGION}"
-    gcloud config list
-}
-
-maybe_exit_on_failure () {
-    EXIT_STATUS=$?
-    if [[ "$EXIT_STATUS" != 0 ]]; then
-        exit "$EXIT_STATUS"
-    fi
-}
-
-install_jupyter () {
-    echo "Installing Jupyter..."
-    python3 -m pip install -U -q \
-        ipython \
-        jupyter \
-        nbconvert
-    maybe_exit_on_failure
-}
-
 get_date () {
     # Return current date.
     CURRENT_DATE=$(date +%Y%m%d_%H%M%S)
@@ -170,9 +121,6 @@ run_tests() {
 }
 
 main(){
-    project_setup
-    # install_cloud_packages
-    install_jupyter
     run_tests
 }
 
