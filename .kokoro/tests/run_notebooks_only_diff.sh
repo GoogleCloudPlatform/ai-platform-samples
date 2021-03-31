@@ -138,20 +138,17 @@ update_notebook_install () {
   fi
 }
 
-cloud_notebooks_update_contents () {
+update_notebook_variables () {
     # replace variables inside .ipynb files
     # looking for this format inside notebooks:
     # VARIABLE_NAME = '[description]'
-    for notebook in $1
-    do
-        update_value "PROJECT_ID" "${GOOGLE_CLOUD_PROJECT}" "$notebook"
-        update_value "REGION" "${REGION}" "$notebook"
-        update_value "BUCKET_NAME" "${BUCKET_NAME}" "$notebook"
-        update_value "OUTPUT_DIR" "$(get_date)" "$notebook"
-        update_value "USER" "${NOTEBOOKS_USER}" "$notebook"
-        # update pip installation settings
-        update_notebook_install "$notebook"
-    done
+    update_value "PROJECT_ID" "${GOOGLE_CLOUD_PROJECT}" "$notebook"
+    update_value "REGION" "${REGION}" "$notebook"
+    update_value "BUCKET_NAME" "${BUCKET_NAME}" "$notebook"
+    update_value "OUTPUT_DIR" "$(get_date)" "$notebook"
+    update_value "USER" "${NOTEBOOKS_USER}" "$notebook"
+    # update pip installation settings
+    update_notebook_install "$notebook"
 }
 
 run_tests() {
@@ -195,10 +192,10 @@ run_tests() {
     
     if [ ${#notebooks[@]} -gt 0 ]; then
         echo "Found modified notebooks: ${notebooks[*]}"
-        cloud_notebooks_update_contents "${notebooks[@]}"
 
         for notebook in "${notebooks[@]}"
         do
+            update_notebook_variables $notebook
             echo "Running notebook: ${notebook}"
             jupyter nbconvert \
                 --Exporter.preprocessors preprocess.remove_no_execute_cells \
