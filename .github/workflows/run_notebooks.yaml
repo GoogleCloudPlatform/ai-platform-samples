@@ -18,7 +18,8 @@ jobs:
       REGION: ${{ secrets.GCP_REGION }}
       BUCKET_NAME: ${{ secrets.GCP_STAGING_BUCKET }}
       OUTPUT_DIR: "output"
-      USER: "notebook-tester"
+      USER: "notebook-tester",
+      AUTORUN: "1"
     strategy:
       matrix:
         python-version: [3.7, 3.8, 3.9]
