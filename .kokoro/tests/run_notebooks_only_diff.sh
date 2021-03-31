@@ -166,24 +166,24 @@ run_tests() {
     # Get the repo's root directory
     root_folder=$(git rev-parse --show-toplevel)
 
-    # Read each official folder into a variable
-    official_folders=()
+    # Read each test folder into a variable
+    test_folders=()
     while read -r line || [ -n "$line" ]
     do
         # Combine the root directory and relative directory
-        official_folders+=("$root_folder/$line")
+        test_folders+=("$root_folder/$line")
     done < test_folders.txt
 
-    echo "Checking official folders: ${official_folders[*]}"
+    echo "Checking folders: ${test_folders[*]}"
 
-    # Only check notebooks in official folders modified in this pull request.
+    # Only check notebooks in test folders modified in this pull request.
     # Note: Use process substitution to persist the data in the array
     notebooks=()
     while read -r file || [ -n "$line" ]; 
     do
         notebooks+=("$file")
         echo "file: $file"
-    done < <(git diff --name-only master "${official_folders[@]}" | sed "s,^,$root_folder/," | grep '\.ipynb$')
+    done < <(git diff --name-only master "${test_folders[@]}" | sed "s,^,$root_folder/," | grep '\.ipynb$')
     
     if [ ${#notebooks[@]} -gt 0 ]; then
         echo "Found modified notebooks: ${notebooks[*]}"
