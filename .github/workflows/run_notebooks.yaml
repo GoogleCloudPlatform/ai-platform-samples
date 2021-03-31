@@ -16,7 +16,7 @@ jobs:
     environment: notebook_testing
     env:
       PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-      REGION: "us-central1"
+      REGION: ${{ secrets.GCP_REGION }}
       BUCKET_NAME: ${{ secrets.GCP_STAGING_BUCKET }}
       OUTPUT_DIR: "output"
       USER: "notebook-tester"
