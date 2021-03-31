@@ -50,12 +50,10 @@ def preprocess_function(examples):
 
 
 def load_data(args):
-    """Loads the data into three different data loaders. (Train, Test, Evaluation)
-        Split the training dataset into a train / test dataset.
+    """Loads the data into two different data loaders. (Train, Test)
 
         Args:
             args: arguments passed to the python script
-            device: PyTorch device on which to load the dataset
     """
     # Dataset loading repeated here to make this cell idempotent
     # Since we are over-writing datasets variable
@@ -97,3 +95,4 @@ def save_model(args):
         print("Saved model files in gs://{}/{}".format(bucket_name, model_path))
     else:
         print("Only GCS paths are supported. Please specify job_dir starting with gs://")
+        

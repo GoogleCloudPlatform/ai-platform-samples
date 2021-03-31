@@ -16,11 +16,11 @@ from transformers import AutoModelForSequenceClassification
 from trainer import metadata
 
 def create(num_labels):
-    """Load the data, train, evaluate, and export the model for serving and
-     evaluating.
+    """create the model by loading a pretrained model or define your 
+    own
 
     Args:
-      args: experiment parameters.
+      num_labels: number of target labels
     """
     # Create the model, loss function, and optimizer
     model = AutoModelForSequenceClassification.from_pretrained(

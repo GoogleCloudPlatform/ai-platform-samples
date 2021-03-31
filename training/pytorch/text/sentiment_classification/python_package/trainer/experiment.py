@@ -33,24 +33,23 @@ def compute_metrics(p: EvalPrediction):
 
 
 def train(args, model, train_dataset, test_dataset):
-    """Create the training loop for one epoch. Read the data from the
-     dataloader, calculate the loss, and update the DNN. Lastly, display some
-     statistics about the performance of the DNN during training.
+    """Create the training loop to load pretrained model and tokenizer and 
+    start the training process
 
     Args:
-      sequential_model: The neural network that you are training, based on
-      nn.Module
-      train_loader: The training dataset
-      criterion: The loss function used during training
-      optimizer: The selected optmizer to update parameters and gradients
-      epoch: The current epoch that the training loop is on
+      args: read arguments from the runner to set training hyperparameters
+      model: The neural network that you are training
+      train_dataset: The training dataset
+      test_dataset: The test dataset for evaluation
     """
     
+    # initialize the tokenizer
     tokenizer = AutoTokenizer.from_pretrained(
         metadata.PRETRAINED_MODEL_NAME,
         use_fast=True,
     )
     
+    # set training arguments
     training_args = TrainingArguments(
         evaluation_strategy="epoch",
         learning_rate=args.learning_rate,
@@ -61,6 +60,7 @@ def train(args, model, train_dataset, test_dataset):
         output_dir=os.path.join("/tmp", args.model_name)
     )
     
+    # initialize our Trainer
     trainer = Trainer(
         model,
         training_args,
@@ -71,6 +71,7 @@ def train(args, model, train_dataset, test_dataset):
         compute_metrics=compute_metrics
     )
     
+    # training
     trainer.train()
     return trainer
 
