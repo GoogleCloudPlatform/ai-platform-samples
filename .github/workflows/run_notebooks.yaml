@@ -47,8 +47,8 @@ jobs:
     - name: Authenticate GCP
       run: |
           gcloud auth activate-service-account --key-file ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}
-          gcloud config set project "${{ env.REGION }}"
-          gcloud config set compute/region "us-central1"
+          gcloud config set project "${{ secrets.GCP_PROJECT_ID }}"
+          gcloud config set compute/region "${{ env.REGION }}"
           gcloud config list           
     - name: Run required notebooks
       run: |
