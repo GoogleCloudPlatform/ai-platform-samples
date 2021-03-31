@@ -65,13 +65,21 @@ run_tests() {
     # Get the repo's root directory
     root_folder=$(git rev-parse --show-toplevel)
 
+    # Get the file that defines the folders to test
+    test_folders_file="$root_folder/.kokoro/notebooks/test_folders.txt"
+
     # Read each test folder into a variable
     test_folders=()
     while read -r line || [ -n "$line" ]
     do
         # Combine the root directory and relative directory
         test_folders+=("$root_folder/$line")
-    done < test_folders.txt
+    done < "$test_folders_file"
+
+    if [ ${#test_folders[@]} -eq 0 ]; then
+        echo "No test folders provided."
+        exit "0"
+    fi
 
     echo "Checking folders: ${test_folders[*]}"
 
@@ -86,7 +94,7 @@ run_tests() {
     
     if [ ${#notebooks[@]} -gt 0 ]; then
         echo "Found modified notebooks: ${notebooks[*]}"
-        cloud_notebooks_update_contents "$notebooks"
+        cloud_notebooks_update_contents "${notebooks[@]}"
 
         for notebook in "${notebooks[@]}"
         do
