@@ -13,7 +13,6 @@ jobs:
   run_notebooks:
     runs-on: ubuntu-latest
     environment: notebook_testing
-    container: gcr.io/deeplearning-platform-release/base-cpu
     env:
       PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       REGION: ${{ secrets.GCP_REGION }}
