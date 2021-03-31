@@ -13,6 +13,13 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    environment: notebook_testing
+    env:
+      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      REGION: "us-central1"
+      BUCKET_NAME: ${{ secrets.GCP_STAGING_BUCKET }}
+      OUTPUT_DIR: "output"
+      USER: "notebook-tester"
     strategy:
       matrix:
         python-version: [3.7, 3.8, 3.9]
@@ -37,6 +44,8 @@ jobs:
         export_default_credentials: true
     - name: Authenticate GCP
       run: |
+          gcloud auth activate-service-account --key-file client-secret.json
+          gcloud config set project "${{ env.REGION }}"
           gcloud config set compute/region "us-central1"
           gcloud config list           
     - name: Run required notebooks
