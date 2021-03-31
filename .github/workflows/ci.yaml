@@ -18,7 +18,7 @@ jobs:
         notebooks="$(git diff --name-only master | grep '\.ipynb$' || true)"
         if [[ -n "$notebooks" ]]; then
           echo "Check formatting with nbfmt:"
-          python3 -m tensorflow_docs.tools.nbfmt --test $notebooks
+          python3 -m tensorflow_docs.tools.nbfmt --test "$notebooks"
         else
           echo "No notebooks modified in this pull request."
         fi
@@ -46,8 +46,8 @@ jobs:
         scripts="${notebooks//ipynb/py}"
         if [[ -n "$notebooks" ]]; then
           echo "Converting code blocks into .py..."
-          jupyter nbconvert $notebooks --to python --PythonExporter.exclude_markdown=True
-          sed -i -e 's/ #@param.*}//g' $scripts
+          jupyter nbconvert "$notebooks" --to python --PythonExporter.exclude_markdown=True
+          sed -i -e 's/ #@param.*}//g' "$scripts"
           echo "Lint checking..."
           flake8 $scripts --show-source --ignore=W391,E501,F821,E402,F404
         else
