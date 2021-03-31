@@ -83,6 +83,9 @@ run_tests() {
 
     echo "Checking folders: ${test_folders[*]}"
 
+    # Fetch master branch
+    git fetch origin master:master
+
     # Only check notebooks in test folders modified in this pull request.
     # Note: Use process substitution to persist the data in the array
     notebooks=()
