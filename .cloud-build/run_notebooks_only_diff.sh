@@ -17,83 +17,6 @@
 # `-o pipefail` sets the exit code to the rightmost comment to exit with a non-zero
 set -eo pipefail
 
-project_setup () {
-    # For cloud-run session, we activate the service account for gcloud sdk.
-    gcloud auth activate-service-account \
-           --key-file "${GOOGLE_APPLICATION_CREDENTIALS}"
-    gcloud config set project "${GOOGLE_CLOUD_PROJECT}"
-    gcloud config set compute/region "${REGION}"
-    gcloud config list
-}
-
-maybe_exit_on_failure () {
-    EXIT_STATUS=$?
-    if [[ "$EXIT_STATUS" != 0 ]]; then
-        exit "$EXIT_STATUS"
-    fi
-}
-
-install_cloud_packages () {
-    # Install AI Platform pre-requisites:
-    # https://cloud.google.com/ai-platform/training/docs/runtime-version-list
-    echo "Installing Google Cloud Python dependencies..."
-    python3 -m pip install -U -q \
-        google-api-python-client \
-        google-cloud-bigquery \
-        google-cloud-bigtable \
-        google-cloud-datastore \
-        google-cloud-logging \
-        google-cloud-pubsub \
-        google-cloud-resource-manager \
-        google-cloud-storage \
-        absl-py \
-        astor \
-        cloudml-hypertune \
-        crcmod \
-        future \
-        grpcio \
-        httplib2 \
-        imageio \
-        joblib \
-        matplotlib \
-        mock \
-        numpy \
-        oauth2client \
-        pandas \
-        Paste \
-        PILLOW \
-        pydot \
-        python-dateutil \
-        python-json-logger \
-        PyYAML \
-        requests \
-        scikit-learn \
-        scipy \
-        seaborn \
-        six \
-        sklearn \
-        statsmodels \
-        sympy \
-        tabulate \
-        tornado \
-        webapp2 \
-        WebOb \
-        wheel \
-        witwidget \
-        wrapt \
-        xgboost
-    maybe_exit_on_failure
-}
-
-install_jupyter () {
-    echo "Installing Jupyter..."
-    python3 -m pip install -U -q \
-        ipython \
-        jupyter \
-        nbconvert
-    maybe_exit_on_failure
-}
-
 get_date () {
     # Return current date.
     CURRENT_DATE=$(date +%Y%m%d_%H%M%S)
@@ -118,7 +41,7 @@ update_notebook_variables () {
     # replace variables inside .ipynb files
     # looking for this format inside notebooks:
     # VARIABLE_NAME = '[description]'
-    update_value "PROJECT_ID" "${GOOGLE_CLOUD_PROJECT}" "$notebook"
+    update_value "PROJECT_ID" "${PROJECT_ID}" "$notebook"
     update_value "REGION" "${REGION}" "$notebook"
     update_value "BUCKET_NAME" "${BUCKET_NAME}" "$notebook"
     update_value "OUTPUT_DIR" "$(get_date)" "$notebook"
@@ -130,14 +53,21 @@ update_notebook_variables () {
 run_tests() {
     # Switch to 'fail at end' to allow all tests to complete before exiting.
     set +e
+
     # Use RTN to return a non-zero value if the test fails.
     RTN=0
-    ROOT=$(pwd)
 
-    cd .kokoro/notebooks
+    if eval "$(git rev-parse --is-shallow-repository)"; then
+        echo "Fetching branch: ${BASE_BRANCH}"
+        git fetch origin "${BASE_BRANCH}":refs/remotes/origin/"${BASE_BRANCH}"
+    else
+        echo "Skipping fetch: ${BASE_BRANCH}"
+    fi
 
     # Get the repo's root directory
     root_folder=$(git rev-parse --show-toplevel)
+
+    echo "Root folder:  ${root_folder}"
 
     # Get the file that defines the folders to test
     test_folders_file="$root_folder/.kokoro/notebooks/test_folders.txt"
@@ -164,21 +94,25 @@ run_tests() {
     do
         notebooks+=("$file")
         echo "file: $file"
-    done < <(git diff --name-only master "${test_folders[@]}" | sed "s,^,$root_folder/," | grep '\.ipynb$')
+    done < <(git diff --name-only origin/"${BASE_BRANCH}" "${test_folders[@]}" | sed "s,^,$root_folder/," | grep '\.ipynb$')
+    
+    cd .cloud-build
+    
+    ARTIFACTS_PATH="${root_folder}/${ARTIFACTS_FOLDER}"
+    mkdir -p "${ARTIFACTS_PATH}"
+    mkdir -p "${ARTIFACTS_PATH}/success"
+    mkdir -p "${ARTIFACTS_PATH}/error"
     
     if [ ${#notebooks[@]} -gt 0 ]; then
         echo "Found modified notebooks: ${notebooks[*]}"
 
         for notebook in "${notebooks[@]}"
         do
-            update_notebook_variables $notebook
+            update_notebook_variables "$notebook"
             echo "Running notebook: ${notebook}"
-            jupyter nbconvert \
-                --Exporter.preprocessors preprocess.remove_no_execute_cells \
-                --ExecutePreprocessor.timeout=-1 \
-                --ClearOutputPreprocessor.enabled=True \
-                --to notebook \
-                --execute "$notebook"
+            
+            # TODO: Handle cases where multiple notebooks have the same name
+            python3 execute_notebook.py "$notebook" "$ARTIFACTS_PATH"
             
             NOTEBOOK_RTN=$?
             echo "Notebook finished with return code = $NOTEBOOK_RTN"
@@ -186,26 +120,28 @@ run_tests() {
             then                                
                 RTN=$NOTEBOOK_RTN                
             fi
+
+            # cp "$notebook" "$ARTIFACTS_PATH"
         done
     else
         echo "No notebooks modified in this pull request."
     fi
 
-    cd "$ROOT"
-
-    # Remove secrets if we used decrypt-secrets.sh.
-    if [[ -f "${KOKORO_GFILE_DIR}/secrets_viewer_service_account.json" ]]; then
-        rm .kokoro/testing/{test-env.sh,client-secrets.json,service-account.json}
-    fi
+    # echo "Finding files"
+    # find . -type f -name '*.nbconvert.ipynb'
+    
+    # echo "Copying files to ${ARTIFACTS_FOLDER}"
+    # mkdir ${ARTIFACTS_FOLDER}
+    # find . -type f -name '*.nbconvert.ipynb' -exec cp '{}' "${ARTIFACTS_FOLDER}" ';'
+    
+    # echo "Finding files in ${ARTIFACTS_PATH}"
+    # ls "${ARTIFACTS_PATH}"
 
     echo "All tests finished. Exiting with return code = $RTN"
     exit "$RTN"
 }
 
 main(){
-    project_setup
-    # install_cloud_packages
-    install_jupyter
     run_tests
 }
 
