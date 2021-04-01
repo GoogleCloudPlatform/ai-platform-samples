@@ -13,6 +13,7 @@ jobs:
   run_notebooks:
     runs-on: ubuntu-latest
     environment: notebook_testing
+    timeout-minutes: 180
     env:
       PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       REGION: ${{ secrets.GCP_REGION }}
