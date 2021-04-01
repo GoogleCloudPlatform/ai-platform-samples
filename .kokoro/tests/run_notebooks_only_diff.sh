@@ -16,8 +16,6 @@
 # `-e` enables the script to automatically fail when a command fails
 # `-o pipefail` sets the exit code to the rightmost comment to exit with a non-zero
 set -eo pipefail
-# Enables `**` to include files nested inside sub-folders
-shopt -s globstar
 
 project_setup(){
     if [[ -z "${PROJECT_ROOT:-}" ]]; then
@@ -29,20 +27,20 @@ project_setup(){
     # add user's pip binary path to PATH
     export PATH="${HOME}/.local/bin:${PATH}"
 
-    mkdir ./.kokoro/testing
-
     # On kokoro, we should be able to use the default service account. We
     # need to somehow bootstrap the secrets on other CI systems.
     if [[ "${TRAMPOLINE_CI}" == "kokoro" ]]; then
+        mkdir ./.kokoro/testing
+
         # This script will create 3 files:
         # - testing/test-env.sh
         # - testing/service-account.json
         # - testing/client-secrets.json
         ./.kokoro/scripts/decrypt-secrets.sh
-    fi
 
-    source ./.kokoro/testing/test-env.sh
-    export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/.kokoro/testing/service-account.json
+        source ./.kokoro/testing/test-env.sh
+        export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/.kokoro/testing/service-account.json
+    fi    
 
     # For cloud-run session, we activate the service account for gcloud sdk.
     gcloud auth activate-service-account \
@@ -140,20 +138,17 @@ update_notebook_install () {
   fi
 }
 
-cloud_notebooks_update_contents () {
+update_notebook_variables () {
     # replace variables inside .ipynb files
     # looking for this format inside notebooks:
     # VARIABLE_NAME = '[description]'
-    for notebook in $1
-    do
-        update_value "PROJECT_ID" "${GOOGLE_CLOUD_PROJECT}" "$notebook"
-        update_value "REGION" "${REGION}" "$notebook"
-        update_value "BUCKET_NAME" "${BUCKET_NAME}" "$notebook"
-        update_value "OUTPUT_DIR" "$(get_date)" "$notebook"
-        update_value "USER" "${NOTEBOOKS_USER}" "$notebook"
-        # update pip installation settings
-        update_notebook_install "$notebook"
-    done
+    update_value "PROJECT_ID" "${GOOGLE_CLOUD_PROJECT}" "$notebook"
+    update_value "REGION" "${REGION}" "$notebook"
+    update_value "BUCKET_NAME" "${BUCKET_NAME}" "$notebook"
+    update_value "OUTPUT_DIR" "$(get_date)" "$notebook"
+    update_value "USER" "${NOTEBOOKS_USER}" "$notebook"
+    # update pip installation settings
+    update_notebook_install "$notebook"
 }
 
 run_tests() {
@@ -165,24 +160,61 @@ run_tests() {
 
     cd .kokoro/notebooks
 
-    path=$(git rev-parse --show-toplevel)
-    # Only check notebooks modified in this pull request.
-    notebooks="$(git diff --name-only master | sed "s,^,$path/," | grep '\.ipynb$' || true)"
+    # Get the repo's root directory
+    root_folder=$(git rev-parse --show-toplevel)
 
-    if [[ -n "$notebooks" ]]; then
-        cloud_notebooks_update_contents $notebooks
-        echo "Running notebooks..."
-        jupyter nbconvert \
-            --Exporter.preprocessors=[\"preprocess.remove_no_execute_cells\"] \
-            --ExecutePreprocessor.timeout=-1 \
-            --ClearOutputPreprocessor.enabled=True \
-            --to notebook \
-            --execute $notebooks
+    # Get the file that defines the folders to test
+    test_folders_file="$root_folder/.kokoro/notebooks/test_folders.txt"
+
+    # Read each test folder into a variable
+    test_folders=()
+    while read -r line || [ -n "$line" ]
+    do
+        # Combine the root directory and relative directory
+        test_folders+=("$root_folder/$line")
+    done < "$test_folders_file"
+
+    if [ ${#test_folders[@]} -eq 0 ]; then
+        echo "No test folders provided."
+        exit "0"
+    fi
+
+    echo "Checking folders: ${test_folders[*]}"
+
+    # Only check notebooks in test folders modified in this pull request.
+    # Note: Use process substitution to persist the data in the array
+    notebooks=()
+    while read -r file || [ -n "$line" ]; 
+    do
+        notebooks+=("$file")
+        echo "file: $file"
+    done < <(git diff --name-only master "${test_folders[@]}" | sed "s,^,$root_folder/," | grep '\.ipynb$')
+    
+    if [ ${#notebooks[@]} -gt 0 ]; then
+        echo "Found modified notebooks: ${notebooks[*]}"
+
+        for notebook in "${notebooks[@]}"
+        do
+            update_notebook_variables $notebook
+            echo "Running notebook: ${notebook}"
+            jupyter nbconvert \
+                --Exporter.preprocessors preprocess.remove_no_execute_cells \
+                --ExecutePreprocessor.timeout=-1 \
+                --ClearOutputPreprocessor.enabled=True \
+                --to notebook \
+                --execute "$notebook"
+            
+            NOTEBOOK_RTN=$?
+            echo "Notebook finished with return code = $NOTEBOOK_RTN"
+            if [ "$NOTEBOOK_RTN" != "0" ]
+            then                                
+                RTN=$NOTEBOOK_RTN                
+            fi
+        done
     else
         echo "No notebooks modified in this pull request."
     fi
 
-    RTN=$?
     cd "$ROOT"
 
     # Remove secrets if we used decrypt-secrets.sh.
@@ -190,6 +222,7 @@ run_tests() {
         rm .kokoro/testing/{test-env.sh,client-secrets.json,service-account.json}
     fi
 
+    echo "All tests finished. Exiting with return code = $RTN"
     exit "$RTN"
 }
 
