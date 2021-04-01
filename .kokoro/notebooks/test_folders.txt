@@ -1,3 +1,7 @@
 ai-platform-unified/notebooks/official
+<<<<<<< HEAD
 ai-platform/notebooks/official
 ai-platform-unified/notebooks/notebook_template.ipynb
+=======
+ai-platform/notebooks/official
+>>>>>>> Cleaned up test script, added support for test folders and added support for continuing past failing notebooks  (#255)
