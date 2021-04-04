@@ -59,5 +59,3 @@ def execute_notebook(notebook_file_path: str, output_file_folder: str):
         print(f"Writing output to: {output_file_path}")
         with open(output_file_path, mode="w", encoding="utf-8") as f:
             nbformat.write(nb, f)
-        # print(f"Checking contents of {output_file_folder}")
-        # print(os.listdir(output_file_folder))

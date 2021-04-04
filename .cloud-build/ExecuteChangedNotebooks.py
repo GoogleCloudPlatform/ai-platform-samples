@@ -70,6 +70,7 @@ def run_changed_notebooks(
     artifacts_path.joinpath("success").mkdir(parents=True, exist_ok=True)
     artifacts_path.joinpath("failure").mkdir(parents=True, exist_ok=True)
 
+    passed_notebooks: List[str] = []
     failed_notebooks: List[str] = []
 
     if len(notebooks) > 0:
@@ -94,6 +95,7 @@ def run_changed_notebooks(
                     notebook_file_path=notebook, output_file_folder=artifacts_path
                 )
                 print(f"Notebook finished successfully.")
+                passed_notebooks.append(notebook)
             except Exception as error:
                 print(f"Notebook finished with failure: {error}")
                 failed_notebooks.append(notebook)
@@ -103,8 +105,11 @@ def run_changed_notebooks(
     if len(failed_notebooks) > 0:
         print(f"{len(failed_notebooks)} notebooks failed:")
         print(failed_notebooks)
+        print(f"{len(passed_notebooks)} notebooks passed:")
+        print(passed_notebooks)
     else:
-        print("All notebooks executed successfully.")
+        print("All notebooks executed successfully:")
+        print(passed_notebooks)
 
 
 import argparse

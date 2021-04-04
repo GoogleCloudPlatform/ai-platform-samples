@@ -1,24 +1,18 @@
 steps:
-  # Fetch previous branches for `git diff` to work in script
-  # - name: gcr.io/cloud-builders/git
-  #   args: ['fetch', 'origin', '${_BASE_BRANCH}:refs/remotes/origin/${_BASE_BRANCH}']
-  # # Set up gcloud
-  # - name: gcr.io/cloud-builders/gcloud
-  #   args: ['config', 'list']
-  # Show the gcloud info
+  # Show the gcloud info and check if gcloud exists
   - name: ${_PYTHON_IMAGE}
     entrypoint: /bin/sh
     args:
     - -c
     - 'gcloud config list'
-  # Show the Python version
+  # Check the Python version
   - name: ${_PYTHON_IMAGE}
     entrypoint: /bin/sh
     args:
     - -c
-    - 'python3 --version'
+    - 'python3 .cloud-build/CheckPythonVersion.py'
   # Fetch base branch if required
-    - name: ${_PYTHON_IMAGE}
+  - name: ${_PYTHON_IMAGE}
     entrypoint: /bin/sh
     args:
     - -c
@@ -46,9 +40,5 @@ steps:
     entrypoint: /bin/sh
     args: 
     - -c
-    - 'echo "Download executed notebooks with this command: \"mkdir -p artifacts && gsutil rsync -r gs://${_ROOT_BUCKET_NAME}/test-artifacts/PR_${_PR_NUMBER}/BUILD_${BUILD_ID} artifacts/\"" && if [ "$(ls -A /workspace/${BUILD_ID}/failure | wc -l)" -ne 0 ]; then exit 1; else exit 0; fi'
-# artifacts:
-#   objects:
-#     location: 'gs://${_ROOT_BUCKET_NAME}/test-artifacts/PR_${_PR_NUMBER}/BUILD_${BUILD_ID}/'
-#     paths: ['/workspace/${BUILD_ID}/*']       
+    - 'echo "Download executed notebooks with this command: \"mkdir -p artifacts && gsutil rsync -r gs://${_ROOT_BUCKET_NAME}/test-artifacts/PR_${_PR_NUMBER}/BUILD_${BUILD_ID} artifacts/\"" && if [ "$(ls -A /workspace/${BUILD_ID}/failure | wc -l)" -ne 0 ]; then exit 1; else exit 0; fi' 
 timeout: 10800s
