@@ -46,6 +46,8 @@ def run_changed_notebooks(
     output_folder: str,
     variable_project_id: str,
     variable_bucket_name: str,
+    variable_bucket_folder: str,
+    variable_region: str,
 ):
     """
     Run the notebooks that exist under the folders defined in the allowed_folders_file.
@@ -92,6 +94,8 @@ def run_changed_notebooks(
                 replacement_map={
                     "PROJECT_ID": variable_project_id,
                     "BUCKET_NAME": variable_bucket_name,
+                    "BUCKET_FOLDER": variable_bucket_folder,
+                    "REGION": variable_region,
                     "OUTPUT_DIR": get_date(),
                 },
             )
@@ -151,6 +155,18 @@ parser.add_argument(
     help="The GCP bucket name. This is used to inject a variable value into the notebook before running.",
     required=True,
 )
+parser.add_argument(
+    "--variable_bucket_folder",
+    type=pathlib.Path,
+    help="The bucket folder within the provided GCP bucket to upload files to. For example, 'training_task', This is used to inject a variable value into the notebook before running.",
+    required=True,
+)
+parser.add_argument(
+    "--variable_region",
+    type=pathlib.Path,
+    help="The GCP region. This is used to inject a variable value into the notebook before running.",
+    required=True,
+)
 
 args = parser.parse_args()
 run_changed_notebooks(
@@ -159,4 +175,6 @@ run_changed_notebooks(
     output_folder=args.output_folder,
     variable_project_id=args.variable_project_id,
     variable_bucket_name=args.variable_bucket_name,
+    variable_bucket_folder=args.variable_bucket_folder,
+    variable_region=args.variable_region,
 )
