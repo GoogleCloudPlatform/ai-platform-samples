@@ -23,10 +23,6 @@ import ExecuteNotebook
 import argparse
 
 
-def get_date():
-    return datetime.now().strftime("%Y%m%d_%H%M%S")
-
-
 def update_notebook_variables(notebook_file_path: str, replacement_map: Dict[str, str]):
     # replace variables inside .ipynb files
     # looking for this format inside notebooks:
@@ -45,8 +41,6 @@ def run_changed_notebooks(
     base_branch: str,
     output_folder: str,
     variable_project_id: str,
-    variable_bucket_name: str,
-    variable_bucket_folder: str,
     variable_region: str,
 ):
     """
@@ -55,7 +49,7 @@ def run_changed_notebooks(
 
     The executed notebooks are saved in the output_folder.
 
-    Variables are also injected into the notebooks such as the variable_project_id and variable_bucket_name.
+    Variables are also injected into the notebooks such as the variable_project_id and variable_region.
     """
     test_folders = []
     with open(allowed_folders_file) as file:
@@ -93,10 +87,7 @@ def run_changed_notebooks(
                 notebook_file_path=notebook,
                 replacement_map={
                     "PROJECT_ID": variable_project_id,
-                    "BUCKET_NAME": variable_bucket_name,
-                    "BUCKET_FOLDER": variable_bucket_folder,
                     "REGION": variable_region,
-                    "OUTPUT_DIR": get_date(),
                 },
             )
 
@@ -150,18 +141,6 @@ parser.add_argument(
     required=True,
 )
 parser.add_argument(
-    "--variable_bucket_name",
-    type=pathlib.Path,
-    help="The GCP bucket name. This is used to inject a variable value into the notebook before running.",
-    required=True,
-)
-parser.add_argument(
-    "--variable_bucket_folder",
-    type=pathlib.Path,
-    help="The bucket folder within the provided GCP bucket to upload files to. For example, 'training_task', This is used to inject a variable value into the notebook before running.",
-    required=True,
-)
-parser.add_argument(
     "--variable_region",
     type=pathlib.Path,
     help="The GCP region. This is used to inject a variable value into the notebook before running.",
@@ -174,7 +153,5 @@ run_changed_notebooks(
     base_branch=args.base_branch,
     output_folder=args.output_folder,
     variable_project_id=args.variable_project_id,
-    variable_bucket_name=args.variable_bucket_name,
-    variable_bucket_folder=args.variable_bucket_folder,
     variable_region=args.variable_region,
 )
