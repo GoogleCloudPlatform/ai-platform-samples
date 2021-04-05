@@ -20,6 +20,7 @@ import pathlib
 from typing import Dict, List
 import UpdateNotebookVariables
 import ExecuteNotebook
+import argparse
 
 
 def get_date():
@@ -46,6 +47,14 @@ def run_changed_notebooks(
     variable_project_id: str,
     variable_bucket_name: str,
 ):
+    """
+    Run the notebooks that exist under the folders defined in the allowed_folders_file.
+    It only runs notebooks that have differences from the Git base_branch.
+
+    The executed notebooks are saved in the output_folder.
+
+    Variables are also injected into the notebooks such as the variable_project_id and variable_bucket_name.
+    """
     test_folders = []
     with open(allowed_folders_file) as file:
         test_folders = [folder.strip() for folder in file.readlines()]
@@ -111,8 +120,6 @@ def run_changed_notebooks(
         print("All notebooks executed successfully:")
         print(passed_notebooks)
 
-
-import argparse
 
 parser = argparse.ArgumentParser(description="Run changed notebooks.")
 parser.add_argument(

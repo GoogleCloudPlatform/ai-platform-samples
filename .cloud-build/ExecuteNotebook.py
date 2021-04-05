@@ -6,9 +6,7 @@ import errno
 from RemoveNoExecuteCells import RemoveNoExecuteCells
 
 # This script is used to execute a notebook and write out the output notebook.
-# The nbconvert command-line doesn't write the output notebook correctly when there are errors.
-
-# Retrieve arguments
+# The replaces calling the nbconvert via command-line, which doesn't write the output notebook correctly when there are errors during execution.
 
 
 def execute_notebook(notebook_file_path: str, output_file_folder: str):

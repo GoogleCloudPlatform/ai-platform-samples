@@ -1,5 +1,22 @@
 import re
 
+"""
+ This script is used to update variables in the notebook via regex
+ It requires variables to be defined in particular format
+
+For example, if your variable was PROJECT_ID, use:
+
+    PROJECT_ID = "[your_project_here]"
+
+Single-quotes also work:
+
+    PROJECT_ID = '[your_project_here]'
+
+Variables in conditionals can also be replaced:
+
+    PROJECT_ID == "[your_project_here]"
+"""
+
 
 def update_value_in_notebook(
     notebook_file_path: str, variable_name: str, variable_value: str
