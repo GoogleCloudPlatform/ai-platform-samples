@@ -24,7 +24,7 @@ steps:
     - -c
     - 'python3 -m pip install -U -r .cloud-build/requirements.txt && python3 -m pip freeze && python3 .cloud-build/ExecuteChangedNotebooks.py --allowed_folders_file .kokoro/notebooks/test_folders.txt --base_branch ${_BASE_BRANCH} --output_folder ${BUILD_ID} --variable_project_id ${PROJECT_ID} --variable_region ${_GCP_REGION}'
     env:
-    - 'AUTORUN=1'
+    - 'IS_TESTING=1'
   # Manually copy artifacts to GCS
   - name: gcr.io/cloud-builders/gsutil
     entrypoint: /bin/sh
