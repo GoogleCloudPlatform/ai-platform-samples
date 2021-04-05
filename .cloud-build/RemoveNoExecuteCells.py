@@ -11,7 +11,11 @@ class RemoveNoExecuteCells(Preprocessor):
             executable_cells.append(cell)
         notebook.cells = executable_cells
 <<<<<<< HEAD
+<<<<<<< HEAD
         return notebook, resources
 =======
         return notebook, resources
 >>>>>>> Added cloud build notebook testing (#261)
+=======
+        return notebook, resources
+>>>>>>> Added Python version of cloud-build notebook test script (#262)

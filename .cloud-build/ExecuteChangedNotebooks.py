@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+<<<<<<< HEAD
 import argparse
 import pathlib
 import subprocess
@@ -20,6 +21,17 @@ from typing import Dict, List, Optional
 
 import ExecuteNotebook
 import UpdateNotebookVariables
+=======
+import subprocess
+from datetime import datetime
+from pathlib import Path
+from typing import Dict
+import pathlib
+from typing import Dict, List
+import UpdateNotebookVariables
+import ExecuteNotebook
+import argparse
+>>>>>>> Added Python version of cloud-build notebook test script (#262)
 
 
 def update_notebook_variables(notebook_file_path: str, replacement_map: Dict[str, str]):
@@ -36,6 +48,7 @@ def update_notebook_variables(notebook_file_path: str, replacement_map: Dict[str
 
 
 def run_changed_notebooks(
+<<<<<<< HEAD
     test_paths_file: str,
     output_folder: str,
     variable_project_id: str,
@@ -44,11 +57,22 @@ def run_changed_notebooks(
 ):
     """
     Run the notebooks that exist under the folders defined in the test_paths_file.
+=======
+    allowed_folders_file: str,
+    base_branch: str,
+    output_folder: str,
+    variable_project_id: str,
+    variable_region: str,
+):
+    """
+    Run the notebooks that exist under the folders defined in the allowed_folders_file.
+>>>>>>> Added Python version of cloud-build notebook test script (#262)
     It only runs notebooks that have differences from the Git base_branch.
 
     The executed notebooks are saved in the output_folder.
 
     Variables are also injected into the notebooks such as the variable_project_id and variable_region.
+<<<<<<< HEAD
 
     Args:
         test_paths_file (str):
@@ -91,6 +115,26 @@ def run_changed_notebooks(
     notebooks = [notebook for notebook in notebooks if notebook.endswith(".ipynb")]
     notebooks = [notebook for notebook in notebooks if len(notebook) > 0]
     notebooks = [notebook for notebook in notebooks if Path(notebook).exists()]
+=======
+    """
+    test_folders = []
+    with open(allowed_folders_file) as file:
+        test_folders = [folder.strip() for folder in file.readlines()]
+        test_folders = [folder for folder in test_folders if len(folder) > 0]
+
+    if len(test_folders) == 0:
+        raise RuntimeError("No test folders found")
+
+    print(f"Checking folders: {test_folders}")
+
+    # Find notebooks
+    notebooks = subprocess.check_output(
+        ["git", "diff", "--name-only", f"origin/{base_branch}"] + test_folders
+    )
+    notebooks = notebooks.decode("utf-8").split("\n")
+    notebooks = [notebook for notebook in notebooks if notebook.endswith(".ipynb")]
+    notebooks = [notebook for notebook in notebooks if len(notebook) > 0]
+>>>>>>> Added Python version of cloud-build notebook test script (#262)
 
     # Create paths
     artifacts_path = Path(output_folder)
@@ -134,14 +178,22 @@ def run_changed_notebooks(
         print(failed_notebooks)
         print(f"{len(passed_notebooks)} notebooks passed:")
         print(passed_notebooks)
+<<<<<<< HEAD
     elif len(passed_notebooks) > 0:
+=======
+    else:
+>>>>>>> Added Python version of cloud-build notebook test script (#262)
         print("All notebooks executed successfully:")
         print(passed_notebooks)
 
 
 parser = argparse.ArgumentParser(description="Run changed notebooks.")
 parser.add_argument(
+<<<<<<< HEAD
     "--test_paths_file",
+=======
+    "--allowed_folders_file",
+>>>>>>> Added Python version of cloud-build notebook test script (#262)
     type=pathlib.Path,
     help="The path to the file that has newline-limited folders of notebooks that should be tested.",
     required=True,
@@ -149,7 +201,11 @@ parser.add_argument(
 parser.add_argument(
     "--base_branch",
     help="The base git branch to diff against to find changed files.",
+<<<<<<< HEAD
     required=False,
+=======
+    required=True,
+>>>>>>> Added Python version of cloud-build notebook test script (#262)
 )
 parser.add_argument(
     "--output_folder",
@@ -172,7 +228,11 @@ parser.add_argument(
 
 args = parser.parse_args()
 run_changed_notebooks(
+<<<<<<< HEAD
     test_paths_file=args.test_paths_file,
+=======
+    allowed_folders_file=args.allowed_folders_file,
+>>>>>>> Added Python version of cloud-build notebook test script (#262)
     base_branch=args.base_branch,
     output_folder=args.output_folder,
     variable_project_id=args.variable_project_id,
