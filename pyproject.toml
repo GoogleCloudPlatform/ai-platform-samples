@@ -1,0 +1,11 @@
+[tool.nbqa.addopts]
+flake8 = [
+    "--show-source",
+    "--ignore=W391,E501,F821,E402,F404"
+]
+
+[tool.nbqa.mutate]
+black = 1
+isort = 1
+pyupgrade = 1
+run_nbformat = 1
