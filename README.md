@@ -63,9 +63,9 @@ If you’re looking for our guides on how to do Machine Learning on Google Cloud
 - [Keras Idiomatic Programmer](https://github.com/GoogleCloudPlatform/keras-idiomatic-programmer) This repository contains content produced by Google Cloud AI Developer Relations for machine learning and artificial intelligence. The content covers a wide spectrum from educational, training, and research, covering from novices, junior/intermediate to advanced.
 - [Professional Services](https://github.com/GoogleCloudPlatform/professional-services), common solutions and tools developed by Google Cloud's Professional Services team.
 
-# Contributing a notebook
+## Contributing a notebook
 
-Only Googlers can contribute to this repo. If you are a Googler,  please see [go/cloudai-notebook-workflow](http://go/cloudai-notebook-workflow) for instructions.
+Only Googlers may contribute to this repo. If you are a Googler,  please see [go/cloudai-notebook-workflow](http://go/cloudai-notebook-workflow) for instructions.
 
 ## Troubleshooting
 
