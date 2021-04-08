@@ -70,7 +70,11 @@ Only Googlers may contribute to this repo. If you are a Googler,  please see [go
 =======
 # Contributing a notebook
 
+<<<<<<< HEAD
 Only Googlers can contribute to this repo. If you are a Googler,  please see go/cloudai-notebook-workflow for instructions.
+>>>>>>> Update README.md
+=======
+Only Googlers can contribute to this repo. If you are a Googler,  please see [go/cloudai-notebook-workflow](http://go/cloudai-notebook-workflow) for instructions.
 >>>>>>> Update README.md
 
 ## Troubleshooting
