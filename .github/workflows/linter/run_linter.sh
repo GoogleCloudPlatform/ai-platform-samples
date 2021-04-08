@@ -145,16 +145,18 @@ done < <(git diff --name-only master | grep '\.ipynb$')
 if [ ${#notebooks[@]} -gt 0 ]; then
     for notebook in "${notebooks[@]}"
     do    
-        echo "Checking notebook: ${notebook}"
-        echo "Running black..."
-        python3 -m nbqa black "$notebook" --check
-        echo "Running pyupgrade..."
-        python3 -m nbqa pyupgrade "$notebook"
-        echo "Running isort..."
-        python3 -m nbqa isort "$notebook" --check
-        echo "Running flake8..."
-        python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404
+        if [ -f "$notebook" ]; then
+            echo "Checking notebook: ${notebook}"
+            echo "Running black..."
+            python3 -m nbqa black "$notebook" --check
+            echo "Running pyupgrade..."
+            python3 -m nbqa pyupgrade "$notebook"
+            echo "Running isort..."
+            python3 -m nbqa isort "$notebook" --check
+            echo "Running flake8..."
+            python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404
 
+<<<<<<< HEAD
         NOTEBOOK_RTN=$?
         echo "Notebook finished with return code = $NOTEBOOK_RTN"
         echo ""
@@ -162,6 +164,15 @@ if [ ${#notebooks[@]} -gt 0 ]; then
         then                                
             RTN=$NOTEBOOK_RTN                
 >>>>>>> Added pre-commit and cleaned up linter (#265)
+=======
+            NOTEBOOK_RTN=$?
+            echo "Notebook finished with return code = $NOTEBOOK_RTN"
+            echo ""
+            if [ "$NOTEBOOK_RTN" != "0" ]
+            then                                
+                RTN=$NOTEBOOK_RTN                
+            fi
+>>>>>>> Fixed linter edge case (#267)
         fi
     done
 else

@@ -31,15 +31,17 @@ done < <(git diff --name-only master | grep '\.ipynb$')
 if [ ${#notebooks[@]} -gt 0 ]; then
     for notebook in "${notebooks[@]}"
     do    
-        echo "Checking notebook format: ${notebook}"
-        python3 -m tensorflow_docs.tools.nbfmt --test "$notebook"
-        
-        NOTEBOOK_RTN=$?
-        echo "Notebook finished with return code = $NOTEBOOK_RTN"
-        echo ""
-        if [ "$NOTEBOOK_RTN" != "0" ]
-        then                                
-            RTN=$NOTEBOOK_RTN                
+        if [ -f "$notebook" ]; then
+            echo "Checking notebook format: ${notebook}"
+            python3 -m tensorflow_docs.tools.nbfmt --test "$notebook"
+            
+            NOTEBOOK_RTN=$?
+            echo "Notebook finished with return code = $NOTEBOOK_RTN"
+            echo ""
+            if [ "$NOTEBOOK_RTN" != "0" ]
+            then                                
+                RTN=$NOTEBOOK_RTN                
+            fi
         fi
     done
 else
