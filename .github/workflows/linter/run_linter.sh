@@ -26,7 +26,6 @@ notebooks=()
 while read -r file || [ -n "$line" ]; 
 do
     notebooks+=("$file")
-    echo "file: $file"
 done < <(git diff --name-only master | grep '\.ipynb$')
 
 if [ ${#notebooks[@]} -gt 0 ]; then
@@ -44,6 +43,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
 
         NOTEBOOK_RTN=$?
         echo "Notebook finished with return code = $NOTEBOOK_RTN"
+        echo ""
         if [ "$NOTEBOOK_RTN" != "0" ]
         then                                
             RTN=$NOTEBOOK_RTN                
