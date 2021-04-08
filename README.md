@@ -65,7 +65,7 @@ If you’re looking for our guides on how to do Machine Learning on Google Cloud
 
 # Contributing a notebook
 
-Only Googlers can contribute to this repo. If you are a Googler,  please see go/cloudai-notebook-workflow for instructions.
+Only Googlers can contribute to this repo. If you are a Googler,  please see [go/cloudai-notebook-workflow](http://go/cloudai-notebook-workflow) for instructions.
 
 ## Troubleshooting
 
