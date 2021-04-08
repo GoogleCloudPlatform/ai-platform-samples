@@ -63,6 +63,7 @@ while read -r file || [ -n "$line" ];
 do
     notebooks+=("$file")
 <<<<<<< HEAD
+<<<<<<< HEAD
 done < <(git diff --name-only master | grep '\.ipynb$')
 
 problematic_notebooks=()
@@ -137,6 +138,8 @@ if [ ${#notebooks[@]} -gt 0 ]; then
             fi
 =======
     echo "file: $file"
+=======
+>>>>>>> Fixed formatter (#266)
 done < <(git diff --name-only master | grep '\.ipynb$')
 
 if [ ${#notebooks[@]} -gt 0 ]; then
@@ -154,6 +157,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
 
         NOTEBOOK_RTN=$?
         echo "Notebook finished with return code = $NOTEBOOK_RTN"
+        echo ""
         if [ "$NOTEBOOK_RTN" != "0" ]
         then                                
             RTN=$NOTEBOOK_RTN                
