@@ -64,6 +64,7 @@ If you’re looking for our guides on how to do Machine Learning on Google Cloud
 - [Professional Services](https://github.com/GoogleCloudPlatform/professional-services), common solutions and tools developed by Google Cloud's Professional Services team.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ## Contributing a notebook
 
 Only Googlers may contribute to this repo. If you are a Googler,  please see [go/cloudai-notebook-workflow](http://go/cloudai-notebook-workflow) for instructions.
@@ -75,6 +76,11 @@ Only Googlers can contribute to this repo. If you are a Googler,  please see go/
 >>>>>>> Update README.md
 =======
 Only Googlers can contribute to this repo. If you are a Googler,  please see [go/cloudai-notebook-workflow](http://go/cloudai-notebook-workflow) for instructions.
+>>>>>>> Update README.md
+=======
+## Contributing a notebook
+
+Only Googlers may contribute to this repo. If you are a Googler,  please see [go/cloudai-notebook-workflow](http://go/cloudai-notebook-workflow) for instructions.
 >>>>>>> Update README.md
 
 ## Troubleshooting
