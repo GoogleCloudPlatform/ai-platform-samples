@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 git+https://github.com/tensorflow/docs
+=======
+>>>>>>> Added pre-commit and cleaned up linter (#265)
 ipython
 jupyter
 nbconvert

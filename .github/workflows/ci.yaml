@@ -6,6 +6,7 @@ jobs:
     name: notebook format and lint
     runs-on: ubuntu-latest
     steps:
+<<<<<<< HEAD
     - name: Set up Python
       uses: actions/setup-python@v2
     - name: Fetch pull request branch
@@ -32,6 +33,16 @@ jobs:
           echo "No notebooks modified in this pull request."
         fi
 >>>>>>> Update ci.yaml (#260)
+=======
+    - uses: actions/setup-python@v1
+    - uses: actions/checkout@v2
+    - name: Fetch master branch
+      run: git fetch -u origin master:master
+    - name: Install tensorflow-docs
+      run: python3 -m pip install -U git+https://github.com/tensorflow/docs
+    - name: Check notebook formatting
+      run: .github/workflows/nbformat/run_nbformat.sh
+>>>>>>> Added pre-commit and cleaned up linter (#265)
 
         if [ "$RTN" != "0" ]; then
           echo "There were problems formatting/linting the notebooks."
@@ -52,15 +63,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: Fetch master branch
       run: git fetch -u origin master:master
-    - name: Install ipython
-      run: python3 -m pip install -U ipython
-    - name: Install jupyter
-      run: python3 -m pip install -U jupyter
-    - name: Install nbconvert t 
-      run: python3 -m pip install -U nbconvert
-    - name: Install flake8
-      run: python3 -m pip install -U flake8
+    - name: Install requirements
+      run: python3 -m pip install -U -r .github/workflows/linter/requirements.txt
     - name: Lint check code blocks
+<<<<<<< HEAD
       run: |
         # Only check notebooks modified in this pull request.
         notebooks="$(git diff --name-only master | grep '\.ipynb$' || true)"
@@ -75,3 +81,6 @@ jobs:
           echo "No notebooks modified in this pull request."
 >>>>>>> Update ci.yaml
         fi
+=======
+      run: .github/workflows/linter/run_linter.sh
+>>>>>>> Added pre-commit and cleaned up linter (#265)

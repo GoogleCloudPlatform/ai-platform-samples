@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+<<<<<<< HEAD
 # This script automatically formats and lints all notebooks that have changed from the head of the master branch.
 #
 # Options:
@@ -46,6 +47,14 @@ while getopts 'tc' arg; do
 done
 
 echo "Test mode: $is_test"
+=======
+# `-e` enables the script to automatically fail when a command fails
+# `-o pipefail` sets the exit code to the rightmost comment to exit with a non-zero
+set -eo pipefail
+
+# Use RTN to return a non-zero value if the test fails.
+RTN=0
+>>>>>>> Added pre-commit and cleaned up linter (#265)
 
 # Only check notebooks in test folders modified in this pull request.
 # Note: Use process substitution to persist the data in the array
@@ -53,6 +62,7 @@ notebooks=()
 while read -r file || [ -n "$line" ]; 
 do
     notebooks+=("$file")
+<<<<<<< HEAD
 done < <(git diff --name-only master | grep '\.ipynb$')
 
 problematic_notebooks=()
@@ -125,6 +135,29 @@ if [ ${#notebooks[@]} -gt 0 ]; then
                 problematic_notebooks+=("$notebook")            
                 RTN=$NOTEBOOK_RTN                
             fi
+=======
+    echo "file: $file"
+done < <(git diff --name-only master | grep '\.ipynb$')
+
+if [ ${#notebooks[@]} -gt 0 ]; then
+    for notebook in "${notebooks[@]}"
+    do    
+        echo "Checking notebook: ${notebook}"
+        echo "Running black..."
+        python3 -m nbqa black "$notebook" --check
+        echo "Running pyupgrade..."
+        python3 -m nbqa pyupgrade "$notebook"
+        echo "Running isort..."
+        python3 -m nbqa isort "$notebook" --check
+        echo "Running flake8..."
+        python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404
+
+        NOTEBOOK_RTN=$?
+        echo "Notebook finished with return code = $NOTEBOOK_RTN"
+        if [ "$NOTEBOOK_RTN" != "0" ]
+        then                                
+            RTN=$NOTEBOOK_RTN                
+>>>>>>> Added pre-commit and cleaned up linter (#265)
         fi
     done
 else
@@ -132,10 +165,13 @@ else
 fi
 
 echo "All tests finished. Exiting with return code = $RTN"
+<<<<<<< HEAD
 
 if [ ${#problematic_notebooks[@]} -gt 0 ]; then
     echo "The following notebooks could not be automatically linted:"
     printf '%s\n' "${problematic_notebooks[@]}"
 fi
 
+=======
+>>>>>>> Added pre-commit and cleaned up linter (#265)
 exit "$RTN"
