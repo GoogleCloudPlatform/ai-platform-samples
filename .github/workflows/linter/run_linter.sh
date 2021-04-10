@@ -28,7 +28,7 @@ set +e
 set -o pipefail
 
 # Use RTN to return a non-zero value if the test fails.
-RTN=0
+RTN="0"
 
 is_test=false
 
@@ -64,33 +64,64 @@ if [ ${#notebooks[@]} -gt 0 ]; then
             if [ "$is_test" = true ] ; then
                 echo "Running nbfmt..."
                 python3 -m tensorflow_docs.tools.nbfmt --test "$notebook"
+                NBFMT_RTN=$?
                 echo "Running black..."
                 python3 -m nbqa black "$notebook" --check
+                BLACK_RTN=$?
                 echo "Running pyupgrade..."
                 python3 -m nbqa pyupgrade "$notebook"
+                PYUPGRADE_RTN=$?
                 echo "Running isort..."
                 python3 -m nbqa isort "$notebook" --check
+                ISORT_RTN=$?
                 echo "Running flake8..."
                 python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404
+                FLAKE8_RTN=$?
             else
                 echo "Running nbfmt..."
                 python3 -m tensorflow_docs.tools.nbfmt "$notebook"
+                NBFMT_RTN=$?
                 echo "Running black..."
                 python3 -m nbqa black "$notebook" --nbqa-mutate
+                BLACK_RTN=$?
                 echo "Running pyupgrade..."
                 python3 -m nbqa pyupgrade "$notebook" --nbqa-mutate
+                PYUPGRADE_RTN=$?
                 echo "Running isort..."
                 python3 -m nbqa isort "$notebook" --nbqa-mutate
+                ISORT_RTN=$?
                 echo "Running flake8..."
                 python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404 --nbqa-mutate
+                FLAKE8_RTN=$?
             fi
 
-            FLAKE8_RTN=$?
-            echo "flake8 finished with return code = $FLAKE8_RTN"
+            NOTEBOOK_RTN="0"
+
+            if [ "$NBFMT_RTN" != "0" ]; then
+                NOTEBOOK_RTN="$NBFMT_RTN"
+            fi
+            
+            if [ "$BLACK_RTN" != "0" ]; then
+                NOTEBOOK_RTN="$BLACK_RTN"
+            fi
+
+            if [ "$PYUPGRADE_RTN" != "0" ]; then
+                NOTEBOOK_RTN="$PYUPGRADE_RTN"
+            fi
+
+            if [ "$ISORT_RTN" != "0" ]; then
+                NOTEBOOK_RTN="$ISORT_RTN"
+            fi
+
+            if [ "$FLAKE8_RTN" != "0" ]; then
+                NOTEBOOK_RTN="$FLAKE8_RTN"
+            fi
+
+            echo "Notebook link finished with return code = $NOTEBOOK_RTN"
             echo ""
-            if [ "$FLAKE8_RTN" != "0" ]
+            if [ "$NOTEBOOK_RTN" != "0" ]
             then                                
-                RTN=$FLAKE8_RTN                
+                RTN=$NOTEBOOK_RTN                
             fi
         fi
     done

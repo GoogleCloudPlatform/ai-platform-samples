@@ -3,6 +3,7 @@ on: pull_request
 
 jobs:
   format_and_lint:
+    name: notebook format and lint
     runs-on: ubuntu-latest
     steps:
     - name: Set up Python
@@ -13,9 +14,8 @@ jobs:
       run: git fetch -u "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" master:master
     - name: Install requirements
       run: python3 -m pip install -U -r .github/workflows/linter/requirements.txt
-    - name: Format notebooks
+    - name: Format and lint notebooks
       run: |
-        # `+e` enables the script to continue even when a command fails
         set +e
 
         .github/workflows/linter/run_linter.sh -t
