@@ -1,7 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 git+https://github.com/tensorflow/docs
 =======
 >>>>>>> Added pre-commit and cleaned up linter (#265)
+=======
+git+https://github.com/tensorflow/docs
+>>>>>>> Tweaked linting job so it can be run by users locally. (#272)
 ipython
 jupyter
 nbconvert

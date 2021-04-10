@@ -14,6 +14,9 @@
 # limitations under the License.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Tweaked linting job so it can be run by users locally. (#272)
 # This script automatically formats and lints all notebooks that have changed from the head of the master branch.
 #
 # Options:
@@ -25,6 +28,7 @@
 # `+e` enables the script to continue even when a command fails
 set +e
 
+<<<<<<< HEAD
 # `-o pipefail` sets the exit code to the rightmost comment to exit with a non-zero
 set -o pipefail
 
@@ -49,12 +53,35 @@ done
 echo "Test mode: $is_test"
 =======
 # `-e` enables the script to automatically fail when a command fails
+=======
+>>>>>>> Tweaked linting job so it can be run by users locally. (#272)
 # `-o pipefail` sets the exit code to the rightmost comment to exit with a non-zero
-set -eo pipefail
+set -o pipefail
 
 # Use RTN to return a non-zero value if the test fails.
+<<<<<<< HEAD
 RTN=0
 >>>>>>> Added pre-commit and cleaned up linter (#265)
+=======
+RTN="0"
+
+is_test=false
+
+# Process all options supplied on the command line 
+while getopts 'tc' arg; do
+    case $arg in
+        't')
+            is_test=true
+            ;;
+        *)
+            echo "Unimplemented flag"
+            exit 1
+            ;;
+    esac
+done
+
+echo "Test mode: $is_test"
+>>>>>>> Tweaked linting job so it can be run by users locally. (#272)
 
 # Only check notebooks in test folders modified in this pull request.
 # Note: Use process substitution to persist the data in the array
@@ -147,6 +174,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
     do    
         if [ -f "$notebook" ]; then
             echo "Checking notebook: ${notebook}"
+<<<<<<< HEAD
             echo "Running black..."
             python3 -m nbqa black "$notebook" --check
             echo "Running pyupgrade..."
@@ -167,6 +195,66 @@ if [ ${#notebooks[@]} -gt 0 ]; then
 =======
             NOTEBOOK_RTN=$?
             echo "Notebook finished with return code = $NOTEBOOK_RTN"
+=======
+
+            if [ "$is_test" = true ] ; then
+                echo "Running nbfmt..."
+                python3 -m tensorflow_docs.tools.nbfmt --test "$notebook"
+                NBFMT_RTN=$?
+                echo "Running black..."
+                python3 -m nbqa black "$notebook" --check
+                BLACK_RTN=$?
+                echo "Running pyupgrade..."
+                python3 -m nbqa pyupgrade "$notebook"
+                PYUPGRADE_RTN=$?
+                echo "Running isort..."
+                python3 -m nbqa isort "$notebook" --check
+                ISORT_RTN=$?
+                echo "Running flake8..."
+                python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404
+                FLAKE8_RTN=$?
+            else
+                echo "Running nbfmt..."
+                python3 -m tensorflow_docs.tools.nbfmt "$notebook"
+                NBFMT_RTN=$?
+                echo "Running black..."
+                python3 -m nbqa black "$notebook" --nbqa-mutate
+                BLACK_RTN=$?
+                echo "Running pyupgrade..."
+                python3 -m nbqa pyupgrade "$notebook" --nbqa-mutate
+                PYUPGRADE_RTN=$?
+                echo "Running isort..."
+                python3 -m nbqa isort "$notebook" --nbqa-mutate
+                ISORT_RTN=$?
+                echo "Running flake8..."
+                python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404 --nbqa-mutate
+                FLAKE8_RTN=$?
+            fi
+
+            NOTEBOOK_RTN="0"
+
+            if [ "$NBFMT_RTN" != "0" ]; then
+                NOTEBOOK_RTN="$NBFMT_RTN"
+            fi
+            
+            if [ "$BLACK_RTN" != "0" ]; then
+                NOTEBOOK_RTN="$BLACK_RTN"
+            fi
+
+            if [ "$PYUPGRADE_RTN" != "0" ]; then
+                NOTEBOOK_RTN="$PYUPGRADE_RTN"
+            fi
+
+            if [ "$ISORT_RTN" != "0" ]; then
+                NOTEBOOK_RTN="$ISORT_RTN"
+            fi
+
+            if [ "$FLAKE8_RTN" != "0" ]; then
+                NOTEBOOK_RTN="$FLAKE8_RTN"
+            fi
+
+            echo "Notebook link finished with return code = $NOTEBOOK_RTN"
+>>>>>>> Tweaked linting job so it can be run by users locally. (#272)
             echo ""
             if [ "$NOTEBOOK_RTN" != "0" ]
             then                                
