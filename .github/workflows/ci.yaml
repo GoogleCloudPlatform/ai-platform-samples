@@ -2,28 +2,29 @@ name: ci
 on: pull_request
 
 jobs:
-  notebook_format:
-    name: notebook format
+  format_and_lint:
+    name: notebook format and lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v1
-    - uses: actions/checkout@v2
-    - name: Fetch master branch
-      run: git fetch -u origin master:master
-    - name: Install tensorflow-docs
-      run: python3 -m pip install -U git+https://github.com/tensorflow/docs
-    - name: Check notebook formatting
-      run: .github/workflows/nbformat/run_nbformat.sh
-
-  notebook_lint:
-    name: notebook lint
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/setup-python@v1
-    - uses: actions/checkout@v2
-    - name: Fetch master branch
-      run: git fetch -u origin master:master
+    - name: Set up Python
+      uses: actions/setup-python@v2
+    - name: Fetch pull request branch
+      uses: actions/checkout@v2
+    - name: Fetch base master branch
+      run: git fetch -u "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" master:master
     - name: Install requirements
       run: python3 -m pip install -U -r .github/workflows/linter/requirements.txt
-    - name: Lint check code blocks
-      run: .github/workflows/linter/run_linter.sh
+    - name: Format and lint notebooks
+      run: |
+        set +e
+
+        .github/workflows/linter/run_linter.sh -t
+        RTN=$?
+
+        if [ "$RTN" != "0" ]; then
+          echo "There were problems formatting/linting the notebooks."
+          echo "Please run .github/workflows/linter/run_linter.sh locally to attempt to autofix the issues."
+          echo "If it can't be autofixed, please fix them manually."
+          echo "Then, commit the fixes and push again."
+          exit 1
+        fi
