@@ -13,7 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This script will return 0 if linting was successful/unneeded and 1 if there were any errors
+# This script automatically formats and lints all notebooks that have changed from the head of the master branch.
+#
+# Options:
+# -t: Test-mode. Only test if format and linting are required but make no changes to files.
+#
+# Returns:
+# This script will return 0 if linting was successful/unneeded and 1 if there were any errors.
 
 # `+e` enables the script to continue even when a command fails
 set +e
@@ -27,10 +33,9 @@ RTN=0
 is_test=false
 
 # Process all options supplied on the command line 
-while getopts ':t' 'OPTKEY'; do
-    case ${OPTKEY} in
+while getopts 'tc' arg; do
+    case $arg in
         't')
-            # Update the value of the option x flag we defined above
             is_test=true
             ;;
         *)
