@@ -199,7 +199,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
 
             if [ "$is_test" = true ] ; then
                 echo "Running nbfmt..."
-                python3 -m tensorflow_docs.tools.nbfmt --test "$notebook"
+                python3 -m tensorflow_docs.tools.nbfmt --remove_outputs --test "$notebook"
                 NBFMT_RTN=$?
                 echo "Running black..."
                 python3 -m nbqa black "$notebook" --check
@@ -215,7 +215,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
                 FLAKE8_RTN=$?
             else
                 echo "Running nbfmt..."
-                python3 -m tensorflow_docs.tools.nbfmt "$notebook"
+                python3 -m tensorflow_docs.tools.nbfmt --remove_outputs "$notebook"
                 NBFMT_RTN=$?
                 echo "Running black..."
                 python3 -m nbqa black "$notebook" --nbqa-mutate
@@ -253,8 +253,12 @@ if [ ${#notebooks[@]} -gt 0 ]; then
                 NOTEBOOK_RTN="$FLAKE8_RTN"
             fi
 
+<<<<<<< HEAD
             echo "Notebook link finished with return code = $NOTEBOOK_RTN"
 >>>>>>> Tweaked linting job so it can be run by users locally. (#272)
+=======
+            echo "Notebook lint finished with return code = $NOTEBOOK_RTN"
+>>>>>>> Fixed nbfmt so it removes output cells (#274)
             echo ""
             if [ "$NOTEBOOK_RTN" != "0" ]
             then                                
