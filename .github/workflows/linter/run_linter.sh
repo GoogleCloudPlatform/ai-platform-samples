@@ -63,7 +63,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
 
             if [ "$is_test" = true ] ; then
                 echo "Running nbfmt..."
-                python3 -m tensorflow_docs.tools.nbfmt --test "$notebook"
+                python3 -m tensorflow_docs.tools.nbfmt --remove_outputs --test "$notebook"
                 NBFMT_RTN=$?
                 echo "Running black..."
                 python3 -m nbqa black "$notebook" --check
@@ -79,7 +79,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
                 FLAKE8_RTN=$?
             else
                 echo "Running nbfmt..."
-                python3 -m tensorflow_docs.tools.nbfmt "$notebook"
+                python3 -m tensorflow_docs.tools.nbfmt --remove_outputs "$notebook"
                 NBFMT_RTN=$?
                 echo "Running black..."
                 python3 -m nbqa black "$notebook" --nbqa-mutate
@@ -117,7 +117,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
                 NOTEBOOK_RTN="$FLAKE8_RTN"
             fi
 
-            echo "Notebook link finished with return code = $NOTEBOOK_RTN"
+            echo "Notebook lint finished with return code = $NOTEBOOK_RTN"
             echo ""
             if [ "$NOTEBOOK_RTN" != "0" ]
             then                                
