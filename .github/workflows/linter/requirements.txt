@@ -1,3 +1,4 @@
+git+https://github.com/tensorflow/docs
 ipython
 jupyter
 nbconvert
