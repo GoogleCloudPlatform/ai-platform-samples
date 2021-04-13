@@ -161,6 +161,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
             if [ "$NOTEBOOK_RTN" != "0" ]
             then                    
                 problematic_notebooks+=("$notebook")            
+<<<<<<< HEAD
                 RTN=$NOTEBOOK_RTN                
             fi
 =======
@@ -262,6 +263,8 @@ if [ ${#notebooks[@]} -gt 0 ]; then
             echo ""
             if [ "$NOTEBOOK_RTN" != "0" ]
             then                                
+=======
+>>>>>>> Tweaked notebook and ran linter (#275)
                 RTN=$NOTEBOOK_RTN                
             fi
 >>>>>>> Fixed linter edge case (#267)
@@ -273,6 +276,7 @@ fi
 
 echo "All tests finished. Exiting with return code = $RTN"
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 if [ ${#problematic_notebooks[@]} -gt 0 ]; then
     echo "The following notebooks could not be automatically linted:"
@@ -281,4 +285,9 @@ fi
 
 =======
 >>>>>>> Added pre-commit and cleaned up linter (#265)
+=======
+echo "The following notebooks could not be automatically linted:"
+printf '%s\n' "${problematic_notebooks[@]}"
+
+>>>>>>> Tweaked notebook and ran linter (#275)
 exit "$RTN"

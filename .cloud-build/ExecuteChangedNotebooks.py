@@ -31,7 +31,11 @@ from typing import Dict, List
 import UpdateNotebookVariables
 import ExecuteNotebook
 import argparse
+<<<<<<< HEAD
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
+=======
+import os
+>>>>>>> Tweaked notebook and ran linter (#275)
 
 
 def update_notebook_variables(notebook_file_path: str, replacement_map: Dict[str, str]):
@@ -118,9 +122,12 @@ def run_changed_notebooks(
 =======
     """
     test_folders = []
+    test_notebooks = []
     with open(allowed_folders_file) as file:
-        test_folders = [folder.strip() for folder in file.readlines()]
-        test_folders = [folder for folder in test_folders if len(folder) > 0]
+        lines = [line.strip() for line in file.readlines()]
+        lines = [line for line in lines if len(line) > 0]
+        test_folders = [line for line in lines if os.path.isdir(line)]
+        test_notebooks = [line for line in lines if os.path.isfile(line)]
 
     if len(test_folders) == 0:
         raise RuntimeError("No test folders found")
@@ -131,7 +138,7 @@ def run_changed_notebooks(
     notebooks = subprocess.check_output(
         ["git", "diff", "--name-only", f"origin/{base_branch}"] + test_folders
     )
-    notebooks = notebooks.decode("utf-8").split("\n")
+    notebooks = notebooks.decode("utf-8").split("\n") + test_notebooks
     notebooks = [notebook for notebook in notebooks if notebook.endswith(".ipynb")]
     notebooks = [notebook for notebook in notebooks if len(notebook) > 0]
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
