@@ -55,6 +55,7 @@ do
     notebooks+=("$file")
 done < <(git diff --name-only master | grep '\.ipynb$')
 
+problematic_notebooks=()
 if [ ${#notebooks[@]} -gt 0 ]; then
     for notebook in "${notebooks[@]}"
     do    
@@ -120,7 +121,8 @@ if [ ${#notebooks[@]} -gt 0 ]; then
             echo "Notebook lint finished with return code = $NOTEBOOK_RTN"
             echo ""
             if [ "$NOTEBOOK_RTN" != "0" ]
-            then                                
+            then                    
+                problematic_notebooks+=("$notebook")            
                 RTN=$NOTEBOOK_RTN                
             fi
         fi
@@ -130,4 +132,7 @@ else
 fi
 
 echo "All tests finished. Exiting with return code = $RTN"
+echo "The following notebooks could not be automatically linted:"
+printf '%s\n' "${problematic_notebooks[@]}"
+
 exit "$RTN"
