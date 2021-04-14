@@ -72,6 +72,7 @@ def run_changed_notebooks(
     notebooks = notebooks.decode("utf-8").split("\n") + test_notebooks
     notebooks = [notebook for notebook in notebooks if notebook.endswith(".ipynb")]
     notebooks = [notebook for notebook in notebooks if len(notebook) > 0]
+    notebooks = [notebook for notebook in notebooks if Path(notebook).exists()]
 
     # Create paths
     artifacts_path = Path(output_folder)
