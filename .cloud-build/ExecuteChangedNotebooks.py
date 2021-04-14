@@ -141,7 +141,11 @@ def run_changed_notebooks(
     notebooks = notebooks.decode("utf-8").split("\n") + test_notebooks
     notebooks = [notebook for notebook in notebooks if notebook.endswith(".ipynb")]
     notebooks = [notebook for notebook in notebooks if len(notebook) > 0]
+<<<<<<< HEAD
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
+=======
+    notebooks = [notebook for notebook in notebooks if Path(notebook).exists()]
+>>>>>>> Added notebook for: Custom training image classification model for online prediction with unmanaged dataset (#259)
 
     # Create paths
     artifacts_path = Path(output_folder)
