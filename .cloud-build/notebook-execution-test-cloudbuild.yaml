@@ -16,7 +16,7 @@ steps:
     entrypoint: /bin/sh
     args:
     - -c
-    - 'if eval "$(git rev-parse --is-shallow-repository)"; then git fetch origin "${_FORCED_BASE_BRANCH}":refs/remotes/origin/"${_FORCED_BASE_BRANCH}"; else echo "Skipping fetch: ${_FORCED_BASE_BRANCH}"; fi'
+    - 'if eval "$(git rev-parse --is-shallow-repository)"; then git fetch origin "${_FORCED_BASE_BRANCH}":refs/remotes/origin/"${_FORCED_BASE_BRANCH}"; else echo "Skipping fetch."; fi'
   # Install Python dependencies and run testing script
   - name: ${_PYTHON_IMAGE}
     entrypoint: /bin/sh
