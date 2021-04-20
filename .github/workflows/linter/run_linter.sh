@@ -277,17 +277,23 @@ fi
 echo "All tests finished. Exiting with return code = $RTN"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286) (#287)
 
 if [ ${#problematic_notebooks[@]} -gt 0 ]; then
     echo "The following notebooks could not be automatically linted:"
     printf '%s\n' "${problematic_notebooks[@]}"
 fi
+<<<<<<< HEAD
 
 =======
 >>>>>>> Added pre-commit and cleaned up linter (#265)
 =======
 echo "The following notebooks could not be automatically linted:"
 printf '%s\n' "${problematic_notebooks[@]}"
+=======
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286) (#287)
 
 >>>>>>> Tweaked notebook and ran linter (#275)
 exit "$RTN"

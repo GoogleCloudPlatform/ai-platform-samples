@@ -12,11 +12,15 @@ steps:
     - -c
     - 'python3 .cloud-build/CheckPythonVersion.py'
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286) (#287)
   # Fetch base branch if required
   - name: ${_PYTHON_IMAGE}
     entrypoint: /bin/sh
     args:
     - -c
+<<<<<<< HEAD
 <<<<<<< HEAD
     - 'if [ -n "${_BASE_BRANCH}" ]; then git fetch origin "${_BASE_BRANCH}":refs/remotes/origin/"${_BASE_BRANCH}"; else echo "Skipping fetch."; fi'
 =======
@@ -24,6 +28,9 @@ steps:
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
 =======
 >>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
+=======
+    - 'if [ -n "${_BASE_BRANCH}" ]; then git fetch origin "${_BASE_BRANCH}":refs/remotes/origin/"${_BASE_BRANCH}"; else echo "Skipping fetch."; fi'
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286) (#287)
   # Install Python dependencies and run testing script
   - name: ${_PYTHON_IMAGE}
     entrypoint: /bin/sh
@@ -59,7 +66,11 @@ steps:
     - -c
     - 'echo "Download executed notebooks with this command: \"mkdir -p artifacts && gsutil rsync -r gs://${_GCS_ARTIFACTS_BUCKET}/test-artifacts/PR_${_PR_NUMBER}/BUILD_${BUILD_ID} artifacts/\"" && if [ "$(ls -A /workspace/${BUILD_ID}/failure | wc -l)" -ne 0 ]; then exit 1; else exit 0; fi' 
 <<<<<<< HEAD
+<<<<<<< HEAD
 timeout: 86400s
 =======
 timeout: 10800s
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
+=======
+timeout: 86400s
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286) (#287)

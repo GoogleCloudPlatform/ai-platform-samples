@@ -68,6 +68,7 @@ def run_changed_notebooks(
 ):
     """
     Run the notebooks that exist under the folders defined in the test_paths_file.
+<<<<<<< HEAD
 =======
     allowed_folders_file: str,
     base_branch: str,
@@ -86,6 +87,8 @@ def run_changed_notebooks(
 =======
     Run the notebooks that exist at the paths defined in the allowed_folders_file.
 >>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
+=======
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286) (#287)
     It only runs notebooks that have differences from the Git base_branch.
 
     The executed notebooks are saved in the output_folder.
