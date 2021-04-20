@@ -11,6 +11,12 @@ steps:
     args:
     - -c
     - 'python3 .cloud-build/CheckPythonVersion.py'
+  # Fetch base branch if required
+  - name: ${_PYTHON_IMAGE}
+    entrypoint: /bin/sh
+    args:
+    - -c
+    - 'if [ -n "${_BASE_BRANCH}" ]; then git fetch origin "${_BASE_BRANCH}":refs/remotes/origin/"${_BASE_BRANCH}"; else echo "Skipping fetch."; fi'
   # Install Python dependencies and run testing script
   - name: ${_PYTHON_IMAGE}
     entrypoint: /bin/sh
@@ -31,4 +37,4 @@ steps:
     args: 
     - -c
     - 'echo "Download executed notebooks with this command: \"mkdir -p artifacts && gsutil rsync -r gs://${_GCS_ARTIFACTS_BUCKET}/test-artifacts/PR_${_PR_NUMBER}/BUILD_${BUILD_ID} artifacts/\"" && if [ "$(ls -A /workspace/${BUILD_ID}/failure | wc -l)" -ne 0 ]; then exit 1; else exit 0; fi' 
-timeout: 10800s
+timeout: 86400s

@@ -132,7 +132,10 @@ else
 fi
 
 echo "All tests finished. Exiting with return code = $RTN"
-echo "The following notebooks could not be automatically linted:"
-printf '%s\n' "${problematic_notebooks[@]}"
+
+if [ ${#problematic_notebooks[@]} -gt 0 ]; then
+    echo "The following notebooks could not be automatically linted:"
+    printf '%s\n' "${problematic_notebooks[@]}"
+fi
 
 exit "$RTN"

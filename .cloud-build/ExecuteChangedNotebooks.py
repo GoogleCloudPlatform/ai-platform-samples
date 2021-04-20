@@ -43,7 +43,7 @@ def run_changed_notebooks(
     base_branch: Optional[str],
 ):
     """
-    Run the notebooks that exist at the paths defined in the allowed_folders_file.
+    Run the notebooks that exist under the folders defined in the test_paths_file.
     It only runs notebooks that have differences from the Git base_branch.
 
     The executed notebooks are saved in the output_folder.
