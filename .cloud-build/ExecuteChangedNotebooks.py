@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 <<<<<<< HEAD
+<<<<<<< HEAD
 import argparse
 import pathlib
 import subprocess
@@ -22,20 +23,25 @@ from typing import Dict, List, Optional
 import ExecuteNotebook
 import UpdateNotebookVariables
 =======
-import subprocess
-from datetime import datetime
-from pathlib import Path
-from typing import Dict
+=======
+import argparse
 import pathlib
-from typing import Dict, List
-import UpdateNotebookVariables
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
+import subprocess
+from pathlib import Path
+from typing import Dict, List, Optional
+
 import ExecuteNotebook
+<<<<<<< HEAD
 import argparse
 <<<<<<< HEAD
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
 =======
 import os
 >>>>>>> Tweaked notebook and ran linter (#275)
+=======
+import UpdateNotebookVariables
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
 
 
 def update_notebook_variables(notebook_file_path: str, replacement_map: Dict[str, str]):
@@ -53,6 +59,7 @@ def update_notebook_variables(notebook_file_path: str, replacement_map: Dict[str
 
 def run_changed_notebooks(
 <<<<<<< HEAD
+<<<<<<< HEAD
     test_paths_file: str,
     output_folder: str,
     variable_project_id: str,
@@ -64,19 +71,30 @@ def run_changed_notebooks(
 =======
     allowed_folders_file: str,
     base_branch: str,
+=======
+    test_paths_file: str,
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
     output_folder: str,
     variable_project_id: str,
     variable_region: str,
+    base_branch: Optional[str],
 ):
     """
+<<<<<<< HEAD
     Run the notebooks that exist under the folders defined in the allowed_folders_file.
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
+=======
+    Run the notebooks that exist at the paths defined in the allowed_folders_file.
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
     It only runs notebooks that have differences from the Git base_branch.
 
     The executed notebooks are saved in the output_folder.
 
     Variables are also injected into the notebooks such as the variable_project_id and variable_region.
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
 
     Args:
         test_paths_file (str):
@@ -91,6 +109,7 @@ def run_changed_notebooks(
             Required. The value for PROJECT_ID to inject into notebooks.
         variable_region (str):
             Required. The value for REGION to inject into notebooks.
+<<<<<<< HEAD
     """
 
     test_paths = []
@@ -120,25 +139,33 @@ def run_changed_notebooks(
     notebooks = [notebook for notebook in notebooks if len(notebook) > 0]
     notebooks = [notebook for notebook in notebooks if Path(notebook).exists()]
 =======
+=======
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
     """
-    test_folders = []
-    test_notebooks = []
-    with open(allowed_folders_file) as file:
+
+    test_paths = []
+    with open(test_paths_file) as file:
         lines = [line.strip() for line in file.readlines()]
         lines = [line for line in lines if len(line) > 0]
-        test_folders = [line for line in lines if os.path.isdir(line)]
-        test_notebooks = [line for line in lines if os.path.isfile(line)]
+        test_paths = [line for line in lines]
 
-    if len(test_folders) == 0:
-        raise RuntimeError("No test folders found")
+    if len(test_paths) == 0:
+        raise RuntimeError("No test folders found.")
 
-    print(f"Checking folders: {test_folders}")
+    print(f"Checking folders: {test_paths}")
 
     # Find notebooks
-    notebooks = subprocess.check_output(
-        ["git", "diff", "--name-only", f"origin/{base_branch}"] + test_folders
-    )
-    notebooks = notebooks.decode("utf-8").split("\n") + test_notebooks
+    notebooks = []
+    if base_branch:
+        print(f"Looking for notebooks that changed from branch: {base_branch}")
+        notebooks = subprocess.check_output(
+            ["git", "diff", "--name-only", f"origin/{base_branch}"] + test_paths
+        )
+    else:
+        print(f"Looking for all notebooks.")
+        notebooks = subprocess.check_output(["git", "ls-files"] + test_paths)
+
+    notebooks = notebooks.decode("utf-8").split("\n")
     notebooks = [notebook for notebook in notebooks if notebook.endswith(".ipynb")]
     notebooks = [notebook for notebook in notebooks if len(notebook) > 0]
 <<<<<<< HEAD
@@ -190,10 +217,14 @@ def run_changed_notebooks(
         print(f"{len(passed_notebooks)} notebooks passed:")
         print(passed_notebooks)
 <<<<<<< HEAD
+<<<<<<< HEAD
     elif len(passed_notebooks) > 0:
 =======
     else:
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
+=======
+    elif len(passed_notebooks) > 0:
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
         print("All notebooks executed successfully:")
         print(passed_notebooks)
 
@@ -201,10 +232,14 @@ def run_changed_notebooks(
 parser = argparse.ArgumentParser(description="Run changed notebooks.")
 parser.add_argument(
 <<<<<<< HEAD
+<<<<<<< HEAD
     "--test_paths_file",
 =======
     "--allowed_folders_file",
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
+=======
+    "--test_paths_file",
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
     type=pathlib.Path,
     help="The path to the file that has newline-limited folders of notebooks that should be tested.",
     required=True,
@@ -213,10 +248,14 @@ parser.add_argument(
     "--base_branch",
     help="The base git branch to diff against to find changed files.",
 <<<<<<< HEAD
+<<<<<<< HEAD
     required=False,
 =======
     required=True,
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
+=======
+    required=False,
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
 )
 parser.add_argument(
     "--output_folder",
@@ -240,10 +279,14 @@ parser.add_argument(
 args = parser.parse_args()
 run_changed_notebooks(
 <<<<<<< HEAD
+<<<<<<< HEAD
     test_paths_file=args.test_paths_file,
 =======
     allowed_folders_file=args.allowed_folders_file,
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
+=======
+    test_paths_file=args.test_paths_file,
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
     base_branch=args.base_branch,
     output_folder=args.output_folder,
     variable_project_id=args.variable_project_id,

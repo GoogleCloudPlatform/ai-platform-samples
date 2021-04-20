@@ -11,6 +11,7 @@ steps:
     args:
     - -c
     - 'python3 .cloud-build/CheckPythonVersion.py'
+<<<<<<< HEAD
   # Fetch base branch if required
   - name: ${_PYTHON_IMAGE}
     entrypoint: /bin/sh
@@ -21,17 +22,23 @@ steps:
 =======
     - 'if eval "$(git rev-parse --is-shallow-repository)"; then git fetch origin "${_BASE_BRANCH}":refs/remotes/origin/"${_BASE_BRANCH}"; else echo "Skipping fetch: ${_BASE_BRANCH}"; fi'
 >>>>>>> Added Python version of cloud-build notebook test script (#262)
+=======
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
   # Install Python dependencies and run testing script
   - name: ${_PYTHON_IMAGE}
     entrypoint: /bin/sh
     args:
     - -c
 <<<<<<< HEAD
+<<<<<<< HEAD
     - 'python3 -m pip install -U -r .cloud-build/requirements.txt && python3 -m pip freeze && python3 .cloud-build/ExecuteChangedNotebooks.py --test_paths_file .kokoro/notebooks/test_folders.txt --base_branch "${_FORCED_BASE_BRANCH}" --output_folder ${BUILD_ID} --variable_project_id ${PROJECT_ID} --variable_region ${_GCP_REGION}'
     env:
     - 'IS_TESTING=1'
 =======
     - 'python3 -m pip install -U -r .cloud-build/requirements.txt && python3 -m pip freeze && python3 .cloud-build/ExecuteChangedNotebooks.py --allowed_folders_file .kokoro/notebooks/test_folders.txt --base_branch ${_BASE_BRANCH} --output_folder ${BUILD_ID} --variable_project_id ${PROJECT_ID} --variable_region ${_GCP_REGION}'
+=======
+    - 'python3 -m pip install -U -r .cloud-build/requirements.txt && python3 -m pip freeze && python3 .cloud-build/ExecuteChangedNotebooks.py --test_paths_file .kokoro/notebooks/test_folders.txt --base_branch "${_FORCED_BASE_BRANCH}" --output_folder ${BUILD_ID} --variable_project_id ${PROJECT_ID} --variable_region ${_GCP_REGION}'
+>>>>>>> Support testing of all notebooks in anticipation on scheduling testing (#286)
     env:
 <<<<<<< HEAD
     - 'AUTORUN=1'
