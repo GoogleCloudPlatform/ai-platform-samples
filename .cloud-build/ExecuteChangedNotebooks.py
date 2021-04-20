@@ -12,16 +12,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import subprocess
-from datetime import datetime
-from pathlib import Path
-from typing import Dict
-import pathlib
-from typing import Dict, List
-import UpdateNotebookVariables
-import ExecuteNotebook
 import argparse
-import os
+import pathlib
+import subprocess
+from pathlib import Path
+from typing import Dict, List, Optional
+
+import ExecuteNotebook
+import UpdateNotebookVariables
 
 
 def update_notebook_variables(notebook_file_path: str, replacement_map: Dict[str, str]):
@@ -38,38 +36,58 @@ def update_notebook_variables(notebook_file_path: str, replacement_map: Dict[str
 
 
 def run_changed_notebooks(
-    allowed_folders_file: str,
-    base_branch: str,
+    test_paths_file: str,
     output_folder: str,
     variable_project_id: str,
     variable_region: str,
+    base_branch: Optional[str],
 ):
     """
-    Run the notebooks that exist under the folders defined in the allowed_folders_file.
+    Run the notebooks that exist at the paths defined in the allowed_folders_file.
     It only runs notebooks that have differences from the Git base_branch.
 
     The executed notebooks are saved in the output_folder.
 
     Variables are also injected into the notebooks such as the variable_project_id and variable_region.
+
+    Args:
+        test_paths_file (str):
+            Required. The new-line delimited file to folders and files that need checking.
+            Folders are checked recursively.
+        base_branch (str):
+            Optional. If provided, only the files that have changed from the base_branch will be checked.
+            If not provided, all files will be checked.
+        output_folder (str):
+            Required. The folder to write executed notebooks to.
+        variable_project_id (str):
+            Required. The value for PROJECT_ID to inject into notebooks.
+        variable_region (str):
+            Required. The value for REGION to inject into notebooks.
     """
-    test_folders = []
-    test_notebooks = []
-    with open(allowed_folders_file) as file:
+
+    test_paths = []
+    with open(test_paths_file) as file:
         lines = [line.strip() for line in file.readlines()]
         lines = [line for line in lines if len(line) > 0]
-        test_folders = [line for line in lines if os.path.isdir(line)]
-        test_notebooks = [line for line in lines if os.path.isfile(line)]
+        test_paths = [line for line in lines]
 
-    if len(test_folders) == 0:
-        raise RuntimeError("No test folders found")
+    if len(test_paths) == 0:
+        raise RuntimeError("No test folders found.")
 
-    print(f"Checking folders: {test_folders}")
+    print(f"Checking folders: {test_paths}")
 
     # Find notebooks
-    notebooks = subprocess.check_output(
-        ["git", "diff", "--name-only", f"origin/{base_branch}"] + test_folders
-    )
-    notebooks = notebooks.decode("utf-8").split("\n") + test_notebooks
+    notebooks = []
+    if base_branch:
+        print(f"Looking for notebooks that changed from branch: {base_branch}")
+        notebooks = subprocess.check_output(
+            ["git", "diff", "--name-only", f"origin/{base_branch}"] + test_paths
+        )
+    else:
+        print(f"Looking for all notebooks.")
+        notebooks = subprocess.check_output(["git", "ls-files"] + test_paths)
+
+    notebooks = notebooks.decode("utf-8").split("\n")
     notebooks = [notebook for notebook in notebooks if notebook.endswith(".ipynb")]
     notebooks = [notebook for notebook in notebooks if len(notebook) > 0]
     notebooks = [notebook for notebook in notebooks if Path(notebook).exists()]
@@ -116,14 +134,14 @@ def run_changed_notebooks(
         print(failed_notebooks)
         print(f"{len(passed_notebooks)} notebooks passed:")
         print(passed_notebooks)
-    else:
+    elif len(passed_notebooks) > 0:
         print("All notebooks executed successfully:")
         print(passed_notebooks)
 
 
 parser = argparse.ArgumentParser(description="Run changed notebooks.")
 parser.add_argument(
-    "--allowed_folders_file",
+    "--test_paths_file",
     type=pathlib.Path,
     help="The path to the file that has newline-limited folders of notebooks that should be tested.",
     required=True,
@@ -131,7 +149,7 @@ parser.add_argument(
 parser.add_argument(
     "--base_branch",
     help="The base git branch to diff against to find changed files.",
-    required=True,
+    required=False,
 )
 parser.add_argument(
     "--output_folder",
@@ -154,7 +172,7 @@ parser.add_argument(
 
 args = parser.parse_args()
 run_changed_notebooks(
-    allowed_folders_file=args.allowed_folders_file,
+    test_paths_file=args.test_paths_file,
     base_branch=args.base_branch,
     output_folder=args.output_folder,
     variable_project_id=args.variable_project_id,
