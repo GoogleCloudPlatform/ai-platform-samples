@@ -54,6 +54,9 @@ tuning, and accelerate with GPUs and TPUs.
  - [XGBoost](xgboost/structured/)
       - [base](xgboost/structured/base) Standard code to perform AI Platform Training using XGBoost. 
  
+ - [PyTorch](pytorch/)
+     - [Text Classification](pytorch/text/sentiment_classification) PyTorch based text classification model by fine tuning a pre-trained Huggingface Transformers model on AI Platform Training
+ 
 #### AI Platform Training - Custom Containers
 
 Containers on AI Platform is a feature that allows you to run your application within a Docker image. You can build your own custom container to run jobs on AI Platform, using ML frameworks and versions as well as non-ML dependencies, libraries and binaries that are not otherwise supported on AI Platform.
