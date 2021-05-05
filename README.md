@@ -76,3 +76,6 @@ For common issues and solutions, please check our [troubleshooting](./TROUBLESHO
 ## Getting help
 
 Please use the [issues page](https://github.com/GoogleCloudPlatform/ai-platform-samples/issues) to provide feedback or submit a bug report.
+
+## Disclaimer
+This is not an officially supported Google product. The code in this repository is for demonstrative purposes only.
