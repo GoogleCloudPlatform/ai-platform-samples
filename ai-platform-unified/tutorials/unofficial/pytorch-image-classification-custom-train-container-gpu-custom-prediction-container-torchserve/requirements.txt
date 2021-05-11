@@ -1,0 +1,6 @@
+torch==1.8.1
+torchvision==0.9.1
+google-cloud-aiplatform==0.7.1
+torch-model-archiver
+torchserve
+captum
