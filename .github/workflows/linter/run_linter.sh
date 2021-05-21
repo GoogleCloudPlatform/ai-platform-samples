@@ -53,7 +53,7 @@ notebooks=()
 while read -r file || [ -n "$line" ]; 
 do
     notebooks+=("$file")
-done < <(git diff --name-only master | grep '\.ipynb$')
+done < <(git diff --name-only master... | grep '\.ipynb$')
 
 problematic_notebooks=()
 if [ ${#notebooks[@]} -gt 0 ]; then
@@ -98,7 +98,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
                 python3 -m tensorflow_docs.tools.nbfmt --remove_outputs "$notebook"
                 NBFMT_RTN=$?               
                 echo "Running flake8..."
-                python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404 --nbqa-mutate
+                python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404,W503 --nbqa-mutate
                 FLAKE8_RTN=$?                 
             fi
 
