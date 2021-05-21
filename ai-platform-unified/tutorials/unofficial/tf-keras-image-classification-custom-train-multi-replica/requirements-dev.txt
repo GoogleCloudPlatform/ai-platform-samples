@@ -1,0 +1,3 @@
+-r trainer/requirements.txt
+-r requirements.txt
+pytest
