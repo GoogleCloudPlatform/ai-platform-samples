@@ -82,7 +82,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
                 python3 -m nbqa isort "$notebook" --check
                 ISORT_RTN=$?
                 echo "Running flake8..."
-                python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404
+                python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404,W503
                 FLAKE8_RTN=$?
             else
                 echo "Running black..."
