@@ -2,54 +2,33 @@ name: ci
 on: pull_request
 
 jobs:
-  notebook_format:
-    name: notebook format
+  format_and_lint:
+    name: notebook format and lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v1
-    - uses: actions/checkout@v2
-    - name: Fetch master branch
-      run: git fetch -u origin master:master
-    - name: Install tensorflow-docs
-      run: python3 -m pip install -U git+https://github.com/tensorflow/docs
-    - name: Check notebook formatting
+    - name: Set up Python
+      uses: actions/setup-python@v2
+    - name: Fetch pull request branch
+      uses: actions/checkout@v2
+    - name: Fetch base master branch
+      run: git fetch -u "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" master:master
+    - name: Install requirements
+      run: python3 -m pip install -U -r .github/workflows/linter/requirements.txt
+    - name: Format and lint notebooks
       run: |
-        # Only check notebooks modified in this pull request.
-        notebooks="$(git diff --name-only master | grep '\.ipynb$' || true)"
-        if [[ -n "$notebooks" ]]; then
-          echo "Check formatting with nbfmt:"
-          python3 -m tensorflow_docs.tools.nbfmt --test $notebooks
-        else
-          echo "No notebooks modified in this pull request."
-        fi
+        set +e
 
-  notebook_lint:
-    name: notebook lint
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/setup-python@v1
-    - uses: actions/checkout@v2
-    - name: Fetch master branch
-      run: git fetch -u origin master:master
-    - name: Install ipython
-      run: python3 -m pip install -U ipython
-    - name: Install jupyter
-      run: python3 -m pip install -U jupyter
-    - name: Install nbconvert t 
-      run: python3 -m pip install -U nbconvert
-    - name: Install flake8
-      run: python3 -m pip install -U flake8
-    - name: Lint check code blocks
-      run: |
-        # Only check notebooks modified in this pull request.
-        notebooks="$(git diff --name-only master | grep '\.ipynb$' || true)"
-        scripts="${notebooks//ipynb/py}"
-        if [[ -n "$notebooks" ]]; then
-          echo "Converting code blocks into .py..."
-          jupyter nbconvert $notebooks --to python --PythonExporter.exclude_markdown=True
-          sed -i -e 's/ #@param.*}//g' $scripts
-          echo "Lint checking..."
-          flake8 $scripts --show-source --ignore=W391,E501,F821,E402
-        else
-          echo "No notebooks modified in this pull request."
+        .github/workflows/linter/run_linter.sh -t
+        RTN=$?
+
+        if [ "$RTN" != "0" ]; then
+          echo "There were problems formatting/linting the notebooks."
+          echo "Please run the following commands locally from the root directory to attempt to autofix the issues:"
+          echo ""
+          echo "python3 -m pip install -U -r .github/workflows/linter/requirements.txt"
+          echo ".github/workflows/linter/run_linter.sh"
+          echo ""
+          echo "If it can't be autofixed, please fix them manually."
+          echo "Then, commit the fixes and push again."
+          exit 1
         fi
