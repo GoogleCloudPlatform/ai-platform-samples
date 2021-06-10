@@ -110,6 +110,7 @@ def run_changed_notebooks(
                 notebook_file_path=notebook,
                 replacement_map={
                     "PROJECT_ID": variable_project_id,
+                    "your-project-id": variable_project_id,
                     "REGION": variable_region,
                 },
             )
