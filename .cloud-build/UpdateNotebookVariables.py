@@ -28,15 +28,6 @@ def update_value_in_notebook(
             content=content, variable_name=variable_name, variable_value=variable_value
         )
 
-        # Comment out
-        ## version
-        content_new = re.sub(r"\"version\"", "#version", content_new)
-
-        ## ! gcloud auth login
-        content_new = re.sub(
-            r"!\s*?gcloud auth login", "#! gcloud auth login", content_new
-        )
-
     if content_new:
         with open(notebook_file_path, "w") as file:
             file.write(content_new)
