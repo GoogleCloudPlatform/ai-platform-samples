@@ -15,7 +15,8 @@ class RemoveNoExecuteCells(Preprocessor):
 
 
 PROJECT_ID = "python-docs-samples-tests"
-BUCKET_NAME = "gs://python-docs-samples-tests--ivan"
+BUCKET_ID = "python-docs-samples-tests--ivan"
+BUCKET_NAME = f"gs://{BUCKET_ID}"
 
 
 class RemoveInvalidCellContents(Preprocessor):
@@ -36,6 +37,27 @@ class RemoveInvalidCellContents(Preprocessor):
                 cell.source = re.sub(r"YOUR-PROJECT-ID", PROJECT_ID, cell.source)
 
                 cell.source = re.sub(r"gs://YOUR-BUCKET-NAME", BUCKET_NAME, cell.source)
+
+                cell.source = re.sub(
+                    r"%env PROJECT_ID PROJECT_ID",
+                    f"%env PROJECT_ID {PROJECT_ID}",
+                    cell.source,
+                )
+                cell.source = re.sub(
+                    r"%env BUCKET_ID BUCKET_ID",
+                    f"%env BUCKET_ID {BUCKET_ID}",
+                    cell.source,
+                )
+                cell.source = re.sub(
+                    r"gs://BUCKET_ID/", f"gs://{BUCKET_ID}/", cell.source
+                )
+
+                cell.source = re.sub(
+                    rf"^print\s+?(.+)",
+                    rf"print(\1)",
+                    cell.source,
+                    flags=re.M,
+                )
 
                 executable_cells.append(cell)
             else:

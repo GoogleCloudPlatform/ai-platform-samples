@@ -36,7 +36,6 @@ def update_value_in_notebook(
 def get_updated_value(content: str, variable_name: str, variable_value: str):
     return re.sub(
         rf"({variable_name}.*?=.*?\\[\",\'])\[.+?\](\\[\",\'].*?)",
-        # rf"({variable_name}.*?=.*?[\", \'])\[.+?\]([\",\'].*?)",
         rf"\1{variable_value}\2",
         content,
         flags=re.M,

@@ -37,9 +37,7 @@ def execute_notebook(notebook_file_path: str, output_file_folder: str):
         ) = remove_invalid_cell_contents_preprocessor.preprocess(nb, resources)
 
         # Execute notebook
-        out = execute_preprocessor.preprocess(
-            nb, resources
-        )
+        out = execute_preprocessor.preprocess(nb, resources)
 
     except Exception as error:
         out = None
