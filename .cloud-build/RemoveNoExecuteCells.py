@@ -17,6 +17,7 @@ class RemoveNoExecuteCells(Preprocessor):
 PROJECT_ID = "python-docs-samples-tests"
 BUCKET_ID = "python-docs-samples-tests--ivan"
 BUCKET_NAME = f"gs://{BUCKET_ID}"
+REGION = "us-central1"
 
 
 class RemoveInvalidCellContents(Preprocessor):
@@ -34,9 +35,58 @@ class RemoveInvalidCellContents(Preprocessor):
                     r"!\s*?gcloud auth login", "# ! gcloud auth login", cell.source
                 )
 
+                ## ! gcloud auth application-default login
+                cell.source = re.sub(
+                    r"!\s*?gcloud auth application-default login",
+                    "# ! gcloud auth application-default login",
+                    cell.source,
+                )
+
                 cell.source = re.sub(r"YOUR-PROJECT-ID", PROJECT_ID, cell.source)
 
                 cell.source = re.sub(r"gs://YOUR-BUCKET-NAME", BUCKET_NAME, cell.source)
+
+                # <PROJECT_ID>
+                cell.source = re.sub(
+                    r"<PROJECT_ID>",
+                    PROJECT_ID,
+                    cell.source,
+                )
+
+                # <YOUR_PROJECT_ID>
+                cell.source = re.sub(
+                    r"<YOUR_PROJECT_ID>",
+                    PROJECT_ID,
+                    cell.source,
+                )
+
+                # <YOUR_BUCKET_ID>
+                cell.source = re.sub(
+                    r"<YOUR_BUCKET_ID>",
+                    PROJECT_ID,
+                    cell.source,
+                )
+
+                # <REGION>
+                cell.source = re.sub(
+                    r"<REGION>",
+                    REGION,
+                    cell.source,
+                )
+
+                # <BUCKET_NAME>
+                cell.source = re.sub(
+                    r"<BUCKET_NAME>",
+                    BUCKET_ID,
+                    cell.source,
+                )
+
+                # <BUCKET_ID>
+                cell.source = re.sub(
+                    r"<BUCKET_ID>",
+                    BUCKET_ID,
+                    cell.source,
+                )
 
                 cell.source = re.sub(
                     r"%env PROJECT_ID PROJECT_ID",
