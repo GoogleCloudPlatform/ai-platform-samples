@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-provider "google-beta" {
+provider "google" {
   credentials = var.credentials_file
   project     = var.project_id
   region      = var.region
@@ -21,5 +21,5 @@ provider "google-beta" {
 
 # Terraform version requirements
 terraform {
-  required_version = "~>0.12.28"
+  required_version = "~>0.13"
 }
