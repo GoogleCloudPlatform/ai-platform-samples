@@ -60,6 +60,13 @@ class RemoveInvalidCellContents(Preprocessor):
                     cell.source,
                 )
 
+                # [your-project-id]
+                cell.source = re.sub(
+                    r"\[your-project-id\]",
+                    PROJECT_ID,
+                    cell.source,
+                )
+
                 # <YOUR_BUCKET_ID>
                 cell.source = re.sub(
                     r"<YOUR_BUCKET_ID>",
@@ -84,6 +91,13 @@ class RemoveInvalidCellContents(Preprocessor):
                 # <BUCKET_ID>
                 cell.source = re.sub(
                     r"<BUCKET_ID>",
+                    BUCKET_ID,
+                    cell.source,
+                )
+
+                # [your-bucket-name]
+                cell.source = re.sub(
+                    r"\[your-bucket-name\]",
                     BUCKET_ID,
                     cell.source,
                 )
