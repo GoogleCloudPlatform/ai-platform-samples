@@ -17,7 +17,7 @@ resource "random_id" "instance_id" {
 }
 
 resource "google_notebooks_instance" "instance" {
-  provider = google-beta
+  provider = google
   name     = "nb-${random_id.instance_id.hex}"
   location = var.location
   machine_type = "n1-standard-1"
