@@ -4,6 +4,7 @@ nbconvert>=6.0
 numpy
 pandas
 tensorflow
+xgboost
 tensorflow-hub
 torch
 matplotlib
