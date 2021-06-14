@@ -27,7 +27,6 @@ https://colab.research.google.com/github/GoogleCloudPlatform/ai-platform-samples
 https://colab.research.google.com/github/GoogleCloudPlatform/ai-platform-samples/blob/master/notebooks/samples/tables/census_income_prediction/getting_started_notebook.ipynb
 https://colab.research.google.com/github/GoogleCloudPlatform/ai-platform-samples/blob/master/notebooks/samples/tables/music_recommendation/music_recommendation.ipynb
 https://colab.research.google.com/github/GoogleCloudPlatform/ai-platform-samples/blob/master/notebooks/samples/tables/purchase_prediction/purchase_prediction.ipynb
-https://colab.research.google.com/github/GoogleCloudPlatform/ai-platform-samples/blob/master/notebooks/samples/tables/result_slicing/slicing_eval_results.ipynb
 https://colab.research.google.com/github/GoogleCloudPlatform/ai-platform-samples/blob/master/notebooks/samples/tables/retail_product_stockout_prediction/retail_product_stockout_prediction.ipynb
 https://colab.research.google.com/github/GoogleCloudPlatform/ai-platform-samples/blob/master/notebooks/samples/tensorflow/keras/getting_started_keras.ipynb
 https://colab.research.google.com/github/GoogleCloudPlatform/ai-platform-samples/blob/master/notebooks/samples/tensorflow/prediction_auto-scaling/ai_platform_prediction_auto-scaling.ipynb

@@ -27,7 +27,6 @@ cleanup/official/text_classification_using_pytorch_and_ai_platform.ipynb
 cleanup/official/getting_started_notebook.ipynb
 cleanup/official/music_recommendation.ipynb
 cleanup/official/purchase_prediction.ipynb
-cleanup/official/slicing_eval_results.ipynb
 cleanup/official/retail_product_stockout_prediction.ipynb
 cleanup/official/getting_started_keras.ipynb
 cleanup/official/ai_platform_prediction_auto-scaling.ipynb
