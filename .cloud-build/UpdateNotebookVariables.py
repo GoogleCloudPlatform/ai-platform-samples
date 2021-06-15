@@ -56,11 +56,14 @@ def test_update_value():
 
 def test_update_value_single_quotes():
     new_content = get_updated_value(
-        content="PROJECT_ID = \\'[your-project-id]\\'",
+        content="PROJECT_ID = \\'[your-project-id]\\' # TODO (Set to your GCP Project name)",
         variable_name="PROJECT_ID",
         variable_value="sample-project",
     )
-    assert new_content == "PROJECT_ID = \\'sample-project\\'"
+    assert (
+        new_content
+        == "PROJECT_ID = \\'sample-project\\' # TODO (Set to your GCP Project name)"
+    )
 
 
 def test_update_value_avoidance():
