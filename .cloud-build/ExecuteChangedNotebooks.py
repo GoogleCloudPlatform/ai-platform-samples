@@ -104,17 +104,18 @@ def run_changed_notebooks(
     if len(notebooks) > 0:
         print(f"Found {len(notebooks)} modified notebooks: {notebooks}")
 
-        for notebook in notebooks:
+        for notebook_index, notebook in enumerate(notebooks):
             print(f"Updating notebook variables: {notebook}")
             update_notebook_variables(
                 notebook_file_path=notebook,
                 replacement_map={
                     "PROJECT_ID": variable_project_id,
+                    "your-project-id": variable_project_id,
                     "REGION": variable_region,
                 },
             )
 
-            print(f"Running notebook: {notebook}")
+            print(f"Running notebook ({notebook_index}/{len(notebooks)}): {notebook}")
 
             # TODO: Handle cases where multiple notebooks have the same name
             try:

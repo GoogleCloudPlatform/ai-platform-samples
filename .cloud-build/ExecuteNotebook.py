@@ -3,7 +3,7 @@ import nbformat
 from nbconvert.preprocessors import ExecutePreprocessor, CellExecutionError
 import os
 import errno
-from RemoveNoExecuteCells import RemoveNoExecuteCells
+from RemoveNoExecuteCells import RemoveNoExecuteCells, RemoveInvalidCellContents
 
 # This script is used to execute a notebook and write out the output notebook.
 # The replaces calling the nbconvert via command-line, which doesn't write the output notebook correctly when there are errors during execution.
@@ -22,18 +22,22 @@ def execute_notebook(notebook_file_path: str, output_file_folder: str):
     try:
         # Create preprocessors
         remove_no_execute_cells_preprocessor = RemoveNoExecuteCells()
+        remove_invalid_cell_contents_preprocessor = RemoveInvalidCellContents()
         execute_preprocessor = ExecutePreprocessor(timeout=-1, kernel_name="python3")
 
         # Use no-execute preprocessor
         (
-            nb_no_execute_cells_removed,
-            resources_no_execute_cells_removed,
+            nb,
+            resources,
         ) = remove_no_execute_cells_preprocessor.preprocess(nb)
 
+        (
+            nb,
+            resources,
+        ) = remove_invalid_cell_contents_preprocessor.preprocess(nb, resources)
+
         # Execute notebook
-        out = execute_preprocessor.preprocess(
-            nb_no_execute_cells_removed, resources_no_execute_cells_removed
-        )
+        out = execute_preprocessor.preprocess(nb, resources)
 
     except Exception as error:
         out = None
