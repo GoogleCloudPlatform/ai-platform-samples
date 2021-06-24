@@ -35,8 +35,7 @@ def update_value_in_notebook(
 
 def get_updated_value(content: str, variable_name: str, variable_value: str):
     return re.sub(
-        rf"({variable_name}.*?=.*?\\[\",\'])\[.+?\](\\[\",\'].*?)",
-        # rf"({variable_name}.*?=.*?[\", \'])\[.+?\]([\",\'].*?)",
+        rf"({variable_name}.*?=.*?[\",\'])\[.+?\]([\",\'].*?)",
         rf"\1{variable_value}\2",
         content,
         flags=re.M,
@@ -45,23 +44,23 @@ def get_updated_value(content: str, variable_name: str, variable_value: str):
 
 def test_update_value():
     new_content = get_updated_value(
-        content='asdf\nPROJECT_ID = \\"[your-project-id]\\" #@param {type:"string"} \nasdf',
+        content='asdf\nPROJECT_ID = "[your-project-id]" #@param {type:"string"} \nasdf',
         variable_name="PROJECT_ID",
         variable_value="sample-project",
     )
     assert (
         new_content
-        == 'asdf\nPROJECT_ID = \\"sample-project\\" #@param {type:"string"} \nasdf'
+        == 'asdf\nPROJECT_ID = "sample-project" #@param {type:"string"} \nasdf'
     )
 
 
 def test_update_value_single_quotes():
     new_content = get_updated_value(
-        content="PROJECT_ID = \\'[your-project-id]\\'",
+        content="PROJECT_ID = '[your-project-id]'",
         variable_name="PROJECT_ID",
         variable_value="sample-project",
     )
-    assert new_content == "PROJECT_ID = \\'sample-project\\'"
+    assert new_content == "PROJECT_ID = 'sample-project'"
 
 
 def test_update_value_avoidance():
@@ -71,3 +70,12 @@ def test_update_value_avoidance():
         variable_value="sample-project",
     )
     assert new_content == "PROJECT_ID = shell_output[0] "
+
+
+def test_region():
+    new_content = get_updated_value(
+        content="REGION = '[your-region]'  #@param {type: \"string\"}",
+        variable_name="REGION",
+        variable_value="us-central1",
+    )
+    assert new_content == "REGION = 'us-central1'  #@param {type: \"string\"}"
