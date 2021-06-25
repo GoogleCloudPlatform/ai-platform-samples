@@ -18,22 +18,7 @@ Variables in conditionals can also be replaced:
 """
 
 
-def update_value_in_notebook(
-    notebook_file_path: str, variable_name: str, variable_value: str
-):
-    content_new = None
-    with open(notebook_file_path, "r") as file:
-        content = file.read()
-        content_new = get_updated_value(
-            content=content, variable_name=variable_name, variable_value=variable_value
-        )
-
-    if content_new:
-        with open(notebook_file_path, "w") as file:
-            file.write(content_new)
-
-
-def get_updated_value(content: str, variable_name: str, variable_value: str):
+def get_updated_value(content: str, variable_name: str, variable_value: str) -> str:
     return re.sub(
         rf"({variable_name}.*?=.*?[\",\'])\[.+?\]([\",\'].*?)",
         rf"\1{variable_value}\2",
