@@ -26,7 +26,7 @@ class UpdateVariablesPreprocessor(Preprocessor):
         # VARIABLE_NAME = '[description]'
 
         for variable_name, variable_value in replacement_map.items():
-            return UpdateNotebookVariables.get_updated_value(
+            content = UpdateNotebookVariables.get_updated_value(
                 content=content,
                 variable_name=variable_name,
                 variable_value=variable_value,

@@ -59,8 +59,8 @@ def test_update_value_avoidance():
 
 def test_region():
     new_content = get_updated_value(
-        content="REGION = '[your-region]'  #@param {type: \"string\"}",
+        content='REGION = "[your-region]"  # @param {type:"string"}',
         variable_name="REGION",
         variable_value="us-central1",
     )
-    assert new_content == "REGION = 'us-central1'  #@param {type: \"string\"}"
+    assert new_content == 'REGION = "us-central1"  # @param {type:"string"}'
