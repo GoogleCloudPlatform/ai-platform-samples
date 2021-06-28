@@ -19,20 +19,6 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 import ExecuteNotebook
-import UpdateNotebookVariables
-
-
-def update_notebook_variables(notebook_file_path: str, replacement_map: Dict[str, str]):
-    # replace variables inside .ipynb files
-    # looking for this format inside notebooks:
-    # VARIABLE_NAME = '[description]'
-
-    for variable_name, variable_value in replacement_map.items():
-        UpdateNotebookVariables.update_value_in_notebook(
-            notebook_file_path=notebook_file_path,
-            variable_name=variable_name,
-            variable_value=variable_value,
-        )
 
 
 def run_changed_notebooks(
@@ -105,21 +91,17 @@ def run_changed_notebooks(
         print(f"Found {len(notebooks)} modified notebooks: {notebooks}")
 
         for notebook in notebooks:
-            print(f"Updating notebook variables: {notebook}")
-            update_notebook_variables(
-                notebook_file_path=notebook,
-                replacement_map={
-                    "PROJECT_ID": variable_project_id,
-                    "REGION": variable_region,
-                },
-            )
-
             print(f"Running notebook: {notebook}")
 
             # TODO: Handle cases where multiple notebooks have the same name
             try:
                 ExecuteNotebook.execute_notebook(
-                    notebook_file_path=notebook, output_file_folder=artifacts_path
+                    notebook_file_path=notebook,
+                    output_file_folder=artifacts_path,
+                    replacement_map={
+                        "PROJECT_ID": variable_project_id,
+                        "REGION": variable_region,
+                    },
                 )
                 print(f"Notebook finished successfully.")
                 passed_notebooks.append(notebook)
@@ -159,13 +141,13 @@ parser.add_argument(
 )
 parser.add_argument(
     "--variable_project_id",
-    type=pathlib.Path,
+    type=str,
     help="The GCP project id. This is used to inject a variable value into the notebook before running.",
     required=True,
 )
 parser.add_argument(
     "--variable_region",
-    type=pathlib.Path,
+    type=str,
     help="The GCP region. This is used to inject a variable value into the notebook before running.",
     required=True,
 )
