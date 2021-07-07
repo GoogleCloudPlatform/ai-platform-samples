@@ -82,7 +82,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
                 python3 -m nbqa isort "$notebook" --check
                 ISORT_RTN=$?
                 echo "Running flake8..."
-                python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404,W503
+                python3 -m nbqa flake8 "$notebook" --show-source --extend-ignore=W391,E501,F821,E402,F404,W503,E203
                 FLAKE8_RTN=$?
             else
                 echo "Running black..."
@@ -96,9 +96,9 @@ if [ ${#notebooks[@]} -gt 0 ]; then
                 ISORT_RTN=$?
                 echo "Running nbfmt..."
                 python3 -m tensorflow_docs.tools.nbfmt --remove_outputs "$notebook"
-                NBFMT_RTN=$?               
+                NBFMT_RTN=$?
                 echo "Running flake8..."
-                python3 -m nbqa flake8 "$notebook" --show-source --ignore=W391,E501,F821,E402,F404,W503 --nbqa-mutate
+                python3 -m nbqa flake8 "$notebook" --show-source --extend-ignore=W391,E501,F821,E402,F404,W503,E203 --nbqa-mutate
                 FLAKE8_RTN=$?                 
             fi
 
