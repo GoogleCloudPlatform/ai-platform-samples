@@ -15,4 +15,4 @@ RUN git clone --depth 1 https://github.com/horovod/horovod.git && \
 
 WORKDIR /output
 
-CMD ["python", "/infra/examples/keras_mnist.py"]
+CMD ["python", "/infra/examples/keras/keras_mnist.py"]
