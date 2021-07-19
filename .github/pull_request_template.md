@@ -6,3 +6,4 @@ Before submitting a Jupyter notebook, follow this mandatory checklist:
 - [ ] Passes all the required automated checks
 - [ ] Has been reviewed by a Tech Writer
 - [ ] This notebook has been added to the CODEOWNERS file, pointing to the author or the author's team. If the CODEOWNERS file doesn't exist, create one in the nearest folder that makes sense.
+- [ ] The Jupyter notebook cleans up any artifacts it has created (datasets, ML models, endpoints, etc) so as not to eat up unnecessary resources.
