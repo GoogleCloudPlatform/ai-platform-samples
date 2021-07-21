@@ -3,13 +3,16 @@ import nbformat
 from nbconvert.preprocessors import ExecutePreprocessor, CellExecutionError
 import os
 import errno
-from RemoveNoExecuteCells import RemoveNoExecuteCells
+from NotebookProcessors import RemoveNoExecuteCells, UpdateVariablesPreprocessor
+from typing import Dict
 
 # This script is used to execute a notebook and write out the output notebook.
 # The replaces calling the nbconvert via command-line, which doesn't write the output notebook correctly when there are errors during execution.
 
 
-def execute_notebook(notebook_file_path: str, output_file_folder: str):
+def execute_notebook(
+    notebook_file_path: str, output_file_folder: str, replacement_map: Dict[str, str]
+):
     file_name = os.path.basename(os.path.normpath(notebook_file_path))
 
     # Read notebook
@@ -22,18 +25,21 @@ def execute_notebook(notebook_file_path: str, output_file_folder: str):
     try:
         # Create preprocessors
         remove_no_execute_cells_preprocessor = RemoveNoExecuteCells()
+        update_variables_preprocessor = UpdateVariablesPreprocessor(
+            replacement_map=replacement_map
+        )
         execute_preprocessor = ExecutePreprocessor(timeout=-1, kernel_name="python3")
 
         # Use no-execute preprocessor
         (
-            nb_no_execute_cells_removed,
-            resources_no_execute_cells_removed,
+            nb,
+            resources,
         ) = remove_no_execute_cells_preprocessor.preprocess(nb)
 
+        (nb, resources) = update_variables_preprocessor.preprocess(nb, resources)
+
         # Execute notebook
-        out = execute_preprocessor.preprocess(
-            nb_no_execute_cells_removed, resources_no_execute_cells_removed
-        )
+        out = execute_preprocessor.preprocess(nb, resources)
 
     except Exception as error:
         out = None
