@@ -1,3 +1,5 @@
+Please open your PR in [vertex-ai-samples](https://github.com/googlecloudplatform/vertex-ai-samples), if your PR creates new content or updates existing content on Vertex AI products. 
+
 Before submitting a Jupyter notebook, follow this mandatory checklist:
 
 - [ ] Use the [notebook template](https://github.com/GoogleCloudPlatform/ai-platform-samples/blob/master/ai-platform-unified/notebooks/notebook_template.ipynb) as a starting point.
