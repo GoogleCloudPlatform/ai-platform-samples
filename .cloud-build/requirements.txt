@@ -1,5 +1,6 @@
 ipython 
 jupyter>=1.0 
 nbconvert>=6.0
+papermill
 numpy
 pandas
