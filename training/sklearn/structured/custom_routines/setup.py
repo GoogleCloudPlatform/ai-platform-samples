@@ -20,7 +20,7 @@ from setuptools import setup
 REQUIRED_PACKAGES = [
     'tensorflow==1.15.4',
     'scikit-learn>=0.20.2',
-    'pandas==0.24.2',
+    'pandas==0.25.3',
     'cloudml-hypertune',
 ]
 
