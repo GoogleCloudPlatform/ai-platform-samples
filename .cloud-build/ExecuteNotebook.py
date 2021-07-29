@@ -1,11 +1,11 @@
 import sys
 import nbformat
-from nbconvert.preprocessors import ExecutePreprocessor, CellExecutionError
 import os
 import errno
 from NotebookProcessors import RemoveNoExecuteCells, UpdateVariablesPreprocessor
 from typing import Dict
 import papermill as pm
+import shutil
 
 # This script is used to execute a notebook and write out the output notebook.
 # The replaces calling the nbconvert via command-line, which doesn't write the output notebook correctly when there are errors during execution.
@@ -29,7 +29,6 @@ def execute_notebook(
         update_variables_preprocessor = UpdateVariablesPreprocessor(
             replacement_map=replacement_map
         )
-        execute_preprocessor = ExecutePreprocessor(timeout=-1, kernel_name="python3")
 
         # Use no-execute preprocessor
         (
@@ -39,8 +38,29 @@ def execute_notebook(
 
         (nb, resources) = update_variables_preprocessor.preprocess(nb, resources)
 
+        # staging_file_path = f"modified_{notebook_file_path}"
+        print(f"Writing modified notebook to: {notebook_file_path}")
+        with open(notebook_file_path, mode="w", encoding="utf-8") as f:
+            nbformat.write(nb, f)
+
         # Execute notebook
-        # out = execute_preprocessor.preprocess(nb, resources)
+        pm.execute_notebook(
+            input_path=notebook_file_path,
+            output_path=notebook_file_path,
+            progress_bar=True,
+            request_save_on_cell_execute=True,
+            log_output=True,
+            stdout_file=sys.stdout,
+            stderr_file=sys.stderr,
+        )
+    except Exception as error:
+        # out = None
+        print(f"Error executing the notebook: {notebook_file_path}.\n\n")
+        has_error = True
+
+        raise
+
+    finally:
         output_file_path = os.path.join(
             output_file_folder, "failure" if has_error else "success", file_name
         )
@@ -53,23 +73,5 @@ def execute_notebook(
                 if exc.errno != errno.EEXIST:
                     raise
 
-        print(f"Writing modified notebook to: {output_file_path}")
-        with open(output_file_path, mode="w", encoding="utf-8") as f:
-            nbformat.write(nb, f)
-
-        pm.execute_notebook(
-            input_path=output_file_path,
-            output_path=output_file_path,
-            progress_bar=True,
-            request_save_on_cell_execute=True,
-            log_output=True,
-            stdout_file=sys.stdout,
-            stderr_file=sys.stderr,
-        )
-
-    except Exception as error:
-        out = None
-        print(f"Error executing the notebook: {notebook_file_path}.\n\n")
-        has_error = True
-
-        raise
+        print(f"Writing output to: {output_file_path}")
+        shutil.copy(notebook_file_path, output_file_path)
