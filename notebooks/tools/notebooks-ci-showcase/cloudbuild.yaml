@@ -17,7 +17,7 @@ steps:
   # This will start notebook background execution.
   # You can read more about the background execution here:
   # https://blog.kovalevskyi.com/how-to-submit-jupyter-notebook-for-overnight-training-on-gcp-4ce1b0cd4d0d
-- name: 'google/cloud-sdk:237.0.0'
+- name: 'google/cloud-sdk:350.0.0'
   args: ['-c', './run_test.sh']
   dir: 'notebooks-ci-showcase'
   entrypoint: '/bin/bash'
@@ -34,7 +34,7 @@ steps:
   # * Notebooks executor that is used by cloud function to execute notebooks
   #
   #  Next step creates an archive with notebook executor.
-- name: 'google/cloud-sdk:237.0.0'
+- name: 'google/cloud-sdk:350.0.0'
   args: ['-c', 'tar -zcvf live.tar.gz demo.ipynb gcp-notebook-executor/notebook_executor.sh gcp-notebook-executor/utils.sh run_notebook_instance.sh']
   dir: 'notebooks-ci-showcase'
   entrypoint: '/bin/bash'
@@ -43,7 +43,7 @@ steps:
   args: ['cp', 'live.tar.gz', 'gs://dl-platform-temp/notebook-ci-showcase/live.tar.gz']
   dir: 'notebooks-ci-showcase'
   # Now we zipping folder with the cloud function that we want to use on a daily basis.
-- name: 'google/cloud-sdk:237.0.0'
+- name: 'google/cloud-sdk:350.0.0'
   args: ['-c', 'apt update && apt install -y zip && zip deploy.zip *']
   dir: 'notebooks-ci-showcase/deploy'
   entrypoint: '/bin/bash'
@@ -52,7 +52,7 @@ steps:
   args: ['cp', 'deploy.zip', 'gs://dl-platform-temp/notebook-ci-showcase/deploy.zip']
   dir: 'notebooks-ci-showcase/deploy'
   # For the next step, the cloud build service account must be granted the Cloud Functions Developer permission (not default).
-- name: 'google/cloud-sdk:237.0.0'
+- name: 'google/cloud-sdk:350.0.0'
   args: ['gcloud', 'functions', 'deploy', 'demo-notebook-function', '--trigger-topic=demo-notebook', '--region=us-central1', '--source=gs://dl-platform-temp/notebook-ci-showcase/deploy.zip']
 # ↑↑↑↑↑↑↑ End of Continues Delivery Part ↑↑↑↑↑↑↑↑↑↑↑↑↑##################
 ######### This part will generate actual artifact  #####################
