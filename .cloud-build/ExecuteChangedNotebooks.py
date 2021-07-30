@@ -13,12 +13,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import argparse
+import datetime
 import pathlib
 import subprocess
 from pathlib import Path
 from typing import Dict, List, Optional
 
 import ExecuteNotebook
+
+
+def format_timedelta(delta: datetime.timedelta) -> str:
+    """Formats a timedelta duration to [N days] %H:%M:%S format"""
+    seconds = int(delta.total_seconds())
+
+    secs_in_a_day = 86400
+    secs_in_a_hour = 3600
+    secs_in_a_min = 60
+
+    days, seconds = divmod(seconds, secs_in_a_day)
+    hours, seconds = divmod(seconds, secs_in_a_hour)
+    minutes, seconds = divmod(seconds, secs_in_a_min)
+
+    time_fmt = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+
+    if days > 0:
+        suffix = "s" if days > 1 else ""
+        return f"{days} day{suffix} {time_fmt}"
+
+    return time_fmt
 
 
 def run_changed_notebooks(
@@ -84,16 +106,19 @@ def run_changed_notebooks(
     artifacts_path.joinpath("success").mkdir(parents=True, exist_ok=True)
     artifacts_path.joinpath("failure").mkdir(parents=True, exist_ok=True)
 
-    passed_notebooks: List[str] = []
-    failed_notebooks: List[str] = []
+    notebook_duration_map: Dict = {}
+    notebook_pass_map: Dict[str, bool] = {}
 
     if len(notebooks) > 0:
         print(f"Found {len(notebooks)} modified notebooks: {notebooks}")
 
         for notebook_index, notebook in enumerate(notebooks):
-            print(f"Running notebook ({notebook_index+1} of {len(notebooks)}): {notebook}")
+            print(
+                f"Running notebook ({notebook_index+1} of {len(notebooks)}): {notebook}"
+            )
 
             # TODO: Handle cases where multiple notebooks have the same name
+            time_start = datetime.datetime.now()
             try:
                 ExecuteNotebook.execute_notebook(
                     notebook_file_path=notebook,
@@ -103,22 +128,28 @@ def run_changed_notebooks(
                         "REGION": variable_region,
                     },
                 )
-                print(f"Notebook finished successfully.")
-                passed_notebooks.append(notebook)
+                time_duration = datetime.datetime.now() - time_start
+                notebook_duration_map[notebook] = time_duration
+                notebook_pass_map[notebook] = True
+                print(f"Notebook passed in {format_timedelta(time_duration)}.")
             except Exception as error:
-                print(f"Notebook finished with failure: {error}")
-                failed_notebooks.append(notebook)
+                time_duration = datetime.datetime.now() - time_start
+                notebook_duration_map[notebook] = time_duration
+                notebook_pass_map[notebook] = False
+                print(f"Notebook failed in {format_timedelta(time_duration)}: {error}")
     else:
         print("No notebooks modified in this pull request.")
 
-    if len(failed_notebooks) > 0:
-        print(f"{len(failed_notebooks)} notebooks failed:")
-        print(failed_notebooks)
-        print(f"{len(passed_notebooks)} notebooks passed:")
-        print(passed_notebooks)
-    elif len(passed_notebooks) > 0:
-        print("All notebooks executed successfully:")
-        print(passed_notebooks)
+    # Print results
+    for notebook in sorted(
+        notebooks,
+        key=lambda notebook: notebook_pass_map.get(notebook, False),
+        reverse=True,
+    ):
+        is_pass = notebook_pass_map.get(notebook, False)
+        duration = notebook_duration_map.get(notebook, 0)
+        pass_phrase = "passed" if is_pass else "failed"
+        print(f"{notebook} {pass_phrase} in {format_timedelta(duration)}")
 
 
 parser = argparse.ArgumentParser(description="Run changed notebooks.")
