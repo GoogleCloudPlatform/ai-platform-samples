@@ -16,7 +16,7 @@ provider "google" {
   credentials = var.credentials_file
   project     = var.project_id
   region      = var.region
-  version     = "~> 2.5.0"
+  version     = "~> 2.20.0"
 }
 
 # Terraform version requirements
