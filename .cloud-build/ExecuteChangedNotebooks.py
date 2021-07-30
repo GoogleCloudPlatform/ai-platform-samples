@@ -84,13 +84,13 @@ def execute_notebook(
         )
         result.duration = datetime.datetime.now() - time_start
         result.is_pass = True
-        print(f"Notebook passed in {format_timedelta(result.duration)}.")
+        print(f"{notebook} passed in {format_timedelta(result.duration)}.")
     except Exception as error:
         result.duration = datetime.datetime.now() - time_start
         result.is_pass = False
         result.error_message = str(error)
         print(
-            f"Notebook failed in {format_timedelta(result.duration)}: {result.error_message}"
+            f"{notebook} failed in {format_timedelta(result.duration)}: {result.error_message}"
         )
 
     return result
@@ -166,6 +166,9 @@ def run_changed_notebooks(
         print(f"Found {len(notebooks)} modified notebooks: {notebooks}")
 
         if should_parallelize and len(notebooks) > 1:
+            print(
+                "Running notebooks in parallel, so no logs will be displayed. Please wait..."
+            )
             with concurrent.futures.ThreadPoolExecutor(max_workers=None) as executor:
                 notebook_execution_results = list(
                     executor.map(

@@ -52,7 +52,7 @@ def execute_notebook(
 
         (nb, resources) = update_variables_preprocessor.preprocess(nb, resources)
 
-        print(f"Writing modified notebook to: {staging_file_path}")
+        # print(f"Staging modified notebook to: {staging_file_path}")
         with open(staging_file_path, mode="w", encoding="utf-8") as f:
             nbformat.write(nb, f)
 
@@ -61,14 +61,14 @@ def execute_notebook(
         pm.execute_notebook(
             input_path=staging_file_path,
             output_path=staging_file_path,
-            progress_bar=True,
+            progress_bar=should_log_output,
             request_save_on_cell_execute=should_log_output,
             log_output=should_log_output,
-            stdout_file=sys.stdout,
-            stderr_file=sys.stderr,
+            stdout_file=sys.stdout if should_log_output else None,
+            stderr_file=sys.stderr if should_log_output else None,
         )
     except Exception:
-        print(f"Error executing the notebook: {notebook_file_path}.\n\n")
+        # print(f"Error executing the notebook: {notebook_file_path}.\n\n")
         has_error = True
 
         raise
@@ -86,5 +86,5 @@ def execute_notebook(
                 if exc.errno != errno.EEXIST:
                     raise
 
-        print(f"Writing output to: {output_file_path}")
+        # print(f"Writing output to: {output_file_path}")
         shutil.copy(staging_file_path, output_file_path)
