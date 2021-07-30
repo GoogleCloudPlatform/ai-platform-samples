@@ -140,6 +140,7 @@ def run_changed_notebooks(
     else:
         print("No notebooks modified in this pull request.")
 
+    print("\n=== RESULTS ===\n")
     # Print results
     for notebook in sorted(
         notebooks,
@@ -148,8 +149,10 @@ def run_changed_notebooks(
     ):
         is_pass = notebook_pass_map.get(notebook, False)
         duration = notebook_duration_map.get(notebook, 0)
-        pass_phrase = "passed" if is_pass else "failed"
+        pass_phrase = "PASSED" if is_pass else "FAILED"
         print(f"{notebook} {pass_phrase} in {format_timedelta(duration)}")
+    
+    print("\n=== END RESULTS===\n")        
 
 
 parser = argparse.ArgumentParser(description="Run changed notebooks.")
