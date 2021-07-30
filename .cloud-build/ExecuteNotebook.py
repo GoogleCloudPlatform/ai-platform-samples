@@ -14,7 +14,10 @@ STAGING_FOLDER = "staging"
 
 
 def execute_notebook(
-    notebook_file_path: str, output_file_folder: str, replacement_map: Dict[str, str]
+    notebook_file_path: str,
+    output_file_folder: str,
+    replacement_map: Dict[str, str],
+    should_log_output: bool,
 ):
     # Create staging directory if it doesn't exist
     staging_file_path = f"{STAGING_FOLDER}/{notebook_file_path}"
@@ -59,8 +62,8 @@ def execute_notebook(
             input_path=staging_file_path,
             output_path=staging_file_path,
             progress_bar=True,
-            request_save_on_cell_execute=True,
-            log_output=True,
+            request_save_on_cell_execute=should_log_output,
+            log_output=should_log_output,
             stdout_file=sys.stdout,
             stderr_file=sys.stderr,
         )

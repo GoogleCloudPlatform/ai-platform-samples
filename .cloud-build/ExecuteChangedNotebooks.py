@@ -13,11 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import argparse
+import dataclasses
 import datetime
+import functools
 import pathlib
 import subprocess
 from pathlib import Path
 from typing import Dict, List, Optional
+import concurrent
 
 import ExecuteNotebook
 
@@ -43,12 +46,63 @@ def format_timedelta(delta: datetime.timedelta) -> str:
     return time_fmt
 
 
+@dataclasses.dataclass
+class NotebookExecutionResult:
+    notebook: str
+    duration: datetime.timedelta
+    is_pass: bool
+    error_message: Optional[str]
+
+
+def execute_notebook(
+    artifacts_path: str,
+    variable_project_id: str,
+    variable_region: str,
+    should_log_output: bool,
+    notebook: str,
+) -> NotebookExecutionResult:
+    print(f"Running notebook: {notebook}")
+
+    result = NotebookExecutionResult(
+        notebook=notebook,
+        duration=datetime.timedelta(seconds=0),
+        is_pass=False,
+        error_message=None,
+    )
+
+    # TODO: Handle cases where multiple notebooks have the same name
+    time_start = datetime.datetime.now()
+    try:
+        ExecuteNotebook.execute_notebook(
+            notebook_file_path=notebook,
+            output_file_folder=artifacts_path,
+            replacement_map={
+                "PROJECT_ID": variable_project_id,
+                "REGION": variable_region,
+            },
+            should_log_output=should_log_output,
+        )
+        result.duration = datetime.datetime.now() - time_start
+        result.is_pass = True
+        print(f"Notebook passed in {format_timedelta(result.duration)}.")
+    except Exception as error:
+        result.duration = datetime.datetime.now() - time_start
+        result.is_pass = False
+        result.error_message = str(error)
+        print(
+            f"Notebook failed in {format_timedelta(result.duration)}: {result.error_message}"
+        )
+
+    return result
+
+
 def run_changed_notebooks(
     test_paths_file: str,
     output_folder: str,
     variable_project_id: str,
     variable_region: str,
     base_branch: Optional[str],
+    should_parallelize: bool = True,
 ):
     """
     Run the notebooks that exist under the folders defined in the test_paths_file.
@@ -106,53 +160,50 @@ def run_changed_notebooks(
     artifacts_path.joinpath("success").mkdir(parents=True, exist_ok=True)
     artifacts_path.joinpath("failure").mkdir(parents=True, exist_ok=True)
 
-    notebook_duration_map: Dict = {}
-    notebook_pass_map: Dict[str, bool] = {}
+    notebook_execution_results: List[NotebookExecutionResult] = []
 
     if len(notebooks) > 0:
         print(f"Found {len(notebooks)} modified notebooks: {notebooks}")
 
-        for notebook_index, notebook in enumerate(notebooks):
-            print(
-                f"Running notebook ({notebook_index+1} of {len(notebooks)}): {notebook}"
-            )
-
-            # TODO: Handle cases where multiple notebooks have the same name
-            time_start = datetime.datetime.now()
-            try:
-                ExecuteNotebook.execute_notebook(
-                    notebook_file_path=notebook,
-                    output_file_folder=artifacts_path,
-                    replacement_map={
-                        "PROJECT_ID": variable_project_id,
-                        "REGION": variable_region,
-                    },
+        if should_parallelize and len(notebooks) > 1:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=None) as executor:
+                notebook_execution_results = list(
+                    executor.map(
+                        functools.partial(
+                            execute_notebook,
+                            artifacts_path,
+                            variable_project_id,
+                            variable_region,
+                            False,
+                        ),
+                        notebooks,
+                    )
                 )
-                time_duration = datetime.datetime.now() - time_start
-                notebook_duration_map[notebook] = time_duration
-                notebook_pass_map[notebook] = True
-                print(f"Notebook passed in {format_timedelta(time_duration)}.")
-            except Exception as error:
-                time_duration = datetime.datetime.now() - time_start
-                notebook_duration_map[notebook] = time_duration
-                notebook_pass_map[notebook] = False
-                print(f"Notebook failed in {format_timedelta(time_duration)}: {error}")
+        else:
+            notebook_execution_results = [
+                execute_notebook(
+                    artifacts_path=artifacts_path,
+                    variable_project_id=variable_project_id,
+                    variable_region=variable_region,
+                    notebook=notebook,
+                    should_log_output=True,
+                )
+                for notebook in notebooks
+            ]
     else:
         print("No notebooks modified in this pull request.")
 
     print("\n=== RESULTS ===\n")
     # Print results
-    for notebook in sorted(
-        notebooks,
-        key=lambda notebook: notebook_pass_map.get(notebook, False),
+    for result in sorted(
+        notebook_execution_results,
+        key=lambda result: result.is_pass,
         reverse=True,
     ):
-        is_pass = notebook_pass_map.get(notebook, False)
-        duration = notebook_duration_map.get(notebook, 0)
-        pass_phrase = "PASSED" if is_pass else "FAILED"
-        print(f"{notebook} {pass_phrase} in {format_timedelta(duration)}")
-    
-    print("\n=== END RESULTS===\n")        
+        pass_phrase = "PASSED" if result.is_pass else "FAILED"
+        print(f"{result.notebook} {pass_phrase} in {format_timedelta(result.duration)}")
+
+    print("\n=== END RESULTS===\n")
 
 
 parser = argparse.ArgumentParser(description="Run changed notebooks.")
