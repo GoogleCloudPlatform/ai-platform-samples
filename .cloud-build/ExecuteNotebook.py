@@ -54,6 +54,7 @@ def execute_notebook(
             nbformat.write(nb, f)
 
         # Execute notebook
+
         pm.execute_notebook(
             input_path=staging_file_path,
             output_path=staging_file_path,
