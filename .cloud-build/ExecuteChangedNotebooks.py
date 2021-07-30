@@ -90,8 +90,8 @@ def run_changed_notebooks(
     if len(notebooks) > 0:
         print(f"Found {len(notebooks)} modified notebooks: {notebooks}")
 
-        for notebook in notebooks:
-            print(f"Running notebook: {notebook}")
+        for notebook_index, notebook in enumerate(notebooks):
+            print(f"Running notebook ({notebook_index+1} of {len(notebooks)}): {notebook}")
 
             # TODO: Handle cases where multiple notebooks have the same name
             try:
