@@ -17,10 +17,12 @@ import dataclasses
 import datetime
 import functools
 import pathlib
+import os
 import subprocess
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import List, Optional
 import concurrent
+from tabulate import tabulate
 
 import ExecuteNotebook
 
@@ -84,13 +86,13 @@ def execute_notebook(
         )
         result.duration = datetime.datetime.now() - time_start
         result.is_pass = True
-        print(f"{notebook} passed in {format_timedelta(result.duration)}.")
+        print(f"{notebook} PASSED in {format_timedelta(result.duration)}.")
     except Exception as error:
         result.duration = datetime.datetime.now() - time_start
         result.is_pass = False
         result.error_message = str(error)
         print(
-            f"{notebook} failed in {format_timedelta(result.duration)}: {result.error_message}"
+            f"{notebook} FAILED in {format_timedelta(result.duration)}: {result.error_message}"
         )
 
     return result
@@ -197,14 +199,27 @@ def run_changed_notebooks(
         print("No notebooks modified in this pull request.")
 
     print("\n=== RESULTS ===\n")
-    # Print results
-    for result in sorted(
+
+    notebooks_sorted = sorted(
         notebook_execution_results,
         key=lambda result: result.is_pass,
         reverse=True,
-    ):
-        pass_phrase = "PASSED" if result.is_pass else "FAILED"
-        print(f"{result.notebook} {pass_phrase} in {format_timedelta(result.duration)}")
+    )
+    # Print results
+    print(
+        tabulate(
+            [
+                [
+                    os.path.basename(os.path.normpath(result.notebook)),
+                    "PASSED" if result.is_pass else "FAILED",
+                    format_timedelta(result.duration),
+                    result.error_message,
+                ]
+                for result in notebooks_sorted
+            ],
+            headers=["file", "status", "duration", "error"],
+        )
+    )
 
     print("\n=== END RESULTS===\n")
 
