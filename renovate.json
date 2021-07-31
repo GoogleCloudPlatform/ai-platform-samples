@@ -16,7 +16,9 @@
         "pandas",
         "six",
         "xgboost",
-        "scikit-learn"
+        "scikit-learn",
+        "google-cloud-storage",
+        "apache-beam[gcp]"
       ]
     }
   ]
