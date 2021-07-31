@@ -1,3 +1,4 @@
+import json
 import sys
 import nbformat
 import os
@@ -14,6 +15,8 @@ from jupyter_client.kernelspecapp import KernelSpecManager
 # The replaces calling the nbconvert via command-line, which doesn't write the output notebook correctly when there are errors during execution.
 
 STAGING_FOLDER = "staging"
+ENVIRONMENTS_PATH = "environments"
+KERNELS_SPECS_PATH = "kernel_specs"
 
 
 def execute_notebook(
@@ -39,12 +42,51 @@ def execute_notebook(
 
     has_error = False
 
+    # Create environments folder
+    if not os.path.exists(ENVIRONMENTS_PATH):
+        try:
+            os.makedirs(ENVIRONMENTS_PATH)
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
     # Create environment
-    env_name = str(uuid.uuid4())
+    kernel_name = str(uuid.uuid4())
+    env_name = f"{ENVIRONMENTS_PATH}/{kernel_name}"
     venv.create(env_name, system_site_packages=True, with_pip=True)
 
+    # Create kernel spec
+    kernel_spec = {
+        "argv": [
+            f"{env_name}/bin/python",
+            "-m",
+            "ipykernel_launcher",
+            "-f",
+            "{connection_file}",
+        ],
+        "display_name": "Python 3",
+        "language": "python",
+    }
+    kernel_spec_folder = os.path.join(KERNELS_SPECS_PATH, kernel_name)
+    kernel_spec_file = os.path.join(kernel_spec_folder, "kernel.json")
+
+    # Create kernel spec folder
+    if not os.path.exists(os.path.dirname(kernel_spec_file)):
+        try:
+            os.makedirs(os.path.dirname(kernel_spec_file))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
+    with open(kernel_spec_file, mode="w", encoding="utf-8") as f:
+        json.dump(kernel_spec, f)
+
+    # Install kernel
     kernel_spec_manager = KernelSpecManager()
-    kernel_spec_manager.install_kernel_spec(source_dir=env_name, kernel_name=env_name)
+    kernel_spec_manager.install_kernel_spec(
+        source_dir=kernel_spec_folder, kernel_name=kernel_name
+    )
+    # kernel_spec_manager.find_kernel_specs()
 
     # Execute notebook
     try:
@@ -70,7 +112,7 @@ def execute_notebook(
         pm.execute_notebook(
             input_path=staging_file_path,
             output_path=staging_file_path,
-            kernel_name=env_name,
+            kernel_name=kernel_name,
             progress_bar=should_log_output,
             request_save_on_cell_execute=should_log_output,
             log_output=should_log_output,
@@ -85,7 +127,7 @@ def execute_notebook(
 
     finally:
         # Clear env
-        shutil.rmtree(path=env_name)
+        # shutil.rmtree(path=env_name)
 
         output_file_path = os.path.join(
             output_file_folder, "failure" if has_error else "success", file_name
