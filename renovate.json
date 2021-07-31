@@ -14,7 +14,9 @@
         "torch",
         "numpy",
         "pandas",
-        "six"
+        "six",
+        "xgboost",
+        "scikit-learn"
       ]
     }
   ]
