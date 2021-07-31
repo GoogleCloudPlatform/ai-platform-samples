@@ -6,6 +6,9 @@ from NotebookProcessors import RemoveNoExecuteCells, UpdateVariablesPreprocessor
 from typing import Dict
 import papermill as pm
 import shutil
+import venv
+import uuid
+from jupyter_client.kernelspecapp import KernelSpecManager
 
 # This script is used to execute a notebook and write out the output notebook.
 # The replaces calling the nbconvert via command-line, which doesn't write the output notebook correctly when there are errors during execution.
@@ -56,17 +59,29 @@ def execute_notebook(
         with open(staging_file_path, mode="w", encoding="utf-8") as f:
             nbformat.write(nb, f)
 
-        # Execute notebook
+        # Create environment
+        env_name = str(uuid.uuid4())
+        venv.create(env_name, system_site_packages=True, with_pip=True)
 
+        kernel_spec_manager = KernelSpecManager()
+        kernel_spec_manager.install_kernel_spec(
+            source_dir=env_name, kernel_name=env_name
+        )
+
+        # Execute notebook
         pm.execute_notebook(
             input_path=staging_file_path,
             output_path=staging_file_path,
+            env_name=env_name,
             progress_bar=should_log_output,
             request_save_on_cell_execute=should_log_output,
             log_output=should_log_output,
             stdout_file=sys.stdout if should_log_output else None,
             stderr_file=sys.stderr if should_log_output else None,
         )
+
+        # Clear env
+        shutil.rmtree(path=env_name)
     except Exception:
         # print(f"Error executing the notebook: {notebook_file_path}.\n\n")
         has_error = True
