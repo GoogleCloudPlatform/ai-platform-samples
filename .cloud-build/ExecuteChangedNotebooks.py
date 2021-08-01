@@ -213,7 +213,7 @@ def run_changed_notebooks(
                     os.path.basename(os.path.normpath(result.notebook)),
                     "PASSED" if result.is_pass else "FAILED",
                     format_timedelta(result.duration),
-                    result.error_message,
+                    result.error_message or "--",
                 ]
                 for result in notebooks_sorted
             ],
