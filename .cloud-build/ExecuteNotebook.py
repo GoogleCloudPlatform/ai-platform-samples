@@ -127,7 +127,7 @@ def execute_notebook(
 
     finally:
         # Clear env
-        # shutil.rmtree(path=env_name)
+        shutil.rmtree(path=env_name)
 
         output_file_path = os.path.join(
             output_file_folder, "failure" if has_error else "success", file_name
