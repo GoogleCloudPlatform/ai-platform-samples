@@ -4,7 +4,7 @@ import nbformat
 import os
 import errno
 from NotebookProcessors import RemoveNoExecuteCells, UpdateVariablesPreprocessor
-from typing import Dict
+from typing import Dict, Tuple
 import papermill as pm
 import shutil
 import venv
@@ -19,37 +19,7 @@ ENVIRONMENTS_PATH = "environments"
 KERNELS_SPECS_PATH = "kernel_specs"
 
 
-def execute_notebook(
-    notebook_file_path: str,
-    output_file_folder: str,
-    replacement_map: Dict[str, str],
-    should_log_output: bool,
-):
-    # Create staging directory if it doesn't exist
-    staging_file_path = f"{STAGING_FOLDER}/{notebook_file_path}"
-    if not os.path.exists(os.path.dirname(staging_file_path)):
-        try:
-            os.makedirs(os.path.dirname(staging_file_path))
-        except OSError as exc:  # Guard against race condition
-            if exc.errno != errno.EEXIST:
-                raise
-
-    file_name = os.path.basename(os.path.normpath(notebook_file_path))
-
-    # Read notebook
-    with open(notebook_file_path) as f:
-        nb = nbformat.read(f, as_version=4)
-
-    has_error = False
-
-    # Create environments folder
-    if not os.path.exists(ENVIRONMENTS_PATH):
-        try:
-            os.makedirs(ENVIRONMENTS_PATH)
-        except OSError as exc:  # Guard against race condition
-            if exc.errno != errno.EEXIST:
-                raise
-
+def create_and_install_kernel() -> Tuple[str, str]:
     # Create environment
     kernel_name = str(uuid.uuid4())
     env_name = f"{ENVIRONMENTS_PATH}/{kernel_name}"
@@ -86,7 +56,47 @@ def execute_notebook(
     kernel_spec_manager.install_kernel_spec(
         source_dir=kernel_spec_folder, kernel_name=kernel_name
     )
-    # kernel_spec_manager.find_kernel_specs()
+
+    return kernel_name, env_name
+
+
+def execute_notebook(
+    notebook_file_path: str,
+    output_file_folder: str,
+    replacement_map: Dict[str, str],
+    should_log_output: bool,
+    should_use_new_kernel: bool,
+):
+    # Create staging directory if it doesn't exist
+    staging_file_path = f"{STAGING_FOLDER}/{notebook_file_path}"
+    if not os.path.exists(os.path.dirname(staging_file_path)):
+        try:
+            os.makedirs(os.path.dirname(staging_file_path))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
+    file_name = os.path.basename(os.path.normpath(notebook_file_path))
+
+    # Create environments folder
+    if not os.path.exists(ENVIRONMENTS_PATH):
+        try:
+            os.makedirs(ENVIRONMENTS_PATH)
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
+    # Create and install kernel
+    kernel_name = None
+    env_name = None
+    if should_use_new_kernel:
+        kernel_name, env_name = create_and_install_kernel()
+
+    # Read notebook
+    with open(notebook_file_path) as f:
+        nb = nbformat.read(f, as_version=4)
+
+    has_error = False
 
     # Execute notebook
     try:
@@ -127,8 +137,10 @@ def execute_notebook(
 
     finally:
         # Clear env
-        shutil.rmtree(path=env_name)
+        if env_name is not None:
+            shutil.rmtree(path=env_name)
 
+        # Copy execute notebook
         output_file_path = os.path.join(
             output_file_folder, "failure" if has_error else "success", file_name
         )

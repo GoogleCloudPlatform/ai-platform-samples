@@ -27,6 +27,17 @@ from tabulate import tabulate
 import ExecuteNotebook
 
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ("yes", "true", "t", "y", "1"):
+        return True
+    elif v.lower() in ("no", "false", "f", "n", "0"):
+        return False
+    else:
+        raise argparse.ArgumentTypeError("Boolean value expected.")
+
+
 def format_timedelta(delta: datetime.timedelta) -> str:
     """Formats a timedelta duration to [N days] %H:%M:%S format"""
     seconds = int(delta.total_seconds())
@@ -61,6 +72,7 @@ def execute_notebook(
     variable_project_id: str,
     variable_region: str,
     should_log_output: bool,
+    should_use_new_kernel: bool,
     notebook: str,
 ) -> NotebookExecutionResult:
     print(f"Running notebook: {notebook}")
@@ -83,6 +95,7 @@ def execute_notebook(
                 "REGION": variable_region,
             },
             should_log_output=should_log_output,
+            should_use_new_kernel=should_use_new_kernel,
         )
         result.duration = datetime.datetime.now() - time_start
         result.is_pass = True
@@ -100,11 +113,12 @@ def execute_notebook(
 
 def run_changed_notebooks(
     test_paths_file: str,
+    base_branch: Optional[str],
     output_folder: str,
     variable_project_id: str,
     variable_region: str,
-    base_branch: Optional[str],
-    should_parallelize: bool = True,
+    should_parallelize: bool,
+    should_use_separate_kernels: bool,
 ):
     """
     Run the notebooks that exist under the folders defined in the test_paths_file.
@@ -127,6 +141,10 @@ def run_changed_notebooks(
             Required. The value for PROJECT_ID to inject into notebooks.
         variable_region (str):
             Required. The value for REGION to inject into notebooks.
+        should_parallelize (bool):
+            Required. Should run notebooks in parallel using a thread pool as opposed to in sequence.
+        should_use_separate_kernels (bool):
+            Required. Should run each notebook in a separate and independent virtual environment.
     """
 
     test_paths = []
@@ -180,6 +198,7 @@ def run_changed_notebooks(
                             variable_project_id,
                             variable_region,
                             False,
+                            should_use_separate_kernels,
                         ),
                         notebooks,
                     )
@@ -192,6 +211,7 @@ def run_changed_notebooks(
                     variable_region=variable_region,
                     notebook=notebook,
                     should_log_output=True,
+                    should_use_new_kernel=should_use_separate_kernels,
                 )
                 for notebook in notebooks
             ]
@@ -254,6 +274,23 @@ parser.add_argument(
     help="The GCP region. This is used to inject a variable value into the notebook before running.",
     required=True,
 )
+parser.add_argument(
+    "--should_parallelize",
+    type=str2bool,
+    nargs="?",
+    const=True,
+    default=True,
+    help="Should run notebooks in parallel.",
+)
+
+parser.add_argument(
+    "--should_use_separate_kernels",
+    type=str2bool,
+    nargs="?",
+    const=True,
+    default=True,
+    help="SShould run each notebook in a separate and independent virtual environment.",
+)
 
 args = parser.parse_args()
 run_changed_notebooks(
@@ -262,4 +299,6 @@ run_changed_notebooks(
     output_folder=args.output_folder,
     variable_project_id=args.variable_project_id,
     variable_region=args.variable_region,
+    should_parallelize=args.should_parallelize,
+    should_use_separate_kernels=args.should_use_separate_kernels,
 )
