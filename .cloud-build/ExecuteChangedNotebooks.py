@@ -289,7 +289,7 @@ parser.add_argument(
     nargs="?",
     const=True,
     default=True,
-    help="SShould run each notebook in a separate and independent virtual environment.",
+    help="Should run each notebook in a separate and independent virtual environment.",
 )
 
 args = parser.parse_args()

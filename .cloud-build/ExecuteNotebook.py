@@ -7,7 +7,7 @@ from NotebookProcessors import RemoveNoExecuteCells, UpdateVariablesPreprocessor
 from typing import Dict, Tuple
 import papermill as pm
 import shutil
-import venv
+import virtualenv
 import uuid
 from jupyter_client.kernelspecapp import KernelSpecManager
 
@@ -23,7 +23,8 @@ def create_and_install_kernel() -> Tuple[str, str]:
     # Create environment
     kernel_name = str(uuid.uuid4())
     env_name = f"{ENVIRONMENTS_PATH}/{kernel_name}"
-    venv.create(env_name, system_site_packages=True, with_pip=True)
+    # venv.create(env_name, system_site_packages=True, with_pip=True)
+    virtualenv.cli_run([env_name, "--system-site-packages"])
 
     # Create kernel spec
     kernel_spec = {
@@ -87,7 +88,9 @@ def execute_notebook(
                 raise
 
     # Create and install kernel
-    kernel_name = None
+    kernel_name = next(
+        iter(KernelSpecManager().find_kernel_specs().keys()), None
+    )  # Find first existing kernel and use as default
     env_name = None
     if should_use_new_kernel:
         kernel_name, env_name = create_and_install_kernel()
@@ -154,4 +157,4 @@ def execute_notebook(
                     raise
 
         # print(f"Writing output to: {output_file_path}")
-        shutil.copy(staging_file_path, output_file_path)
+        shutil.move(staging_file_path, output_file_path)
