@@ -1,8 +1,0 @@
-steps:  
-  # Install Python dependencies and run cleanup script
-  - name: ${_PYTHON_IMAGE}
-    entrypoint: /bin/sh
-    args:
-    - -c
-    - 'python3 -m pip install -U -r .cloud-build/cleanup-requirements.txt && python3 -m pip freeze && python3 .cloud-build/Cleanup.py'
-timeout: 86400s
