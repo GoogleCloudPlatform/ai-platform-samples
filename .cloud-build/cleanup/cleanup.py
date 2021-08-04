@@ -1,67 +1,10 @@
-import abc
-from google.cloud import aiplatform
-from typing import Any, List
-
-
-class ResourceCleanupManager(abc.ABC):
-    @property
-    @abc.abstractmethod
-    def type_name(str) -> str:
-        pass
-
-    @abc.abstractmethod
-    def list(self) -> Any:
-        pass
-
-    @abc.abstractmethod
-    def resource_name(self, resource: Any) -> str:
-        pass
-
-    @abc.abstractmethod
-    def delete(self, resource: Any):
-        pass
-
-    def is_deletable(self, resource: Any) -> bool:
-        return not self.resource_name(resource).startswith("perm_")
-
-
-class DatasetResourceCleanupManager(ResourceCleanupManager):
-    type_name = "dataset"
-
-    def list(self) -> Any:
-        return aiplatform.datasets._Dataset.list()
-
-    def resource_name(self, resource: Any) -> str:
-        return resource.display_name
-
-    def delete(self, resource):
-        resource.delete()
-
-
-class EndpointResourceCleanupManager(ResourceCleanupManager):
-    type_name = "endpoint"
-
-    def list(self) -> Any:
-        return aiplatform.Endpoint.list()
-
-    def resource_name(self, resource: Any) -> str:
-        return resource.display_name
-
-    def delete(self, resource):
-        resource.delete(force=True)
-
-
-class ModelResourceCleanupManager(ResourceCleanupManager):
-    type_name = "model"
-
-    def list(self) -> Any:
-        return aiplatform.Model.list()
-
-    def resource_name(self, resource: Any) -> str:
-        return resource.display_name
-
-    def delete(self, resource):
-        resource.delete()
+from typing import List
+from resource_cleanup_manager import (
+    ResourceCleanupManager,
+    DatasetResourceCleanupManager,
+    EndpointResourceCleanupManager,
+    ModelResourceCleanupManager,
+)
 
 
 def cleanup_managers(managers: List[ResourceCleanupManager], is_dry_run: bool):
@@ -73,6 +16,7 @@ def cleanup_managers(managers: List[ResourceCleanupManager], is_dry_run: bool):
         print(f"Found {len(resources)} {type_name}'s")
         for resource in resources:
             if not manager.is_deletable(resource):
+                print(f"Skipping '{resource_name}'")
                 continue
 
             if is_dry_run:
