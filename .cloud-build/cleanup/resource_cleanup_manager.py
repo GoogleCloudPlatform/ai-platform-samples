@@ -33,8 +33,8 @@ class ResourceCleanupManager(abc.ABC):
     def is_deletable(self, resource: Any) -> bool:
         time_difference = self.get_seconds_since_modification(resource)
 
-        if self.resource_name(resource).startswith("perm_"):
-            print(f"Skipping '{resource}' due to name starting with 'perm_'.")
+        if self.resource_name(resource).startswith("perm"):
+            print(f"Skipping '{resource}' due to name starting with 'perm'.")
             return False
 
         # Check that it wasn't created too recently, to prevent race conditions
