@@ -1,6 +1,11 @@
 import abc
 from google.cloud import aiplatform
 from typing import Any
+from proto.datetime_helpers import DatetimeWithNanoseconds
+from google.cloud.aiplatform import base
+
+# If a resource was updated within this number of second, do not delete.
+RESOURCE_UPDATE_BUFFER_IN_SECONDS = 60 * 30
 
 
 class ResourceCleanupManager(abc.ABC):
@@ -21,15 +26,39 @@ class ResourceCleanupManager(abc.ABC):
     def delete(self, resource: Any):
         pass
 
+    @abc.abstractmethod
+    def get_seconds_since_modification(self, resource: Any) -> float:
+        pass
+
     def is_deletable(self, resource: Any) -> bool:
-        return not self.resource_name(resource).startswith("perm_")
+        time_difference = self.get_seconds_since_modification(resource)
+
+        if self.resource_name(resource).startswith("perm_"):
+            print(f"Skipping '{resource}' due to name starting with 'perm_'.")
+            return False
+
+        # Check that it wasn't created too recently, to prevent race conditions
+        if time_difference <= RESOURCE_UPDATE_BUFFER_IN_SECONDS:
+            print(
+                f"Skipping '{resource}' due update_time being '{time_difference}', which is less than '{RESOURCE_UPDATE_BUFFER_IN_SECONDS}'."
+            )
+            return False
+
+        return True
 
 
-class DatasetResourceCleanupManager(ResourceCleanupManager):
-    type_name = "dataset"
+class VertexAIResourceCleanupManager(ResourceCleanupManager):
+    @property
+    @abc.abstractmethod
+    def vertex_ai_resource(self) -> base.VertexAiResourceNounWithFutureManager:
+        pass
+
+    @property
+    def type_name(self) -> str:
+        return self.vertex_ai_resource._resource_noun
 
     def list(self) -> Any:
-        return aiplatform.datasets._Dataset.list()
+        return self.vertex_ai_resource.list()
 
     def resource_name(self, resource: Any) -> str:
         return resource.display_name
@@ -37,28 +66,22 @@ class DatasetResourceCleanupManager(ResourceCleanupManager):
     def delete(self, resource):
         resource.delete()
 
+    def get_seconds_since_modification(self, resource: Any) -> bool:
+        update_time = resource.update_time
+        current_time = DatetimeWithNanoseconds.now(tz=update_time.tzinfo)
+        return (current_time - update_time).total_seconds()
 
-class EndpointResourceCleanupManager(ResourceCleanupManager):
-    type_name = "endpoint"
 
-    def list(self) -> Any:
-        return aiplatform.Endpoint.list()
+class DatasetResourceCleanupManager(VertexAIResourceCleanupManager):
+    vertex_ai_resource = aiplatform.datasets._Dataset
 
-    def resource_name(self, resource: Any) -> str:
-        return resource.display_name
+
+class EndpointResourceCleanupManager(VertexAIResourceCleanupManager):
+    vertex_ai_resource = aiplatform.Endpoint
 
     def delete(self, resource):
         resource.delete(force=True)
 
 
-class ModelResourceCleanupManager(ResourceCleanupManager):
-    type_name = "model"
-
-    def list(self) -> Any:
-        return aiplatform.Model.list()
-
-    def resource_name(self, resource: Any) -> str:
-        return resource.display_name
-
-    def delete(self, resource):
-        resource.delete()
+class ModelResourceCleanupManager(VertexAIResourceCleanupManager):
+    vertex_ai_resource = aiplatform.Model

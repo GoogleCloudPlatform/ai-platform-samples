@@ -4,5 +4,5 @@ steps:
     entrypoint: /bin/sh
     args:
     - -c
-    - 'python3 -m pip install -U -r .cloud-build/cleanup/cleanup-requirements.txt && python3 -m pip freeze && python3 .cloud-build/cleanup/cleanup.py'
+    - 'python3 -m pip install -U -r .cloud-build/cleanup/cleanup-requirements.txt && python3 .cloud-build/cleanup/cleanup.py'
 timeout: 86400s
