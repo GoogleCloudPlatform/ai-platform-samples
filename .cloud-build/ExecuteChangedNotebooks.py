@@ -144,6 +144,9 @@ def run_changed_notebooks(
         should_parallelize (bool):
             Required. Should run notebooks in parallel using a thread pool as opposed to in sequence.
         should_use_separate_kernels (bool):
+            Note: Dependencies don't install correctly when this is set to True
+            See https://github.com/nteract/papermill/issues/625
+
             Required. Should run each notebook in a separate and independent virtual environment.
     """
 
@@ -283,13 +286,15 @@ parser.add_argument(
     help="Should run notebooks in parallel.",
 )
 
+# Note: Dependencies don't install correctly when this is set to True
+# See https://github.com/nteract/papermill/issues/625
 parser.add_argument(
     "--should_use_separate_kernels",
     type=str2bool,
     nargs="?",
     const=True,
     default=False,
-    help="Should run each notebook in a separate and independent virtual environment.",
+    help="(Experimental) Should run each notebook in a separate and independent virtual environment.",
 )
 
 args = parser.parse_args()
