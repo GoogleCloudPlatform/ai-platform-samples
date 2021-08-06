@@ -288,7 +288,7 @@ parser.add_argument(
     type=str2bool,
     nargs="?",
     const=True,
-    default=True,
+    default=False,
     help="Should run each notebook in a separate and independent virtual environment.",
 )
 
