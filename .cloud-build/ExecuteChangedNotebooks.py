@@ -278,16 +278,18 @@ parser.add_argument(
     help="The GCP region. This is used to inject a variable value into the notebook before running.",
     required=True,
 )
+
+# Note: Dependencies don't install correctly when this is set to True
 parser.add_argument(
     "--should_parallelize",
     type=str2bool,
     nargs="?",
     const=True,
-    default=True,
+    default=False,
     help="Should run notebooks in parallel.",
 )
 
-# Note: Dependencies don't install correctly when this is set to True
+# Note: This isn't guaranteed to work correctly due to existing Papermill issue
 # See https://github.com/nteract/papermill/issues/625
 parser.add_argument(
     "--should_use_separate_kernels",
