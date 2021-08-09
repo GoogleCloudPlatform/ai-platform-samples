@@ -2,18 +2,12 @@ FROM gcr.io/deeplearning-platform-release/tf-gpu.1-15
 
 # Install OpenSSH, CUDA 10.0, NCCL and Horovod
 # pyarrow is broken in the DL container base image (b/150726325)
-RUN apt-get update && \
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+    apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --allow-change-held-packages \
-        iperf openssh-client openssh-server cuda-toolkit-10-0 libnccl2 libnccl-dev && \
-    wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.2.tar.gz && \
-    tar -xf openmpi-4.0.2.tar.gz && \
-    cd openmpi-4.0.2 && \
-    ./configure --enable-static --prefix=/usr --enable-shared --with-cuda=/usr/local/cuda/ && \
-    make -j && make install && \
-    cd .. && rm -rf openmpi-4.0.2 && \
-    rm -rf /var/lib/apt/lists/* && \
+        iperf openssh-client openssh-server cuda-toolkit-11-3 libnccl2 libnccl-dev cmake && \
     ldconfig /usr/local/cuda/targets/x86_64-linux/lib && \
-    HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_GPU_BROADCAST=NCCL HOROVOD_WITH_TENSORFLOW=1 \
+    HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_GLOO=1 \
          pip install --no-cache-dir horovod && \
          pip install --no-cache-dir --force-reinstall pyarrow && \
     ldconfig
