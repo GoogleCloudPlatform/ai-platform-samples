@@ -21,12 +21,6 @@ steps:
   - name: ${_PYTHON_IMAGE}
     entrypoint: pip
     args: ['install', '--upgrade',  '--user', '--requirement', '.cloud-build/requirements.txt']
-  # Install Python cleanup dependencies and run cleanup script
-  - name: ${_PYTHON_IMAGE}
-    entrypoint: /bin/sh
-    args:
-    - -c
-    - 'python3 -m pip install -U -r .cloud-build/cleanup/cleanup-requirements.txt && python3 .cloud-build/cleanup/cleanup.py'    
   # Install Python dependencies and run testing script
   - name: ${_PYTHON_IMAGE}
     entrypoint: /bin/sh
