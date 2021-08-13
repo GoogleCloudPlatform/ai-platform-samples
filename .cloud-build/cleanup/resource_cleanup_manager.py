@@ -4,8 +4,8 @@ from typing import Any
 from proto.datetime_helpers import DatetimeWithNanoseconds
 from google.cloud.aiplatform import base
 
-# If a resource was updated within this number of second, do not delete.
-RESOURCE_UPDATE_BUFFER_IN_SECONDS = 60 * 30
+# If a resource was updated within this number of seconds, do not delete.
+RESOURCE_UPDATE_BUFFER_IN_SECONDS = 60 * 60 * 8
 
 
 class ResourceCleanupManager(abc.ABC):
