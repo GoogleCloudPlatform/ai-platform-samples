@@ -18,7 +18,9 @@
         "xgboost",
         "scikit-learn",
         "google-cloud-storage",
-        "apache-beam[gcp]"
+        "apache-beam[gcp]",
+        "python",
+        "ubuntu"
       ]
     }
   ]
