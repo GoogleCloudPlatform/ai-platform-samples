@@ -1,4 +1,9 @@
-Please open your PR in [vertex-ai-samples](https://github.com/googlecloudplatform/vertex-ai-samples), if your PR creates new content or updates existing content on Vertex AI products. 
+----------------------------------------------------------------------------------------------------
+ATTENTION: 
+
+If you are opening a PR to check in content under the folder [`ai-platform-unified/`](https://github.com/GoogleCloudPlatform/ai-platform-samples/tree/master/ai-platform-unified), please close this PR, and open your PR in the new content repository [GoogleCloudPlatform/vertex-ai-samples](https://github.com/googlecloudplatform/vertex-ai-samples).
+
+----------------------------------------------------------------------------------------------------
 
 Before submitting a Jupyter notebook, follow this mandatory checklist:
 
