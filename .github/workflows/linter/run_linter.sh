@@ -47,6 +47,8 @@ done
 
 echo "Test mode: $is_test"
 
+printf '\n\e[1;34m%-6s\e[m\n\n' "Reminder: Run this script from your feature branch and not 'master'. This script compares the current branch with master to figure out what notebooks to lint."
+
 # Only check notebooks in test folders modified in this pull request.
 # Note: Use process substitution to persist the data in the array
 notebooks=()
@@ -135,11 +137,13 @@ if [ ${#notebooks[@]} -gt 0 ]; then
             fi
         fi
     done
-else
-    echo "No notebooks modified in this pull request."
-fi
 
-echo "All tests finished. Exiting with return code = $RTN"
+    echo "All tests finished. Exiting with return code = $RTN"
+
+    printf '\n\e[1;34m%-6s\e[m\n\n' "Reminder: If any notebooks were modified, make sure you use git to stage and commit the changes."
+else
+    echo "No modified notebooks found when comparing with 'master' branch."
+fi
 
 if [ ${#problematic_notebooks[@]} -gt 0 ]; then
     echo "The following notebooks could not be automatically linted:"
