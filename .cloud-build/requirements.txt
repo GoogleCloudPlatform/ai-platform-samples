@@ -6,3 +6,4 @@ numpy>=1.19
 pandas>=1.2
 matplotlib>=3.4
 tabulate
+virtualenv
