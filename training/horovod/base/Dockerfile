@@ -1,4 +1,4 @@
-FROM gcr.io/deeplearning-platform-release/tf-gpu.1-15
+FROM gcr.io/deeplearning-platform-release/tf-gpu.1-15:m73
 
 # Install OpenSSH, CUDA 10.0, NCCL and Horovod
 # pyarrow is broken in the DL container base image (b/150726325)

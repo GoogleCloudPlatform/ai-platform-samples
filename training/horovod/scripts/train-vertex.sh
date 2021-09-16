@@ -29,8 +29,8 @@ MACHINE_TYPE=${MACHINE_TYPE:-n1-highmem-96}
 # MACHINE_COUNT: number of workers (master included)
 MACHINE_COUNT=${MACHINE_COUNT:-2}
 
-# REDUCER_COUNT: number of reducers (master included)
-REDUCER_COUNT=${MACHINE_COUNT:-0}
+# REDUCER_COUNT: number of reducers
+REDUCER_COUNT=${REDUCER_COUNT:-0}
 
 # GPU_TYPE: type of GPU
 GPU_TYPE=${GPU_TYPE:-NVIDIA_TESLA_T4}
@@ -56,7 +56,7 @@ REGION=us-central1
 echo "Building Horovod container image"
 
 # Build the wrapper docker image
-docker build --no-cache -f base/Dockerfile -t horovod-wrapper base/
+docker build -f base/Dockerfile -t horovod-wrapper base/
 
 # Build the docker image
 docker build -f ${MODEL_NAME}/Dockerfile \
