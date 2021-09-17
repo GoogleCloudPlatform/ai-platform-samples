@@ -1,6 +1,6 @@
 FROM gcr.io/deeplearning-platform-release/tf-gpu.1-15:m73
 
-# Install OpenSSH, CUDA 10.0, NCCL and Horovod
+# Install OpenSSH, CUDA 11.3, NCCL and Horovod
 # pyarrow is broken in the DL container base image (b/150726325)
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
     apt-get update && \
@@ -41,6 +41,5 @@ ENV STAGING_DIR /input
 ENV TF_CONFIG '{"cluster":{"master":["127.0.0.1:2222"]}, "task":{"type":"master","index":0}}'
 
 ENV NCCL_DEBUG INFO
-ENV NCCL_FAST_SOCKET_ENABLE 1
 
 ENTRYPOINT ["python", "/infra/horovod_wrapper.py"]
