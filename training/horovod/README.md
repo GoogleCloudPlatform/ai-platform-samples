@@ -23,7 +23,7 @@ Run the following script to run MNIST training job on AI Platform:
 MODEL_NAME=mnist GCS_OUTPUT_PATH=<GCS_BUCKET> scripts/train-cloud.sh
 ```
 
-By default, the script `train-cloud.sh` uses 2 `n1-highmem-96` machines with 4 `nvidia-tesla-t4` GPUs on each machine. Variables `MACHINE_TYPE`, `MACHINE_COUNT`, `GPU_TYPE`, `GPU_COUNT` configure these settings. 
+By default, the script `train-cloud.sh` uses 2 `n1-highmem-96` machines with 8 `nvidia-tesla-v100` GPUs on each machine. Variables `MACHINE_TYPE`, `MACHINE_COUNT`, `GPU_TYPE`, `GPU_COUNT` configure these settings. 
 
 ### MaskRCNN with Tensorpack
 
