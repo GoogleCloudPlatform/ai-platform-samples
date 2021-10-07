@@ -6,7 +6,7 @@ RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - &
     apt-get update && \
     apt-get remove -y google-fast-socket && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --allow-change-held-packages \
-        iperf openssh-client openssh-server cuda-toolkit-11-3 libnccl2 libnccl-dev cmake google-reduction-server && \
+        iperf openssh-client openssh-server cmake google-reduction-server && \
     ldconfig /usr/local/cuda/targets/x86_64-linux/lib && \
     HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_GLOO=1 \
          pip install --no-cache-dir horovod && \

@@ -29,14 +29,18 @@ MACHINE_TYPE=${MACHINE_TYPE:-n1-highmem-96}
 # MACHINE_COUNT: number of workers (master included)
 MACHINE_COUNT=${MACHINE_COUNT:-2}
 
-# REDUCER_COUNT: number of reducers
-REDUCER_COUNT=${REDUCER_COUNT:-0}
-
 # GPU_TYPE: type of GPU
-GPU_TYPE=${GPU_TYPE:-NVIDIA_TESLA_T4}
+GPU_TYPE=${GPU_TYPE:-NVIDIA_TESLA_V100}
 
 # GPU_COUNT: number of GPUs per machine
-GPU_COUNT=${GPU_COUNT:-4}
+GPU_COUNT=${GPU_COUNT:-8}
+
+# REDUCER_COUNT: number of reducers
+if [ "${GPU_COUNT}" -gt "0" ]; then
+    REDUCER_COUNT=${REDUCER_COUNT:-$((MACHINE_COUNT * 3))}
+else
+    REDUCER_COUNT=0
+fi
 
 # IMAGE_REPO_NAME: the image will be stored on Cloud Container Registry
 IMAGE_REPO_NAME=horovod_${MODEL_NAME}

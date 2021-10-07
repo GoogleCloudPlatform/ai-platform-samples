@@ -30,10 +30,10 @@ MACHINE_TYPE=${MACHINE_TYPE:-n1-highmem-96}
 MACHINE_COUNT=${MACHINE_COUNT:-2}
 
 # GPU_TYPE: type of GPU
-GPU_TYPE=${GPU_TYPE:-nvidia-tesla-t4}
+GPU_TYPE=${GPU_TYPE:-nvidia-tesla-v100}
 
 # GPU_COUNT: number of GPUs per machine
-GPU_COUNT=${GPU_COUNT:-4}
+GPU_COUNT=${GPU_COUNT:-8}
 
 # IMAGE_REPO_NAME: the image will be stored on Cloud Container Registry
 IMAGE_REPO_NAME=horovod_${MODEL_NAME}
