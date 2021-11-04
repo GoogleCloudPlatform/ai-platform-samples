@@ -1,3 +1,5 @@
+:bell: **Please visit [vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples) for sample code for Vertex AI, Google Cloud's new unified ML platform**.
+___
 # Google Cloud AI Platform Products
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
