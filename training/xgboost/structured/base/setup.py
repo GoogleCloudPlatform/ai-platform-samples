@@ -27,7 +27,7 @@ REQUIRED_PACKAGES = [
     'tensorflow==1.15.4',
     'scikit-learn==0.20.2',
     'pandas==0.24.2',
-    'xgboost==0.81',
+    'xgboost==0.90',
     'cloudml-hypertune',
 ]
 
