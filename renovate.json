@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "ignorePaths" : [
+    "notebooks/tools/"
+  ],
+  "packageRules": [
+    {
+      "excludePackageNames": [
+        "tensorflow",
+        "tensorflow-serving-api",
+        "pytorch",
+        "torch",
+        "numpy",
+        "pandas",
+        "six",
+        "xgboost",
+        "scikit-learn",
+        "google-cloud-storage",
+        "apache-beam[gcp]",
+        "python",
+        "ubuntu"
+      ]
+    }
+  ]
+}
