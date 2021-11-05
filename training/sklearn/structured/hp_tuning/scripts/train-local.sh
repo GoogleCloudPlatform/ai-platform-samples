@@ -34,4 +34,4 @@ gcloud ai-platform local train \
 set -
 
 # Notes:
-# TAXI_TRAIN_SMALL is set by datasets/downlaod-taxi.sh script
+# TAXI_TRAIN_SMALL is set by datasets/download-taxi.sh script
