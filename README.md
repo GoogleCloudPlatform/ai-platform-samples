@@ -10,7 +10,6 @@ Welcome to the [AI Platform](https://cloud.google.com/ml-engine/docs/) sample co
 
 The repository is organized by products: 
 
- - [AI Platform (Unified)](ai-platform-unified)   
  - [AI Platform Training](training)   
      - [Horovod](training/horovod)
      - [PyTorch](training/pytorch)
