@@ -26,10 +26,10 @@ rm -rf trained
 # This has to be run after train-cloud.sh is successfully executed
 
 # Delete model version resource
-gcloud ai-platform versions delete ${MODEL_VERSION} --model ${MODEL_NAME} --quiet
+gcloud ai-platform versions delete ${MODEL_VERSION} --model ${MODEL_NAME} --quiet --region=global
 
 # Delete model resource
-gcloud ai-platform models delete ${MODEL_NAME} --quiet
+gcloud ai-platform models delete ${MODEL_NAME} --quiet --region=global
 
 # Delete Cloud Storage objects that were created
 gsutil -m rm -r ${MODEL_DIR}

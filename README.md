@@ -1,3 +1,5 @@
+:bell: **Please visit [vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples) for sample code for Vertex AI, Google Cloud's new unified ML platform**.
+___
 # Google Cloud AI Platform Products
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
@@ -8,7 +10,6 @@ Welcome to the [AI Platform](https://cloud.google.com/ml-engine/docs/) sample co
 
 The repository is organized by products: 
 
- - [AI Platform (Unified)](ai-platform-unified)   
  - [AI Platform Training](training)   
      - [Horovod](training/horovod)
      - [PyTorch](training/pytorch)
