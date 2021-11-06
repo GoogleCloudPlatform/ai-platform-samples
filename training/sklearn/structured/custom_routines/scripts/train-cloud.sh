@@ -53,6 +53,6 @@ gsutil cp ./dist/custom_routine-1.0.tar.gz "${CUSTOM_ROUTINE_PATH}"
 set -
 
 # Notes:
-# GCS_TAXI_TRAIN_BIG is set by datasets/downlaod-taxi.sh script
+# GCS_TAXI_TRAIN_BIG is set by datasets/download-taxi.sh script
 # use --packages instead of --package-path if gcs location
 # add --reuse-job-dir to resume training

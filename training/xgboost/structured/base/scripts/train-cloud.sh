@@ -47,6 +47,6 @@ gcloud ai-platform jobs submit training "${JOB_NAME}" \
 set -
 
 # Notes:
-# GCS_TAXI_TRAIN_BIG is set by datasets/downlaod-taxi.sh script
+# GCS_TAXI_TRAIN_BIG is set by datasets/download-taxi.sh script
 # use --packages instead of --package-path if GCS location
 # add --reuse-job-dir to resume training
