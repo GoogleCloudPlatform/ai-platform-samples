@@ -32,6 +32,7 @@ gcloud ai-platform versions create ${MODEL_VERSION} \
   --origin ${MODEL_DIR} \
   --framework ${FRAMEWORK} \
   --runtime-version=${RUNTIME_VERSION} \
-  --python-version=${PYTHON_VERSION}
+  --python-version=${PYTHON_VERSION} \
+  --region=global
 
 set -

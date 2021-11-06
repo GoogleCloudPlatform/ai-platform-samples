@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2019 Google LLC
+# Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 set -e
 
 # This scripts performs cloud training for a Horovod model.
-echo "Training cloud ML model"
+echo "Training Vertex AI model"
 
 # MODEL_NAME: the name of model directory. The directory should contain 
 # the Dockerfile.
@@ -30,10 +30,17 @@ MACHINE_TYPE=${MACHINE_TYPE:-n1-highmem-96}
 MACHINE_COUNT=${MACHINE_COUNT:-2}
 
 # GPU_TYPE: type of GPU
-GPU_TYPE=${GPU_TYPE:-nvidia-tesla-v100}
+GPU_TYPE=${GPU_TYPE:-NVIDIA_TESLA_V100}
 
 # GPU_COUNT: number of GPUs per machine
 GPU_COUNT=${GPU_COUNT:-8}
+
+# REDUCER_COUNT: number of reducers
+if [ "${GPU_COUNT}" -gt "0" ]; then
+    REDUCER_COUNT=${REDUCER_COUNT:-$((MACHINE_COUNT * 3))}
+else
+    REDUCER_COUNT=0
+fi
 
 # IMAGE_REPO_NAME: the image will be stored on Cloud Container Registry
 IMAGE_REPO_NAME=horovod_${MODEL_NAME}
@@ -68,23 +75,24 @@ docker push ${IMAGE_URI}
 echo "Submitting the training job"
 
 if [ "${MACHINE_COUNT}" -gt "1" ]; then
-    WORKER_CONFIG="--worker-count $((MACHINE_COUNT - 1)) \
-        --worker-image-uri ${IMAGE_URI} \
-        --worker-machine-type ${MACHINE_TYPE} \
-        --worker-accelerator count=${GPU_COUNT},type=${GPU_TYPE}"
+    WORKER_CONFIG="--worker-pool-spec=machine-type=${MACHINE_TYPE},replica-count=$((MACHINE_COUNT - 1)),container-image-uri=${IMAGE_URI},accelerator-type=${GPU_TYPE},accelerator-count=${GPU_COUNT}"
 else
     WORKER_CONFIG=""
 fi
 
-gcloud beta ai-platform jobs submit training ${JOB_NAME} \
-    --stream-logs \
+if [ "${REDUCER_COUNT}" -gt "0" ] && [ "${MACHINE_COUNT}" -gt "1" ]; then
+    REDUCER_CONFIG="--worker-pool-spec=machine-type=n1-highcpu-16,replica-count=${REDUCER_COUNT},container-image-uri=us-docker.pkg.dev/vertex-ai-restricted/training/reductionserver:latest"
+else
+    REDUCER_CONFIG=""
+fi
+
+gcloud beta ai custom-jobs create \
+    --display-name ${JOB_NAME} \
     --region ${REGION} \
-    --master-image-uri ${IMAGE_URI} \
-    --master-machine-type ${MACHINE_TYPE} \
-    --master-accelerator count=${GPU_COUNT},type=${GPU_TYPE} \
+    --worker-pool-spec=machine-type=${MACHINE_TYPE},replica-count=1,container-image-uri=${IMAGE_URI},accelerator-type=${GPU_TYPE},accelerator-count=${GPU_COUNT} \
     ${WORKER_CONFIG} \
-    --scale-tier CUSTOM \
-    --project ${PROJECT_ID}
+    ${REDUCER_CONFIG}
+
 
 # Verify the model was exported
 echo "Verify the model was exported:"

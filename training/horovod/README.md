@@ -1,8 +1,8 @@
-# Run Horovod on AI Platform
+# Run Horovod on AI Platform / Vertex AI
 
 ## Overview
 
-This directory provides a sample for how to run Horovod on AI Platform. In more details, it includes:
+This directory provides a sample for how to run Horovod on AI Platform / Vertex AI. In more details, it includes:
 
 * Base container image of AI Platform wrapper for Horovod.
 * Example models based on the wrapper.
@@ -17,13 +17,13 @@ This directory provides a sample for how to run Horovod on AI Platform. In more 
 
 ### MNIST with Keras
 
-Run the following script
+Run the following script to run MNIST training job on AI Platform:
 
 ```
 MODEL_NAME=mnist GCS_OUTPUT_PATH=<GCS_BUCKET> scripts/train-cloud.sh
 ```
 
-By default, the script `train-cloud.sh` uses 2 `n1-highmem-96` machines with 4 `nvidia-tesla-t4` GPUs on each machine. Variables `MACHINE_TYPE`, `MACHINE_COUNT`, `GPU_TYPE`, `GPU_COUNT` configure these settings. 
+By default, the script `train-cloud.sh` uses 2 `n1-highmem-96` machines with 8 `nvidia-tesla-v100` GPUs on each machine. Variables `MACHINE_TYPE`, `MACHINE_COUNT`, `GPU_TYPE`, `GPU_COUNT` configure these settings. 
 
 ### MaskRCNN with Tensorpack
 
@@ -46,6 +46,25 @@ Configure the hyperparameters (e.g. `num_train_epochs`, `learning_rate`, `train_
 ```
 MODEL_NAME=bert GCS_OUTPUT_PATH=<GCS_BUCKET> scripts/train-cloud.sh
 ```
+
+## Run Training Jobs on Vertex AI
+
+The examples above run training jobs on AI Platform. To run on Vertex AI, simply use `train-vertex.sh` instead, e.g:
+
+```
+MODEL_NAME=mnist GCS_OUTPUT_PATH=<GCS_BUCKET> scripts/train-vertex.sh
+```
+
+### Use Reduction Servers
+
+[Reduction Server](https://cloud.google.com/blog/topics/developers-practitioners/optimize-training-performance-reduction-server-vertex-ai) is a feature on Vertex AI to speed up distributed data-parallel training. The `train-vertex.sh` script provides a simple toggle to enable
+Reduction Server for Horovod training jobs. To use Reduction Server, set `REDUCER_COUNT` to a positive integer:
+
+```
+MODEL_NAME=mnist GCS_OUTPUT_PATH=<GCS_BUCKET> REDUCER_COUNT=6 scripts/train-vertex.sh
+```
+
+See the [documentation](https://cloud.google.com/vertex-ai/docs/training/distributed-training#reduce_training_time_with_reduction_server) for details on selecting the number of reducers.
 
 ## Bring Your Own Models
 
