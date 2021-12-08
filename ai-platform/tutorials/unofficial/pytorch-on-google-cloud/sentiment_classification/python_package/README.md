@@ -2,9 +2,9 @@
 
 ## Overview
 
-The directory provides code to fine tune a transformer model ([BERT-base](https://huggingface.co/bert-base-cased)) from Huggingface Transformers Library for sentiment analysis task.  [BERT](https://ai.googleblog.com/2018/11/open-sourcing-bert-state-of-art-pre.html) (Bidirectional Encoder Representations from Transformers) is a transformers model pre-trained on a large corpus of unlabeled text in a self-supervised fashion. In this sample, we use [IMDB sentiment classification dataset](https://huggingface.co/datasets/imdb) for the task. We show you packaging a PyTorch training model to submit it to AI Platform using pre-built PyTorch containers and handling Python dependencies through Python build scripts (`setup.py`). 
+The directory provides code to fine tune a transformer model ([BERT-base](https://huggingface.co/bert-base-cased)) from Huggingface Transformers Library for sentiment analysis task.  [BERT](https://ai.googleblog.com/2018/11/open-sourcing-bert-state-of-art-pre.html) (Bidirectional Encoder Representations from Transformers) is a transformers model pre-trained on a large corpus of unlabeled text in a self-supervised fashion. In this sample, we use [IMDB sentiment classification dataset](https://huggingface.co/datasets/imdb) for the task. We show you packaging a PyTorch training model to submit it to AI Platform using pre-built PyTorch containers and handling Python dependencies through Python build scripts (`setup.py`).
 
-The code directory structure and packaging is based on the sample [here](https://github.com/GoogleCloudPlatform/ai-platform-samples/blob/master/training/pytorch/structured/).
+The code directory structure and packaging is based on the sample [here](https://github.com/GoogleCloudPlatform/ai-platform-samples/blob/main/training/pytorch/structured/).
 
 ## Prerequisites
 * Setup your project by following the instructions in the

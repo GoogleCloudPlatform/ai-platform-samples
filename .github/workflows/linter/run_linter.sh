@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This script automatically formats and lints all notebooks that have changed from the head of the master branch.
+# This script automatically formats and lints all notebooks that have changed from the head of the main branch.
 #
 # Options:
 # -t: Test-mode. Only test if format and linting are required but make no changes to files.
@@ -47,14 +47,14 @@ done
 
 echo "Test mode: $is_test"
 
-printf '\n\e[1;34m%-6s\e[m\n\n' "Reminder: Run this script from your feature branch and not 'master'. This script compares the current branch with master to figure out what notebooks to lint."
+printf '\n\e[1;34m%-6s\e[m\n\n' "Reminder: Run this script from your feature branch and not 'main'. This script compares the current branch with main to figure out what notebooks to lint."
 
 # Only check notebooks in test folders modified in this pull request.
 # Note: Use process substitution to persist the data in the array
 notebooks=()
 while read -r file || [ -n "$line" ]; do
     notebooks+=("$file")
-done < <(git diff --name-only master... | grep '\.ipynb$')
+done < <(git diff --name-only main... | grep '\.ipynb$')
 
 problematic_notebooks=()
 if [ ${#notebooks[@]} -gt 0 ]; then
@@ -142,7 +142,7 @@ if [ ${#notebooks[@]} -gt 0 ]; then
 
     printf '\n\e[1;34m%-6s\e[m\n\n' "Reminder: If any notebooks were modified, make sure you use git to stage and commit the changes."
 else
-    echo "No modified notebooks found when comparing with 'master' branch."
+    echo "No modified notebooks found when comparing with 'main' branch."
 fi
 
 if [ ${#problematic_notebooks[@]} -gt 0 ]; then

@@ -11,9 +11,9 @@ jobs:
     - name: Fetch pull request branch
       uses: actions/checkout@v2
       with:
-        fetch-depth: 0      
-    - name: Fetch base master branch
-      run: git fetch -u "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" master:master
+        fetch-depth: 0
+    - name: Fetch base main branch
+      run: git fetch -u "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" main:main
     - name: Install requirements
       run: python3 -m pip install -U -r .github/workflows/linter/requirements.txt
     - name: Format and lint notebooks

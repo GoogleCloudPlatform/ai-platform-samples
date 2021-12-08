@@ -2,9 +2,9 @@
 
 ## Overview
 
-The directory provides code to fine tune a transformer model ([BERT-base](https://huggingface.co/bert-base-cased)) from Huggingface Transformers Library for sentiment analysis task.  [BERT](https://ai.googleblog.com/2018/11/open-sourcing-bert-state-of-art-pre.html) (Bidirectional Encoder Representations from Transformers) is a transformers model pre-trained on a large corpus of unlabeled text in a self-supervised fashion. In this sample, we use [IMDB sentiment classification dataset](https://huggingface.co/datasets/imdb) for the task. We show you packaging a PyTorch training model to submit it to AI Platform using pre-built PyTorch containers and handling Python dependencies using [AI Platform Training custom containers](https://cloud.google.com/ai-platform/training/docs/custom-containers-training). 
+The directory provides code to fine tune a transformer model ([BERT-base](https://huggingface.co/bert-base-cased)) from Huggingface Transformers Library for sentiment analysis task.  [BERT](https://ai.googleblog.com/2018/11/open-sourcing-bert-state-of-art-pre.html) (Bidirectional Encoder Representations from Transformers) is a transformers model pre-trained on a large corpus of unlabeled text in a self-supervised fashion. In this sample, we use [IMDB sentiment classification dataset](https://huggingface.co/datasets/imdb) for the task. We show you packaging a PyTorch training model to submit it to AI Platform using pre-built PyTorch containers and handling Python dependencies using [AI Platform Training custom containers](https://cloud.google.com/ai-platform/training/docs/custom-containers-training).
 
-The code directory structure and packaging is based on the sample [here](https://github.com/GoogleCloudPlatform/ai-platform-samples/blob/master/training/pytorch/structured/).
+The code directory structure and packaging is based on the sample [here](https://github.com/GoogleCloudPlatform/ai-platform-samples/blob/main/training/pytorch/structured/).
 
 ## Prerequisites
 
@@ -13,7 +13,7 @@ The code directory structure and packaging is based on the sample [here](https:/
 * Change the directory to this sample and run
 
 `Note:` These instructions are used for local testing. When you submit a training job, no code will be executed on your local machine.
-  
+
 
 ## Directory Structure
 
@@ -41,7 +41,7 @@ Please read the [documentation](https://cloud.google.com/ai-platform/training/do
 
 Once the prerequisites are satisfied, you may:
 
-1. For local testing, run: 
+1. For local testing, run:
     ```
     source ./scripts/train-local.sh
     ```
