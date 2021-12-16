@@ -18,7 +18,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 REQUIRED_PACKAGES = [
-    'torch==1.10.0',
+    'torch==1.10.1',
     'transformers',
     'datasets',
     'tqdm'
