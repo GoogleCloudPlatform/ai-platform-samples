@@ -3,7 +3,7 @@
 
 This sample shows how to run hyperparameter tuning jobs on AI Platform with tf estimators inside custom containers [cloudml-hypertune package](https://pypi.org/project/cloudml-hypertune/).
 
-This sample is adapted from [the official samples for tuning ResNet-50 with Cloud TPUs on AI Platform](https://github.com/ultrons/cloudml-samples/tree/master/tpu/hptuning/resnet-hypertune)
+This sample is adapted from [the official samples for tuning ResNet-50 with Cloud TPUs on AI Platform](https://github.com/ultrons/cloudml-samples/tree/main/tpu/hptuning/resnet-hypertune)
 
 
 ## Main Flow
@@ -19,7 +19,7 @@ service. `HypertuneHook` example provided in this sample accomplishes this task.
 
 Notice also that estimatorSpec for evaluation also specified
 `evaluation_metric_ops` to ensure that target tensors to compute the required
-metric are present in the evaluation graph with the write tags. 
+metric are present in the evaluation graph with the write tags.
 
 Tag of the evaluation metric provided the config yaml file the tag in the
 evaluation_metric_ops dictionary and the one passed to HypertuneHook constructor
@@ -55,10 +55,10 @@ must be consistent.
     bash build.sh
     ```
 
-4. Once the container is built you can test it using submit_resnet_hypertune.sh. 
+4. Once the container is built you can test it using submit_resnet_hypertune.sh.
 
     ```
-    bash  submit_resnet_hypertune.sh --test_local 
+    bash  submit_resnet_hypertune.sh --test_local
     ```
 
 5. Finally, submit the hyperparameter tuning run to ai platform.

@@ -16,12 +16,12 @@
 
 <table align="left">
   <td>
-    <a href="https://colab.research.google.com/github/GoogleCloudPlatform/ai-platform-samples/blob/master/notebooks/templates/ai_platform_notebooks_template.ipynb">
+    <a href="https://colab.research.google.com/github/GoogleCloudPlatform/ai-platform-samples/blob/main/notebooks/templates/ai_platform_notebooks_template.ipynb">
       <img src="https://cloud.google.com/ml-engine/images/colab-logo-32px.png" alt="Colab logo"> Run in Colab
     </a>
   </td>
   <td>
-    <a href="https://github.com/GoogleCloudPlatform/ai-platform-samples/blob/master/notebooks/templates/ai_platform_notebooks_template.ipynb">
+    <a href="https://github.com/GoogleCloudPlatform/ai-platform-samples/blob/main/notebooks/templates/ai_platform_notebooks_template.ipynb">
       <img src="https://cloud.google.com/ml-engine/images/github-logo-32px.png" alt="GitHub logo">
       View on GitHub
     </a>
@@ -51,12 +51,12 @@ TensorFlow flowers dataset:
 
 ### Objective
 
-Train an image classification model using Transfer Learning; once 
-model has been trained, save it in AI platform. Use 
+Train an image classification model using Transfer Learning; once
+model has been trained, save it in AI platform. Use
 TF Hub to retrain the top layer of an existing model to recognize the
 classes in our dataset.
 
-### Costs 
+### Costs
 
 This tutorial uses billable components of Google Cloud Platform (GCP):
 
@@ -85,7 +85,7 @@ Install additional dependencies not installed in Notebook environment
 # Automatically restart kernel after installs
 import IPython
 app = IPython.Application.instance()
-app.kernel.do_shutdown(True)  
+app.kernel.do_shutdown(True)
 ```
 
 ### Set up your GCP project
@@ -173,7 +173,7 @@ create an AI Platform model version based on this output in order to serve
 online predictions.
 
 Set the name of your Cloud Storage bucket below. It must be unique across all
-Cloud Storage buckets. 
+Cloud Storage buckets.
 
 You may also change the `REGION` variable, which is used for operations
 throughout the rest of this notebook. Make sure to [choose a region where Cloud
@@ -285,7 +285,7 @@ Create the layer, and check the expected image size:
 
 
 ```python
-feature_extractor_layer = hub.KerasLayer(feature_extractor_url, 
+feature_extractor_layer = hub.KerasLayer(feature_extractor_url,
                                          input_shape=(HEIGHT, WIDTH, CHANNELS))
 feature_batch = feature_extractor_layer(image_batch)
 print(feature_batch.shape)
@@ -427,9 +427,9 @@ Now that you've trained the model, save it in "tf" format (this is the default f
 VERSION = 1565292863
 
 tf_export_path = "gs://{}/saved_models/{}".format(BUCKET_NAME, VERSION)
-tf.keras.models.save_model(model, 
-                           tf_export_path, 
-                           include_optimizer=True, 
+tf.keras.models.save_model(model,
+                           tf_export_path,
+                           include_optimizer=True,
                            save_format="tf")
 
 # Print directory where model is located
