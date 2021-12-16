@@ -24,7 +24,7 @@ from setuptools import setup
 #    scikit-learn: the helpfer functions it provides, e.g. splitting datasets
 
 REQUIRED_PACKAGES = [
-    'tensorflow==1.15.4',
+    'tensorflow==1.15.5',
     'scikit-learn==1.0.1',
     'pandas==1.3.4',
     'xgboost==1.5.1',
