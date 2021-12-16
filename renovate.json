@@ -7,7 +7,7 @@
   ],
   "packageRules": [
       {
-        "matchPackageNames": ["tensorflow"],
+        "matchPackageNames": ["tensorflow", "python"],
         "matchUpdateTypes": ["major"],
         "enabled": false
       }
