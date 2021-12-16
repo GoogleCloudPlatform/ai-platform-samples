@@ -40,7 +40,7 @@ project_setup(){
 
         source ./.kokoro/testing/test-env.sh
         export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/.kokoro/testing/service-account.json
-    fi    
+    fi
 
     # For cloud-run session, we activate the service account for gcloud sdk.
     gcloud auth activate-service-account \
@@ -184,12 +184,12 @@ run_tests() {
     # Only check notebooks in test folders modified in this pull request.
     # Note: Use process substitution to persist the data in the array
     notebooks=()
-    while read -r file || [ -n "$line" ]; 
+    while read -r file || [ -n "$line" ];
     do
         notebooks+=("$file")
         echo "file: $file"
-    done < <(git diff --name-only master "${test_folders[@]}" | sed "s,^,$root_folder/," | grep '\.ipynb$')
-    
+    done < <(git diff --name-only main "${test_folders[@]}" | sed "s,^,$root_folder/," | grep '\.ipynb$')
+
     if [ ${#notebooks[@]} -gt 0 ]; then
         echo "Found modified notebooks: ${notebooks[*]}"
 
@@ -203,12 +203,12 @@ run_tests() {
                 --ClearOutputPreprocessor.enabled=True \
                 --to notebook \
                 --execute "$notebook"
-            
+
             NOTEBOOK_RTN=$?
             echo "Notebook finished with return code = $NOTEBOOK_RTN"
             if [ "$NOTEBOOK_RTN" != "0" ]
-            then                                
-                RTN=$NOTEBOOK_RTN                
+            then
+                RTN=$NOTEBOOK_RTN
             fi
         done
     else

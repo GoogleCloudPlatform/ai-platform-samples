@@ -11,7 +11,7 @@ When you deploy a TensorFlow model you may see this message during TensorFlow se
 ```
 **Note:** This document can be used in AI Platform prediction during model creation.
 
-For this example, we are deploying a [ResNet50v2](https://github.com/tensorflow/models/tree/master/official/r1/resnet) model for CPU
+For this example, we are deploying a [ResNet50v2](https://github.com/tensorflow/models/tree/main/official/r1/resnet) model for CPU
 
 1. Download model
 
@@ -99,7 +99,7 @@ No warmup data file found at /models/resnet/1538687457/assets.extra/tf_serving_w
 ```
 
 5. Generate a warmup request file:
- 
+
 Use [this Python script](model_warmup.py) to generate a warmup file which is relevant to this specific model and inference data.
 
 Script will create a new file called: `tf_serving_warmup_requests`
@@ -122,7 +122,7 @@ docker run -p 8500:8500 -p 8501:8501 --mount type=bind,source=/tmp/resnet/,targe
 Output
 
 ```
-2020–01–24 00:39:40.842570: I tensorflow_serving/servables/tensorflow/saved_model_warmup.cc:117] Starting to read warmup data for model at /models/resnet/1538687457/assets.extra/tf_serving_warmup_requests with model-warmup-options 
+2020–01–24 00:39:40.842570: I tensorflow_serving/servables/tensorflow/saved_model_warmup.cc:117] Starting to read warmup data for model at /models/resnet/1538687457/assets.extra/tf_serving_warmup_requests with model-warmup-options
 2020–01–24 00:39:48.485956: I tensorflow_serving/servables/tensorflow/saved_model_warmup.cc:166] Finished reading warmup data for model at /models/resnet/1538687457/assets.extra/tf_serving_warmup_requests. Number of warmup records read: 100. Elapsed time (microseconds): 7646776.
 ```
 
