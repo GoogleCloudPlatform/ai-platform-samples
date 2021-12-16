@@ -36,7 +36,7 @@ Let's follow what happens when a user submits broken code in the notebook.
 ## Life of a Broken Commit
 
 * User pushes commit that breaks notebook.
-* GitHub (or [Cloud Source Repository](https://cloud.google.com/source-repositories/)) has a special pre-configured hook that triggers [Cloud Build](https://cloud.google.com/cloud-build/) each time when a new commit is pushed to master. Cloud Build has provided a guide to set up this git hook [here](https://cloud.google.com/cloud-build/docs/run-builds-with-github-checks).
+* GitHub (or [Cloud Source Repository](https://cloud.google.com/source-repositories/)) has a special pre-configured hook that triggers [Cloud Build](https://cloud.google.com/cloud-build/) each time when a new commit is pushed to main. Cloud Build has provided a guide to set up this git hook [here](https://cloud.google.com/cloud-build/docs/run-builds-with-github-checks).
 * [Cloud Build](https://cloud.google.com/cloud-build/) looks for the file [cloudbuild.yaml](cloudbuild.yaml) that describes the testing steps. In our example, this file:
    * clones the repository
    * checkout required commit under test

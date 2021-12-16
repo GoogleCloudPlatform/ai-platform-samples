@@ -188,7 +188,7 @@ run_tests() {
     do
         notebooks+=("$file")
         echo "file: $file"
-    done < <(git diff --name-only master "${test_folders[@]}" | sed "s,^,$root_folder/," | grep '\.ipynb$')
+    done < <(git diff --name-only main "${test_folders[@]}" | sed "s,^,$root_folder/," | grep '\.ipynb$')
     
     if [ ${#notebooks[@]} -gt 0 ]; then
         echo "Found modified notebooks: ${notebooks[*]}"

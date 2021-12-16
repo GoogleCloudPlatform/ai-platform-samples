@@ -8,7 +8,7 @@ steps:
   # This will also clone submodules that are used as dependancies.
 - name: 'gcr.io/cloud-builders/git'
   args: ['clone', '--recurse-submodules', 'https://github.com/b0noI/notebooks-ci-showcase']
-  # Next, we need to checkout the exact commit that we need to test. Otherwise, Cloud Build will be testing the master.
+  # Next, we need to checkout the exact commit that we need to test. Otherwise, Cloud Build will be testing the main.
   # Variable $COMMIT_SHA provided by the Cloud Build. You can find more about Cloud Build variables here:
   # https://cloud.google.com/cloud-build/docs/configuring-builds/substitute-variable-values
 - name: 'gcr.io/cloud-builders/git'
