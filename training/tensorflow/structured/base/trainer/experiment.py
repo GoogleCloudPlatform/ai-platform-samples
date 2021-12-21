@@ -91,9 +91,10 @@ def run(estimator, args):
     tf.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
 
     # Exporting the model for the TensorFlow Model Analysis
-    logging.info("Exporting the model for evaluation...")
-    tfma.export.export_eval_savedmodel(
-        estimator=estimator,
-        export_dir_base=os.path.join(estimator.model_dir, "export/evaluate"),
-        eval_input_receiver_fn=inputs.EVALUATING_INPUT_RECEIVER_FUNCTIONS[
-            args.eval_export_format])
+    if estimator.config.is_chief:
+        logging.info("Exporting the model for evaluation...")
+        tfma.export.export_eval_savedmodel(
+            estimator=estimator,
+            export_dir_base=os.path.join(estimator.model_dir, "export/evaluate"),
+            eval_input_receiver_fn=inputs.EVALUATING_INPUT_RECEIVER_FUNCTIONS[
+                args.eval_export_format])
