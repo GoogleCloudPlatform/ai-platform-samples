@@ -31,8 +31,7 @@ logging.info('MODEL_NAME: %s', MODEL_NAME)
 logging.info('MODEL_VERSION: %s', MODEL_VERSION)
 
 service = googleapiclient.discovery.build('ml', 'v1')
-name = 'projects/{}/models/{}/versions/{}'.format(PROJECT_ID, MODEL_NAME,
-                                                  MODEL_VERSION)
+name = 'projects/{}/models/{}/versions/{}'.format(PROJECT_ID, MODEL_NAME, MODEL_VERSION)
 
 response = service.projects().predict(
     name=name,
