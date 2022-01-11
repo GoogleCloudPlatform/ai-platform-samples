@@ -1,15 +1,18 @@
 {
-  "extends": [
-    "config:base"
-  ],
-  "ignorePaths" : [
-    "notebooks/tools/"
-  ],
+  "extends": ["config:base"],
+  "ignorePaths": ["notebooks/tools/"],
   "packageRules": [
-      {
-        "matchPackageNames": ["tensorflow", "python"],
-        "matchUpdateTypes": ["major"],
-        "enabled": false
-      }
+    {
+      "matchPackageNames": [
+        "cloud-tpu-profiler",
+        "python",
+        "tensorboard",
+        "tensorflow",
+        "tensorflow-gpu",
+        "tensorflow-serving-api"
+      ],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    }
   ]
 }
