@@ -26,7 +26,7 @@ from setuptools import setup
 REQUIRED_PACKAGES = [
     'tensorflow==2.5.2',
     'scikit-learn==1.0.2',
-    'pandas==1.3.5',
+    'pandas==1.4.0',
     'xgboost==1.5.2',
     'cloudml-hypertune',
 ]
