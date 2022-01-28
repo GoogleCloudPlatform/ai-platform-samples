@@ -33,7 +33,7 @@ def create(args, config):
     logging.info('Deep columns: {}'.format(deep_columns))
 
     # Change the optimizers for the wide and deep parts of the model if you wish
-    linear_optimizer = tf.train.FtrlOptimizer(learning_rate=args.learning_rate)
+    linear_optimizer = tf.compat.v1.train.FtrlOptimizer(learning_rate=args.learning_rate)
     # Use _update_optimizer to implement an adaptive learning rate
 
     def predicate(): return _update_optimizer(args)
