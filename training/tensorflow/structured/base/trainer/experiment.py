@@ -32,9 +32,7 @@ def create_run_config(args):
     # Configure the distribution strategy if GPUs available.
     distribution_strategy = None
     # Get the available GPU devices
-    num_gpus = len([device_name
-                    for device_name in tf.contrib.eager.list_devices()
-                    if "/device:GPU" in device_name])
+    num_gpus = len(tf.config.list_physical_devices("GPU"))
     logging.info("%s GPUs are available.", str(num_gpus))
     if num_gpus > 1:
         distribution_strategy = tf.distribute.MirroredStrategy()
