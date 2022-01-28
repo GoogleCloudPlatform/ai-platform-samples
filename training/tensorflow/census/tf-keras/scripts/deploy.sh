@@ -49,7 +49,6 @@ gcloud beta ai-platform versions create ${MODEL_VERSION} \
 
 # Test predictions
 gcloud ai-platform predict \
-  --model ${MODEL_NAME} \
-  --version ${MODEL_VERSION} \
-  --json-instances input.json \
-  --region=${REGION}
+  --model tf2 \
+  --version v1 \
+  --json-instances ../data/input.json
