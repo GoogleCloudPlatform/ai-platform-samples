@@ -1,4 +1,4 @@
-apache-beam[gcp]==2.35.0
+apache-beam[gcp]==2.36.0
 cython
 google-api-python-client
 google-cloud-language
