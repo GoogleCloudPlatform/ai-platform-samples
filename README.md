@@ -1,4 +1,8 @@
-:bell: **Please visit [vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples) for sample code for Vertex AI, Google Cloud's new unified ML platform**.
+:bell: **Please visit [vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples) for sample code for Vertex AI**.
+
+Vertex AI is our next generation AI Platform, with many new features that are unavailable in the current platform. Migrate your resources to Vertex AI to get the latest machine learning features, simplify end-to-end journeys, and productionize models with MLOps.
+
+    
 ___
 # Google Cloud AI Platform Products
 
